@@ -9,7 +9,7 @@ services:
     volumes:
       # Mount outputs & configs so generated JSON files persist on host filesystem
       - ./assets:/app/assets
-      - ./tariffs.json:/app/tariffs.json
+      - ./docs:/app/docs
       - ./config:/app/config
     networks:
       - deploy

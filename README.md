@@ -47,7 +47,7 @@
 ### Вариант 1. Запуск через Docker (Рекомендуемый для локальной проверки)
 
 ```bash
-docker compose up --build
+docker compose up --build tariffs-fetcher
 ```
 > 💡 **Как это работает:** Результаты генерации (`assets/tariffs_default.json` и `tariffs.json`) благодаря Volume Mount мгновенно сохранятся прямо у вас на компьютере в папках проекта!
 

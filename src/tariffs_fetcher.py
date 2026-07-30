@@ -15,8 +15,8 @@ logger = logging.getLogger("TariffsFetcher")
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "sources.json")
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_default.json")
-ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "tariffs.json")
-ORIG_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "tariffs.json")
+ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs.json")
+ORIG_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs.json")
 
 class ConfigError(Exception):
     pass

@@ -119,3 +119,4 @@ python src/tariffs_fetcher.py
 1. Положите стартовый `assets/tariffs_default.json` в локальные `assets` Android-приложения на случай отсутствия интернета.
 2. При наличии интернета выкачивайте обновленный файл по прямому URL GitHub Pages:
    `https://<ваш-username>.github.io/<имя-репозитория>/tariffs.json`
+  а конкретно `https://alxpanther.github.io/communal_tarrifs/tariffs.json`

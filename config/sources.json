@@ -1,0 +1,45 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://tariffa.com.ua/ru/tarif-na-elektroenergiy",
+    "water": "https://index.minfin.com.ua/tariff/water/"
+  },
+  "custom_sources": [
+    "https://nerc.gov.ua",
+    "https://kmu.gov.ua"
+  ],
+  "manual_override": {
+    "enabled": false,
+    "electricity": {
+      "source_url": "https://kmu.gov.ua/decree-632",
+      "base_rate": 4.32,
+      "effective_date": "2024-06-01",
+      "decree_info": "Постанова Кабінету Міністрів України № 632 від 31 травня 2024 р."
+    },
+    "water": {
+      "source_url": "https://index.minfin.com.ua/tariff/water/",
+      "cities": {
+        "kyiv": {
+          "source_url": "https://vodokanal.kiev.ua/tarifi/",
+          "water_supply": 22.884,
+          "sewage": 16.548,
+          "total_rate": 39.432,
+          "effective_date": "2022-01-01",
+          "decree_info": "Постанова НКРЕКП № 2842"
+        },
+        "lviv": {
+          "source_url": "https://lvivvodokanal.com.ua/tariffs/",
+          "water_supply": 17.592,
+          "sewage": 8.292,
+          "total_rate": 25.884,
+          "effective_date": "2022-01-01",
+          "decree_info": "Постанова НКРЕКП № 2851"
+        }
+      }
+    }
+  }
+}

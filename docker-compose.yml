@@ -7,7 +7,6 @@ services:
     env_file:
       - .env
     volumes:
-      # Mount outputs & configs so generated JSON files persist on host filesystem
       - ./assets:/app/assets
       - ./docs:/app/docs
       - ./config:/app/config
@@ -23,15 +22,13 @@ services:
     working_dir: /workspace
     env_file:
       - .env
-#    environment:
-#      CLOUDFLARE_ACCOUNT_ID: ${CLOUDFLARE_ACCOUNT_ID}
-#      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
     volumes:
       - ./:/workspace
     networks:
       - deploy
+    # Загрузка файла tariffs.json напрямую в твой облачный Cloudflare R2 бакет "kommeter"
     command: >
-      sh -c "wrangler deploy --compatibility-date 2026-07-30"
+      sh -c "wrangler r2 object put kommeter/ua/tariffs.json --file=docs/tariffs.json --remote"
 
 networks:
   deploy:

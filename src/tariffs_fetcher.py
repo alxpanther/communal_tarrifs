@@ -14,9 +14,9 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("TariffsFetcher")
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "sources.json")
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_default.json")
-ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs.json")
-ORIG_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs.json")
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_ua.json")
+ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
+ORIG_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
 
 class ConfigError(Exception):
     pass
@@ -57,7 +57,7 @@ def parse_rate(rate_val):
 
 def load_base_schema() -> dict:
     """
-    Loads reference base schema prioritizing master file (tariffs.json),
+    Loads reference base schema prioritizing master file (tariffs_ua.json),
     falling back to existing output files or default fallback.
     """
     candidate_paths = [ORIG_OUTPUT_PATH, OUTPUT_PATH, ROOT_OUTPUT_PATH]

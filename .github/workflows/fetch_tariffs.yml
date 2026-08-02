@@ -43,19 +43,19 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/tariffs.json assets/tariffs_default.json
+          git add docs/tariffs_ua.json assets/tariffs_ua.json
           git status
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-update UAH tariffs.json [skip ci]" && git push)
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-update UAH tariffs_ua.json [skip ci]" && git push)
 
       - name: Install Wrangler CLI
         run: npm install -g wrangler
 
-      - name: Deploy tariffs.json to Cloudflare R2 Bucket
+      - name: Deploy tariffs_ua.json to Cloudflare R2 Bucket
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          wrangler r2 object put kommeter/ua/tariffs.json --file=docs/tariffs.json --remote
+          wrangler r2 object put kommeter/ua/tariffs_ua.json --file=docs/tariffs_ua.json --remote
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5

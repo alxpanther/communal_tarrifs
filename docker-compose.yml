@@ -26,9 +26,9 @@ services:
       - ./:/workspace
     networks:
       - deploy
-    # Загрузка файла tariffs.json напрямую в твой облачный Cloudflare R2 бакет "kommeter"
+    # Загрузка файла tariffs_ua.json напрямую в твой облачный Cloudflare R2 бакет "kommeter"
     command: >
-      sh -c "wrangler r2 object put kommeter/ua/tariffs.json --file=docs/tariffs.json --remote"
+      sh -c "wrangler r2 object put kommeter/ua/tariffs_ua.json --file=docs/tariffs_ua.json --remote"
 
 networks:
   deploy:

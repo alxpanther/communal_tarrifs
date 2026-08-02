@@ -3,7 +3,7 @@ name = "kommeter"
 #compatibility_date = "2026-07-30"
 #workers_dev = true
 
-# Раздача статических файлов из папки docs (включая tariffs.json)
+# Раздача статических файлов из папки docs (включая tariffs_ua.json)
 [assets]
 directory = "./docs"
 binding = "ASSETS"

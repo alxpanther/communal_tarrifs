@@ -137,7 +137,7 @@ python src/tariffs_fetcher.py
 
 ## 📱 Интеграция с Android
 
-1. Положите стартовый `assets/tariffs_ua.json` в локальные `assets` Android-приложения на случай отсутствия интернета.
+1. Положите стартовый `assets/tariffs_ua_default.json` в локальные `assets` Android-приложения на случай отсутствия интернета.
 2. При наличии интернета выкачивайте обновленный файл по любому из доступных URL:
    * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_ua.json`
    * **Cloudflare / R2 Domain:** `https://tarrifs.foleks.com/ua/tariffs_ua.json`

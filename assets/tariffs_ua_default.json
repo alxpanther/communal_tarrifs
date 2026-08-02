@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-08-02T17:56:47.843103",
+  "last_updated_at": "2026-07-30T12:09:43.618968",
   "country": "UA",
   "currency": "UAH",
   "electricity": {
@@ -8,7 +8,7 @@
     "base_rate": 4.32,
     "unit": "kWh",
     "effective_date": "2024-06-01",
-    "update_date": "2026-08-02",
+    "update_date": "2026-07-30",
     "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
@@ -46,7 +46,7 @@
   },
   "water": {
     "source_url": "https://index.minfin.com.ua/tariff/water/",
-    "update_date": "2026-08-02",
+    "update_date": "2026-07-30",
     "cities": [
       {
         "city_code": "kyiv",

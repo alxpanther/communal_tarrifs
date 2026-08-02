@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("TariffsFetcher")
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "sources.json")
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_ua.json")
+OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_ua_default.json")
 ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
 ORIG_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
 

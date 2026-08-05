@@ -135,9 +135,15 @@ python src/tariffs_fetcher.py
 
 ---
 
-## 📱 Интеграция с Android
+## 📱 Интеграция с Android и Спецификация JSON
 
-1. Положите стартовый `assets/tariffs_ua_default.json` в локальные `assets` Android-приложения на случай отсутствия интернета.
-2. При наличии интернета выкачивайте обновленный файл по любому из доступных URL:
+Полное руководство по интеграции, детальное описание всех полей JSON, готовые **Kotlin Data Classes** и формулы расчетов для учета счетчиков находятся в отдельном документе:
+👉 **[Документация и Спецификация JSON тарифов (docs/JSON_SPECIFICATION.md)](docs/JSON_SPECIFICATION.md)**
+
+### Краткая сводка по интеграции:
+1. **Локальный кэш (Offline Fallback):** Положите стартовый `assets/tariffs_ua_default.json` в локальные `assets` Android-приложения на случай отсутствия интернета.
+2. **Удаленное обновление (Remote Sync):** При наличии интернета выкачивайте обновленный файл по любому из доступных URL:
+   * **Cloudflare / R2 CDN:** `https://tarrifs.foleks.com/ua/tariffs_ua.json`
    * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_ua.json`
-   * **Cloudflare / R2 Domain:** `https://tarrifs.foleks.com/ua/tariffs_ua.json`
+3. **Парсинг и Модели:** Для быстрого создания моделей данных в Android используйте Kotlin DTO из [docs/JSON_SPECIFICATION.md](docs/JSON_SPECIFICATION.md#3-готовые-kotlin-data-classes-kotlinxserialization).
+

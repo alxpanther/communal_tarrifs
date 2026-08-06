@@ -34,3 +34,8 @@ trigger: always_on
 ## Comments in code
 
 CRITICAL! Write all code comments on English.
+
+## JSON file with tarrifs
+
+CRITICALLY INPORTANT! Change the structure of the application file with tariffs and the description of this file as a last resort, since it determines how the Android application will process this file.
+If you want to change something in the structure, then first agree with me. You can add new fields, but you still need to inform me about this additionally, since corrections will need to be made to the Android application.

@@ -1,2 +1,4 @@
 .env
 .wrangler
+
+src/__pycache__

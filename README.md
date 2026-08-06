@@ -106,7 +106,7 @@ python src/tariffs_fetcher.py
   },
   "reference_sources": {
     "electricity": "https://tariffa.com.ua/ru/tarif-na-elektroenergiy",
-    "water": "https://index.minfin.com.ua/tariff/water/"
+    "water": "https://index.minfin.com.ua/ua/tariff/water/"
   },
   "manual_override": {
     "enabled": false,
@@ -117,15 +117,14 @@ python src/tariffs_fetcher.py
       "decree_info": "Постанова КМУ № 632"
     },
     "water": {
-      "source_url": "https://index.minfin.com.ua/tariff/water/",
+      "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
       "cities": {
         "kyiv": {
-          "source_url": "https://vodokanal.kiev.ua/tarifi/",
-          "water_supply": 22.884,
-          "sewage": 16.548,
-          "total_rate": 39.432,
+          "water_supply": 16.164,
+          "sewage": 14.22,
+          "total_rate": 30.384,
           "effective_date": "2022-01-01",
-          "decree_info": "Постанова НКРЕКП № 2842"
+          "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
         }
       }
     }

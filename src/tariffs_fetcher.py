@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import re
+import html as html_module
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
@@ -16,7 +17,11 @@ logger = logging.getLogger("TariffsFetcher")
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "sources.json")
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_ua_default.json")
 ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
-ORIG_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
+
+# Sanity limits for a single water tariff component (UAH per m3, VAT included)
+MAX_WATER_RATE = 500.0
+# Allowed rounding error when checking water_supply + sewage == total_rate
+RATE_SUM_TOLERANCE = 0.011
 
 class ConfigError(Exception):
     pass
@@ -60,7 +65,7 @@ def load_base_schema() -> dict:
     Loads reference base schema prioritizing master file (tariffs_ua.json),
     falling back to existing output files or default fallback.
     """
-    candidate_paths = [ORIG_OUTPUT_PATH, OUTPUT_PATH, ROOT_OUTPUT_PATH]
+    candidate_paths = [ROOT_OUTPUT_PATH, OUTPUT_PATH]
     for path in candidate_paths:
         if os.path.exists(path):
             try:
@@ -239,6 +244,208 @@ def call_gemini_search(search_query: str, prompt_instruction: str, model_name: s
         notifier.send_message(err_msg, parse_mode="HTML")
         return {}
 
+WATER_PROMPT = """
+Ты извлекаешь данные из HTML-таблицы тарифов на воду с сайта index.minfin.com.ua.
+
+Извлеки КАЖДУЮ строку таблицы, относящуюся к предприятию-поставщику. Строки-подзаголовки
+с названием области (например "Вінницька обл.") — это не поставщики, они лишь задают
+область для следующих за ними строк.
+
+Правила извлечения:
+1. Переписывай числа ТОЧНО так, как они указаны в таблице. Десятичный разделитель "," замени на ".".
+   Ничего не округляй, не пересчитывай и не подгоняй под сумму.
+2. Прочерк "-" вместо тарифа означает, что услуга не предоставляется — используй 0.0.
+3. "supplier" — полное название предприятия как в таблице.
+4. "city_name" — название населённого пункта на украинском. Определяй его по названию
+   предприятия или по столбцу области. Если предприятие обслуживает не город, а область
+   или ведомственную сеть, укажи область (например "Дніпропетровська обл.").
+5. "city_code" — уникальный идентификатор латиницей в нижнем регистре: транслитерация
+   city_name, слова через "_", только символы a-z, 0-9 и "_". Если два предприятия дают
+   одинаковый код, добавь к коду короткий суффикс по названию предприятия.
+6. "period" — строка периода действия тарифа ровно как в таблице (например "з 01.01.2022").
+7. НЕ добавляй строки, которых нет в таблице. НЕ пропускай ни одной строки поставщика.
+
+Верни СТРОГО JSON без текста до и после:
+{
+  "cities": [
+    {
+      "city_code": "kyiv",
+      "city_name": "Київ",
+      "supplier": "ПАТ АК \\"Київводоканал\\"",
+      "water_supply": 16.164,
+      "sewage": 14.220,
+      "total_rate": 30.384,
+      "period": "з 01.01.2022"
+    }
+  ]
+}
+"""
+
+def extract_water_table_html(html: str) -> str:
+    """Returns the first <table> block of the page, which holds the tariff rows."""
+    match = re.search(r"<table.*?</table>", html, flags=re.S | re.I)
+    return match.group(0) if match else ""
+
+def table_row_cells(row_html: str) -> list:
+    """Strips tags from one <tr> and returns its cell texts."""
+    cells = re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row_html, flags=re.S | re.I)
+    return [html_module.unescape(re.sub(r"<[^>]+>", "", c)).replace("­", "").strip() for c in cells]
+
+def count_supplier_rows(table_html: str) -> int:
+    """Counts rows that carry tariff values, used to verify LLM extraction completeness."""
+    count = 0
+    for row in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
+        cells = table_row_cells(row)
+        if len(cells) >= 4 and re.fullmatch(r"[\d,\s ]+|-", cells[1]):
+            count += 1
+    return count
+
+def table_plain_text(table_html: str) -> str:
+    """Flattens the table to plain text so extracted numbers can be looked up in the source."""
+    text = html_module.unescape(re.sub(r"<[^>]+>", " ", table_html)).replace("­", "")
+    return re.sub(r"[\s ]+", " ", text)
+
+def source_rate_triples(source_text: str) -> set:
+    """
+    Collects every (water_supply, sewage, total_rate) triple that literally occurs in the
+    source table, in that order. Comparing against it rejects hallucinated digits and
+    swapped columns, which a plain sum check would let through.
+    """
+    triples = set()
+    pattern = r"(\d{1,3},\d{3}|-)\s+(\d{1,3},\d{3}|-)\s+(\d{1,3},\d{3})"
+    for match in re.finditer(pattern, source_text):
+        triples.add(tuple(
+            0.0 if g == "-" else float(g.replace(",", "."))
+            for g in match.groups()
+        ))
+    return triples
+
+def parse_period(period: str) -> tuple:
+    """Parses a period string like 'з 01.01.2022' into (effective_date, decree_info)."""
+    dates = re.findall(r"\d{2}\.\d{2}\.\d{4}", period or "")
+    if not dates:
+        return None, None
+
+    start = parse_date(dates[0])
+    if not start:
+        return None, None
+
+    effective_date = start.strftime("%Y-%m-%d")
+    decree_info = f"Тариф НКРЕКП, чинний з {dates[0]}"
+    if len(dates) > 1:
+        decree_info += f" по {dates[1]}"
+    return effective_date, decree_info
+
+def validate_water_cities(raw_cities, expected_rows: int, source_text: str) -> tuple:
+    """Validates LLM output against the source table. Returns (cities, errors)."""
+    errors = []
+    source_triples = source_rate_triples(source_text)
+
+    if not isinstance(raw_cities, list) or not raw_cities:
+        return [], ["Модель не вернула список городов"]
+
+    if expected_rows and len(raw_cities) != expected_rows:
+        errors.append(f"Извлечено {len(raw_cities)} строк вместо {expected_rows} в таблице источника")
+
+    cities = []
+    seen_codes = set()
+
+    for idx, item in enumerate(raw_cities):
+        if not isinstance(item, dict):
+            errors.append(f"Запись #{idx + 1}: не является объектом")
+            continue
+
+        code = str(item.get("city_code", "")).strip().lower()
+        name = str(item.get("city_name", "")).strip()
+        supplier = str(item.get("supplier", "")).strip()
+        label = supplier or name or f"#{idx + 1}"
+
+        if not re.fullmatch(r"[a-z0-9_]+", code):
+            errors.append(f"{label}: недопустимый city_code '{code}'")
+            continue
+        if code in seen_codes:
+            errors.append(f"{label}: дублирующийся city_code '{code}'")
+            continue
+        if not name or not supplier:
+            errors.append(f"{label}: пустой city_name или supplier")
+            continue
+
+        water_supply = parse_rate(item.get("water_supply"))
+        sewage = parse_rate(item.get("sewage"))
+        total_rate = parse_rate(item.get("total_rate"))
+
+        if water_supply is None or sewage is None or total_rate is None:
+            errors.append(f"{label}: нечисловые значения тарифов")
+            continue
+        if not all(0.0 <= v <= MAX_WATER_RATE for v in (water_supply, sewage, total_rate)):
+            errors.append(f"{label}: тариф вне допустимого диапазона 0..{MAX_WATER_RATE}")
+            continue
+        if abs(water_supply + sewage - total_rate) > RATE_SUM_TOLERANCE:
+            errors.append(f"{label}: {water_supply} + {sewage} != {total_rate}")
+            continue
+
+        if (water_supply, sewage, total_rate) not in source_triples:
+            errors.append(
+                f"{label}: строка {water_supply} / {sewage} / {total_rate} "
+                "отсутствует в исходной таблице в таком порядке"
+            )
+            continue
+
+        effective_date, decree_info = parse_period(item.get("period"))
+        if not effective_date:
+            errors.append(f"{label}: не удалось разобрать период '{item.get('period')}'")
+            continue
+
+        seen_codes.add(code)
+        cities.append({
+            "city_code": code,
+            "city_name": name,
+            "supplier": supplier,
+            "water_supply": water_supply,
+            "sewage": sewage,
+            "total_rate": total_rate,
+            "unit": "m3",
+            "effective_date": effective_date,
+            "decree_info": decree_info
+        })
+
+    return cities, errors
+
+def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNotifier) -> list:
+    """
+    Extracts the water tariff table via LLM and validates the result against the source.
+    Returns None when extraction cannot be trusted, so the caller keeps the previous data.
+    """
+    table_html = extract_water_table_html(water_html)
+    if not table_html:
+        logger.error("Water tariff table not found in the fetched page")
+        notifier.send_message(
+            "⚠️ <b>Тарифы на воду не обновлены:</b>\nтаблица не найдена на странице источника.",
+            parse_mode="HTML"
+        )
+        return None
+
+    expected_rows = count_supplier_rows(table_html)
+    logger.info(f"Water table found: {len(table_html)} chars, {expected_rows} supplier rows expected")
+
+    extracted = call_gemini_extract(table_html, WATER_PROMPT, model_name, notifier)
+    cities, errors = validate_water_cities(extracted.get("cities"), expected_rows, table_plain_text(table_html))
+
+    if errors:
+        for err in errors:
+            logger.warning(f"Water validation: {err}")
+        details = "\n".join(f"• {e}" for e in errors[:15])
+        if len(errors) > 15:
+            details += f"\n… и ещё {len(errors) - 15}"
+        notifier.send_message(
+            f"⚠️ <b>Тарифы на воду не обновлены — не пройдена валидация ({len(errors)}):</b>\n<code>{details}</code>",
+            parse_mode="HTML"
+        )
+        return None
+
+    logger.info(f"Water tariffs extracted and validated for {len(cities)} suppliers")
+    return cities
+
 def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramNotifier) -> dict:
     base_data = load_base_schema()
     ref_sources = config["reference_sources"]
@@ -303,7 +510,13 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
 
     water_data = base_data.get("water", {})
     water_data["source_url"] = water_url
-    water_data["update_date"] = datetime.now().strftime("%Y-%m-%d")
+
+    water_cities = extract_water_tariffs(water_html, model_name, notifier) if water_html else None
+    if water_cities:
+        water_data["cities"] = water_cities
+        water_data["update_date"] = datetime.now().strftime("%Y-%m-%d")
+    else:
+        logger.warning("Keeping previous water cities: extraction failed or was rejected by validation")
 
     return {"electricity": elec_data, "water": water_data}
 
@@ -325,8 +538,8 @@ def search_alternative_tariffs(model_name: str, notifier: TelegramNotifier) -> d
         "decree_info": "Постанова КМУ № 632 від 31.05.2024"
       },
       "water": {
-        "found_url": "https://index.minfin.com.ua/tariff/water/",
-        "kyiv_total_rate": 39.432,
+        "found_url": "https://index.minfin.com.ua/ua/tariff/water/",
+        "kyiv_total_rate": 30.384,
         "effective_date": "2022-01-01",
         "decree_info": "Постанова НКРЕКП № 2842"
       }
@@ -355,10 +568,10 @@ def compare_and_validate(ref_data: dict, search_data: dict) -> list:
             found_dt = datetime(found_dt.year, 6, 1)
             found_date_str = "2024-06-01"
 
-        rate_increased = bool(found_rate is not None and ref_rate is not None and (found_rate - ref_rate) > 0.05)
+        rate_changed = bool(found_rate is not None and ref_rate is not None and abs(found_rate - ref_rate) > 0.05)
         date_significantly_newer = bool(ref_dt and found_dt and (found_dt - ref_dt).days > 3)
 
-        if rate_increased or date_significantly_newer:
+        if rate_changed or date_significantly_newer:
             logger.info(f"Electricity discrepancy detected: ref_rate={ref_rate}, found_rate={found_rate}, ref_date={ref_date_str}, found_date={found_date_str}")
             discrepancies.append({
                 "category": "Электроэнергия",
@@ -384,10 +597,10 @@ def compare_and_validate(ref_data: dict, search_data: dict) -> list:
         ref_dt = parse_date(ref_date_str)
         found_dt = parse_date(found_date_str)
 
-        rate_increased = bool(found_rate is not None and ref_rate is not None and (found_rate - ref_rate) > 0.05)
+        rate_changed = bool(found_rate is not None and ref_rate is not None and abs(found_rate - ref_rate) > 0.05)
         date_significantly_newer = bool(ref_dt and found_dt and (found_dt - ref_dt).days > 3)
 
-        if rate_increased or date_significantly_newer:
+        if rate_changed or date_significantly_newer:
             logger.info(f"Water discrepancy detected: ref_rate={ref_rate}, found_rate={found_rate}, ref_date={ref_date_str}, found_date={found_date_str}")
             discrepancies.append({
                 "category": "Водоснабжение (Киев)",
@@ -476,6 +689,11 @@ def main():
     search_data = search_alternative_tariffs(model_name, notifier)
     discrepancies = compare_and_validate(ref_data, search_data)
 
+    # Reference data is always persisted; discrepancies only trigger a notification,
+    # so an alternative source disagreeing never blocks the update.
+    final_json = build_final_json(ref_data)
+    save_json(final_json)
+
     if discrepancies:
         logger.warning(f"Found {len(discrepancies)} tariff discrepancies across sources!")
         summary = {
@@ -485,8 +703,6 @@ def main():
         notifier.send_discrepancy_report(discrepancies, summary)
     else:
         logger.info("No discrepancies found. Reference data matches or is up to date.")
-        final_json = build_final_json(ref_data)
-        save_json(final_json)
 
 if __name__ == "__main__":
     main()

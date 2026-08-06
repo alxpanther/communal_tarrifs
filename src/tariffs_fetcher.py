@@ -15,6 +15,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("TariffsFetcher")
 
 CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "sources.json")
+REGISTRY_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "city_registry.json")
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_ua_default.json")
 ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
 
@@ -244,6 +245,171 @@ def call_gemini_search(search_query: str, prompt_instruction: str, model_name: s
         notifier.send_message(err_msg, parse_mode="HTML")
         return {}
 
+# Official Ukrainian-to-Latin transliteration (Cabinet of Ministers resolution No. 55 of 27.01.2010).
+# Letters whose Latin form depends on position carry a (word_start, elsewhere) pair.
+UK_TRANSLIT = {
+    "а": "a", "б": "b", "в": "v", "г": "h", "ґ": "g", "д": "d", "е": "e",
+    "є": ("ye", "ie"), "ж": "zh", "з": "z", "и": "y", "і": "i",
+    "ї": ("yi", "i"), "й": ("y", "i"), "к": "k", "л": "l", "м": "m",
+    "н": "n", "о": "o", "п": "p", "р": "r", "с": "s", "т": "t", "у": "u",
+    "ф": "f", "х": "kh", "ц": "ts", "ч": "ch", "ш": "sh", "щ": "shch",
+    "ь": "", "ю": ("yu", "iu"), "я": ("ya", "ia"), "'": "", "’": "", "ʼ": "",
+}
+
+# Markers identifying a real water utility, used to pick the owner of a plain city code
+# when several suppliers share the same city name.
+WATERWORKS_MARKERS = ("водоканал", "вувкг", "водовід", "водопостач", "водоекотехпром", "вкг")
+
+def translit_uk(text: str) -> str:
+    """Transliterates Ukrainian text to Latin per resolution No. 55. Deterministic by design."""
+    result = []
+    for word in re.split(r"[^\w'’ʼ]+", text.lower(), flags=re.UNICODE):
+        if not word:
+            continue
+        letters = []
+        for pos, char in enumerate(word):
+            # "зг" is the single documented digraph exception
+            if char == "г" and pos > 0 and word[pos - 1] == "з":
+                letters[-1] = "zg"
+                letters.append("h")
+                continue
+            mapped = UK_TRANSLIT.get(char, char if char.isascii() and char.isalnum() else "")
+            if isinstance(mapped, tuple):
+                mapped = mapped[0] if pos == 0 else mapped[1]
+            letters.append(mapped)
+        joined = "".join(letters)
+        if joined:
+            result.append(joined)
+    return "_".join(result)
+
+def slugify(text: str, max_words: int = 3) -> str:
+    """Builds a safe identifier from Ukrainian text, limited to the first few words."""
+    slug = translit_uk(text)
+    parts = [p for p in slug.split("_") if p][:max_words]
+    return re.sub(r"[^a-z0-9_]", "", "_".join(parts))
+
+def supplier_suffix(supplier: str) -> str:
+    """Derives a disambiguating suffix from the quoted part of a supplier name."""
+    quoted = re.findall(r"[\"“”«»']([^\"“”«»']+)[\"“”«»']", supplier)
+    source = quoted[0] if quoted else supplier
+    return slugify(source)
+
+def is_waterworks(supplier: str) -> bool:
+    lowered = supplier.lower()
+    return any(marker in lowered for marker in WATERWORKS_MARKERS)
+
+def assign_city_code(city_name: str, supplier: str, taken: set, rivals: list) -> str:
+    """
+    Deterministic city_code: transliterated city name, disambiguated by supplier when
+    several suppliers share one city. A plain code goes to the single water utility of
+    that city; otherwise every rival carries a suffix.
+    """
+    base = slugify(city_name) or slugify(supplier) or "city"
+
+    waterworks = [s for s in rivals if is_waterworks(s)]
+    plain_owner = waterworks[0] if len(rivals) > 1 and len(waterworks) == 1 else (
+        rivals[0] if len(rivals) == 1 else None
+    )
+
+    code = base if supplier == plain_owner else f"{base}_{supplier_suffix(supplier)}"
+    code = code[:48].rstrip("_")
+
+    # Guard against collisions with codes already handed out
+    candidate, n = code, 2
+    while candidate in taken:
+        candidate = f"{code}_{n}"
+        n += 1
+    return candidate
+
+def normalize_name(text: str) -> str:
+    """Normalizes a supplier name so lookups survive quote and spacing differences."""
+    return re.sub(r"[^a-zа-яёіїєґ0-9]", "", str(text).lower())
+
+def load_registry() -> dict:
+    """Loads the persistent supplier -> city_code registry. Codes here are never rewritten."""
+    if not os.path.exists(REGISTRY_PATH):
+        return {}
+    try:
+        with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
+            return json.load(f).get("suppliers", {})
+    except Exception as e:
+        logger.error(f"Failed to read city registry: {e}")
+        return {}
+
+def save_registry(suppliers: dict):
+    os.makedirs(os.path.dirname(REGISTRY_PATH), exist_ok=True)
+    payload = {
+        "_comment": (
+            "Постоянный реестр city_code. Ключ — название поставщика с сайта-источника. "
+            "Однажды назначенный city_code менять нельзя: Android-приложение хранит его "
+            "как выбор пользователя. Новые поставщики дописываются автоматически."
+        ),
+        "suppliers": dict(sorted(suppliers.items()))
+    }
+    with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+def resolve_city_identity(cities: list, notifier: TelegramNotifier) -> list:
+    """
+    Replaces model-provided identifiers with registry-backed ones so city_code and
+    city_name stay byte-identical across runs. Returns the cities with final identity.
+    """
+    registry = load_registry()
+    lookup = {normalize_name(name): entry for name, entry in registry.items()}
+    taken = {entry["city_code"] for entry in registry.values()}
+
+    # Suppliers sharing a city name compete for the plain code
+    rivals_by_city = {}
+    for city in cities:
+        rivals_by_city.setdefault(slugify(city["city_name"]), []).append(city["supplier"])
+
+    added = []
+    for city in cities:
+        known = lookup.get(normalize_name(city["supplier"]))
+        if known:
+            city["city_code"] = known["city_code"]
+            city["city_name"] = known["city_name"]
+            continue
+
+        code = assign_city_code(
+            city["city_name"], city["supplier"], taken,
+            rivals_by_city.get(slugify(city["city_name"]), [city["supplier"]])
+        )
+        taken.add(code)
+        city["city_code"] = code
+        registry[city["supplier"]] = {"city_code": code, "city_name": city["city_name"]}
+        lookup[normalize_name(city["supplier"])] = registry[city["supplier"]]
+        added.append(f"{city['supplier']} → {code}")
+
+    present = {normalize_name(c["supplier"]) for c in cities}
+    disappeared = [
+        f"{name} ({entry['city_code']})"
+        for name, entry in registry.items()
+        if normalize_name(name) not in present
+    ]
+
+    if added:
+        save_registry(registry)
+        logger.info(f"Registered {len(added)} new suppliers")
+        notifier.send_message(
+            "🆕 <b>В тарифах воды появились новые поставщики</b>\n"
+            "Им назначены новые <code>city_code</code>, приложение о них ещё не знает:\n"
+            + "\n".join(f"• <code>{a}</code>" for a in added),
+            parse_mode="HTML"
+        )
+
+    if disappeared:
+        logger.warning(f"{len(disappeared)} known suppliers are missing from the source")
+        notifier.send_message(
+            "⚠️ <b>Поставщики пропали с сайта-источника</b>\n"
+            "Их города исчезнут из JSON, у пользователей с этими <code>city_code</code> "
+            "выбор перестанет работать:\n"
+            + "\n".join(f"• <code>{d}</code>" for d in disappeared),
+            parse_mode="HTML"
+        )
+
+    return cities
+
 WATER_PROMPT = """
 Ты извлекаешь данные из HTML-таблицы тарифов на воду с сайта index.minfin.com.ua.
 
@@ -255,21 +421,18 @@ WATER_PROMPT = """
 1. Переписывай числа ТОЧНО так, как они указаны в таблице. Десятичный разделитель "," замени на ".".
    Ничего не округляй, не пересчитывай и не подгоняй под сумму.
 2. Прочерк "-" вместо тарифа означает, что услуга не предоставляется — используй 0.0.
-3. "supplier" — полное название предприятия как в таблице.
+3. "supplier" — название предприятия ДОСЛОВНО как в таблице, символ в символ.
+   Не исправляй опечатки, не меняй кавычки, не дополняй и не сокращай название.
 4. "city_name" — название населённого пункта на украинском. Определяй его по названию
    предприятия или по столбцу области. Если предприятие обслуживает не город, а область
    или ведомственную сеть, укажи область (например "Дніпропетровська обл.").
-5. "city_code" — уникальный идентификатор латиницей в нижнем регистре: транслитерация
-   city_name, слова через "_", только символы a-z, 0-9 и "_". Если два предприятия дают
-   одинаковый код, добавь к коду короткий суффикс по названию предприятия.
-6. "period" — строка периода действия тарифа ровно как в таблице (например "з 01.01.2022").
-7. НЕ добавляй строки, которых нет в таблице. НЕ пропускай ни одной строки поставщика.
+5. "period" — строка периода действия тарифа ровно как в таблице (например "з 01.01.2022").
+6. НЕ добавляй строки, которых нет в таблице. НЕ пропускай ни одной строки поставщика.
 
 Верни СТРОГО JSON без текста до и после:
 {
   "cities": [
     {
-      "city_code": "kyiv",
       "city_name": "Київ",
       "supplier": "ПАТ АК \\"Київводоканал\\"",
       "water_supply": 16.164,
@@ -348,26 +511,27 @@ def validate_water_cities(raw_cities, expected_rows: int, source_text: str) -> t
         errors.append(f"Извлечено {len(raw_cities)} строк вместо {expected_rows} в таблице источника")
 
     cities = []
-    seen_codes = set()
+    seen_suppliers = set()
+    normalized_source = normalize_name(source_text)
 
     for idx, item in enumerate(raw_cities):
         if not isinstance(item, dict):
             errors.append(f"Запись #{idx + 1}: не является объектом")
             continue
 
-        code = str(item.get("city_code", "")).strip().lower()
         name = str(item.get("city_name", "")).strip()
         supplier = str(item.get("supplier", "")).strip()
         label = supplier or name or f"#{idx + 1}"
 
-        if not re.fullmatch(r"[a-z0-9_]+", code):
-            errors.append(f"{label}: недопустимый city_code '{code}'")
-            continue
-        if code in seen_codes:
-            errors.append(f"{label}: дублирующийся city_code '{code}'")
-            continue
         if not name or not supplier:
             errors.append(f"{label}: пустой city_name или supplier")
+            continue
+        # A supplier name the model reworded would silently create a new city_code
+        if normalize_name(supplier) not in normalized_source:
+            errors.append(f"{label}: название поставщика отсутствует в исходной таблице")
+            continue
+        if normalize_name(supplier) in seen_suppliers:
+            errors.append(f"{label}: поставщик встречается дважды")
             continue
 
         water_supply = parse_rate(item.get("water_supply"))
@@ -396,9 +560,10 @@ def validate_water_cities(raw_cities, expected_rows: int, source_text: str) -> t
             errors.append(f"{label}: не удалось разобрать период '{item.get('period')}'")
             continue
 
-        seen_codes.add(code)
+        seen_suppliers.add(normalize_name(supplier))
         cities.append({
-            "city_code": code,
+            # city_code is assigned later from the persistent registry, never by the model
+            "city_code": "",
             "city_name": name,
             "supplier": supplier,
             "water_supply": water_supply,
@@ -443,6 +608,7 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
         )
         return None
 
+    cities = resolve_city_identity(cities, notifier)
     logger.info(f"Water tariffs extracted and validated for {len(cities)} suppliers")
     return cities
 

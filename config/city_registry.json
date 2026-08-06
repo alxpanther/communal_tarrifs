@@ -1,0 +1,205 @@
+{
+  "_comment": "Постоянный реестр city_code. Ключ — название поставщика с сайта-источника. Однажды назначенный city_code менять нельзя: Android-приложение хранит его как выбор пользователя. Новые поставщики дописываются автоматически.",
+  "suppliers": {
+    "АТ \"Укрзалізниця\"": {
+      "city_code": "ukraina",
+      "city_name": "Україна"
+    },
+    "ВКП ВКГ \"Рівнеоблводоканал\"": {
+      "city_code": "rivne",
+      "city_name": "Рівне"
+    },
+    "ДМП ВКГ \"Дніпро-Західний Донбас\"": {
+      "city_code": "dnipropetrovska_obl",
+      "city_name": "Дніпропетровська обл."
+    },
+    "КВП \"Краматорський водоканал\"": {
+      "city_code": "kramatorsk",
+      "city_name": "Краматорськ"
+    },
+    "КВП \"Міськводоканал\" Кам'янське": {
+      "city_code": "kamianske",
+      "city_name": "Кам'янське"
+    },
+    "КП \"Івано-Франківськводоекотехпром\"": {
+      "city_code": "ivano_frankivsk",
+      "city_name": "Івано-Франківськ"
+    },
+    "КП \"Ірпіньводоканал\"": {
+      "city_code": "irpin",
+      "city_name": "Ірпінь"
+    },
+    "КП \"Аульський водовід\"": {
+      "city_code": "auly",
+      "city_name": "Аули"
+    },
+    "КП \"Бахмут-Вода\"": {
+      "city_code": "bakhmut",
+      "city_name": "Бахмут"
+    },
+    "КП \"Бердянськводоканал\"": {
+      "city_code": "berdiansk",
+      "city_name": "Бердянськ"
+    },
+    "КП \"Броваритепловодоенергія\"": {
+      "city_code": "brovary",
+      "city_name": "Бровари"
+    },
+    "КП \"ВУВКГ Ужгорода\"": {
+      "city_code": "uzhhorod",
+      "city_name": "Ужгород"
+    },
+    "КП \"ВУВКГ Херсона\"": {
+      "city_code": "kherson",
+      "city_name": "Херсон"
+    },
+    "КП \"Водоканал\" Запоріжжя": {
+      "city_code": "zaporizhzhia",
+      "city_name": "Запоріжжя"
+    },
+    "КП \"Водоканал\" Мелітополь": {
+      "city_code": "melitopol",
+      "city_name": "Мелітополь"
+    },
+    "КП \"Вінницяоблводоканал\"": {
+      "city_code": "vinnytsia",
+      "city_name": "Вінниця"
+    },
+    "КП \"Дніпроводоканал\"": {
+      "city_code": "dnipro",
+      "city_name": "Дніпро"
+    },
+    "КП \"Дрогобичводоканал\"": {
+      "city_code": "drohobych",
+      "city_name": "Дрогобич"
+    },
+    "КП \"Житомирводоканал\"": {
+      "city_code": "zhytomyr",
+      "city_name": "Житомир"
+    },
+    "КП \"Кременчукводоканал\"": {
+      "city_code": "kremenchuk",
+      "city_name": "Кременчук"
+    },
+    "КП \"Кривбасводоканал\"": {
+      "city_code": "kryvyi_rih",
+      "city_name": "Кривий Ріг"
+    },
+    "КП \"Луцькводоканал\"": {
+      "city_code": "lutsk",
+      "city_name": "Луцьк"
+    },
+    "КП \"Львівводоканал\"": {
+      "city_code": "lviv",
+      "city_name": "Львів"
+    },
+    "КП \"Маріупольське ВУВКГ\"": {
+      "city_code": "mariupol",
+      "city_name": "Маріуполь"
+    },
+    "КП \"Миколаївводоканал\"": {
+      "city_code": "mykolaiv",
+      "city_name": "Миколаїв"
+    },
+    "КП \"Міськводоканал\" Суми": {
+      "city_code": "sumy",
+      "city_name": "Суми"
+    },
+    "КП \"Міськтепловоденергія\" (Кам'янець-Подільський)": {
+      "city_code": "kamianets_podilskyi",
+      "city_name": "Кам'янець-Подільський"
+    },
+    "КП \"Новомосковськ водоканал\"": {
+      "city_code": "novomoskovsk",
+      "city_name": "Новомосковськ"
+    },
+    "КП \"Нікопольське ВУВКГ\"": {
+      "city_code": "nikopol",
+      "city_name": "Нікополь"
+    },
+    "КП \"Облводоканал\" Запорізька": {
+      "city_code": "zaporizka_obl",
+      "city_name": "Запорізька обл."
+    },
+    "КП \"Павлоградське ВУВКГ\"": {
+      "city_code": "pavlohrad",
+      "city_name": "Павлоград"
+    },
+    "КП \"Полтававодоканал\"": {
+      "city_code": "poltava",
+      "city_name": "Полтава"
+    },
+    "КП \"Словміськводоканал\"": {
+      "city_code": "sloviansk",
+      "city_name": "Слов'янськ"
+    },
+    "КП \"Сєвєродонецькводоканал\"": {
+      "city_code": "sievierodonetsk",
+      "city_name": "Сєвєродонецьк"
+    },
+    "КП \"Тернопільводоканал\"": {
+      "city_code": "ternopil",
+      "city_name": "Тернопіль"
+    },
+    "КП \"Уманьводоканал\"": {
+      "city_code": "uman",
+      "city_name": "Умань"
+    },
+    "КП \"Харківводоканал\"": {
+      "city_code": "kharkiv",
+      "city_name": "Харків"
+    },
+    "КП \"Хмельницькводоканал\"": {
+      "city_code": "khmelnytskyi",
+      "city_name": "Хмельницький"
+    },
+    "КП \"Черкасиводоканал\"": {
+      "city_code": "cherkasy",
+      "city_name": "Черкаси"
+    },
+    "КП \"Чернівціводоканал\"": {
+      "city_code": "chernivtsi",
+      "city_name": "Чернівці"
+    },
+    "КП \"Чернігівводоканал\"": {
+      "city_code": "chernihiv",
+      "city_name": "Чернігів"
+    },
+    "КСП \"Лисичанськводоканал\"": {
+      "city_code": "lysychansk",
+      "city_name": "Лисичанськ"
+    },
+    "ОКВП \"Дніпро-Кіровоград\"": {
+      "city_code": "kirovohradska_obl",
+      "city_name": "Кіровоградська обл."
+    },
+    "ПАТ \"АЗОТ\" (Черкаси)": {
+      "city_code": "cherkasy_azot",
+      "city_name": "Черкаси"
+    },
+    "ПАТ АК \"Київводоканал\"": {
+      "city_code": "kyiv",
+      "city_name": "Київ"
+    },
+    "ПРАТ \"Енергоресурси\"": {
+      "city_code": "dnipropetrovska_obl_enerhoresursy",
+      "city_name": "Дніпропетровська обл."
+    },
+    "ПРАТ \"Рівнеазот\"": {
+      "city_code": "rivne_rivneazot",
+      "city_name": "Рівне"
+    },
+    "ТОВ \"Інфокс\" (\"Інфоксводоканал\")": {
+      "city_code": "odesa",
+      "city_name": "Одеса"
+    },
+    "ТОВ \"Білоцерківвода\"": {
+      "city_code": "bila_tserkva",
+      "city_name": "Біла Церква"
+    },
+    "ТОВ \"Таун сервіс\"": {
+      "city_code": "luhanska_obl",
+      "city_name": "Луганська обл."
+    }
+  }
+}

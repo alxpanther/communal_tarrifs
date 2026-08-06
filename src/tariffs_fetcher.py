@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import re
+import difflib
 import html as html_module
 from datetime import datetime
 import requests
@@ -421,13 +422,11 @@ WATER_PROMPT = """
 1. Переписывай числа ТОЧНО так, как они указаны в таблице. Десятичный разделитель "," замени на ".".
    Ничего не округляй, не пересчитывай и не подгоняй под сумму.
 2. Прочерк "-" вместо тарифа означает, что услуга не предоставляется — используй 0.0.
-3. "supplier" — название предприятия ДОСЛОВНО как в таблице, символ в символ.
-   Не исправляй опечатки, не меняй кавычки, не дополняй и не сокращай название.
+3. "supplier" — название предприятия так, как оно написано в таблице.
 4. "city_name" — название населённого пункта на украинском. Определяй его по названию
    предприятия или по столбцу области. Если предприятие обслуживает не город, а область
    или ведомственную сеть, укажи область (например "Дніпропетровська обл.").
-5. "period" — строка периода действия тарифа ровно как в таблице (например "з 01.01.2022").
-6. НЕ добавляй строки, которых нет в таблице. НЕ пропускай ни одной строки поставщика.
+5. НЕ добавляй строки, которых нет в таблице. НЕ пропускай ни одной строки поставщика.
 
 Верни СТРОГО JSON без текста до и после:
 {
@@ -437,8 +436,7 @@ WATER_PROMPT = """
       "supplier": "ПАТ АК \\"Київводоканал\\"",
       "water_supply": 16.164,
       "sewage": 14.220,
-      "total_rate": 30.384,
-      "period": "з 01.01.2022"
+      "total_rate": 30.384
     }
   ]
 }
@@ -463,25 +461,35 @@ def count_supplier_rows(table_html: str) -> int:
             count += 1
     return count
 
-def table_plain_text(table_html: str) -> str:
-    """Flattens the table to plain text so extracted numbers can be looked up in the source."""
-    text = html_module.unescape(re.sub(r"<[^>]+>", " ", table_html)).replace("­", "")
-    return re.sub(r"[\s ]+", " ", text)
+def source_rows(table_html: str) -> dict:
+    """
+    Maps each (water_supply, sewage, total_rate) triple of the source table to the supplier
+    and period printed on that row. The triple is the join key: it rejects hallucinated
+    digits and swapped columns, while supplier and period are taken from the source itself,
+    so the model rewording a name cannot reach the output.
+    """
+    rows = {}
+    for row_html in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
+        cells = table_row_cells(row_html)
+        if len(cells) < 4 or not re.fullmatch(r"[\d,\s ]+|-", cells[1]):
+            continue
 
-def source_rate_triples(source_text: str) -> set:
-    """
-    Collects every (water_supply, sewage, total_rate) triple that literally occurs in the
-    source table, in that order. Comparing against it rejects hallucinated digits and
-    swapped columns, which a plain sum check would let through.
-    """
-    triples = set()
-    pattern = r"(\d{1,3},\d{3}|-)\s+(\d{1,3},\d{3}|-)\s+(\d{1,3},\d{3})"
-    for match in re.finditer(pattern, source_text):
-        triples.add(tuple(
-            0.0 if g == "-" else float(g.replace(",", "."))
-            for g in match.groups()
-        ))
-    return triples
+        triple = tuple(parse_rate(c) if c != "-" else 0.0 for c in cells[1:4])
+        if any(v is None for v in triple):
+            continue
+
+        rows.setdefault(triple, []).append({"supplier": cells[0], "period": cells[-1]})
+    return rows
+
+def pick_source_row(candidates: list, model_supplier: str) -> dict:
+    """Picks the source row matching the model's supplier when one triple has several rows."""
+    if len(candidates) == 1:
+        return candidates[0]
+    target = normalize_name(model_supplier)
+    return max(
+        candidates,
+        key=lambda row: difflib.SequenceMatcher(None, target, normalize_name(row["supplier"])).ratio()
+    )
 
 def parse_period(period: str) -> tuple:
     """Parses a period string like 'з 01.01.2022' into (effective_date, decree_info)."""
@@ -499,10 +507,9 @@ def parse_period(period: str) -> tuple:
         decree_info += f" по {dates[1]}"
     return effective_date, decree_info
 
-def validate_water_cities(raw_cities, expected_rows: int, source_text: str) -> tuple:
-    """Validates LLM output against the source table. Returns (cities, errors)."""
+def validate_water_cities(raw_cities, expected_rows: int, table_rows: dict) -> tuple:
+    """Validates LLM output against the source table rows. Returns (cities, errors)."""
     errors = []
-    source_triples = source_rate_triples(source_text)
 
     if not isinstance(raw_cities, list) or not raw_cities:
         return [], ["Модель не вернула список городов"]
@@ -511,8 +518,7 @@ def validate_water_cities(raw_cities, expected_rows: int, source_text: str) -> t
         errors.append(f"Извлечено {len(raw_cities)} строк вместо {expected_rows} в таблице источника")
 
     cities = []
-    seen_suppliers = set()
-    normalized_source = normalize_name(source_text)
+    matched_triples = set()
 
     for idx, item in enumerate(raw_cities):
         if not isinstance(item, dict):
@@ -520,18 +526,11 @@ def validate_water_cities(raw_cities, expected_rows: int, source_text: str) -> t
             continue
 
         name = str(item.get("city_name", "")).strip()
-        supplier = str(item.get("supplier", "")).strip()
-        label = supplier or name or f"#{idx + 1}"
+        model_supplier = str(item.get("supplier", "")).strip()
+        label = model_supplier or name or f"#{idx + 1}"
 
-        if not name or not supplier:
-            errors.append(f"{label}: пустой city_name или supplier")
-            continue
-        # A supplier name the model reworded would silently create a new city_code
-        if normalize_name(supplier) not in normalized_source:
-            errors.append(f"{label}: название поставщика отсутствует в исходной таблице")
-            continue
-        if normalize_name(supplier) in seen_suppliers:
-            errors.append(f"{label}: поставщик встречается дважды")
+        if not name:
+            errors.append(f"{label}: пустой city_name")
             continue
 
         water_supply = parse_rate(item.get("water_supply"))
@@ -548,24 +547,36 @@ def validate_water_cities(raw_cities, expected_rows: int, source_text: str) -> t
             errors.append(f"{label}: {water_supply} + {sewage} != {total_rate}")
             continue
 
-        if (water_supply, sewage, total_rate) not in source_triples:
+        triple = (water_supply, sewage, total_rate)
+        if triple not in table_rows:
             errors.append(
                 f"{label}: строка {water_supply} / {sewage} / {total_rate} "
                 "отсутствует в исходной таблице в таком порядке"
             )
             continue
-
-        effective_date, decree_info = parse_period(item.get("period"))
-        if not effective_date:
-            errors.append(f"{label}: не удалось разобрать период '{item.get('period')}'")
+        if triple in matched_triples:
+            errors.append(f"{label}: строка {water_supply} / {sewage} / {total_rate} извлечена дважды")
             continue
 
-        seen_suppliers.add(normalize_name(supplier))
+        # Supplier and period always come from the source, never from the model,
+        # so a reworded name cannot change city_code or reach the output.
+        source_row = pick_source_row(table_rows[triple], model_supplier)
+        effective_date, decree_info = parse_period(source_row["period"])
+        if not effective_date:
+            errors.append(f"{label}: не удалось разобрать период '{source_row['period']}'")
+            continue
+
+        if normalize_name(model_supplier) != normalize_name(source_row["supplier"]):
+            logger.info(
+                f"Supplier name corrected from source: '{model_supplier}' -> '{source_row['supplier']}'"
+            )
+
+        matched_triples.add(triple)
         cities.append({
             # city_code is assigned later from the persistent registry, never by the model
             "city_code": "",
             "city_name": name,
-            "supplier": supplier,
+            "supplier": source_row["supplier"],
             "water_supply": water_supply,
             "sewage": sewage,
             "total_rate": total_rate,
@@ -594,7 +605,7 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
     logger.info(f"Water table found: {len(table_html)} chars, {expected_rows} supplier rows expected")
 
     extracted = call_gemini_extract(table_html, WATER_PROMPT, model_name, notifier)
-    cities, errors = validate_water_cities(extracted.get("cities"), expected_rows, table_plain_text(table_html))
+    cities, errors = validate_water_cities(extracted.get("cities"), expected_rows, source_rows(table_html))
 
     if errors:
         for err in errors:

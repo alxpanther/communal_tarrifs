@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-08-02T18:09:48.554591",
+  "last_updated_at": "2026-08-06T10:10:25.867456",
   "country": "UA",
   "currency": "UAH",
   "electricity": {
@@ -8,7 +8,7 @@
     "base_rate": 4.32,
     "unit": "kWh",
     "effective_date": "2024-06-01",
-    "update_date": "2026-08-02",
+    "update_date": "2026-08-06",
     "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
@@ -45,470 +45,558 @@
     }
   },
   "water": {
-    "source_url": "https://index.minfin.com.ua/tariff/water/",
-    "update_date": "2026-08-02",
+    "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
+    "update_date": "2026-08-06",
     "cities": [
-      {
-        "city_code": "kyiv",
-        "city_name": "Київ",
-        "supplier": "ПрАТ АК 'Київводоканал'",
-        "water_supply": 22.884,
-        "sewage": 16.548,
-        "total_rate": 39.432,
-        "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2842"
-      },
       {
         "city_code": "vinnytsia",
         "city_name": "Вінниця",
-        "supplier": "КП 'Вінницяоблводоканал'",
+        "supplier": "КП \"Вінницяоблводоканал\"",
         "water_supply": 15.744,
         "sewage": 9.876,
         "total_rate": 25.62,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2843"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "lutsk",
         "city_name": "Луцьк",
-        "supplier": "КП 'Луцькводоканал'",
-        "water_supply": 14.22,
-        "sewage": 14.196,
+        "supplier": "КП \"Луцькводоканал\"",
+        "water_supply": 12.204,
+        "sewage": 16.212,
         "total_rate": 28.416,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2844"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "dnipro",
-        "city_name": "Дніпро",
-        "supplier": "КП 'Дніпроводоканал'",
-        "water_supply": 18.156,
-        "sewage": 13.2,
-        "total_rate": 31.356,
-        "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2845"
-      },
-      {
-        "city_code": "dnipro_auly",
-        "city_name": "Дніпропетровська обл. (Аули)",
-        "supplier": "КП ДОР 'Аульський водовід'",
+        "city_code": "auly",
+        "city_name": "Аули",
+        "supplier": "КП \"Аульський водовід\"",
         "water_supply": 13.416,
         "sewage": 12.696,
         "total_rate": 26.112,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2866"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "dnipro",
+        "city_name": "Дніпро",
+        "supplier": "КП \"Дніпроводоканал\"",
+        "water_supply": 18.156,
+        "sewage": 13.2,
+        "total_rate": 31.356,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "kamianske",
+        "city_name": "Кам'янське",
+        "supplier": "КВП \"Міськводоканал\" Кам'янське",
+        "water_supply": 13.092,
+        "sewage": 10.296,
+        "total_rate": 23.388,
+        "unit": "m3",
+        "effective_date": "2021-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2021 по 31.12.2021"
       },
       {
         "city_code": "kryvyi_rih",
         "city_name": "Кривий Ріг",
-        "supplier": "КП 'Кривбасводоканал'",
+        "supplier": "КП \"Кривбасводоканал\"",
         "water_supply": 15.972,
-        "sewage": 15.468,
-        "total_rate": 31.44,
+        "sewage": 15.396,
+        "total_rate": 31.368,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2864"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "nikopol",
         "city_name": "Нікополь",
-        "supplier": "КП 'Нікопольське ВУВКГ'",
-        "water_supply": 16.032,
-        "sewage": 17.82,
-        "total_rate": 33.852,
+        "supplier": "КП \"Нікопольське ВУВКГ\"",
+        "water_supply": 13.86,
+        "sewage": 19.764,
+        "total_rate": 33.624,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2867"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "novomoskovsk",
+        "city_name": "Новомосковськ",
+        "supplier": "КП \"Новомосковськ водоканал\"",
+        "water_supply": 21.612,
+        "sewage": 23.232,
+        "total_rate": 44.844,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "pavlohrad",
         "city_name": "Павлоград",
-        "supplier": "КП 'Павлоградське ВУВКГ'",
-        "water_supply": 33.744,
-        "sewage": 20.256,
-        "total_rate": 54.0,
+        "supplier": "КП \"Павлоградське ВУВКГ\"",
+        "water_supply": 39.42,
+        "sewage": 14.244,
+        "total_rate": 53.664,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2868"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "dnipropetrovska_enerho",
+        "city_name": "Дніпропетровська обл.",
+        "supplier": "ПРАТ \"Енергоресурси\"",
+        "water_supply": 27.156,
+        "sewage": 3.06,
+        "total_rate": 30.216,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "dnipropetrovska_donbas",
+        "city_name": "Дніпропетровська обл.",
+        "supplier": "ДМП ВКГ \"Дніпро-Західний Донбас\"",
+        "water_supply": 36.24,
+        "sewage": 0.0,
+        "total_rate": 36.24,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "bakhmut",
         "city_name": "Бахмут",
-        "supplier": "КП 'Бахмут-вода'",
-        "water_supply": 23.364,
-        "sewage": 18.096,
-        "total_rate": 41.46,
+        "supplier": "КП \"Бахмут-Вода\"",
+        "water_supply": 22.728,
+        "sewage": 18.636,
+        "total_rate": 41.364,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2869"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "kramatorsk",
         "city_name": "Краматорськ",
-        "supplier": "КП 'Краматорський водоканал'",
-        "water_supply": 19.56,
+        "supplier": "КВП \"Краматорський водоканал\"",
+        "water_supply": 19.548,
         "sewage": 13.908,
-        "total_rate": 33.468,
+        "total_rate": 33.456,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2870"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "mariupol",
         "city_name": "Маріуполь",
-        "supplier": "КП 'Маріупольське ВУВКГ'",
-        "water_supply": 21.096,
-        "sewage": 12.456,
-        "total_rate": 33.552,
+        "supplier": "КП \"Маріупольське ВУВКГ\"",
+        "water_supply": 19.212,
+        "sewage": 9.9,
+        "total_rate": 29.112,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2871"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "pokrovsk",
-        "city_name": "Покровськ",
-        "supplier": "КП 'Покровськводоканал'",
-        "water_supply": 23.1,
-        "sewage": 19.86,
-        "total_rate": 42.96,
+        "city_code": "sloviansk",
+        "city_name": "Слов'янськ",
+        "supplier": "КП \"Словміськводоканал\"",
+        "water_supply": 20.22,
+        "sewage": 25.2,
+        "total_rate": 45.42,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2872"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "zhytomyr",
         "city_name": "Житомир",
-        "supplier": "КП 'Житомирводоканал'",
+        "supplier": "КП \"Житомирводоканал\"",
         "water_supply": 18.264,
         "sewage": 19.272,
         "total_rate": 37.536,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2846"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "uzhhorod",
         "city_name": "Ужгород",
-        "supplier": "КП 'Водоканал м. Ужгород'",
+        "supplier": "КП \"ВУВКГ Ужгорода\"",
         "water_supply": 26.52,
         "sewage": 16.344,
         "total_rate": 42.864,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2847"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "berdiansk",
+        "city_name": "Бердянськ",
+        "supplier": "КП \"Бердянськводоканал\"",
+        "water_supply": 30.876,
+        "sewage": 26.196,
+        "total_rate": 57.072,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "zaporizhzhia",
         "city_name": "Запоріжжя",
-        "supplier": "КП 'Водоканал м. Запоріжжя'",
+        "supplier": "КП \"Водоканал\" Запоріжжя",
         "water_supply": 17.808,
         "sewage": 10.56,
         "total_rate": 28.368,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2848"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "berdyansk",
-        "city_name": "Бердянськ",
-        "supplier": "КП 'Бердянськводоканал'",
-        "water_supply": 30.804,
-        "sewage": 26.244,
-        "total_rate": 57.048,
+        "city_code": "zaporizka_obl",
+        "city_name": "Запорізька обл.",
+        "supplier": "КП \"Облводоканал\" Запорізька",
+        "water_supply": 25.044,
+        "sewage": 40.512,
+        "total_rate": 65.556,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2873"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "melitopol",
         "city_name": "Мелітополь",
-        "supplier": "КП 'Мелітопольміськводоканал'",
-        "water_supply": 17.7,
-        "sewage": 18.096,
-        "total_rate": 35.796,
+        "supplier": "КП \"Водоканал\" Мелітополь",
+        "water_supply": 19.404,
+        "sewage": 22.536,
+        "total_rate": 41.94,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2874"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "ivano-frankivsk",
+        "city_code": "ivano_frankivsk",
         "city_name": "Івано-Франківськ",
-        "supplier": "КП 'Івано-Франківськводоекотехпром'",
+        "supplier": "КП \"Івано-Франківськводоекотехпром\"",
         "water_supply": 12.948,
         "sewage": 15.288,
         "total_rate": 28.236,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2849"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "bila_tserkva",
         "city_name": "Біла Церква",
-        "supplier": "ТОВ 'Білоцерківвода'",
-        "water_supply": 19.608,
-        "sewage": 16.296,
-        "total_rate": 35.904,
+        "supplier": "ТОВ \"Білоцерківвода\"",
+        "water_supply": 15.48,
+        "sewage": 21.72,
+        "total_rate": 37.2,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2865"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "brovary",
+        "city_name": "Бровари",
+        "supplier": "КП \"Броваритепловодоенергія\"",
+        "water_supply": 15.408,
+        "sewage": 14.856,
+        "total_rate": 30.264,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "irpin",
         "city_name": "Ірпінь",
-        "supplier": "КП 'Ірпіньводоканал'",
-        "water_supply": 13.74,
-        "sewage": 16.5,
-        "total_rate": 30.24,
+        "supplier": "КП \"Ірпіньводоканал\"",
+        "water_supply": 12.408,
+        "sewage": 19.704,
+        "total_rate": 32.112,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2875"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "kropyvnytskyi",
-        "city_name": "Кропивницький",
-        "supplier": "ОКП 'Дніпро-Кіровоград'",
-        "water_supply": 24.972,
-        "sewage": 21.012,
-        "total_rate": 45.984,
+        "city_code": "kyiv",
+        "city_name": "Київ",
+        "supplier": "ПАТ АК \"Київводоканал\"",
+        "water_supply": 16.164,
+        "sewage": 14.22,
+        "total_rate": 30.384,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2850"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "lysychansk",
+        "city_code": "kirovohradska_obl",
+        "city_name": "Кіровоградська обл.",
+        "supplier": "ОКВП \"Дніпро-Кіровоград\"",
+        "water_supply": 25.212,
+        "sewage": 20.76,
+        "total_rate": 45.972,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "lysyschansk",
         "city_name": "Лисичанськ",
-        "supplier": "ЛКСП 'Лисичанськводоканал'",
-        "water_supply": 17.556,
-        "sewage": 11.736,
-        "total_rate": 29.292,
+        "supplier": "КСП \"Лисичанськводоканал\"",
+        "water_supply": 24.924,
+        "sewage": 15.264,
+        "total_rate": 40.188,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2876"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "sievierodonetsk",
         "city_name": "Сєвєродонецьк",
-        "supplier": "КП 'Сєвєродонецьке ВУВКГ'",
-        "water_supply": 15.252,
-        "sewage": 10.404,
-        "total_rate": 25.656,
+        "supplier": "КП \"Сєвєродонецькводоканал\"",
+        "water_supply": 9.66,
+        "sewage": 8.64,
+        "total_rate": 18.3,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2877"
+        "effective_date": "2020-04-02",
+        "decree_info": "Тариф НКРЕКП, чинний з 02.04.2020"
       },
       {
-        "city_code": "lviv",
-        "city_name": "Львів",
-        "supplier": "ЛМКП 'Львівводоканал'",
-        "water_supply": 17.592,
-        "sewage": 8.292,
-        "total_rate": 25.884,
+        "city_code": "luhanska_town_service",
+        "city_name": "Луганська обл.",
+        "supplier": "ТОВ \"Таун сервіс\"",
+        "water_supply": 8.94,
+        "sewage": 7.584,
+        "total_rate": 16.524,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2851"
+        "effective_date": "2019-06-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.06.2019"
       },
       {
         "city_code": "drohobych",
         "city_name": "Дрогобич",
-        "supplier": "КП 'Дрогобичводоканал'",
+        "supplier": "КП \"Дрогобичводоканал\"",
         "water_supply": 28.62,
-        "sewage": 14.748,
-        "total_rate": 43.368,
+        "sewage": 14.736,
+        "total_rate": 43.356,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2878"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "lviv",
+        "city_name": "Львів",
+        "supplier": "КП \"Львівводоканал\"",
+        "water_supply": 17.292,
+        "sewage": 8.592,
+        "total_rate": 25.884,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "mykolaiv",
         "city_name": "Миколаїв",
-        "supplier": "МКП 'Миколаївводоканал'",
+        "supplier": "КП \"Миколаївводоканал\"",
         "water_supply": 17.532,
         "sewage": 16.512,
         "total_rate": 34.044,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2852"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "odesa",
         "city_name": "Одеса",
-        "supplier": "ТОВ 'Інфокс' (филия 'Інфоксводоканал')",
+        "supplier": "ТОВ \"Інфокс\" (\"Інфоксводоканал\")",
         "water_supply": 17.916,
         "sewage": 17.244,
         "total_rate": 35.16,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2853"
-      },
-      {
-        "city_code": "poltava",
-        "city_name": "Полтава",
-        "supplier": "КП ПОПР 'Полтававодоканал'",
-        "water_supply": 16.476,
-        "sewage": 17.292,
-        "total_rate": 33.768,
-        "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2854"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "kremenchuk",
         "city_name": "Кременчук",
-        "supplier": "КП 'Кременчукводоканал'",
+        "supplier": "КП \"Кременчукводоканал\"",
         "water_supply": 14.304,
-        "sewage": 17.4,
-        "total_rate": 31.704,
+        "sewage": 17.496,
+        "total_rate": 31.8,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2879"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "poltava",
+        "city_name": "Полтава",
+        "supplier": "КП \"Полтававодоканал\"",
+        "water_supply": 16.488,
+        "sewage": 17.28,
+        "total_rate": 33.768,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "rivne_azot",
+        "city_name": "Рівне",
+        "supplier": "ПРАТ \"Рівнеазот\"",
+        "water_supply": 0.0,
+        "sewage": 4.92,
+        "total_rate": 4.92,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "rivne",
         "city_name": "Рівне",
-        "supplier": "РОВКП ВКГ 'Рівнеоблводоканал'",
+        "supplier": "ВКП ВКГ \"Рівнеоблводоканал\"",
         "water_supply": 16.68,
-        "sewage": 15.864,
-        "total_rate": 32.544,
+        "sewage": 15.912,
+        "total_rate": 32.592,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2855"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "sumy",
         "city_name": "Суми",
-        "supplier": "КП 'Міськводоканал' м. Суми",
+        "supplier": "КП \"Міськводоканал\" Суми",
         "water_supply": 15.984,
         "sewage": 16.668,
         "total_rate": 32.652,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2856"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "ternopil",
         "city_name": "Тернопіль",
-        "supplier": "КП 'Тернопільводоканал'",
+        "supplier": "КП \"Тернопільводоканал\"",
         "water_supply": 17.58,
-        "sewage": 19.128,
-        "total_rate": 36.708,
+        "sewage": 19.116,
+        "total_rate": 36.696,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2857"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "kharkiv",
         "city_name": "Харків",
-        "supplier": "КП 'Харківводоканал'",
+        "supplier": "КП \"Харківводоканал\"",
         "water_supply": 16.032,
         "sewage": 8.484,
         "total_rate": 24.516,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2858"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "kherson",
         "city_name": "Херсон",
-        "supplier": "КП 'Херсонський міськводоканал'",
-        "water_supply": 15.756,
+        "supplier": "КП \"ВУВКГ Херсона\"",
+        "water_supply": 15.78,
         "sewage": 14.916,
-        "total_rate": 30.672,
+        "total_rate": 30.696,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2859"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "kamianets_podilskyi",
+        "city_name": "Кам'янець-Подільський",
+        "supplier": "КП \"Міськтепловоденергія\" (Кам'янець-Подільський)",
+        "water_supply": 17.892,
+        "sewage": 14.904,
+        "total_rate": 32.796,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "khmelnytskyi",
         "city_name": "Хмельницький",
-        "supplier": "МКП 'Хмельницькводоканал'",
+        "supplier": "КП \"Хмельницькводоканал\"",
         "water_supply": 14.172,
         "sewage": 13.224,
         "total_rate": 27.396,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2860"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "kamianets_podilskyi",
-        "city_name": "Кам'янець-Подільський",
-        "supplier": "КП 'Міськтепловодоенергія'",
-        "water_supply": 18.06,
-        "sewage": 14.652,
-        "total_rate": 32.712,
+        "city_code": "uman",
+        "city_name": "Умань",
+        "supplier": "КП \"Уманьводоканал\"",
+        "water_supply": 34.164,
+        "sewage": 23.34,
+        "total_rate": 57.504,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2880"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+      },
+      {
+        "city_code": "cherkasy_azot",
+        "city_name": "Черкаси",
+        "supplier": "ПАТ \"АЗОТ\" (Черкаси)",
+        "water_supply": 0.0,
+        "sewage": 5.352,
+        "total_rate": 5.352,
+        "unit": "m3",
+        "effective_date": "2022-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "cherkasy",
         "city_name": "Черкаси",
-        "supplier": "КП 'Черкасиводоканал'",
+        "supplier": "КП \"Черкасиводоканал\"",
         "water_supply": 13.848,
         "sewage": 13.8,
         "total_rate": 27.648,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2861"
-      },
-      {
-        "city_code": "uman",
-        "city_name": "Умань",
-        "supplier": "КП 'Уманьводоканал'",
-        "water_supply": 34.164,
-        "sewage": 23.4,
-        "total_rate": 57.564,
-        "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2881"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "chernivtsi",
         "city_name": "Чернівці",
-        "supplier": "КП 'Чернівціводоканал'",
+        "supplier": "КП \"Чернівціводоканал\"",
         "water_supply": 17.916,
         "sewage": 9.996,
         "total_rate": 27.912,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2862"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
         "city_code": "chernihiv",
         "city_name": "Чернігів",
-        "supplier": "КП 'Чернігівводоканал'",
+        "supplier": "КП \"Чернігівводоканал\"",
         "water_supply": 15.564,
         "sewage": 15.348,
         "total_rate": 30.912,
         "unit": "m3",
         "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2863"
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
       },
       {
-        "city_code": "nizhyn",
-        "city_name": "Ніжин",
-        "supplier": "КП 'Ніжинське УВКГ'",
-        "water_supply": 15.42,
-        "sewage": 23.58,
-        "total_rate": 39.0,
+        "city_code": "ukrzaliznytsia",
+        "city_name": "Україна",
+        "supplier": "АТ \"Укрзалізниця\"",
+        "water_supply": 27.72,
+        "sewage": 19.152,
+        "total_rate": 46.872,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2882"
-      },
-      {
-        "city_code": "pryluky",
-        "city_name": "Прилуки",
-        "supplier": "КП 'Прилукитепловодопостачання'",
-        "water_supply": 13.86,
-        "sewage": 21.0,
-        "total_rate": 34.86,
-        "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2883"
+        "effective_date": "2021-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2021 по 31.12.2021"
       }
     ]
   }

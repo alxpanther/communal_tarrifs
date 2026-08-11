@@ -2,8 +2,8 @@ name: Fetch and Update Tariffs
 
 on:
   schedule:
-    # Runs at 00:00 UTC on the 25th day of every month
-    - cron: '0 0 25 * *'
+    # Runs at 11:00 UTC on the 25th day of every month
+    - cron: '0 11 25 * *'
   workflow_dispatch:
 
 permissions:

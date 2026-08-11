@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-08-06T10:49:55.187437",
+  "last_updated_at": "2026-08-11T13:56:38.856897",
   "country": "UA",
   "currency": "UAH",
   "electricity": {
@@ -8,8 +8,8 @@
     "base_rate": 4.32,
     "unit": "kWh",
     "effective_date": "2024-06-01",
-    "update_date": "2026-08-06",
-    "decree_info": "постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
+    "update_date": "2026-08-11",
+    "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
         "description": "Двозонний тариф (День/Ніч)",
@@ -46,7 +46,7 @@
   },
   "water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
-    "update_date": "2026-08-06",
+    "update_date": "2026-08-11",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -597,6 +597,488 @@
         "unit": "m3",
         "effective_date": "2021-01-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.01.2021 по 31.12.2021"
+      }
+    ]
+  },
+  "hot_water": {
+    "source_url": "https://index.minfin.com.ua/ua/tariff/hotwater/",
+    "update_date": "2026-08-11",
+    "cities": [
+      {
+        "city_code": "vinnytsia",
+        "city_name": "Вінниця",
+        "supplier": "КП \"Вінницяміськтеплоенерго\"",
+        "rate": 95.28,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "zaporizhzhia",
+        "city_name": "Запоріжжя",
+        "supplier": "Концерн \"Міські теплові мережі\" (Запоріжжя)",
+        "rate": 87.76,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "ivano_frankivsk",
+        "city_name": "Івано-Франківськ",
+        "supplier": "ДМП \"Івано-Франківськтеплокомуненерго\"",
+        "rate": 110.05,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "brovary",
+        "city_name": "Бровари",
+        "supplier": "КП \"Броваритепловодоенергія\"",
+        "rate": 101.58,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kyiv_yevro_rekonstruktsiia",
+        "city_name": "Київ",
+        "supplier": "ТОВ \"Євро-Реконструкція\" (Київ)",
+        "rate": 75.96,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "lviv",
+        "city_name": "Львів",
+        "supplier": "ЛМКП \"Львівтеплоенерго\"",
+        "rate": 101.86,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "lviv_zaliznychneteploenerho",
+        "city_name": "Львів",
+        "supplier": "ЛКП \"Залізничнетеплоенерго\"",
+        "rate": 102.77,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "poltava",
+        "city_name": "Полтава",
+        "supplier": "ПОКВПТГ \"Полтаватеплоенерго\"",
+        "rate": 95.0,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "rivne",
+        "city_name": "Рівне",
+        "supplier": "ТОВ \"Рівнетеплоенерго\"",
+        "rate": 98.11,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "sumy",
+        "city_name": "Суми",
+        "supplier": "ТОВ \"Сумитеплоенерго\"",
+        "rate": 89.39,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "shostka",
+        "city_name": "Шостка",
+        "supplier": "ТОВ \"Шосткинське підприємство \"Харківенергоремонт",
+        "rate": 93.84,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kharkiv",
+        "city_name": "Харків",
+        "supplier": "КП \"Харківські теплові мережі\"",
+        "rate": 92.87,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kamianets_podilskyi",
+        "city_name": "Кам'янець-Подільський",
+        "supplier": "КП \"Міськтепловоденергія\" (Кам'янець-Подільський)",
+        "rate": 95.86,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "khmelnytskyi",
+        "city_name": "Хмельницький",
+        "supplier": "МКП \"Хмельницьктеплокомуненерго\"",
+        "rate": 93.46,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "cherkasy_cherkaske_khimvolokno",
+        "city_name": "Черкаси",
+        "supplier": "ПрАТ \"Черкаське Хімволокно\"",
+        "rate": 69.62,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "chernihiv_firma",
+        "city_name": "Чернігів",
+        "supplier": "ТОВ \"Фірма \"Технова\" (Чернігів)",
+        "rate": 84.25,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "chernihiv_oblteplokomunenerho",
+        "city_name": "Чернігів",
+        "supplier": "АТ \"Облтеплокомуненерго\" (Чернігів)",
+        "rate": 106.68,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kyiv",
+        "city_name": "Київ",
+        "supplier": "КП \"КИЇВТЕПЛОЕНЕРГО\"",
+        "rate": 97.89,
+        "unit": "m3",
+        "effective_date": "2022-10-01",
+        "decree_info": "Розпорядження КМВА № 673 від 30.09.2022, тариф для населення на період воєнного стану"
+      }
+    ]
+  },
+  "heating": {
+    "source_url": "https://index.minfin.com.ua/ua/tariff/heating/",
+    "update_date": "2026-08-11",
+    "cities": [
+      {
+        "city_code": "vinnytsia",
+        "city_name": "Вінниця",
+        "supplier": "КП \"Вінницяміськтеплоенерго\"",
+        "tariff_type": "two_rate",
+        "rate_gcal": 1314.08,
+        "rate_gcal_hour": 77541.96,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "dnipro_teploenerho",
+        "city_name": "Дніпро",
+        "supplier": "КП \"Теплоенерго\" (Дніпро)",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1741.32,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "dnipro_komenerhoservis",
+        "city_name": "Дніпро",
+        "supplier": "КП \"Коменергосервіс\" (Дніпро)",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1427.74,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kryvyi_rih",
+        "city_name": "Кривий Ріг",
+        "supplier": "КПТМ \"Криворіжтепломережа\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1998.42,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kramatorsk",
+        "city_name": "Краматорськ",
+        "supplier": "ТОВ \"Краматорськтеплоенерго\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1526.7,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "zaporizhzhia",
+        "city_name": "Запоріжжя",
+        "supplier": "Концерн \"Міські теплові мережі\" (Запоріжжя)",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1655.08,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "ivano_frankivsk",
+        "city_name": "Івано-Франківськ",
+        "supplier": "ДМП \"Івано-Франківськтеплокомуненерго\"",
+        "tariff_type": "two_rate",
+        "rate_gcal": 1684.32,
+        "rate_gcal_hour": 49174.96,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "bila_tserkva",
+        "city_name": "Біла Церква",
+        "supplier": "КП \"Білоцерківтепломережа\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1823.29,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "brovary",
+        "city_name": "Бровари",
+        "supplier": "КП \"Броваритепловодоенергія\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1823.59,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kyiv_yevro_rekonstruktsiia",
+        "city_name": "Київ",
+        "supplier": "ТОВ \"Євро-Реконструкція\" (Київ)",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1408.27,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "lviv",
+        "city_name": "Львів",
+        "supplier": "ЛМКП \"Львівтеплоенерго\"",
+        "tariff_type": "two_rate",
+        "rate_gcal": 1363.44,
+        "rate_gcal_hour": 104998.81,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "lviv_zaliznychneteploenerho",
+        "city_name": "Львів",
+        "supplier": "ЛКП \"Залізничнетеплоенерго\"",
+        "tariff_type": "two_rate",
+        "rate_gcal": 1511.7,
+        "rate_gcal_hour": 80852.57,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "mykolaiv_mykolaivoblteploenerho",
+        "city_name": "Миколаїв",
+        "supplier": "ОКП \"Миколаївоблтеплоенерго\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1999.08,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "mykolaiv_mykolaivska_teploelektrotsentral",
+        "city_name": "Миколаїв",
+        "supplier": "ПрАТ \"Миколаївська Теплоелектроцентраль\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1873.39,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "odesa",
+        "city_name": "Одеса",
+        "supplier": "КП \"Теплопостачання міста Одеси\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1813.94,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "poltava",
+        "city_name": "Полтава",
+        "supplier": "ПОКВПТГ \"Полтаватеплоенерго\"",
+        "tariff_type": "two_rate",
+        "rate_gcal": 1332.52,
+        "rate_gcal_hour": 79472.03,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "rivne",
+        "city_name": "Рівне",
+        "supplier": "ТОВ \"Рівнетеплоенерго\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1913.16,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "sumy",
+        "city_name": "Суми",
+        "supplier": "ТОВ \"Сумитеплоенерго\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1695.05,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "shostka",
+        "city_name": "Шостка",
+        "supplier": "ТОВ \"Шосткинське підприємство \"Харківенергоремонт\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1710.72,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kharkiv",
+        "city_name": "Харків",
+        "supplier": "КП \"Харківські теплові мережі\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1748.47,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kherson",
+        "city_name": "Херсон",
+        "supplier": "АТ \"Херсонська теплоелектроцентраль\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 2002.16,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kamianets_podilskyi",
+        "city_name": "Кам'янець-Подільський",
+        "supplier": "КП \"Міськтепловоденергія\" (Кам'янець-Подільський)",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1865.72,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "khmelnytskyi",
+        "city_name": "Хмельницький",
+        "supplier": "МКП \"Хмельницьктеплокомуненерго\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1866.24,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "cherkasy_cherkaske_khimvolokno",
+        "city_name": "Черкаси",
+        "supplier": "ПрАТ \"Черкаське Хімволокно\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1275.25,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "cherkasy_cherkasyteplokomunenerho",
+        "city_name": "Черкаси",
+        "supplier": "КПТМ \"Черкаситеплокомуненерго\"",
+        "tariff_type": "two_rate",
+        "rate_gcal": 1130.21,
+        "rate_gcal_hour": 67251.66,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "chernihiv_firma",
+        "city_name": "Чернігів",
+        "supplier": "ТОВ \"Фірма \"Технова\" (Чернігів)",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1586.02,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "chernihiv_oblteplokomunenerho",
+        "city_name": "Чернігів",
+        "supplier": "АТ \"Облтеплокомуненерго\" (Чернігів)",
+        "tariff_type": "one_rate",
+        "rate_gcal": 2125.18,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2021-02-01",
+        "decree_info": "Тариф НКРЕКП, чинний станом на 01.02.2021"
+      },
+      {
+        "city_code": "kyiv",
+        "city_name": "Київ",
+        "supplier": "КП \"КИЇВТЕПЛОЕНЕРГО\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 1654.41,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2022-10-01",
+        "decree_info": "Розпорядження КМВА № 673 від 30.09.2022, тариф для населення на період воєнного стану"
       }
     ]
   }

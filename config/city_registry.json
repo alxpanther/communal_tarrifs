@@ -1,5 +1,5 @@
 {
-  "_comment": "Постоянный реестр city_code. Ключ — название поставщика с сайта-источника. Однажды назначенный city_code менять нельзя: Android-приложение хранит его как выбор пользователя. Новые поставщики дописываются автоматически.",
+  "_comment": "Постоянный реестр city_code. Ключ — название поставщика с сайта-источника. Однажды назначенный city_code менять нельзя: Android-приложение хранит его как выбор пользователя. Новые поставщики дописываются автоматически. Секция suppliers — водоканалы, heat_suppliers — поставщики тепла (горячая вода и отопление).",
   "suppliers": {
     "АТ \"Укрзалізниця\"": {
       "city_code": "ukraina",
@@ -200,6 +200,120 @@
     "ТОВ \"Таун сервіс\"": {
       "city_code": "luhanska_obl",
       "city_name": "Луганська обл."
+    }
+  },
+  "heat_suppliers": {
+    "АТ \"Облтеплокомуненерго\" (Чернігів)": {
+      "city_code": "chernihiv_oblteplokomunenerho",
+      "city_name": "Чернігів"
+    },
+    "АТ \"Херсонська теплоелектроцентраль\"": {
+      "city_code": "kherson",
+      "city_name": "Херсон"
+    },
+    "ДМП \"Івано-Франківськтеплокомуненерго\"": {
+      "city_code": "ivano_frankivsk",
+      "city_name": "Івано-Франківськ"
+    },
+    "КП \"Броваритепловодоенергія\"": {
+      "city_code": "brovary",
+      "city_name": "Бровари"
+    },
+    "КП \"Білоцерківтепломережа\"": {
+      "city_code": "bila_tserkva",
+      "city_name": "Біла Церква"
+    },
+    "КП \"Вінницяміськтеплоенерго\"": {
+      "city_code": "vinnytsia",
+      "city_name": "Вінниця"
+    },
+    "КП \"КИЇВТЕПЛОЕНЕРГО\"": {
+      "city_code": "kyiv",
+      "city_name": "Київ"
+    },
+    "КП \"Коменергосервіс\" (Дніпро)": {
+      "city_code": "dnipro_komenerhoservis",
+      "city_name": "Дніпро"
+    },
+    "КП \"Міськтепловоденергія\" (Кам'янець-Подільський)": {
+      "city_code": "kamianets_podilskyi",
+      "city_name": "Кам'янець-Подільський"
+    },
+    "КП \"Теплоенерго\" (Дніпро)": {
+      "city_code": "dnipro_teploenerho",
+      "city_name": "Дніпро"
+    },
+    "КП \"Теплопостачання міста Одеси\"": {
+      "city_code": "odesa",
+      "city_name": "Одеса"
+    },
+    "КП \"Харківські теплові мережі\"": {
+      "city_code": "kharkiv",
+      "city_name": "Харків"
+    },
+    "КПТМ \"Криворіжтепломережа\"": {
+      "city_code": "kryvyi_rih",
+      "city_name": "Кривий Ріг"
+    },
+    "КПТМ \"Черкаситеплокомуненерго\"": {
+      "city_code": "cherkasy_cherkasyteplokomunenerho",
+      "city_name": "Черкаси"
+    },
+    "Концерн \"Міські теплові мережі\" (Запоріжжя)": {
+      "city_code": "zaporizhzhia",
+      "city_name": "Запоріжжя"
+    },
+    "ЛКП \"Залізничнетеплоенерго\"": {
+      "city_code": "lviv_zaliznychneteploenerho",
+      "city_name": "Львів"
+    },
+    "ЛМКП \"Львівтеплоенерго\"": {
+      "city_code": "lviv",
+      "city_name": "Львів"
+    },
+    "МКП \"Хмельницьктеплокомуненерго\"": {
+      "city_code": "khmelnytskyi",
+      "city_name": "Хмельницький"
+    },
+    "ОКП \"Миколаївоблтеплоенерго\"": {
+      "city_code": "mykolaiv_mykolaivoblteploenerho",
+      "city_name": "Миколаїв"
+    },
+    "ПОКВПТГ \"Полтаватеплоенерго\"": {
+      "city_code": "poltava",
+      "city_name": "Полтава"
+    },
+    "ПрАТ \"Миколаївська Теплоелектроцентраль\"": {
+      "city_code": "mykolaiv_mykolaivska_teploelektrotsentral",
+      "city_name": "Миколаїв"
+    },
+    "ПрАТ \"Черкаське Хімволокно\"": {
+      "city_code": "cherkasy_cherkaske_khimvolokno",
+      "city_name": "Черкаси"
+    },
+    "ТОВ \"Євро-Реконструкція\" (Київ)": {
+      "city_code": "kyiv_yevro_rekonstruktsiia",
+      "city_name": "Київ"
+    },
+    "ТОВ \"Краматорськтеплоенерго\"": {
+      "city_code": "kramatorsk",
+      "city_name": "Краматорськ"
+    },
+    "ТОВ \"Рівнетеплоенерго\"": {
+      "city_code": "rivne",
+      "city_name": "Рівне"
+    },
+    "ТОВ \"Сумитеплоенерго\"": {
+      "city_code": "sumy",
+      "city_name": "Суми"
+    },
+    "ТОВ \"Фірма \"Технова\" (Чернігів)": {
+      "city_code": "chernihiv_firma",
+      "city_name": "Чернігів"
+    },
+    "ТОВ \"Шосткинське підприємство \"Харківенергоремонт": {
+      "city_code": "shostka",
+      "city_name": "Шостка"
     }
   }
 }

@@ -6,36 +6,45 @@
   },
   "reference_sources": {
     "electricity": "https://tariffa.com.ua/ru/tarif-na-elektroenergiy",
-    "water": "https://index.minfin.com.ua/ua/tariff/water/"
+    "water": "https://index.minfin.com.ua/ua/tariff/water/",
+    "hot_water": "https://index.minfin.com.ua/ua/tariff/hotwater/",
+    "heating": "https://index.minfin.com.ua/ua/tariff/heating/",
+    "hot_water_kyiv": {
+      "url": "https://index.minfin.com.ua/ua/tariff/kiev/hotwater/",
+      "supplier": "КП \"КИЇВТЕПЛОЕНЕРГО\"",
+      "city_name": "Київ",
+      "effective_date": "2022-10-01",
+      "decree_info": "Розпорядження КМВА № 673 від 30.09.2022, тариф для населення на період воєнного стану"
+    }
   },
-  "custom_sources": [
-    "https://nerc.gov.ua",
-    "https://kmu.gov.ua"
-  ],
   "manual_override": {
-    "enabled": false,
+    "enabled": true,
     "electricity": {
-      "source_url": "https://kmu.gov.ua/decree-632",
-      "base_rate": 4.32,
-      "effective_date": "2024-06-01",
-      "decree_info": "Постанова Кабінету Міністрів України № 632 від 31 травня 2024 р."
+      "source_url": null,
+      "base_rate": null,
+      "effective_date": null,
+      "decree_info": null
     },
     "water": {
-      "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
+      "source_url": null,
+      "cities": {}
+    },
+    "hot_water": {
+      "source_url": null,
+      "cities": {}
+    },
+    "heating": {
+      "source_url": null,
       "cities": {
         "kyiv": {
-          "water_supply": 16.164,
-          "sewage": 14.22,
-          "total_rate": 30.384,
-          "effective_date": "2022-01-01",
-          "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
-        },
-        "lviv": {
-          "water_supply": 17.292,
-          "sewage": 8.592,
-          "total_rate": 25.884,
-          "effective_date": "2022-01-01",
-          "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+          "city_name": "Київ",
+          "supplier": "КП \"КИЇВТЕПЛОЕНЕРГО\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 1654.41,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2022-10-01",
+          "decree_info": "Розпорядження КМВА № 673 від 30.09.2022, тариф для населення на період воєнного стану"
         }
       }
     }

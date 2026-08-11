@@ -24,6 +24,16 @@ ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariff
 MAX_WATER_RATE = 500.0
 # Allowed rounding error when checking water_supply + sewage == total_rate
 RATE_SUM_TOLERANCE = 0.011
+# Sanity limit for a hot water tariff (UAH per m3, VAT included)
+MAX_HOT_WATER_RATE = 1000.0
+# Sanity limits for heating: variable part (UAH per Gcal) and standing part (UAH per Gcal/hour)
+MAX_HEAT_GCAL_RATE = 20000.0
+MAX_HEAT_GCAL_HOUR_RATE = 1000000.0
+
+# Registry sections. Water utilities and heat suppliers are different companies, so they get
+# separate sections, while hot water and heating share one because it is the same companies.
+WATER_REGISTRY_SECTION = "suppliers"
+HEAT_REGISTRY_SECTION = "heat_suppliers"
 
 class ConfigError(Exception):
     pass
@@ -38,6 +48,12 @@ def load_config() -> dict:
     ref = config.get("reference_sources", {})
     if not ref.get("electricity") or not ref.get("water"):
         raise ConfigError("Missing required reference_sources in config/sources.json")
+
+    # hot_water and heating stay optional: an older config without them keeps working,
+    # the corresponding blocks are simply carried over from the previous JSON.
+    for optional in ("hot_water", "heating", "hot_water_kyiv"):
+        if not ref.get(optional):
+            logger.warning(f"reference_sources.{optional} is not configured, block will not be refreshed")
 
     return config
 
@@ -61,6 +77,14 @@ def parse_rate(rate_val):
         return float(cleaned) if cleaned else None
     except Exception:
         return None
+
+def empty_city_block(source_url: str) -> dict:
+    """Builds the shell of a per-city tariff block (water, hot water, heating)."""
+    return {
+        "source_url": source_url or "",
+        "update_date": datetime.now().strftime("%Y-%m-%d"),
+        "cities": []
+    }
 
 def load_base_schema() -> dict:
     """
@@ -106,11 +130,9 @@ def load_base_schema() -> dict:
                 }
             }
         },
-        "water": {
-            "source_url": "https://index.minfin.com.ua/tariff/water/",
-            "update_date": datetime.now().strftime("%Y-%m-%d"),
-            "cities": []
-        }
+        "water": empty_city_block("https://index.minfin.com.ua/ua/tariff/water/"),
+        "hot_water": empty_city_block("https://index.minfin.com.ua/ua/tariff/hotwater/"),
+        "heating": empty_city_block("https://index.minfin.com.ua/ua/tariff/heating/")
     }
 
 def resolve_latest_gemini_model(config: dict) -> str:
@@ -289,26 +311,46 @@ def slugify(text: str, max_words: int = 3) -> str:
     parts = [p for p in slug.split("_") if p][:max_words]
     return re.sub(r"[^a-z0-9_]", "", "_".join(parts))
 
+def quoted_part(supplier: str) -> str:
+    """
+    Returns the quoted part of a supplier name, or the whole name when it has no quotes.
+    Names with nested quotes, such as ТОВ "Фірма "Технова" (Чернігів), yield several
+    fragments; the longest one is the distinctive part.
+    """
+    quoted = re.findall(r"[\"“”«»']([^\"“”«»']+)[\"“”«»']", supplier)
+    return max(quoted, key=len) if quoted else supplier
+
 def supplier_suffix(supplier: str) -> str:
     """Derives a disambiguating suffix from the quoted part of a supplier name."""
-    quoted = re.findall(r"[\"“”«»']([^\"“”«»']+)[\"“”«»']", supplier)
-    source = quoted[0] if quoted else supplier
-    return slugify(source)
+    return slugify(quoted_part(supplier))
 
-def is_waterworks(supplier: str) -> bool:
+def is_waterworks(supplier: str, city_name: str = "") -> bool:
     lowered = supplier.lower()
     return any(marker in lowered for marker in WATERWORKS_MARKERS)
 
-def assign_city_code(city_name: str, supplier: str, taken: set, rivals: list) -> str:
+def is_named_after_city(supplier: str, city_name: str) -> bool:
+    """
+    True when a heat supplier carries the city name in its own name, e.g.
+    КП "КИЇВТЕПЛОЕНЕРГО" in Київ. Heat companies have no common naming marker the way
+    water utilities do, so the city root is what identifies the main supplier of a city.
+    The city name in brackets after the company name does not count, only the quoted part.
+    """
+    root = normalize_name(city_name)
+    if len(root) < 4:
+        return False
+    return root[:6] in normalize_name(quoted_part(supplier))
+
+def assign_city_code(city_name: str, supplier: str, taken: set, rivals: list,
+                     is_plain_owner=is_waterworks) -> str:
     """
     Deterministic city_code: transliterated city name, disambiguated by supplier when
-    several suppliers share one city. A plain code goes to the single water utility of
+    several suppliers share one city. A plain code goes to the single main supplier of
     that city; otherwise every rival carries a suffix.
     """
     base = slugify(city_name) or slugify(supplier) or "city"
 
-    waterworks = [s for s in rivals if is_waterworks(s)]
-    plain_owner = waterworks[0] if len(rivals) > 1 and len(waterworks) == 1 else (
+    owners = [s for s in rivals if is_plain_owner(s, city_name)]
+    plain_owner = owners[0] if len(rivals) > 1 and len(owners) == 1 else (
         rivals[0] if len(rivals) == 1 else None
     )
 
@@ -326,36 +368,49 @@ def normalize_name(text: str) -> str:
     """Normalizes a supplier name so lookups survive quote and spacing differences."""
     return re.sub(r"[^a-zа-яёіїєґ0-9]", "", str(text).lower())
 
-def load_registry() -> dict:
-    """Loads the persistent supplier -> city_code registry. Codes here are never rewritten."""
+REGISTRY_COMMENT = (
+    "Постоянный реестр city_code. Ключ — название поставщика с сайта-источника. "
+    "Однажды назначенный city_code менять нельзя: Android-приложение хранит его "
+    "как выбор пользователя. Новые поставщики дописываются автоматически. "
+    "Секция suppliers — водоканалы, heat_suppliers — поставщики тепла (горячая вода и отопление)."
+)
+
+def load_registry_file() -> dict:
     if not os.path.exists(REGISTRY_PATH):
         return {}
     try:
         with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
-            return json.load(f).get("suppliers", {})
+            return json.load(f)
     except Exception as e:
         logger.error(f"Failed to read city registry: {e}")
         return {}
 
-def save_registry(suppliers: dict):
+def load_registry(section: str = WATER_REGISTRY_SECTION) -> dict:
+    """Loads one section of the persistent supplier -> city_code registry.
+    Codes stored here are never rewritten."""
+    return load_registry_file().get(section, {})
+
+def save_registry(suppliers: dict, section: str = WATER_REGISTRY_SECTION):
+    """Rewrites one section, carrying the other section over untouched."""
     os.makedirs(os.path.dirname(REGISTRY_PATH), exist_ok=True)
+    stored = load_registry_file()
     payload = {
-        "_comment": (
-            "Постоянный реестр city_code. Ключ — название поставщика с сайта-источника. "
-            "Однажды назначенный city_code менять нельзя: Android-приложение хранит его "
-            "как выбор пользователя. Новые поставщики дописываются автоматически."
-        ),
-        "suppliers": dict(sorted(suppliers.items()))
+        "_comment": REGISTRY_COMMENT,
+        WATER_REGISTRY_SECTION: stored.get(WATER_REGISTRY_SECTION, {}),
+        HEAT_REGISTRY_SECTION: stored.get(HEAT_REGISTRY_SECTION, {})
     }
+    payload[section] = dict(sorted(suppliers.items()))
     with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
 
-def resolve_city_identity(cities: list, notifier: TelegramNotifier) -> list:
+def resolve_city_identity(cities: list, notifier: TelegramNotifier,
+                          section: str = WATER_REGISTRY_SECTION,
+                          is_plain_owner=is_waterworks, label: str = "воды") -> list:
     """
     Replaces model-provided identifiers with registry-backed ones so city_code and
     city_name stay byte-identical across runs. Returns the cities with final identity.
     """
-    registry = load_registry()
+    registry = load_registry(section)
     lookup = {normalize_name(name): entry for name, entry in registry.items()}
     taken = {entry["city_code"] for entry in registry.values()}
 
@@ -374,7 +429,8 @@ def resolve_city_identity(cities: list, notifier: TelegramNotifier) -> list:
 
         code = assign_city_code(
             city["city_name"], city["supplier"], taken,
-            rivals_by_city.get(slugify(city["city_name"]), [city["supplier"]])
+            rivals_by_city.get(slugify(city["city_name"]), [city["supplier"]]),
+            is_plain_owner
         )
         taken.add(code)
         city["city_code"] = code
@@ -390,19 +446,19 @@ def resolve_city_identity(cities: list, notifier: TelegramNotifier) -> list:
     ]
 
     if added:
-        save_registry(registry)
-        logger.info(f"Registered {len(added)} new suppliers")
+        save_registry(registry, section)
+        logger.info(f"Registered {len(added)} new suppliers in '{section}'")
         notifier.send_message(
-            "🆕 <b>В тарифах воды появились новые поставщики</b>\n"
+            f"🆕 <b>В тарифах {label} появились новые поставщики</b>\n"
             "Им назначены новые <code>city_code</code>, приложение о них ещё не знает:\n"
             + "\n".join(f"• <code>{a}</code>" for a in added),
             parse_mode="HTML"
         )
 
     if disappeared:
-        logger.warning(f"{len(disappeared)} known suppliers are missing from the source")
+        logger.warning(f"{len(disappeared)} known suppliers are missing from the '{section}' source")
         notifier.send_message(
-            "⚠️ <b>Поставщики пропали с сайта-источника</b>\n"
+            f"⚠️ <b>Поставщики {label} пропали с сайта-источника</b>\n"
             "Их города исчезнут из JSON, у пользователей с этими <code>city_code</code> "
             "выбор перестанет работать:\n"
             + "\n".join(f"• <code>{d}</code>" for d in disappeared),
@@ -623,6 +679,390 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
     logger.info(f"Water tariffs extracted and validated for {len(cities)} suppliers")
     return cities
 
+# Ukrainian month names in the genitive case, as printed in minfin table captions.
+UK_MONTHS_GENITIVE = {
+    "січня": 1, "лютого": 2, "березня": 3, "квітня": 4, "травня": 5, "червня": 6,
+    "липня": 7, "серпня": 8, "вересня": 9, "жовтня": 10, "листопада": 11, "грудня": 12,
+}
+
+# Heat tariff kinds as printed in the source, mapped to the values published in the JSON.
+HEAT_TARIFF_TYPES = {"одноставковий": "one_rate", "двоставковий": "two_rate"}
+
+def parse_caption_date(page_html: str) -> tuple:
+    """
+    Reads the '(на 1 лютого 2021 року)' stamp from a minfin table caption. Unlike the water
+    table, the hot water and heating tables carry no per-row period, so this caption is the
+    only date the source publishes. Returns (effective_date, decree_info) or (None, None).
+    """
+    text = html_module.unescape(re.sub(r"<[^>]+>", " ", page_html))
+    match = re.search(r"\(на\s+(\d{1,2})\s+([а-яіїєґ']+)\s+(\d{4})\s+року\)", text, flags=re.I)
+    if not match:
+        return None, None
+
+    month = UK_MONTHS_GENITIVE.get(match.group(2).lower())
+    if not month:
+        return None, None
+
+    day, year = int(match.group(1)), int(match.group(3))
+    return f"{year}-{month:02d}-{day:02d}", f"Тариф НКРЕКП, чинний станом на {day:02d}.{month:02d}.{year}"
+
+def hot_water_rows(table_html: str) -> list:
+    """
+    Parses the two-column minfin hot water table (supplier, UAH per m3). Rows holding a
+    single cell are region captions and carry no tariff.
+    """
+    rows = []
+    for row_html in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
+        cells = table_row_cells(row_html)
+        if len(cells) != 2 or not re.fullmatch(r"[\d,\s ]+", cells[1]):
+            continue
+
+        rate = parse_rate(cells[1])
+        if rate is not None:
+            rows.append({"supplier": cells[0], "rate": rate})
+    return rows
+
+def heating_rows(table_html: str) -> list:
+    """
+    Parses the minfin heating table. A one-rate supplier occupies a single row, while a
+    two-rate one spans three: the supplier row plus the 'умовно-змінна' and 'умовно-постійна'
+    continuation rows that carry the two halves of the tariff.
+    """
+    rows = []
+    current = None
+
+    for row_html in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
+        cells = table_row_cells(row_html)
+
+        if len(cells) >= 4 and cells[1] in HEAT_TARIFF_TYPES:
+            current = {
+                "supplier": cells[0],
+                "tariff_type": HEAT_TARIFF_TYPES[cells[1]],
+                "rate_gcal": parse_rate(cells[2]) or 0.0,
+                "rate_gcal_hour": parse_rate(cells[3]) or 0.0
+            }
+            rows.append(current)
+        elif current and len(cells) == 3:
+            value = next((v for v in (parse_rate(cells[1]), parse_rate(cells[2])) if v is not None), None)
+            if value is None:
+                continue
+            if cells[0].startswith("умовно-змінна"):
+                current["rate_gcal"] = value
+            elif cells[0].startswith("умовно-постійна"):
+                current["rate_gcal_hour"] = value
+        elif len(cells) <= 1:
+            # A region caption ends the block of the supplier parsed so far
+            current = None
+
+    return rows
+
+def validate_hot_water_rows(rows: list, effective_date: str, decree_info: str) -> tuple:
+    """Validates parsed hot water rows. Returns (cities, errors)."""
+    if not rows:
+        return [], ["Таблица горячей воды не содержит ни одной строки с тарифом"]
+
+    cities, errors = [], []
+    for row in rows:
+        label = row["supplier"] or "запись без названия"
+        if not 0.0 < row["rate"] <= MAX_HOT_WATER_RATE:
+            errors.append(f"{label}: тариф {row['rate']} вне допустимого диапазона 0..{MAX_HOT_WATER_RATE}")
+            continue
+
+        cities.append({
+            # city_code and city_name are filled later from the persistent registry
+            "city_code": "",
+            "city_name": "",
+            "supplier": row["supplier"],
+            "rate": row["rate"],
+            "unit": "m3",
+            "effective_date": effective_date,
+            "decree_info": decree_info
+        })
+    return cities, errors
+
+def validate_heating_rows(rows: list, effective_date: str, decree_info: str) -> tuple:
+    """Validates parsed heating rows. Returns (cities, errors)."""
+    if not rows:
+        return [], ["Таблица отопления не содержит ни одной строки с тарифом"]
+
+    cities, errors = [], []
+    for row in rows:
+        label = row["supplier"] or "запись без названия"
+        gcal, gcal_hour = row["rate_gcal"], row["rate_gcal_hour"]
+
+        if not 0.0 < gcal <= MAX_HEAT_GCAL_RATE:
+            errors.append(f"{label}: тариф {gcal} грн/Гкал вне диапазона 0..{MAX_HEAT_GCAL_RATE}")
+            continue
+        if not 0.0 <= gcal_hour <= MAX_HEAT_GCAL_HOUR_RATE:
+            errors.append(f"{label}: абонплата {gcal_hour} грн/Гкал·год вне диапазона 0..{MAX_HEAT_GCAL_HOUR_RATE}")
+            continue
+        if row["tariff_type"] == "two_rate" and gcal_hour <= 0.0:
+            errors.append(f"{label}: двухставковый тариф без умовно-постійної частини")
+            continue
+        if row["tariff_type"] == "one_rate" and gcal_hour > 0.0:
+            errors.append(f"{label}: одноставковый тариф с непустой умовно-постійною частиною {gcal_hour}")
+            continue
+
+        cities.append({
+            "city_code": "",
+            "city_name": "",
+            "supplier": row["supplier"],
+            "tariff_type": row["tariff_type"],
+            "rate_gcal": gcal,
+            "rate_gcal_hour": gcal_hour,
+            "unit": "Gcal",
+            "effective_date": effective_date,
+            "decree_info": decree_info
+        })
+    return cities, errors
+
+def reject_block(kind: str, errors: list, notifier: TelegramNotifier):
+    """Reports why a whole block was discarded, so the previous values stay published."""
+    for err in errors:
+        logger.warning(f"{kind} validation: {err}")
+    details = "\n".join(f"• {e}" for e in errors[:15])
+    if len(errors) > 15:
+        details += f"\n… и ещё {len(errors) - 15}"
+    notifier.send_message(
+        f"⚠️ <b>Тарифы «{kind}» не обновлены — не пройдена валидация ({len(errors)}):</b>\n<code>{details}</code>",
+        parse_mode="HTML"
+    )
+
+def extract_table_cities(page_html: str, kind: str, parse_rows, validate_rows,
+                         notifier: TelegramNotifier) -> list:
+    """
+    Shared pipeline for the hot water and heating tables: locate the table, parse it
+    deterministically and validate. Returns None when the result cannot be trusted, so the
+    caller keeps the previously published data.
+    """
+    table_html = extract_water_table_html(page_html)
+    if not table_html:
+        logger.error(f"{kind} tariff table not found in the fetched page")
+        notifier.send_message(
+            f"⚠️ <b>Тарифы «{kind}» не обновлены:</b>\nтаблица не найдена на странице источника.",
+            parse_mode="HTML"
+        )
+        return None
+
+    effective_date, decree_info = parse_caption_date(page_html)
+    if not effective_date:
+        logger.error(f"{kind}: could not read the date stamp from the table caption")
+        notifier.send_message(
+            f"⚠️ <b>Тарифы «{kind}» не обновлены:</b>\nне удалось прочитать дату в заголовке таблицы.",
+            parse_mode="HTML"
+        )
+        return None
+
+    cities, errors = validate_rows(parse_rows(table_html), effective_date, decree_info)
+    if errors:
+        reject_block(kind, errors, notifier)
+        return None
+
+    logger.info(f"{kind}: {len(cities)} suppliers parsed, source dated {effective_date}")
+    return cities
+
+def extract_kyiv_hot_water(source: dict, timeout: int, notifier: TelegramNotifier) -> dict:
+    """
+    Reads the Kyiv hot water tariff of КП "КИЇВТЕПЛОЕНЕРГО". Its tariff is set by the city
+    administration rather than by НКРЕКП, so the company is absent from the national table
+    and needs this dedicated page. The page lists several service variants, and the rate the
+    population actually pays is the wartime one, identical across all of them.
+    """
+    if not isinstance(source, dict) or not source.get("url"):
+        return None
+
+    page_html = fetch_html(source["url"], timeout=timeout)
+    if not page_html:
+        return None
+
+    values = []
+    for row_html in re.findall(r"<tr.*?</tr>", extract_water_table_html(page_html), flags=re.S | re.I):
+        cells = table_row_cells(row_html)
+        if len(cells) < 2:
+            continue
+        # The label is bulleted with a dash and a non-breaking space
+        label = re.sub(r"^[\s –—-]+", "", cells[0]).lower()
+        if not label.startswith("тариф протягом дії"):
+            continue
+
+        rate = parse_rate(cells[1])
+        if rate is not None:
+            values.append(rate)
+
+    if not values:
+        logger.warning("Kyiv hot water page carries no wartime tariff rows")
+        notifier.send_message(
+            "⚠️ <b>Горячая вода по Киеву не обновлена:</b>\n"
+            "на странице КТЕ не найдено строк с тарифом на период военного положения.",
+            parse_mode="HTML"
+        )
+        return None
+
+    if len(set(values)) > 1:
+        logger.warning(f"Kyiv hot water page lists differing wartime tariffs: {sorted(set(values))}")
+        notifier.send_message(
+            "⚠️ <b>Горячая вода по Киеву:</b> на странице несколько разных тарифов "
+            f"на период военного положения — <code>{sorted(set(values))}</code>. Взят первый.",
+            parse_mode="HTML"
+        )
+
+    return {
+        "city_code": "",
+        "city_name": source.get("city_name", ""),
+        "supplier": source.get("supplier", ""),
+        "rate": values[0],
+        "unit": "m3",
+        "effective_date": source.get("effective_date", ""),
+        "decree_info": source.get("decree_info", "")
+    }
+
+CITY_NAME_PROMPT = """
+Ты определяешь населённый пункт по названию украинского теплоснабжающего предприятия.
+
+Для каждого поставщика из полученного списка укажи название населённого пункта на украинском
+языке. Если предприятие обслуживает не город, а область или ведомственную сеть, укажи область
+(например "Дніпропетровська обл."). Переписывай название поставщика в ответе дословно.
+Не добавляй и не пропускай поставщиков — верни ровно столько записей, сколько получил.
+
+Верни СТРОГО JSON без текста до и после:
+{
+  "cities": [
+    {"supplier": "ЛМКП \\"Львівтеплоенерго\\"", "city_name": "Львів"}
+  ]
+}
+"""
+
+def resolve_city_names(cities: list, section: str, model_name: str,
+                       notifier: TelegramNotifier) -> list:
+    """
+    Fills city_name from the persistent registry and asks the model only about suppliers it
+    has never seen, so a steady run costs no LLM call at all. Suppliers that stay unnamed are
+    dropped instead of voiding the whole block.
+    """
+    known = {
+        normalize_name(name): entry["city_name"]
+        for name, entry in load_registry(section).items()
+    }
+    for city in cities:
+        if not city.get("city_name"):
+            city["city_name"] = known.get(normalize_name(city["supplier"]), "")
+
+    unknown = [c for c in cities if not c["city_name"]]
+    if unknown:
+        logger.info(f"Asking the model for the city names of {len(unknown)} new suppliers")
+        answer = call_gemini_extract(
+            "\n".join(c["supplier"] for c in unknown), CITY_NAME_PROMPT, model_name, notifier
+        )
+        named = {
+            normalize_name(item.get("supplier")): str(item.get("city_name", "")).strip()
+            for item in answer.get("cities", []) if isinstance(item, dict)
+        }
+        for city in unknown:
+            city["city_name"] = named.get(normalize_name(city["supplier"]), "")
+
+    dropped = [c["supplier"] for c in cities if not c["city_name"]]
+    if dropped:
+        logger.warning(f"{len(dropped)} suppliers dropped: their city could not be determined")
+        notifier.send_message(
+            "⚠️ <b>Не удалось определить город для поставщиков тепла</b>\n"
+            "Они не попадут в JSON:\n" + "\n".join(f"• {d}" for d in dropped),
+            parse_mode="HTML"
+        )
+
+    return [c for c in cities if c["city_name"]]
+
+def resolve_heat_identity(hot_cities: list, heating_cities: list, model_name: str,
+                          notifier: TelegramNotifier) -> tuple:
+    """
+    Assigns city_code to the hot water and heating lists in one pass over their union. The
+    same company appears in both tables, so resolving them separately would report every
+    heating-only supplier as gone from the hot water source and vice versa.
+    """
+    combined = (hot_cities or []) + (heating_cities or [])
+    if not combined:
+        return hot_cities, heating_cities
+
+    # One entry per company: a duplicated supplier would compete with itself for the plain
+    # city code and end up needlessly suffixed.
+    unique = {}
+    for city in combined:
+        unique.setdefault(normalize_name(city["supplier"]), dict(city))
+
+    resolved = resolve_city_identity(
+        resolve_city_names(list(unique.values()), HEAT_REGISTRY_SECTION, model_name, notifier),
+        notifier, section=HEAT_REGISTRY_SECTION,
+        is_plain_owner=is_named_after_city, label="тепла"
+    )
+    identity = {normalize_name(c["supplier"]): c for c in resolved}
+
+    def apply(cities):
+        if cities is None:
+            return None
+        applied = []
+        for city in cities:
+            found = identity.get(normalize_name(city["supplier"]))
+            if not found:
+                continue
+            city["city_code"] = found["city_code"]
+            city["city_name"] = found["city_name"]
+            applied.append(city)
+        return applied
+
+    return apply(hot_cities), apply(heating_cities)
+
+def extract_heat_blocks(base_data: dict, ref_sources: dict, timeout: int,
+                        model_name: str, notifier: TelegramNotifier) -> dict:
+    """Builds the hot_water and heating blocks, keeping previous values on any failure."""
+    hot_url = ref_sources.get("hot_water")
+    heating_url = ref_sources.get("heating")
+
+    hot_data = base_data.get("hot_water") or empty_city_block(hot_url)
+    heat_data = base_data.get("heating") or empty_city_block(heating_url)
+    hot_cities = heating_cities = None
+
+    if hot_url:
+        hot_data["source_url"] = hot_url
+        logger.info(f"Fetching hot water reference from {hot_url}...")
+        hot_cities = extract_table_cities(
+            fetch_html(hot_url, timeout=timeout), "Горячая вода",
+            hot_water_rows, validate_hot_water_rows, notifier
+        )
+        kyiv = extract_kyiv_hot_water(ref_sources.get("hot_water_kyiv"), timeout, notifier)
+        if hot_cities is not None and kyiv:
+            hot_cities.append(kyiv)
+
+    if heating_url:
+        heat_data["source_url"] = heating_url
+        logger.info(f"Fetching heating reference from {heating_url}...")
+        heating_cities = extract_table_cities(
+            fetch_html(heating_url, timeout=timeout), "Отопление",
+            heating_rows, validate_heating_rows, notifier
+        )
+
+    hot_cities, heating_cities = resolve_heat_identity(hot_cities, heating_cities, model_name, notifier)
+
+    today = datetime.now().strftime("%Y-%m-%d")
+    for url, cities, block, kind in (
+        (hot_url, hot_cities, hot_data, "hot water"),
+        (heating_url, heating_cities, heat_data, "heating")
+    ):
+        if cities:
+            block["cities"] = cities
+            block["update_date"] = today
+        elif url:
+            logger.warning(f"Keeping previous {kind} cities: extraction failed or was rejected")
+
+    return {"hot_water": hot_data, "heating": heat_data}
+
+def apply_base_rate_to_zones(elec_data: dict, base_rate: float):
+    """Recomputes every zone rate from the base rate and the coefficient of that zone."""
+    for zone in elec_data.get("zones", {}).values():
+        if not isinstance(zone, dict):
+            continue
+        for part in zone.values():
+            if isinstance(part, dict) and "coefficient" in part:
+                part["rate"] = round(base_rate * float(part["coefficient"]), 4)
+
 def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramNotifier) -> dict:
     base_data = load_base_schema()
     ref_sources = config["reference_sources"]
@@ -655,23 +1095,7 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
         try:
             base_rate = float(elec_extracted["base_rate"])
             elec_data["base_rate"] = base_rate
-            
-            zones = elec_data.get("zones", {})
-            if "two_zone" in zones and isinstance(zones["two_zone"], dict):
-                tz = zones["two_zone"]
-                if "day" in tz and isinstance(tz["day"], dict) and "coefficient" in tz["day"]:
-                    tz["day"]["rate"] = round(base_rate * float(tz["day"]["coefficient"]), 4)
-                if "night" in tz and isinstance(tz["night"], dict) and "coefficient" in tz["night"]:
-                    tz["night"]["rate"] = round(base_rate * float(tz["night"]["coefficient"]), 4)
-
-            if "three_zone" in zones and isinstance(zones["three_zone"], dict):
-                thz = zones["three_zone"]
-                if "peak" in thz and isinstance(thz["peak"], dict) and "coefficient" in thz["peak"]:
-                    thz["peak"]["rate"] = round(base_rate * float(thz["peak"]["coefficient"]), 4)
-                if "half_peak" in thz and isinstance(thz["half_peak"], dict) and "coefficient" in thz["half_peak"]:
-                    thz["half_peak"]["rate"] = round(base_rate * float(thz["half_peak"]["coefficient"]), 4)
-                if "night" in thz and isinstance(thz["night"], dict) and "coefficient" in thz["night"]:
-                    thz["night"]["rate"] = round(base_rate * float(thz["night"]["coefficient"]), 4)
+            apply_base_rate_to_zones(elec_data, base_rate)
         except Exception as e:
             logger.warning(f"Error updating zone rates from base_rate: {e}")
 
@@ -695,16 +1119,22 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
     else:
         logger.warning("Keeping previous water cities: extraction failed or was rejected by validation")
 
-    return {"electricity": elec_data, "water": water_data}
+    heat_blocks = extract_heat_blocks(base_data, ref_sources, timeout, model_name, notifier)
+
+    return {"electricity": elec_data, "water": water_data, **heat_blocks}
 
 def search_alternative_tariffs(model_name: str, notifier: TelegramNotifier) -> dict:
     logger.info("Performing Search Grounding for alternative tariff updates...")
     prompt = """
-    Найди самые последние официальные тарифы на электроэнергию и холодную воду/водоотведение в Украине для населения.
+    Найди самые последние официальные тарифы для населения Украины: электроэнергия, холодная
+    вода/водоотведение, горячая вода и централизованное отопление.
     КРИТИЧЕСКИ ВАЖНО:
     1. Указывай тарифы С УЧЕТОМ НДС (ПДВ = 20%). Не бери тарифы без НДС!
     2. По электроэнергии дата вступления в силу Постановления КМУ №632 — 2024-06-01 (1 июня 2024 года).
     3. Указывай только числовые значения для тарифов (например 4.32 вместо "4.32 UAH").
+    4. По горячей воде и отоплению нужен тариф, который РЕАЛЬНО ПЛАТИТ НАСЕЛЕНИЕ на период
+       военного положения, а не економічно обґрунтований тариф.
+    5. По Киеву бери тарифы КП "КИЇВТЕПЛОЕНЕРГО" — это основной поставщик тепла города.
 
     Верни результаты СТРОГО в формате JSON (без текстов до или после JSON):
     {
@@ -719,78 +1149,192 @@ def search_alternative_tariffs(model_name: str, notifier: TelegramNotifier) -> d
         "kyiv_total_rate": 30.384,
         "effective_date": "2022-01-01",
         "decree_info": "Постанова НКРЕКП № 2842"
+      },
+      "hot_water": {
+        "found_url": "https://index.minfin.com.ua/ua/tariff/kiev/hotwater/",
+        "kyiv_rate": 97.89,
+        "effective_date": "2022-10-01",
+        "decree_info": "Розпорядження КМВА № 673 від 30.09.2022"
+      },
+      "heating": {
+        "found_url": "https://kte.kmda.gov.ua/tarufu/",
+        "kyiv_rate_gcal": 1654.41,
+        "effective_date": "2022-10-01",
+        "decree_info": "Розпорядження КМВА № 673 від 30.09.2022"
       }
     }
     """
-    search_data = call_gemini_search("актуальні тарифы на електроенергію та воду для населения Украина 2026", prompt, model_name, notifier)
+    search_data = call_gemini_search(
+        "актуальні тарифи для населення Україна 2026: електроенергія, вода, гаряча вода, опалення",
+        prompt, model_name, notifier
+    )
     return search_data
+
+def rate_discrepancy(category: str, ref_rate, ref_date_str, ref_url,
+                     found: dict, rate_key: str) -> dict:
+    """
+    Compares one reference value against what the search found. Returns a discrepancy
+    record, or None when the two agree closely enough to say nothing.
+    """
+    found_rate = parse_rate(found.get(rate_key))
+    found_date_str = found.get("effective_date")
+    ref_dt, found_dt = parse_date(ref_date_str), parse_date(found_date_str)
+
+    rate_changed = bool(found_rate is not None and ref_rate is not None and abs(found_rate - ref_rate) > 0.05)
+    date_significantly_newer = bool(ref_dt and found_dt and (found_dt - ref_dt).days > 3)
+
+    if not (rate_changed or date_significantly_newer):
+        return None
+
+    logger.info(
+        f"{category} discrepancy detected: ref_rate={ref_rate}, found_rate={found_rate}, "
+        f"ref_date={ref_date_str}, found_date={found_date_str}"
+    )
+    return {
+        "category": category,
+        "ref_rate": ref_rate,
+        "ref_effective_date": ref_date_str,
+        "ref_url": ref_url,
+        "found_rate": found_rate,
+        "found_effective_date": found_date_str,
+        "found_url": found.get("found_url"),
+        "found_decree": found.get("decree_info")
+    }
+
+# Per-city blocks cross-checked against the search, keyed by the city the search is asked about.
+CITY_BLOCK_CHECKS = (
+    ("water", "Водоснабжение (Киев)", "total_rate", "kyiv_total_rate"),
+    ("hot_water", "Горячая вода (Киев)", "rate", "kyiv_rate"),
+    ("heating", "Отопление (Киев)", "rate_gcal", "kyiv_rate_gcal"),
+)
 
 def compare_and_validate(ref_data: dict, search_data: dict) -> list:
     discrepancies = []
-    
-    # Check Electricity
+    search_data = search_data or {}
+
     ref_elec = ref_data.get("electricity", {})
-    search_elec = search_data.get("electricity", {}) if search_data else {}
-    
+    search_elec = dict(search_data.get("electricity") or {})
     if search_elec:
-        ref_rate = parse_rate(ref_elec.get("base_rate"))
-        found_rate = parse_rate(search_elec.get("base_rate"))
-        ref_date_str = ref_elec.get("effective_date")
-        found_date_str = search_elec.get("effective_date")
-
-        ref_dt = parse_date(ref_date_str)
-        found_dt = parse_date(found_date_str)
-
+        # Decree No.632 is dated 31.05.2024 but takes effect on 01.06.2024, and sources quote
+        # either date, so the found date is normalised before it is compared.
+        found_dt = parse_date(search_elec.get("effective_date"))
         if found_dt and found_dt.month == 5 and found_dt.day in (30, 31):
-            found_dt = datetime(found_dt.year, 6, 1)
-            found_date_str = "2024-06-01"
+            search_elec["effective_date"] = "2024-06-01"
 
-        rate_changed = bool(found_rate is not None and ref_rate is not None and abs(found_rate - ref_rate) > 0.05)
-        date_significantly_newer = bool(ref_dt and found_dt and (found_dt - ref_dt).days > 3)
+        found = rate_discrepancy(
+            "Электроэнергия", parse_rate(ref_elec.get("base_rate")),
+            ref_elec.get("effective_date"), ref_elec.get("source_url"),
+            search_elec, "base_rate"
+        )
+        if found:
+            discrepancies.append(found)
 
-        if rate_changed or date_significantly_newer:
-            logger.info(f"Electricity discrepancy detected: ref_rate={ref_rate}, found_rate={found_rate}, ref_date={ref_date_str}, found_date={found_date_str}")
-            discrepancies.append({
-                "category": "Электроэнергия",
-                "ref_rate": ref_rate,
-                "ref_effective_date": ref_date_str,
-                "ref_url": ref_elec.get("source_url"),
-                "found_rate": found_rate,
-                "found_effective_date": found_date_str,
-                "found_url": search_elec.get("found_url"),
-                "found_decree": search_elec.get("decree_info")
-            })
+    for block, category, ref_key, search_key in CITY_BLOCK_CHECKS:
+        search_block = search_data.get(block) or {}
+        if not search_block:
+            continue
 
-    # Check Water
-    ref_water = ref_data.get("water", {})
-    search_water = search_data.get("water", {}) if search_data else {}
-    if search_water:
-        ref_kyiv = next((c for c in ref_water.get("cities", []) if c.get("city_code") == "kyiv"), {})
-        ref_rate = parse_rate(ref_kyiv.get("total_rate"))
-        found_rate = parse_rate(search_water.get("kyiv_total_rate"))
-        ref_date_str = ref_kyiv.get("effective_date")
-        found_date_str = search_water.get("effective_date")
-
-        ref_dt = parse_date(ref_date_str)
-        found_dt = parse_date(found_date_str)
-
-        rate_changed = bool(found_rate is not None and ref_rate is not None and abs(found_rate - ref_rate) > 0.05)
-        date_significantly_newer = bool(ref_dt and found_dt and (found_dt - ref_dt).days > 3)
-
-        if rate_changed or date_significantly_newer:
-            logger.info(f"Water discrepancy detected: ref_rate={ref_rate}, found_rate={found_rate}, ref_date={ref_date_str}, found_date={found_date_str}")
-            discrepancies.append({
-                "category": "Водоснабжение (Киев)",
-                "ref_rate": ref_rate,
-                "ref_effective_date": ref_date_str,
-                "ref_url": ref_water.get("source_url"),
-                "found_rate": found_rate,
-                "found_effective_date": found_date_str,
-                "found_url": search_water.get("found_url"),
-                "found_decree": search_water.get("decree_info")
-            })
+        ref_block = ref_data.get(block, {})
+        ref_kyiv = next((c for c in ref_block.get("cities", []) if c.get("city_code") == "kyiv"), {})
+        found = rate_discrepancy(
+            category, parse_rate(ref_kyiv.get(ref_key)),
+            ref_kyiv.get("effective_date"), ref_block.get("source_url"),
+            search_block, search_key
+        )
+        if found:
+            discrepancies.append(found)
 
     return discrepancies
+
+# Fields a manual override must carry to publish a city the source site does not list.
+MANUAL_CITY_REQUIRED_FIELDS = {
+    "water": ("city_name", "supplier", "water_supply", "sewage", "total_rate",
+              "unit", "effective_date", "decree_info"),
+    "hot_water": ("city_name", "supplier", "rate", "unit", "effective_date", "decree_info"),
+    "heating": ("city_name", "supplier", "tariff_type", "rate_gcal", "rate_gcal_hour",
+                "unit", "effective_date", "decree_info"),
+}
+
+def merge_city_overrides(cities: list, overrides: dict, block: str,
+                         notifier: TelegramNotifier) -> list:
+    """
+    Applies manual per-city overrides keyed by city_code. A city already present is patched
+    field by field, an unknown one is appended — the only way to publish a supplier the
+    source site does not list at all, such as КП "КИЇВТЕПЛОЕНЕРГО" for heating.
+    """
+    if not overrides:
+        return cities
+
+    by_code = {city.get("city_code"): city for city in cities}
+    incomplete = []
+
+    for code, fields in overrides.items():
+        if not isinstance(fields, dict):
+            continue
+
+        target = by_code.get(code)
+        if target is not None:
+            for key, value in fields.items():
+                if value is not None:
+                    target[key] = value
+            logger.info(f"Manual override patched city '{code}' in '{block}'")
+            continue
+
+        missing = [f for f in MANUAL_CITY_REQUIRED_FIELDS[block] if fields.get(f) is None]
+        if missing:
+            incomplete.append(f"{code}: не хватает полей {', '.join(missing)}")
+            continue
+
+        added = {"city_code": code}
+        added.update({k: v for k, v in fields.items() if v is not None})
+        cities.append(added)
+        logger.info(f"Manual override added a new city '{code}' to '{block}'")
+
+    if incomplete:
+        logger.warning(f"{len(incomplete)} manual override cities skipped in '{block}'")
+        notifier.send_message(
+            f"⚠️ <b>manual_override: города не добавлены в блок «{block}»</b>\n"
+            + "\n".join(f"• <code>{i}</code>" for i in incomplete),
+            parse_mode="HTML"
+        )
+
+    return cities
+
+def apply_manual_overrides(ref_data: dict, config: dict, notifier: TelegramNotifier) -> dict:
+    """
+    Merges config/sources.json -> manual_override on top of the scraped data. It runs on the
+    normal path, so pinning one value by hand never disables the Search Grounding cross-check.
+    """
+    manual = config.get("manual_override", {})
+    if not manual.get("enabled"):
+        return ref_data
+
+    logger.info("Manual override is enabled. Merging manual values on top of the scraped data...")
+
+    elec_override = manual.get("electricity", {})
+    elec_data = ref_data.get("electricity", {})
+    for key in ("source_url", "effective_date", "decree_info"):
+        if elec_override.get(key):
+            elec_data[key] = elec_override[key]
+
+    if elec_override.get("base_rate") is not None:
+        elec_data["base_rate"] = float(elec_override["base_rate"])
+        # Zone rates are derived from the base rate, so they have to follow it
+        apply_base_rate_to_zones(elec_data, elec_data["base_rate"])
+
+    for block in ("water", "hot_water", "heating"):
+        override = manual.get(block, {})
+        target = ref_data.get(block, {})
+        if not override or not isinstance(target, dict):
+            continue
+
+        if override.get("source_url"):
+            target["source_url"] = override["source_url"]
+        target["cities"] = merge_city_overrides(
+            target.get("cities", []), override.get("cities", {}), block, notifier
+        )
+
+    return ref_data
 
 def build_final_json(ref_data: dict) -> dict:
     return {
@@ -799,7 +1343,9 @@ def build_final_json(ref_data: dict) -> dict:
         "country": "UA",
         "currency": "UAH",
         "electricity": ref_data.get("electricity", {}),
-        "water": ref_data.get("water", {})
+        "water": ref_data.get("water", {}),
+        "hot_water": ref_data.get("hot_water", {}),
+        "heating": ref_data.get("heating", {})
     }
 
 def save_json(data: dict):
@@ -825,44 +1371,9 @@ def main():
     model_name = resolve_latest_gemini_model(config)
     logger.info(f"Resolved Gemini model for execution: '{model_name}'")
 
-    manual = config.get("manual_override", {})
-
-    if manual.get("enabled"):
-        logger.info("MANUAL OVERRIDE IS ENABLED. Merging manual overrides...")
-        ref_data = extract_reference_tariffs(config, model_name, notifier)
-        
-        # Override Electricity
-        elec_override = manual.get("electricity", {})
-        if elec_override.get("source_url"):
-            ref_data["electricity"]["source_url"] = elec_override["source_url"]
-        if elec_override.get("base_rate") is not None:
-            ref_data["electricity"]["base_rate"] = elec_override["base_rate"]
-        if elec_override.get("effective_date"):
-            ref_data["electricity"]["effective_date"] = elec_override["effective_date"]
-        if elec_override.get("decree_info"):
-            ref_data["electricity"]["decree_info"] = elec_override["decree_info"]
-
-        # Override Water
-        water_override = manual.get("water", {})
-        if water_override.get("source_url"):
-            ref_data["water"]["source_url"] = water_override["source_url"]
-
-        # Override Water Cities
-        water_cities_override = water_override.get("cities", {})
-        if water_cities_override:
-            for city in ref_data.get("water", {}).get("cities", []):
-                code = city.get("city_code")
-                if code in water_cities_override:
-                    fields = water_cities_override[code]
-                    for k, v in fields.items():
-                        if v is not None:
-                            city[k] = v
-        
-        final_json = build_final_json(ref_data)
-        save_json(final_json)
-        return
-
     ref_data = extract_reference_tariffs(config, model_name, notifier)
+    ref_data = apply_manual_overrides(ref_data, config, notifier)
+
     search_data = search_alternative_tariffs(model_name, notifier)
     discrepancies = compare_and_validate(ref_data, search_data)
 

@@ -2,6 +2,28 @@
 
 Интеллектуальная система автоматического сбора, AI-сравнения, отправки отчетов в Telegram и публикации тарифов ЖКХ Украины для Android приложения.
 
+---
+
+## 📚 Документация
+
+Документация ведётся на двух языках и хранится в `docs/`. **Английская версия — каноническая**: её
+и только её читают AI-агенты, когда берутся за задачу в этом репозитории. Русская — зеркало для
+чтения человеком, обе версии обязаны совпадать по смыслу.
+
+| Страница | English (канон) | Русский | О чём |
+|---|---|---|---|
+| Структура проекта | [docs/en/PROJECT_STRUCTURE.md](docs/en/PROJECT_STRUCTURE.md) | [docs/ru/PROJECT_STRUCTURE.md](docs/ru/PROJECT_STRUCTURE.md) | Карта файлов и каталогов, зона ответственности каждой части, переменные окружения, куда класть новое |
+| Архитектура | [docs/en/ARCHITECTURE.md](docs/en/ARCHITECTURE.md) | [docs/ru/ARCHITECTURE.md](docs/ru/ARCHITECTURE.md) | Этапы пайплайна, валидация, реестр `city_code`, ручные переопределения, публикация |
+| Спецификация JSON | [docs/en/JSON_SPECIFICATION.md](docs/en/JSON_SPECIFICATION.md) | [docs/ru/JSON_SPECIFICATION.md](docs/ru/JSON_SPECIFICATION.md) | Контракт выходного файла: все поля, Kotlin DTO, формулы расчётов |
+| Добавление страны | [docs/en/ADDING_A_COUNTRY.md](docs/en/ADDING_A_COUNTRY.md) | [docs/ru/ADDING_A_COUNTRY.md](docs/ru/ADDING_A_COUNTRY.md) | Целевая структура, контракт и чек-лист для пайплайна новой страны |
+| Правила документации | [docs/en/DOCUMENTATION_RULES.md](docs/en/DOCUMENTATION_RULES.md) | [docs/ru/DOCUMENTATION_RULES.md](docs/ru/DOCUMENTATION_RULES.md) | Как вести документацию и структуру, паритет языков, замороженные контракты |
+| Задание для Android | [docs/en/ANDROID_MIGRATION.md](docs/en/ANDROID_MIGRATION.md) | [docs/ru/ANDROID_MIGRATION.md](docs/ru/ANDROID_MIGRATION.md) | Что доделать в приложении: горячая вода и отопление |
+
+Индекс документации — [docs/README.md](docs/README.md). Точка входа для AI-агентов —
+[CLAUDE.md](CLAUDE.md).
+
+---
+
 ## 🚀 Возможности
 0. **Четыре категории тарифов:** электроэнергия, холодная вода + водоотведение, **горячая вода** и **централизованное отопление**. Каждая — отдельный top-level блок в JSON.
 1. **Мульти-источниковый сбор:** Забор данных с референсных сайтов (все URLs конфигурируются в `config/sources.json`, никаких зашитых строк в коде).
@@ -222,7 +244,7 @@ python src/tariffs_fetcher.py
 | `source_url` | Ссылка на источник для всего блока целиком (для всех городов сразу). |
 | `cities` | Объект, где **ключ — это `city_code`**, а значение — набор полей, которые надо подменить у этого города. |
 
-Поля внутри `cities.<city_code>` — те же, что в самом JSON (полное описание в [docs/JSON_SPECIFICATION.md](docs/JSON_SPECIFICATION.md)):
+Поля внутри `cities.<city_code>` — те же, что в самом JSON (полное описание в [docs/ru/JSON_SPECIFICATION.md](docs/ru/JSON_SPECIFICATION.md)):
 
 | Блок | Поля | Смысл цифр |
 |---|---|---|
@@ -386,9 +408,9 @@ python -c "import json; d=json.load(open('docs/tariffs_ua.json')); print([c for 
 ## 📱 Интеграция с Android и Спецификация JSON
 
 Полное руководство по интеграции, детальное описание всех полей JSON, готовые **Kotlin Data Classes** и формулы расчетов для учета счетчиков находятся в отдельном документе:
-👉 **[Документация и Спецификация JSON тарифов (docs/JSON_SPECIFICATION.md)](docs/JSON_SPECIFICATION.md)**
+👉 **[Документация и Спецификация JSON тарифов (docs/ru/JSON_SPECIFICATION.md)](docs/ru/JSON_SPECIFICATION.md)**
 
-👉 **[Задание на доработку Android-приложения (docs/ANDROID_MIGRATION.md)](docs/ANDROID_MIGRATION.md)** — что именно изменилось, что обязательно поправить, чек-лист работ и подводные камни. Этот файл написан так, чтобы его можно было дать разработчику или ассистенту как самостоятельное ТЗ.
+👉 **[Задание на доработку Android-приложения (docs/ru/ANDROID_MIGRATION.md)](docs/ru/ANDROID_MIGRATION.md)** — что именно изменилось, что обязательно поправить, чек-лист работ и подводные камни. Этот файл написан так, чтобы его можно было дать разработчику или ассистенту как самостоятельное ТЗ.
 
 > ⚠️ **Что нужно поменять в приложении после добавления горячей воды и отопления:** блоки `electricity` и `water` не изменились ни на байт, но в корне JSON появились два новых ключа — `hot_water` и `heating`. Для `kotlinx.serialization` это значит, что парсер должен быть создан как `Json { ignoreUnknownKeys = true }`, иначе он бросит `SerializationException`. Если флаг уже стоит (или используется Moshi/Gson — они игнорируют неизвестные ключи по умолчанию), менять в приложении не нужно вообще ничего. Новые DTO понадобятся только когда захотите показывать ГВ и ЦО.
 
@@ -397,5 +419,5 @@ python -c "import json; d=json.load(open('docs/tariffs_ua.json')); print([c for 
 2. **Удаленное обновление (Remote Sync):** При наличии интернета выкачивайте обновленный файл по любому из доступных URL:
    * **Cloudflare / R2 CDN:** `https://tarrifs.foleks.com/ua/tariffs_ua.json`
    * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_ua.json`
-3. **Парсинг и Модели:** Для быстрого создания моделей данных в Android используйте Kotlin DTO из [docs/JSON_SPECIFICATION.md](docs/JSON_SPECIFICATION.md#3-готовые-kotlin-data-classes-kotlinxserialization).
+3. **Парсинг и Модели:** Для быстрого создания моделей данных в Android используйте Kotlin DTO из [docs/ru/JSON_SPECIFICATION.md](docs/ru/JSON_SPECIFICATION.md#3-готовые-kotlin-data-classes-kotlinxserialization).
 

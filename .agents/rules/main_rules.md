@@ -39,3 +39,29 @@ CRITICAL! Write all code comments on English.
 
 CRITICALLY INPORTANT! Change the structure of the application file with tariffs and the description of this file as a last resort, since it determines how the Android application will process this file.
 If you want to change something in the structure, then first agree with me. You can add new fields, but you still need to inform me about this additionally, since corrections will need to be made to the Android application.
+
+## Documentation and project structure
+
+CRITICAL! Documentation is part of the deliverable, not a follow-up task.
+
+- Before starting a task in this repository, read `CLAUDE.md` in the root, then
+  `docs/en/PROJECT_STRUCTURE.md`, `docs/en/ARCHITECTURE.md` and `docs/en/DOCUMENTATION_RULES.md`.
+  Read the page relevant to the task after that.
+- Documentation exists in two languages. `docs/en/` is CANONICAL and is the ONLY version an agent
+  reads. `docs/ru/` is a mirror for the human maintainer. Never use the Russian pages as a source of
+  truth; if the two versions disagree, report it instead of choosing one.
+- Both language versions must stay identical in meaning — same sections, same tables, same examples,
+  same numbers. Write or edit the English page first, then mirror it into Russian. Changing only one
+  language is an incomplete change.
+- Any change that affects behaviour, structure or configuration updates the documentation in the
+  SAME change: new or removed file → `PROJECT_STRUCTURE.md`; new pipeline stage, validation or
+  fallback → `ARCHITECTURE.md`; new config key → `README.md` and `ARCHITECTURE.md`; new page → the
+  `docs/README.md` index. Both languages, every time.
+- `README.md` in the root stays Russian and must not contradict `docs/`.
+- Keep the structure rules: URLs, model names and timeouts live in `config/`, never hardcoded in
+  Python; generated files (`docs/tariffs_ua.json`, `assets/tariffs_ua_default.json`) are never
+  hand-edited — force values through `manual_override`; one responsibility per module.
+- An assigned `city_code` in `config/city_registry.json` is permanent and must never be rewritten:
+  the Android application stores it as the user's saved selection.
+- When adding support for another country, follow `docs/en/ADDING_A_COUNTRY.md` and do not deviate
+  from the layout and the output contract described there without agreeing it with me first.

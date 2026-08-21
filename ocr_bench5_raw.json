@@ -1,0 +1,1883 @@
+[
+ {
+  "photo": "10",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":1}",
+  "in": 1795,
+  "out": 264,
+  "seconds": 7.0
+ },
+ {
+  "photo": "10",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":1}",
+  "in": 1795,
+  "out": 272,
+  "seconds": 7.0
+ },
+ {
+  "photo": "10",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00188\",\n  \"red\": \"066\",\n  \"confidence\": 0.98\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 5.2
+ },
+ {
+  "photo": "10",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00188\",\n  \"red\": \"066\",\n  \"confidence\": 0.98\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 5.3
+ },
+ {
+  "photo": "10",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 963,
+  "seconds": 10.7
+ },
+ {
+  "photo": "10",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 932,
+  "seconds": 9.7
+ },
+ {
+  "photo": "10",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.98}",
+  "in": 1642,
+  "out": 148,
+  "seconds": 4.3
+ },
+ {
+  "photo": "10",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.95}",
+  "in": 1642,
+  "out": 216,
+  "seconds": 6.9
+ },
+ {
+  "photo": "10",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.4
+ },
+ {
+  "photo": "10",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.9}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.7
+ },
+ {
+  "photo": "10",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":1}\n```",
+  "in": 1878,
+  "out": 25,
+  "seconds": 1.7
+ },
+ {
+  "photo": "10",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":1}\n```",
+  "in": 1878,
+  "out": 25,
+  "seconds": 3.6
+ },
+ {
+  "photo": "10",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"00180\",\"red\":\"066\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 297,
+  "seconds": 5.9
+ },
+ {
+  "photo": "10",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"00180\",\"red\":\"066\",\"confidence\":1}",
+  "in": 1776,
+  "out": 270,
+  "seconds": 5.1
+ },
+ {
+  "photo": "10",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "10",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "text": "\n{\"black\":\"00180\",\"red\":\"066\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 427,
+  "seconds": 21.4
+ },
+ {
+  "photo": "10",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00188\",\n  \"red\": \"066\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 1.9
+ },
+ {
+  "photo": "10",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00188\",\n  \"red\": \"066\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.1
+ },
+ {
+  "photo": "10",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "10",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":1.0}\n```",
+  "in": 460,
+  "out": 26,
+  "seconds": 5.0
+ },
+ {
+  "photo": "11",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00013\",\"red\":\"104\",\"confidence\":0.96}",
+  "in": 1795,
+  "out": 683,
+  "seconds": 10.8
+ },
+ {
+  "photo": "11",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00013\",\"red\":\"104\",\"confidence\":0.96}",
+  "in": 1795,
+  "out": 739,
+  "seconds": 15.4
+ },
+ {
+  "photo": "11",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00013\",\n  \"red\": \"102\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.4
+ },
+ {
+  "photo": "11",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00013\",\n  \"red\": \"102\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 2.3
+ },
+ {
+  "photo": "11",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00031\",\"red\":\"955\",\"confidence\":0.95}\n```",
+  "in": 1265,
+  "out": 1387,
+  "seconds": 14.4
+ },
+ {
+  "photo": "11",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00031\",\"red\":\"955\",\"confidence\":0.95}\n```",
+  "in": 1265,
+  "out": 1041,
+  "seconds": 10.6
+ },
+ {
+  "photo": "11",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00013\",\"red\":\"194\",\"confidence\":0.86}",
+  "in": 1642,
+  "out": 538,
+  "seconds": 12.3
+ },
+ {
+  "photo": "11",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00013\",\"red\":\"104\",\"confidence\":0.86}",
+  "in": 1642,
+  "out": 538,
+  "seconds": 12.7
+ },
+ {
+  "photo": "11",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00013\",\"red\":\"104\",\"confidence\":0.7}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.2
+ },
+ {
+  "photo": "11",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00013\",\"red\":\"104\",\"confidence\":0.6}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.6
+ },
+ {
+  "photo": "11",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00137\",\n  \"red\": \"241\",\n  \"confidence\": 0.95\n}\n```",
+  "in": 1878,
+  "out": 38,
+  "seconds": 2.3
+ },
+ {
+  "photo": "11",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00137\",\n  \"red\": \"241\",\n  \"confidence\": 0.95\n}\n```",
+  "in": 1878,
+  "out": 38,
+  "seconds": 2.0
+ },
+ {
+  "photo": "11",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"00013\",\"red\":\"105\",\"confidence\":1}",
+  "in": 1776,
+  "out": 207,
+  "seconds": 4.9
+ },
+ {
+  "photo": "11",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"00013\",\"red\":\"105\",\"confidence\":1}",
+  "in": 1776,
+  "out": 215,
+  "seconds": 4.8
+ },
+ {
+  "photo": "11",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "text": "\n{\"black\":\"00013\",\"red\":\"105\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 458,
+  "seconds": 18.6
+ },
+ {
+  "photo": "11",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "11",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00013\",\n  \"red\": \"094\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.1
+ },
+ {
+  "photo": "11",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00013\",\n  \"red\": \"094\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.3
+ },
+ {
+  "photo": "11",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "11",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "1",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00037\",\"red\":\"721\",\"confidence\":0.98}",
+  "in": 1795,
+  "out": 517,
+  "seconds": 6.7
+ },
+ {
+  "photo": "1",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00037\",\"red\":\"721\",\"confidence\":1}",
+  "in": 1795,
+  "out": 255,
+  "seconds": 5.3
+ },
+ {
+  "photo": "1",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00000\",\n  \"red\": \"372\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.4
+ },
+ {
+  "photo": "1",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00000\",\n  \"red\": \"372\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.5
+ },
+ {
+  "photo": "1",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00037\",\"red\":\"771\",\"confidence\":0.95}\n```",
+  "in": 1265,
+  "out": 1518,
+  "seconds": 14.6
+ },
+ {
+  "photo": "1",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00037\",\"red\":\"777\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 1220,
+  "seconds": 12.2
+ },
+ {
+  "photo": "1",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00000\",\"red\":\"371\",\"confidence\":0.86}",
+  "in": 1642,
+  "out": 538,
+  "seconds": 11.5
+ },
+ {
+  "photo": "1",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00000\",\"red\":\"371\",\"confidence\":0.82}",
+  "in": 1642,
+  "out": 538,
+  "seconds": 12.1
+ },
+ {
+  "photo": "1",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00000\",\"red\":\"377\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 5.4
+ },
+ {
+  "photo": "1",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00000\",\"red\":\"377\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.6
+ },
+ {
+  "photo": "1",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\"black\": \"00003\", \"red\": \"721\", \"confidence\": 0.98}\n```",
+  "in": 1889,
+  "out": 33,
+  "seconds": 2.1
+ },
+ {
+  "photo": "1",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\":\"72590\", \"red\":\"398\", \"confidence\":0.98}\n```",
+  "in": 1889,
+  "out": 30,
+  "seconds": 1.9
+ },
+ {
+  "photo": "1",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"00003\",\"red\":\"371\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 379,
+  "seconds": 7.0
+ },
+ {
+  "photo": "1",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"00003\",\"red\":\"371\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 804,
+  "seconds": 54.5
+ },
+ {
+  "photo": "1",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "1",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "1",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00000\",\n  \"red\": \"371\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.1
+ },
+ {
+  "photo": "1",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00000\",\n  \"red\": \"371\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.3
+ },
+ {
+  "photo": "1",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "1",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "2",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00009\",\"red\":\"316\",\"confidence\":0.95}",
+  "in": 1795,
+  "out": 713,
+  "seconds": 10.4
+ },
+ {
+  "photo": "2",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00000\",\"red\":\"316\",\"confidence\":0.96}",
+  "in": 1795,
+  "out": 949,
+  "seconds": 12.5
+ },
+ {
+  "photo": "2",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00003\",\n  \"red\": \"160\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 5.3
+ },
+ {
+  "photo": "2",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00003\",\n  \"red\": \"160\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.8
+ },
+ {
+  "photo": "2",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "{\"black\":\"00003\",\"red\":\"167\",\"confidence\":0.99}",
+  "in": 1265,
+  "out": 2606,
+  "seconds": 22.5
+ },
+ {
+  "photo": "2",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00003\",\"red\":\"160\",\"confidence\":0.95}\n```",
+  "in": 1265,
+  "out": 3015,
+  "seconds": 25.0
+ },
+ {
+  "photo": "2",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00000\",\"red\":\"316\",\"confidence\":0.84}",
+  "in": 1642,
+  "out": 353,
+  "seconds": 9.1
+ },
+ {
+  "photo": "2",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00000\",\"red\":\"316\",\"confidence\":0.88}",
+  "in": 1642,
+  "out": 439,
+  "seconds": 10.4
+ },
+ {
+  "photo": "2",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00000\",\"red\":\"316\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.8
+ },
+ {
+  "photo": "2",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00000\",\"red\":\"316\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.8
+ },
+ {
+  "photo": "2",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00007\",\n  \"red\": \"150\",\n  \"confidence\": 0.98\n}\n```",
+  "in": 1878,
+  "out": 38,
+  "seconds": 2.0
+ },
+ {
+  "photo": "2",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00007\",\n  \"red\": \"150\",\n  \"confidence\": 0.98\n}\n```",
+  "in": 1878,
+  "out": 38,
+  "seconds": 2.2
+ },
+ {
+  "photo": "2",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"0000316\",\"red\":\"116\",\"confidence\":1}",
+  "in": 1776,
+  "out": 2940,
+  "seconds": 44.0
+ },
+ {
+  "photo": "2",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"0000316\",\"red\":\"116\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 933,
+  "seconds": 32.2
+ },
+ {
+  "photo": "2",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "text": "\n{\"black\":\"00003\",\"red\":\"316\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 1380,
+  "seconds": 26.5
+ },
+ {
+  "photo": "2",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "2",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00000\",\n  \"red\": \"316\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 6.5
+ },
+ {
+  "photo": "2",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00000\",\n  \"red\": \"316\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 5.3
+ },
+ {
+  "photo": "2",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "2",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "3",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00296\",\"red\":\"656\",\"confidence\":0.97}",
+  "in": 1795,
+  "out": 1501,
+  "seconds": 19.1
+ },
+ {
+  "photo": "3",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00096\",\"red\":\"956\",\"confidence\":0.97}",
+  "in": 1795,
+  "out": 873,
+  "seconds": 12.4
+ },
+ {
+  "photo": "3",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00009\",\n  \"red\": \"666\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.5
+ },
+ {
+  "photo": "3",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00009\",\n  \"red\": \"666\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.1
+ },
+ {
+  "photo": "3",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00009\",\"red\":\"661\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 1260,
+  "seconds": 15.6
+ },
+ {
+  "photo": "3",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00009\",\"red\":\"661\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 1119,
+  "seconds": 11.2
+ },
+ {
+  "photo": "3",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00004\",\"red\":\"668\",\"confidence\":0.86}",
+  "in": 1642,
+  "out": 258,
+  "seconds": 7.5
+ },
+ {
+  "photo": "3",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00004\",\"red\":\"668\",\"confidence\":0.82}",
+  "in": 1642,
+  "out": 474,
+  "seconds": 9.6
+ },
+ {
+  "photo": "3",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00000\",\"red\":\"956\",\"confidence\":0.6}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.9
+ },
+ {
+  "photo": "3",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00000\",\"red\":\"956\",\"confidence\":0.6}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.4
+ },
+ {
+  "photo": "3",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"72590\",\n  \"red\": \"408\",\n  \"confidence\": 0.98\n}\n```",
+  "in": 1878,
+  "out": 38,
+  "seconds": 3.1
+ },
+ {
+  "photo": "3",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"72590\",\n  \"red\": \"408\",\n  \"confidence\": 0.98\n}\n```",
+  "in": 1878,
+  "out": 38,
+  "seconds": 1.7
+ },
+ {
+  "photo": "3",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"00009\",\"red\":\"666\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 453,
+  "seconds": 6.0
+ },
+ {
+  "photo": "3",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"00009\",\"red\":\"066\",\"confidence\":1}",
+  "in": 1776,
+  "out": 1639,
+  "seconds": 14.8
+ },
+ {
+  "photo": "3",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "text": "\n{\"black\":\"00009\",\"red\":\"55\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 584,
+  "seconds": 22.9
+ },
+ {
+  "photo": "3",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "text": "\n{\"black\":\"00009\",\"red\":\"955\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 1240,
+  "seconds": 25.1
+ },
+ {
+  "photo": "3",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00000\",\n  \"red\": \"966\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 4.3
+ },
+ {
+  "photo": "3",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00000\",\n  \"red\": \"966\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.9
+ },
+ {
+  "photo": "3",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00009\", \"red\":\"766\", \"confidence\": 1.0}\n```",
+  "in": 460,
+  "out": 29,
+  "seconds": 4.3
+ },
+ {
+  "photo": "3",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "4",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00026\",\"red\":\"051\",\"confidence\":1}",
+  "in": 1795,
+  "out": 337,
+  "seconds": 6.5
+ },
+ {
+  "photo": "4",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.99}",
+  "in": 1795,
+  "out": 284,
+  "seconds": 7.1
+ },
+ {
+  "photo": "4",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00260\",\n  \"red\": \"510\",\n  \"confidence\": 0.98\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.2
+ },
+ {
+  "photo": "4",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00260\",\n  \"red\": \"510\",\n  \"confidence\": 0.98\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 3.6
+ },
+ {
+  "photo": "4",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 817,
+  "seconds": 7.7
+ },
+ {
+  "photo": "4",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 817,
+  "seconds": 8.2
+ },
+ {
+  "photo": "4",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.93}",
+  "in": 1642,
+  "out": 269,
+  "seconds": 6.2
+ },
+ {
+  "photo": "4",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.93}",
+  "in": 1642,
+  "out": 207,
+  "seconds": 5.8
+ },
+ {
+  "photo": "4",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00076\",\"red\":\"051\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.6
+ },
+ {
+  "photo": "4",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00076\",\"red\":\"051\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.9
+ },
+ {
+  "photo": "4",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00260\", \"red\":\"51\", \"confidence\": 1}\n```",
+  "in": 1889,
+  "out": 27,
+  "seconds": 1.7
+ },
+ {
+  "photo": "4",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\": \"00246\", \"red\": \"051\", \"confidence\": 1}\n```",
+  "in": 1889,
+  "out": 30,
+  "seconds": 1.8
+ },
+ {
+  "photo": "4",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"00026\",\"red\":\"051\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 404,
+  "seconds": 5.8
+ },
+ {
+  "photo": "4",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"00026\",\"red\":\"051\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 395,
+  "seconds": 5.7
+ },
+ {
+  "photo": "4",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "4",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "4",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00026\",\n  \"red\": \"051\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 32.3
+ },
+ {
+  "photo": "4",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00026\",\n  \"red\": \"051\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.5
+ },
+ {
+  "photo": "4",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "4",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "5",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00013\",\"red\":\"195\",\"confidence\":0.97}",
+  "in": 1795,
+  "out": 713,
+  "seconds": 9.7
+ },
+ {
+  "photo": "5",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00013\",\"red\":\"199\",\"confidence\":0.98}",
+  "in": 1795,
+  "out": 1615,
+  "seconds": 18.9
+ },
+ {
+  "photo": "5",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00131\",\n  \"red\": \"287\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.4
+ },
+ {
+  "photo": "5",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00131\",\n  \"red\": \"287\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.3
+ },
+ {
+  "photo": "5",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"125\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 996,
+  "seconds": 10.3
+ },
+ {
+  "photo": "5",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"185\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 1173,
+  "seconds": 11.6
+ },
+ {
+  "photo": "5",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00013\",\"red\":\"083\",\"confidence\":0.72}",
+  "in": 1642,
+  "out": 538,
+  "seconds": 12.1
+ },
+ {
+  "photo": "5",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00013\",\"red\":\"783\",\"confidence\":0.83}",
+  "in": 1642,
+  "out": 538,
+  "seconds": 10.6
+ },
+ {
+  "photo": "5",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00013\",\"red\":\"795\",\"confidence\":0.6}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.2
+ },
+ {
+  "photo": "5",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00013\",\"red\":\"795\",\"confidence\":0.6}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.5
+ },
+ {
+  "photo": "5",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00131\", \"red\":\"350\", \"confidence\":0.95}\n```",
+  "in": 1878,
+  "out": 30,
+  "seconds": 1.8
+ },
+ {
+  "photo": "5",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"152\",\"confidence\":1}\n```",
+  "in": 1878,
+  "out": 25,
+  "seconds": 2.9
+ },
+ {
+  "photo": "5",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"00131\",\"red\":\"251\",\"confidence\":1}",
+  "in": 1776,
+  "out": 394,
+  "seconds": 33.2
+ },
+ {
+  "photo": "5",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"00131\",\"red\":\"125\",\"confidence\":1}",
+  "in": 1776,
+  "out": 466,
+  "seconds": 11.1
+ },
+ {
+  "photo": "5",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "5",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "5",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00013\",\n  \"red\": \"109\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 1.9
+ },
+ {
+  "photo": "5",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00013\",\n  \"red\": \"109\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 3.1
+ },
+ {
+  "photo": "5",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"199\",\"confidence\":1.0}\n```",
+  "in": 460,
+  "out": 26,
+  "seconds": 5.8
+ },
+ {
+  "photo": "5",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "6",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"01310\",\"red\":\"034\",\"confidence\":0.95}",
+  "in": 1795,
+  "out": 1090,
+  "seconds": 14.7
+ },
+ {
+  "photo": "6",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"01310\",\"red\":\"034\",\"confidence\":0.98}",
+  "in": 1795,
+  "out": 875,
+  "seconds": 15.2
+ },
+ {
+  "photo": "6",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00137\",\n  \"red\": \"034\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.6
+ },
+ {
+  "photo": "6",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00137\",\n  \"red\": \"034\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.8
+ },
+ {
+  "photo": "6",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00131\",\"red\":\"034\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 791,
+  "seconds": 8.6
+ },
+ {
+  "photo": "6",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00131\",\"red\":\"034\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 1359,
+  "seconds": 12.2
+ },
+ {
+  "photo": "6",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00131\",\"red\":\"054\",\"confidence\":0.86}",
+  "in": 1642,
+  "out": 515,
+  "seconds": 10.2
+ },
+ {
+  "photo": "6",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00131\",\"red\":\"054\",\"confidence\":0.88}",
+  "in": 1642,
+  "out": 323,
+  "seconds": 10.6
+ },
+ {
+  "photo": "6",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00113\",\"red\":\"034\",\"confidence\":0.6}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.4
+ },
+ {
+  "photo": "6",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00113\",\"red\":\"034\",\"confidence\":0.7}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.9
+ },
+ {
+  "photo": "6",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00134\",\n  \"red\": \"341\",\n  \"confidence\": 0.98\n}\n```",
+  "in": 1878,
+  "out": 38,
+  "seconds": 2.0
+ },
+ {
+  "photo": "6",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00134\",\"red\":\"341\",\"confidence\":1}\n```",
+  "in": 1878,
+  "out": 25,
+  "seconds": 1.8
+ },
+ {
+  "photo": "6",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"10113\",\"red\":\"006\",\"confidence\":1}",
+  "in": 1776,
+  "out": 835,
+  "seconds": 9.0
+ },
+ {
+  "photo": "6",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"1013100\",\"red\":\"006\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 705,
+  "seconds": 7.9
+ },
+ {
+  "photo": "6",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "6",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "6",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00103\",\n  \"red\": \"104\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.5
+ },
+ {
+  "photo": "6",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00103\",\n  \"red\": \"034\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.1
+ },
+ {
+  "photo": "6",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "6",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "7",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"03152\",\"red\":\"500\",\"confidence\":0.92}",
+  "in": 1795,
+  "out": 1560,
+  "seconds": 22.2
+ },
+ {
+  "photo": "7",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"03152\",\"red\":\"500\",\"confidence\":0.99}",
+  "in": 1795,
+  "out": 2411,
+  "seconds": 28.3
+ },
+ {
+  "photo": "7",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"03152\",\n  \"red\": \"5\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 31,
+  "seconds": 4.1
+ },
+ {
+  "photo": "7",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"03152\",\n  \"red\": \"5\",\n  \"confidence\": 0.95\n}",
+  "in": 1432,
+  "out": 31,
+  "seconds": 3.9
+ },
+ {
+  "photo": "7",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"03152\",\"red\":\"5\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 1914,
+  "seconds": 17.1
+ },
+ {
+  "photo": "7",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"03152\",\"red\":\"5\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 2269,
+  "seconds": 22.4
+ },
+ {
+  "photo": "7",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"03152\",\"red\":\"5??\",\"confidence\":0.78}",
+  "in": 1642,
+  "out": 539,
+  "seconds": 11.7
+ },
+ {
+  "photo": "7",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"03152\",\"red\":\"580\",\"confidence\":0.72}",
+  "in": 1642,
+  "out": 2474,
+  "seconds": 44.0
+ },
+ {
+  "photo": "7",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"03152\",\"red\":\"5\",\"confidence\":0.5}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.0
+ },
+ {
+  "photo": "7",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"03152\",\"red\":\"5\",\"confidence\":0.5}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.0
+ },
+ {
+  "photo": "7",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\"black\": \"03152\", \"red\": \"5\", \"confidence\": 0.98}\n```",
+  "in": 1889,
+  "out": 31,
+  "seconds": 2.0
+ },
+ {
+  "photo": "7",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\":\"03152\",\"red\":\"5\",\"confidence\":1}\n```",
+  "in": 1889,
+  "out": 23,
+  "seconds": 2.2
+ },
+ {
+  "photo": "7",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"03152\",\"red\":\"000\",\"confidence\":1}",
+  "in": 1776,
+  "out": 2655,
+  "seconds": 40.4
+ },
+ {
+  "photo": "7",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"03152\",\"red\":\"5\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 2387,
+  "seconds": 35.3
+ },
+ {
+  "photo": "7",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "7",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "7",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"03152\",\n  \"red\": \"500\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 33.2
+ },
+ {
+  "photo": "7",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"03152\",\n  \"red\": \"500\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.0
+ },
+ {
+  "photo": "7",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "text": "```json\n{\"black\":\"03152\",\"red\":\"500\",\"confidence\":1.0}\n```",
+  "in": 460,
+  "out": 26,
+  "seconds": 4.5
+ },
+ {
+  "photo": "7",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "8",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"034837\",\"red\":\"2\",\"confidence\":1}",
+  "in": 1795,
+  "out": 313,
+  "seconds": 12.0
+ },
+ {
+  "photo": "8",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.99}",
+  "in": 1795,
+  "out": 323,
+  "seconds": 8.0
+ },
+ {
+  "photo": "8",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"034837\",\n  \"red\": \"2\",\n  \"confidence\": 1.0\n}",
+  "in": 1432,
+  "out": 31,
+  "seconds": 5.1
+ },
+ {
+  "photo": "8",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"034837\",\n  \"red\": \"2\",\n  \"confidence\": 1.0\n}",
+  "in": 1432,
+  "out": 31,
+  "seconds": 4.4
+ },
+ {
+  "photo": "8",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 604,
+  "seconds": 7.2
+ },
+ {
+  "photo": "8",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 604,
+  "seconds": 6.7
+ },
+ {
+  "photo": "8",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.99}",
+  "in": 1642,
+  "out": 75,
+  "seconds": 5.4
+ },
+ {
+  "photo": "8",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.99}",
+  "in": 1642,
+  "out": 76,
+  "seconds": 4.9
+ },
+ {
+  "photo": "8",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.9}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 2.8
+ },
+ {
+  "photo": "8",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.95}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.2
+ },
+ {
+  "photo": "8",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\"black\": \"034837\", \"red\": \"2\", \"confidence\": 1}\n```",
+  "in": 1889,
+  "out": 29,
+  "seconds": 2.0
+ },
+ {
+  "photo": "8",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\": \"034837\", \"red\": \"2\", \"confidence\": 1}\n```",
+  "in": 1889,
+  "out": 29,
+  "seconds": 2.3
+ },
+ {
+  "photo": "8",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":1}",
+  "in": 1776,
+  "out": 121,
+  "seconds": 4.2
+ },
+ {
+  "photo": "8",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":1}",
+  "in": 1776,
+  "out": 114,
+  "seconds": 9.6
+ },
+ {
+  "photo": "8",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "text": "\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 167,
+  "seconds": 9.3
+ },
+ {
+  "photo": "8",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "text": "\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":1.0}",
+  "in": 1776,
+  "out": 167,
+  "seconds": 10.6
+ },
+ {
+  "photo": "8",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"034837\",\n  \"red\": \"2\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 37,
+  "seconds": 2.2
+ },
+ {
+  "photo": "8",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"034837\",\n  \"red\": \"2\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 37,
+  "seconds": 2.1
+ },
+ {
+  "photo": "8",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "8",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "9",
+  "model": "glm-5v-turbo",
+  "run": 1,
+  "text": "{\"black\":\"00035\",\"red\":\"166\",\"confidence\":1}",
+  "in": 1795,
+  "out": 349,
+  "seconds": 7.7
+ },
+ {
+  "photo": "9",
+  "model": "glm-5v-turbo",
+  "run": 2,
+  "text": "{\"black\":\"00035\",\"red\":\"166\",\"confidence\":1}",
+  "in": 1795,
+  "out": 678,
+  "seconds": 9.7
+ },
+ {
+  "photo": "9",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 1,
+  "text": "{\n  \"black\": \"00035\",\n  \"red\": \"167\",\n  \"confidence\": 0.98\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.9
+ },
+ {
+  "photo": "9",
+  "model": "qwen3-vl-235b-a22b-instruct",
+  "run": 2,
+  "text": "{\n  \"black\": \"00035\",\n  \"red\": \"167\",\n  \"confidence\": 0.98\n}",
+  "in": 1432,
+  "out": 33,
+  "seconds": 4.9
+ },
+ {
+  "photo": "9",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 1,
+  "text": "```json\n{\"black\":\"00035\",\"red\":\"166\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 700,
+  "seconds": 9.3
+ },
+ {
+  "photo": "9",
+  "model": "google/gemini-3.1-pro-preview",
+  "run": 2,
+  "text": "```json\n{\"black\":\"00035\",\"red\":\"166\",\"confidence\":0.99}\n```",
+  "in": 1265,
+  "out": 957,
+  "seconds": 10.7
+ },
+ {
+  "photo": "9",
+  "model": "openai/gpt-5.5",
+  "run": 1,
+  "text": "{\"black\":\"00035\",\"red\":\"168\",\"confidence\":0.93}",
+  "in": 1642,
+  "out": 241,
+  "seconds": 5.3
+ },
+ {
+  "photo": "9",
+  "model": "openai/gpt-5.5",
+  "run": 2,
+  "text": "{\"black\":\"00035\",\"red\":\"168\",\"confidence\":0.94}",
+  "in": 1642,
+  "out": 235,
+  "seconds": 5.5
+ },
+ {
+  "photo": "9",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 1,
+  "text": "{\"black\":\"00035\",\"red\":\"165\",\"confidence\":0.85}",
+  "in": 1903,
+  "out": 25,
+  "seconds": 3.2
+ },
+ {
+  "photo": "9",
+  "model": "anthropic/claude-opus-4.7",
+  "run": 2,
+  "text": "{\"black\":\"00035\",\"red\":\"16?\",\"confidence\":0.6}",
+  "in": 1903,
+  "out": 26,
+  "seconds": 3.4
+ },
+ {
+  "photo": "9",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00035\",\n  \"red\": \"165\",\n  \"confidence\": 0.98\n}\n```",
+  "in": 1889,
+  "out": 38,
+  "seconds": 3.9
+ },
+ {
+  "photo": "9",
+  "model": "mistralai/mistral-medium-3-5",
+  "run": 2,
+  "text": "```json\n{\"black\": \"00035\", \"red\": \"165\", \"confidence\": 1}\n```",
+  "in": 1889,
+  "out": 30,
+  "seconds": 2.2
+ },
+ {
+  "photo": "9",
+  "model": "glm-4.6v-flashx",
+  "run": 1,
+  "text": "",
+  "in": 1776,
+  "out": 4000,
+  "seconds": 153.0
+ },
+ {
+  "photo": "9",
+  "model": "glm-4.6v-flashx",
+  "run": 2,
+  "text": "",
+  "in": 1776,
+  "out": 4000,
+  "seconds": 79.1
+ },
+ {
+  "photo": "9",
+  "model": "glm-4.6v-flash",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "9",
+  "model": "glm-4.6v-flash",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"code\":\"1305\",\"message\":\"The service may be temporarily overloaded, please try again later\"}}"
+ },
+ {
+  "photo": "9",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 1,
+  "text": "```json\n{\n  \"black\": \"00035\",\n  \"red\": \"168\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 1.9
+ },
+ {
+  "photo": "9",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "run": 2,
+  "text": "```json\n{\n  \"black\": \"00035\",\n  \"red\": \"168\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 3565,
+  "out": 38,
+  "seconds": 2.1
+ },
+ {
+  "photo": "9",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 1,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ },
+ {
+  "photo": "9",
+  "model": "google/gemma-4-31b-it:free",
+  "run": 2,
+  "error": "HTTPError: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please re"
+ }
+]

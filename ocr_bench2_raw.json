@@ -1,0 +1,706 @@
+[
+ {
+  "photo": "10",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 23
+ },
+ {
+  "photo": "10",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 23
+ },
+ {
+  "photo": "10",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 114
+ },
+ {
+  "photo": "10",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 321
+ },
+ {
+  "photo": "10",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.95}",
+  "in": 588,
+  "out": 23
+ },
+ {
+  "photo": "10",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "10",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"001880\",\"red\":\"066\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 340
+ },
+ {
+  "photo": "10",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00188\",\"red\":\"066\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 186
+ },
+ {
+  "photo": "11",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00013\",\"red\":\"102\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 23
+ },
+ {
+  "photo": "11",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"102\",\"confidence\":0.85}\n```",
+  "in": 1313,
+  "out": 27
+ },
+ {
+  "photo": "11",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"101013\",\"red\":\"105\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 555
+ },
+ {
+  "photo": "11",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00031\",\"red\":\"95\",\"confidence\":0.9}\n```",
+  "in": 1154,
+  "out": 566
+ },
+ {
+  "photo": "11",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "```json\n{\"black\":\"00913\",\"red\":\"193\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "11",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"192\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "11",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00013\",\"red\":\"12\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 735
+ },
+ {
+  "photo": "11",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"105\",\"confidence\":0.85}\n```",
+  "in": 1154,
+  "out": 675
+ },
+ {
+  "photo": "1",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00000\",\"red\":\"372\",\"confidence\":0.9}",
+  "in": 1313,
+  "out": 22
+ },
+ {
+  "photo": "1",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"72590398\",\"red\":\"372\",\"confidence\":0.85}\n```",
+  "in": 1313,
+  "out": 30
+ },
+ {
+  "photo": "1",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"0000\",\"red\":\"372\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 775
+ },
+ {
+  "photo": "1",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00003\",\"red\":\"777\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 739
+ },
+ {
+  "photo": "1",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00000\",\"red\":\"372\",\"confidence\":0.9}",
+  "in": 588,
+  "out": 22
+ },
+ {
+  "photo": "1",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"72590398\",\"red\":\"972\",\"confidence\":0.85}\n```",
+  "in": 588,
+  "out": 30
+ },
+ {
+  "photo": "1",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00037\",\"red\":\"2\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 782
+ },
+ {
+  "photo": "1",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00000\",\"red\":\"377\",\"confidence\":0.9}\n```",
+  "in": 1154,
+  "out": 730
+ },
+ {
+  "photo": "2",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "```json\n{\"black\":\"00003\",\"red\":\"76\",\"confidence\":0.95}\n```",
+  "in": 1313,
+  "out": 26
+ },
+ {
+  "photo": "2",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"0000316\",\"red\":\"0\",\"confidence\":0.95}\n```",
+  "in": 1313,
+  "out": 27
+ },
+ {
+  "photo": "2",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00003\",\"red\":\"316\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 589
+ },
+ {
+  "photo": "2",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00003\",\"red\":\"16\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 1620
+ },
+ {
+  "photo": "2",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"000097\",\"red\":\"1\",\"confidence\":0.95}",
+  "in": 588,
+  "out": 22
+ },
+ {
+  "photo": "2",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"0000316\",\"red\":\"0\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "2",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00000\",\"red\":\"0\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 412
+ },
+ {
+  "photo": "2",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00000\",\"red\":\"316\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 379
+ },
+ {
+  "photo": "3",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "```json\n{\"black\":\"00096\",\"red\":\"5\",\"confidence\":0.95}\n```",
+  "in": 1313,
+  "out": 25
+ },
+ {
+  "photo": "3",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00000966\",\"red\":\"6\",\"confidence\":0.85}\n```",
+  "in": 1313,
+  "out": 28
+ },
+ {
+  "photo": "3",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"0000966\",\"red\":\"0\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 867
+ },
+ {
+  "photo": "3",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00009\",\"red\":\"666\",\"confidence\":0.85}\n```",
+  "in": 1154,
+  "out": 426
+ },
+ {
+  "photo": "3",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"000086\",\"red\":\"6\",\"confidence\":0.95}",
+  "in": 588,
+  "out": 22
+ },
+ {
+  "photo": "3",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"0000966\",\"red\":\"6\",\"confidence\":0.85}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "3",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"0000995\",\"red\":\"6\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 501
+ },
+ {
+  "photo": "3",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00000\",\"red\":\"966\",\"confidence\":0.9}\n```",
+  "in": 1154,
+  "out": 642
+ },
+ {
+  "photo": "4",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 23
+ },
+ {
+  "photo": "4",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.95}\n```",
+  "in": 1313,
+  "out": 27
+ },
+ {
+  "photo": "4",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00026\",\"red\":\"051\",\"confidence\":1.0}",
+  "in": 1666,
+  "out": 181
+ },
+ {
+  "photo": "4",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00046\",\"red\":\"051\",\"confidence\":0.92}\n```",
+  "in": 1154,
+  "out": 1479
+ },
+ {
+  "photo": "4",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "```json\n{\"black\":\"00026\",\"red\":\"051\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "4",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"002605\",\"red\":\"1\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 26
+ },
+ {
+  "photo": "4",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00260\",\"red\":\"51\",\"confidence\":1}",
+  "in": 711,
+  "out": 357
+ },
+ {
+  "photo": "4",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00046\",\"red\":\"051\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 378
+ },
+ {
+  "photo": "5",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00013\",\"red\":\"125\",\"confidence\":0.9}",
+  "in": 1313,
+  "out": 22
+ },
+ {
+  "photo": "5",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00131\",\"red\":\"29\",\"confidence\":0.85}\n```",
+  "in": 1313,
+  "out": 26
+ },
+ {
+  "photo": "5",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"00013\",\"red\":\"12\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 522
+ },
+ {
+  "photo": "5",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"128\",\"confidence\":0.85}\n```",
+  "in": 1154,
+  "out": 522
+ },
+ {
+  "photo": "5",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "```json\n{\"black\":\"00031\",\"red\":\"92\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 26
+ },
+ {
+  "photo": "5",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"001312\",\"red\":\"2\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 26
+ },
+ {
+  "photo": "5",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"0001318\",\"red\":\"188\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 405
+ },
+ {
+  "photo": "5",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00013\",\"red\":\"195\",\"confidence\":0.85}\n```",
+  "in": 1154,
+  "out": 669
+ },
+ {
+  "photo": "6",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00137\",\"red\":\"034\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 23
+ },
+ {
+  "photo": "6",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00131\",\"red\":\"036\",\"confidence\":0.85}\n```",
+  "in": 1313,
+  "out": 27
+ },
+ {
+  "photo": "6",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"101231\",\"red\":\"035\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 564
+ },
+ {
+  "photo": "6",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00131\",\"red\":\"038\",\"confidence\":0.9}\n```",
+  "in": 1154,
+  "out": 1006
+ },
+ {
+  "photo": "6",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00137\",\"red\":\"0\",\"confidence\":0.9}",
+  "in": 588,
+  "out": 20
+ },
+ {
+  "photo": "6",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"00131\",\"red\":\"036\",\"confidence\":0.85}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "6",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"001734\",\"red\":\"005\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 893
+ },
+ {
+  "photo": "6",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00131\",\"red\":\"034\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 410
+ },
+ {
+  "photo": "7",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"031525\",\"red\":\"0\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 22
+ },
+ {
+  "photo": "7",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "{\"black\":\"031525\",\"red\":\"0\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 22
+ },
+ {
+  "photo": "7",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"031525\",\"red\":\"\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 266
+ },
+ {
+  "photo": "7",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"031525\",\"red\":\"2\",\"confidence\":0.85}\n```",
+  "in": 1154,
+  "out": 848
+ },
+ {
+  "photo": "7",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"03152\",\"red\":\"5\",\"confidence\":0.95}",
+  "in": 588,
+  "out": 21
+ },
+ {
+  "photo": "7",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "{\"black\":\"031525\",\"red\":\"2\",\"confidence\":0.95}",
+  "in": 588,
+  "out": 22
+ },
+ {
+  "photo": "7",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"031525\",\"red\":\"\",\"confidence\":1.0}",
+  "in": 711,
+  "out": 599
+ },
+ {
+  "photo": "7",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"031525\",\"red\":\"0\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 351
+ },
+ {
+  "photo": "8",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 22
+ },
+ {
+  "photo": "8",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "{\n  \"black\": \"034837\",\n  \"red\": \"2\",\n  \"confidence\": 0.98\n}",
+  "in": 1313,
+  "out": 32
+ },
+ {
+  "photo": "8",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 148
+ },
+ {
+  "photo": "8",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 235
+ },
+ {
+  "photo": "8",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"03483\",\"red\":\"7\",\"confidence\":0.95}",
+  "in": 588,
+  "out": 21
+ },
+ {
+  "photo": "8",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "{\n  \"black\": \"034837\",\n  \"red\": \"2\",\n  \"confidence\": 0.98\n}",
+  "in": 588,
+  "out": 32
+ },
+ {
+  "photo": "8",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"034837\",\"red\":\"\",\"confidence\":1.0}",
+  "in": 711,
+  "out": 1226
+ },
+ {
+  "photo": "8",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"034837\",\"red\":\"2\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 315
+ },
+ {
+  "photo": "9",
+  "size": "orig",
+  "model": "qwen-vl-max",
+  "text": "```json\n{\"black\":\"00035\",\"red\":\"166\",\"confidence\":0.95}\n```",
+  "in": 1313,
+  "out": 27
+ },
+ {
+  "photo": "9",
+  "size": "orig",
+  "model": "qwen3-vl-plus",
+  "text": "{\"black\":\"000351\",\"red\":\"68\",\"confidence\":0.95}",
+  "in": 1313,
+  "out": 23
+ },
+ {
+  "photo": "9",
+  "size": "orig",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"0003516\",\"red\":\"6\",\"confidence\":0.9}",
+  "in": 1666,
+  "out": 1190
+ },
+ {
+  "photo": "9",
+  "size": "orig",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00035\",\"red\":\"166\",\"confidence\":0.92}\n```",
+  "in": 1154,
+  "out": 715
+ },
+ {
+  "photo": "9",
+  "size": "800",
+  "model": "qwen-vl-max",
+  "text": "{\"black\":\"00351\",\"red\":\"6\",\"confidence\":0.98}",
+  "in": 588,
+  "out": 21
+ },
+ {
+  "photo": "9",
+  "size": "800",
+  "model": "qwen3-vl-plus",
+  "text": "```json\n{\"black\":\"0003516\",\"red\":\"2\",\"confidence\":0.95}\n```",
+  "in": 588,
+  "out": 27
+ },
+ {
+  "photo": "9",
+  "size": "800",
+  "model": "glm-4.6v",
+  "text": "\n{\"black\":\"000351\",\"red\":\"6\",\"confidence\":0.9}",
+  "in": 711,
+  "out": 707
+ },
+ {
+  "photo": "9",
+  "size": "800",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"black\":\"00035\",\"red\":\"166\",\"confidence\":0.95}\n```",
+  "in": 1154,
+  "out": 806
+ }
+]

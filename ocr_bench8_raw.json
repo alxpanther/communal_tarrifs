@@ -1,0 +1,344 @@
+[
+ {
+  "photo": "10",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"time\",\"digits\":\"15:52:11\",\"zone\":\"\",\"confidence\":0.85}",
+  "in": 1670
+ },
+ {
+  "photo": "10",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1552.11\",\"zone\":\"\",\"confidence\":0.9}\n```",
+  "in": 1224
+ },
+ {
+  "photo": "10",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1552.11\",\n  \"zone\": \"\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "11",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"time\",\"digits\":\"15:52:09\",\"zone\":\"T1\",\"confidence\":0.97}",
+  "in": 1993
+ },
+ {
+  "photo": "11",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"time\",\"digits\":\"15:52:09\",\"zone\":\"T1\",\"confidence\":0.99}\n```",
+  "in": 1203
+ },
+ {
+  "photo": "11",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"time\",\n  \"digits\": \"15:52:09\",\n  \"zone\": \"\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "12",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1153\",\"zone\":\"T1\",\"confidence\":0.95}",
+  "in": 893
+ },
+ {
+  "photo": "12",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1153\",\"zone\":\"T1\",\"confidence\":0.98}\n```",
+  "in": 1212
+ },
+ {
+  "photo": "12",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1153\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "13",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"time\",\"digits\":\"15:52:19\",\"zone\":\"T1\",\"confidence\":0.95}",
+  "in": 820
+ },
+ {
+  "photo": "13",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"time\",\"digits\":\"15:52:19\",\"zone\":\"T1\",\"confidence\":0.99}\n```",
+  "in": 1234
+ },
+ {
+  "photo": "13",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"time\",\n  \"digits\": \"15:52:19\",\n  \"zone\": \"\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 1194
+ },
+ {
+  "photo": "14",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T1\",\"confidence\":0.75}",
+  "in": 1145
+ },
+ {
+  "photo": "14",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T2\",\"confidence\":0.95}\n```",
+  "in": 1224
+ },
+ {
+  "photo": "14",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"533\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "15",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T1\",\"confidence\":0.9}",
+  "in": 663
+ },
+ {
+  "photo": "15",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T1\",\"confidence\":0.98}\n```",
+  "in": 1232
+ },
+ {
+  "photo": "15",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"533\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "16",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"time\",\"digits\":\"15:52:23\",\"zone\":\"T1\",\"confidence\":0.95}",
+  "in": 737
+ },
+ {
+  "photo": "16",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"time\",\"digits\":\"15:52:23\",\"zone\":\"T1\",\"confidence\":0.95}\n```",
+  "in": 1203
+ },
+ {
+  "photo": "16",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"15.5223\",\n  \"zone\": \"\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "17",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T2\",\"confidence\":0.9}",
+  "in": 1311
+ },
+ {
+  "photo": "17",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T2\",\"confidence\":0.95}\n```",
+  "in": 1203
+ },
+ {
+  "photo": "17",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"533\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "18",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"time\",\"digits\":\"155211\",\"zone\":\"\",\"confidence\":0.85}",
+  "in": 1633
+ },
+ {
+  "photo": "18",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"time\",\"digits\":\"15:52:11\",\"zone\":\"\",\"confidence\":0.95}\n```",
+  "in": 1192
+ },
+ {
+  "photo": "18",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1552.11\",\n  \"zone\": \"\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "19",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1137\",\"zone\":\"T1\",\"confidence\":0.9}",
+  "in": 299
+ },
+ {
+  "photo": "19",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1137\",\"zone\":\"T1\",\"confidence\":0.9}\n```",
+  "in": 1212
+ },
+ {
+  "photo": "19",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1137\",\n  \"zone\": \"\",\n  \"confidence\": 0.9\n}\n```\n",
+  "in": 1194
+ },
+ {
+  "photo": "1",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1136\",\"zone\":\"\",\"confidence\":0.7}",
+  "in": 273
+ },
+ {
+  "photo": "1",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1136\",\"zone\":\"\",\"confidence\":0.85}\n```",
+  "in": 1213
+ },
+ {
+  "photo": "1",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1136\",\n  \"zone\": \"\",\n  \"confidence\": 0.9\n}\n```\n",
+  "in": 938
+ },
+ {
+  "photo": "2",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1671\",\"zone\":\"\",\"confidence\":0.75}",
+  "in": 289
+ },
+ {
+  "photo": "2",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1671\",\"zone\":\"\",\"confidence\":0.95}\n```",
+  "in": 1232
+ },
+ {
+  "photo": "2",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1671\",\n  \"zone\": \"\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 938
+ },
+ {
+  "photo": "3",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1687\",\"zone\":\"T1\",\"confidence\":0.93}",
+  "in": 817
+ },
+ {
+  "photo": "3",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1687\",\"zone\":\"T1\",\"confidence\":0.98}\n```",
+  "in": 1212
+ },
+ {
+  "photo": "3",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1687\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "4",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1153\",\"zone\":\"\",\"confidence\":0.9}",
+  "in": 1311
+ },
+ {
+  "photo": "4",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1153\",\"zone\":\"T1\",\"confidence\":0.95}\n```",
+  "in": 1224
+ },
+ {
+  "photo": "4",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1153\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "5",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"\",\"confidence\":0.8}",
+  "in": 369
+ },
+ {
+  "photo": "5",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"\",\"confidence\":0.9}\n```",
+  "in": 1230
+ },
+ {
+  "photo": "5",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"533\",\n  \"zone\": \"\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 1194
+ },
+ {
+  "photo": "6",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1687\",\"zone\":\"T1\",\"confidence\":0.9}",
+  "in": 927
+ },
+ {
+  "photo": "6",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1687\",\"zone\":\"T1\",\"confidence\":0.95}\n```",
+  "in": 1212
+ },
+ {
+  "photo": "6",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1687\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "7",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"1153\",\"zone\":\"T1\",\"confidence\":0.95}",
+  "in": 927
+ },
+ {
+  "photo": "7",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"1153\",\"zone\":\"T1\",\"confidence\":0.98}\n```",
+  "in": 1212
+ },
+ {
+  "photo": "7",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"1153\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "8",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T1\",\"confidence\":0.9}",
+  "in": 1341
+ },
+ {
+  "photo": "8",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T2\",\"confidence\":0.95}\n```",
+  "in": 1182
+ },
+ {
+  "photo": "8",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"533\",\n  \"zone\": \"kWh\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ },
+ {
+  "photo": "9",
+  "model": "qwen3.8-max",
+  "text": "{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T2\",\"confidence\":0.8}",
+  "in": 1019
+ },
+ {
+  "photo": "9",
+  "model": "google/gemini-3.7-flash",
+  "text": "```json\n{\"type\":\"reading\",\"digits\":\"533\",\"zone\":\"T2\",\"confidence\":0.95}\n```",
+  "in": 1224
+ },
+ {
+  "photo": "9",
+  "model": "nvidia/nemotron-nano-12b-v2-vl:free",
+  "text": "```json\n{\n  \"type\": \"reading\",\n  \"digits\": \"533\",\n  \"zone\": \"T1\",\n  \"confidence\": 0.95\n}\n```\n",
+  "in": 2986
+ }
+]

@@ -1,0 +1,100 @@
+{
+  "version": "1.0",
+  "last_updated_at": "2026-08-28T22:35:10.992777",
+  "country": "AZ",
+  "country_names": {
+    "ru": "Азербайджан",
+    "uk": "Азербайджан"
+  },
+  "currency": "AZN",
+  "electricity": {
+    "source_url": "https://tariff.gov.az/",
+    "base_rate": 0.08,
+    "unit": "kWh",
+    "effective_date": "2021-11-01",
+    "update_date": "2026-08-28",
+    "decree_info": "Решение Тарифного Совета Азербайджанской Республики",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (не применяется, ставка одна)",
+        "day": {
+          "hours": "08:00 - 22:00",
+          "coefficient": 1.0,
+          "rate": 0.08
+        },
+        "night": {
+          "hours": "22:00 - 08:00",
+          "coefficient": 1.0,
+          "rate": 0.08
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.08
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.08
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.08
+        }
+      }
+    }
+  },
+  "water": {
+    "source_url": "https://tariff.gov.az/",
+    "update_date": "2026-08-26",
+    "cities": [
+      {
+        "city_code": "baku",
+        "city_name": "Баку",
+        "supplier": "ОАО \"Азерсу\"",
+        "water_supply": 0.7,
+        "sewage": 0.3,
+        "total_rate": 1.0,
+        "unit": "m3",
+        "effective_date": "2021-02-01",
+        "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
+      }
+    ]
+  },
+  "hot_water": {
+    "source_url": "https://tariff.gov.az/",
+    "update_date": "2026-08-26",
+    "cities": [
+      {
+        "city_code": "baku",
+        "city_name": "Баку",
+        "supplier": "ОАО \"Азеристиликтечизат\"",
+        "rate": 0.4,
+        "unit": "m3",
+        "effective_date": "2011-12-01",
+        "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
+      }
+    ]
+  },
+  "heating": {
+    "source_url": "https://tariff.gov.az/",
+    "update_date": "2026-08-26",
+    "cities": [
+      {
+        "city_code": "baku",
+        "city_name": "Баку",
+        "supplier": "ОАО \"Азеристиликтечизат\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 15.0,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2011-12-01",
+        "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
+      }
+    ]
+  }
+}

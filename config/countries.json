@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "index_version": "1.0",
+
+  "publication": {
+    "github_pages": {
+      "index_file": "docs/tariffs_index.json",
+      "path_template": "tariffs_{cc}.json"
+    },
+    "cloudflare": {
+      "index_file": "dist/cloudflare/tariffs_index.json",
+      "path_template": "{cc}/tariffs_{cc}.json"
+    }
+  },
+
+  "countries": [
+    {
+      "code": "UA",
+      "country_names": { "ru": "Украина", "uk": "Україна" },
+      "currency": "UAH",
+      "pipeline": "ua",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "AM",
+      "country_names": { "ru": "Армения", "uk": "Вірменія" },
+      "currency": "AMD",
+      "pipeline": "am",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "AZ",
+      "country_names": { "ru": "Азербайджан", "uk": "Азербайджан" },
+      "currency": "AZN",
+      "pipeline": "az",
+      "enabled": true,
+      "min_app_version": ""
+    }
+  ]
+}

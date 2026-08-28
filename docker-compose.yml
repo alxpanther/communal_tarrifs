@@ -3,13 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ukraine_tariffs_fetcher
+    container_name: kommeter_tariffs_fetcher
     env_file:
       - .env
     volumes:
       - ./assets:/app/assets
       - ./docs:/app/docs
       - ./config:/app/config
+      - ./dist:/app/dist
     networks:
       - deploy
 
@@ -26,9 +27,13 @@ services:
       - ./:/workspace
     networks:
       - deploy
-    # Загрузка файла tariffs_ua.json напрямую в твой облачный Cloudflare R2 бакет "kommeter"
+    # Загрузка файлов тарифов и индекса стран в облачный Cloudflare R2 бакет "kommeter".
+    # Раскладка на R2: <код>/tariffs_<код>.json, индекс — в корне бакета.
     command: >
-      sh -c "wrangler r2 object put kommeter/ua/tariffs_ua.json --file=docs/tariffs_ua.json --remote"
+      sh -c "wrangler r2 object put kommeter/tariffs_index.json --file=dist/cloudflare/tariffs_index.json --remote &&
+             wrangler r2 object put kommeter/ua/tariffs_ua.json --file=docs/tariffs_ua.json --remote &&
+             wrangler r2 object put kommeter/am/tariffs_am.json --file=docs/tariffs_am.json --remote &&
+             wrangler r2 object put kommeter/az/tariffs_az.json --file=docs/tariffs_az.json --remote"
 
 networks:
   deploy:

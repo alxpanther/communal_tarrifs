@@ -8,17 +8,22 @@ from datetime import datetime
 import requests
 from dotenv import load_dotenv
 
-from telegram_notifier import TelegramNotifier
+from common.countries import load_country
+from common.jsonio import build_root, empty_city_block, save_country_json
+from common.overrides import apply_base_rate_to_zones, apply_manual_overrides
+from common.paths import assets_output_path, docs_output_path, registry_path, sources_path
+from common.telegram_notifier import TelegramNotifier
 
 load_dotenv()
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("TariffsFetcher")
+logger = logging.getLogger("TariffsFetcherUA")
 
-CONFIG_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "sources.json")
-REGISTRY_PATH = os.path.join(os.path.dirname(__file__), "..", "config", "city_registry.json")
-OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "assets", "tariffs_ua_default.json")
-ROOT_OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "..", "docs", "tariffs_ua.json")
+COUNTRY_CODE = "UA"
+
+CONFIG_PATH = sources_path(COUNTRY_CODE)
+REGISTRY_PATH = registry_path(COUNTRY_CODE)
+OUTPUT_PATH = assets_output_path(COUNTRY_CODE)
+ROOT_OUTPUT_PATH = docs_output_path(COUNTRY_CODE)
 
 # Sanity limits for a single water tariff component (UAH per m3, VAT included)
 MAX_WATER_RATE = 500.0
@@ -77,14 +82,6 @@ def parse_rate(rate_val):
         return float(cleaned) if cleaned else None
     except Exception:
         return None
-
-def empty_city_block(source_url: str) -> dict:
-    """Builds the shell of a per-city tariff block (water, hot water, heating)."""
-    return {
-        "source_url": source_url or "",
-        "update_date": datetime.now().strftime("%Y-%m-%d"),
-        "cities": []
-    }
 
 def load_base_schema() -> dict:
     """
@@ -1054,15 +1051,6 @@ def extract_heat_blocks(base_data: dict, ref_sources: dict, timeout: int,
 
     return {"hot_water": hot_data, "heating": heat_data}
 
-def apply_base_rate_to_zones(elec_data: dict, base_rate: float):
-    """Recomputes every zone rate from the base rate and the coefficient of that zone."""
-    for zone in elec_data.get("zones", {}).values():
-        if not isinstance(zone, dict):
-            continue
-        for part in zone.values():
-            if isinstance(part, dict) and "coefficient" in part:
-                part["rate"] = round(base_rate * float(part["coefficient"]), 4)
-
 def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramNotifier) -> dict:
     base_data = load_base_schema()
     ref_sources = config["reference_sources"]
@@ -1246,127 +1234,11 @@ def compare_and_validate(ref_data: dict, search_data: dict) -> list:
 
     return discrepancies
 
-# Fields a manual override must carry to publish a city the source site does not list.
-MANUAL_CITY_REQUIRED_FIELDS = {
-    "water": ("city_name", "supplier", "water_supply", "sewage", "total_rate",
-              "unit", "effective_date", "decree_info"),
-    "hot_water": ("city_name", "supplier", "rate", "unit", "effective_date", "decree_info"),
-    "heating": ("city_name", "supplier", "tariff_type", "rate_gcal", "rate_gcal_hour",
-                "unit", "effective_date", "decree_info"),
-}
-
-def merge_city_overrides(cities: list, overrides: dict, block: str,
-                         notifier: TelegramNotifier) -> list:
-    """
-    Applies manual per-city overrides keyed by city_code. A city already present is patched
-    field by field, an unknown one is appended — the only way to publish a supplier the
-    source site does not list at all, such as КП "КИЇВТЕПЛОЕНЕРГО" for heating.
-    """
-    if not overrides:
-        return cities
-
-    by_code = {city.get("city_code"): city for city in cities}
-    incomplete = []
-
-    for code, fields in overrides.items():
-        if not isinstance(fields, dict):
-            continue
-
-        target = by_code.get(code)
-        if target is not None:
-            for key, value in fields.items():
-                if value is not None:
-                    target[key] = value
-            logger.info(f"Manual override patched city '{code}' in '{block}'")
-            continue
-
-        missing = [f for f in MANUAL_CITY_REQUIRED_FIELDS[block] if fields.get(f) is None]
-        if missing:
-            incomplete.append(f"{code}: не хватает полей {', '.join(missing)}")
-            continue
-
-        added = {"city_code": code}
-        added.update({k: v for k, v in fields.items() if v is not None})
-        cities.append(added)
-        logger.info(f"Manual override added a new city '{code}' to '{block}'")
-
-    if incomplete:
-        logger.warning(f"{len(incomplete)} manual override cities skipped in '{block}'")
-        notifier.send_message(
-            f"⚠️ <b>manual_override: города не добавлены в блок «{block}»</b>\n"
-            + "\n".join(f"• <code>{i}</code>" for i in incomplete),
-            parse_mode="HTML"
-        )
-
-    return cities
-
-def apply_manual_overrides(ref_data: dict, config: dict, notifier: TelegramNotifier) -> dict:
-    """
-    Merges config/sources.json -> manual_override on top of the scraped data. It runs on the
-    normal path, so pinning one value by hand never disables the Search Grounding cross-check.
-    """
-    manual = config.get("manual_override", {})
-    if not manual.get("enabled"):
-        return ref_data
-
-    logger.info("Manual override is enabled. Merging manual values on top of the scraped data...")
-
-    elec_override = manual.get("electricity", {})
-    elec_data = ref_data.get("electricity", {})
-    for key in ("source_url", "effective_date", "decree_info"):
-        if elec_override.get(key):
-            elec_data[key] = elec_override[key]
-
-    if elec_override.get("base_rate") is not None:
-        elec_data["base_rate"] = float(elec_override["base_rate"])
-        # Zone rates are derived from the base rate, so they have to follow it
-        apply_base_rate_to_zones(elec_data, elec_data["base_rate"])
-
-    for block in ("water", "hot_water", "heating"):
-        override = manual.get(block, {})
-        target = ref_data.get(block, {})
-        if not override or not isinstance(target, dict):
-            continue
-
-        if override.get("source_url"):
-            target["source_url"] = override["source_url"]
-        target["cities"] = merge_city_overrides(
-            target.get("cities", []), override.get("cities", {}), block, notifier
-        )
-
-    return ref_data
-
-def build_final_json(ref_data: dict) -> dict:
-    return {
-        "version": "1.0",
-        "last_updated_at": datetime.now().isoformat(),
-        "country": "UA",
-        "currency": "UAH",
-        "electricity": ref_data.get("electricity", {}),
-        "water": ref_data.get("water", {}),
-        "hot_water": ref_data.get("hot_water", {}),
-        "heating": ref_data.get("heating", {})
-    }
-
-def save_json(data: dict):
-    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-    with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-    
-    with open(ROOT_OUTPUT_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-        
-    logger.info(f"Tariffs JSON saved successfully to {OUTPUT_PATH} and {ROOT_OUTPUT_PATH}")
-
-def main():
-    notifier = TelegramNotifier()
-    try:
-        config = load_config()
-    except Exception as e:
-        err_msg = f"💥 <b>Фатальная ошибка конфигурации тарифов:</b>\n<code>{str(e)}</code>"
-        logger.critical(err_msg)
-        notifier.send_message(err_msg, parse_mode="HTML")
-        return
+def main(notifier: TelegramNotifier = None) -> dict:
+    """Runs the whole Ukrainian pipeline and writes both output files."""
+    country = load_country(COUNTRY_CODE)
+    notifier = notifier or TelegramNotifier()
+    config = load_config()
 
     model_name = resolve_latest_gemini_model(config)
     logger.info(f"Resolved Gemini model for execution: '{model_name}'")
@@ -1379,8 +1251,8 @@ def main():
 
     # Reference data is always persisted; discrepancies only trigger a notification,
     # so an alternative source disagreeing never blocks the update.
-    final_json = build_final_json(ref_data)
-    save_json(final_json)
+    final_json = build_root(country, ref_data)
+    save_country_json(country, final_json)
 
     if discrepancies:
         logger.warning(f"Found {len(discrepancies)} tariff discrepancies across sources!")
@@ -1392,5 +1264,4 @@ def main():
     else:
         logger.info("No discrepancies found. Reference data matches or is up to date.")
 
-if __name__ == "__main__":
-    main()
+    return final_json

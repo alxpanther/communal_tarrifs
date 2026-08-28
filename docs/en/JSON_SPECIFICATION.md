@@ -1,10 +1,14 @@
-# Specification of the utility tariff JSON (`tariffs_ua.json`)
+# Specification of the utility tariff JSON (`tariffs_<cc>.json`)
 
 > **Language:** English — canonical version. AI agents read this file, not the Russian one.
 > Russian mirror: [../ru/JSON_SPECIFICATION.md](../ru/JSON_SPECIFICATION.md). Both files must stay identical in meaning; see [DOCUMENTATION_RULES.md](DOCUMENTATION_RULES.md).
 
-This document is the complete technical specification of the `tariffs_ua.json` format: every field,
+This document is the complete technical specification of the tariff file format: every field,
 ready-to-use Kotlin data classes, and the billing formulas the Android metering app implements.
+
+There is **one file per country** — `tariffs_ua.json`, `tariffs_am.json`, `tariffs_az.json` — all
+in the same format, with the country named by the `country` field. The list of countries that are
+actually published is a separate file, described in section 6 (`tariffs_index.json`).
 
 ---
 
@@ -53,7 +57,8 @@ services to each other, and `city_code` as the stable selection key inside one b
 |---|---|---|---|
 | `version` | `String` | Version of the JSON schema. | `"1.0"` |
 | `last_updated_at` | `String` | ISO 8601 timestamp of the last file update. | `"2026-08-02T18:04:37.758583"` |
-| `country` | `String` | Country code, ISO 3166-1 alpha-2. | `"UA"` |
+| `country` | `String` | Country code, ISO 3166-1 alpha-2, upper case. | `"UA"` |
+| `country_names` | `Object` | Country name for the interface: key = app language code, value = the name in that language. Required: the app lists the country by it when the user picks an address. Missing key for the current language → `ru` is used; missing that too → the raw `country` code is shown. | `{ "ru": "Армения", "uk": "Вірменія" }` |
 | `currency` | `String` | Tariff currency, ISO 4217. | `"UAH"` |
 | `electricity` | `Object` | Electricity block (section 2.2). | `{ ... }` |
 | `water` | `Object` | Water supply and sewage block (section 2.3). | `{ ... }` |
@@ -110,7 +115,7 @@ services to each other, and `city_code` as the stable selection key inside one b
 
 | Field | Type | Description | Example |
 |---|---|---|---|
-| `city_code` | `String` | Unique latin identifier (slug), the primary key for the app. Stable across updates: values are kept in the permanent registry `config/city_registry.json` and never change once assigned. | `"kyiv"`, `"lviv"` |
+| `city_code` | `String` | Unique latin identifier (slug), the primary key for the app. Stable across updates: values are kept in the permanent registry `config/ua/city_registry.json` and never change once assigned. | `"kyiv"`, `"lviv"` |
 | `city_name` | `String` | City or region name in Ukrainian, for the UI. | `"Київ"`, `"Львів"` |
 | `supplier` | `String` | Water utility company name. | `"ПАТ АК \"Київводоканал\""` |
 | `water_supply` | `Double` | Price per m³ of centralised cold water, UAH. `0.0` if the supplier does not provide the service. | `16.164` |
@@ -134,7 +139,7 @@ services to each other, and `city_code` as the stable selection key inside one b
 
 | Field | Type | Description | Example |
 |---|---|---|---|
-| `city_code` | `String` | Unique latin identifier (primary key). Stable across updates, stored in `config/city_registry.json`, section `heat_suppliers`. | `"kyiv"` |
+| `city_code` | `String` | Unique latin identifier (primary key). Stable across updates, stored in `config/ua/city_registry.json`, section `heat_suppliers`. | `"kyiv"` |
 | `city_name` | `String` | City name in Ukrainian, for the UI. | `"Київ"` |
 | `supplier` | `String` | Heat supplier company name. | `"КП \"КИЇВТЕПЛОЕНЕРГО\""` |
 | `rate` | `Double` | Price per m³ of hot water, UAH incl. VAT. | `97.89` |
@@ -198,6 +203,7 @@ data class TariffResponse(
     @SerialName("version") val version: String,
     @SerialName("last_updated_at") val lastUpdatedAt: String,
     @SerialName("country") val country: String,
+    @SerialName("country_names") val countryNames: Map<String, String> = emptyMap(),
     @SerialName("currency") val currency: String,
     @SerialName("electricity") val electricity: ElectricityTariff,
     @SerialName("water") val water: WaterTariff,
@@ -367,14 +373,105 @@ meter in Gcal.
 
 ## 5. Update and offline strategy
 
+One file per country, and everything below happens per country: its own bundled file, its own
+cache, its own check marks.
+
 1. **First launch (offline fallback):**
-   * Ship the current `tariffs_ua.json` inside the APK as `app/src/main/assets/tariffs_ua_default.json`.
-   * With no network available, the app reads tariffs from local assets.
+   * The bundled file lives in the app as `assets/tariffs/tariffs_<cc>_default.json` (country code
+     in lower case: `tariffs_ua_default.json`, `tariffs_am_default.json`).
+   * The app discovers those files at run time through the asset manifest — the list of countries is
+     nowhere in its code. Dropping a file in is enough.
+   * With no network available, the app runs on them.
 
 2. **Background sync (remote update):**
-   * When online, the app fetches one of:
-     * **Cloudflare CDN / R2:** `https://tarrifs.foleks.com/ua/tariffs_ua.json`
-     * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_ua.json`
-   * It compares `last_updated_at` (or `update_date`) of the remote file with the locally stored one.
-   * If the remote timestamp is newer, the local cache (Room / SharedPreferences / DataStore) is
-     refreshed.
+   * Hosts are tried in turn, and each has its own file layout:
+     * **Cloudflare CDN / R2:** `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json`
+     * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json`
+   * The `path` field of the index (section 6) overrides both layouts when a file lives elsewhere.
+   * The app compares `last_updated_at` of the downloaded file with the cached one and rewrites the
+     cache when the timestamp is newer.
+   * An incomplete file is rejected: if the publisher lost the electricity block or more than half of
+     a block's records, the cache is kept as it was.
+
+---
+
+## 6. Country index (`tariffs_index.json`)
+
+The list of countries whose tariffs are published at all. It exists for one reason: a country added
+after an app release must show up in the address form of a user who never updated the app.
+
+Published at the root of **each** host:
+
+* `https://tarrifs.foleks.com/tariffs_index.json`
+* `https://alxpanther.github.io/communal_tarrifs/tariffs_index.json`
+
+### 6.1. Example
+
+```json
+{
+  "version": "1.0",
+  "generated_at": "2026-08-28T10:15:00",
+  "countries": [
+    {
+      "country": "UA",
+      "country_names": { "ru": "Украина", "uk": "Україна" },
+      "currency": "UAH",
+      "last_updated_at": "2026-08-11T13:56:38.856897",
+      "path": "tariffs_ua.json",
+      "enabled": true,
+      "min_app_version": ""
+    }
+  ]
+}
+```
+
+### 6.2. Fields
+
+| Field | Type | Req. | Description |
+|---|---|---|---|
+| `version` | `String` | yes | Index format version. The app reads `1.x`; an index with a higher major version is ignored whole and the country list stays as it was. |
+| `generated_at` | `String` | no | When the index was built, ISO 8601. Diagnostics only. |
+| `countries` | `Array<Object>` | yes | The countries. Order is irrelevant — the app sorts by name. |
+| `countries[].country` | `String` | yes | ISO 3166-1 alpha-2. The key of the record; a record without it is dropped. |
+| `countries[].country_names` | `Object` | yes | Same as in the tariff file. Needed to show the country **before** its file has been downloaded. |
+| `countries[].currency` | `String` | no | ISO 4217. Informational; it does not change the app's currency. |
+| `countries[].last_updated_at` | `String` | yes | The stamp taken from the country's own tariff file. |
+| `countries[].path` | `String` | no | Path to the tariff file **relative to the root of the publication**. Without it the host's standard layout applies (section 5). |
+| `countries[].enabled` | `Bool` | no | Defaults to `true`. `false` hides the country without deleting its file. |
+| `countries[].min_app_version` | `String` | no | Minimum app version (`major.minor.patch`) below which the country is not shown. Empty means no limit. A version, not a build number: `--split-per-abi` gives one release different build numbers per architecture. |
+
+### 6.3. Why each host carries its own copy
+
+The layouts differ — flat on GitHub Pages, one folder per country on Cloudflare — so `path` differs
+too. The generator writes both copies (`docs/tariffs_index.json` for Pages,
+`dist/cloudflare/tariffs_index.json` for R2) from the same country registry,
+[`config/countries.json`](../../config/countries.json).
+
+### 6.4. Rules the app follows
+
+* **Only a relative `path` is accepted.** An absolute address (`http://…`, `//…`), a root-relative
+  path (`/…`), anything containing `..` or backslashes is ignored and the standard layout applies.
+  The index arrives from the network, and the app walks the path it names — it must not be led to
+  someone else's host.
+* **An unreachable, broken or empty index removes nothing.** The previously saved copy stays, and
+  the bundled countries are always there.
+* **A country already chosen for an address never disappears** from the list, even if it left the
+  index.
+* The index is requested at app start at most once a day, and before every scheduled tariff check.
+
+---
+
+## 7. How to add a country
+
+1. Generate `tariffs_<cc>.json` in the format of sections 1–4, with `country`, `currency` and
+   `country_names` filled in.
+2. Publish it on both hosts using the standard layout (section 5).
+3. Add the country to `tariffs_index.json` on both hosts.
+4. Optionally ship the same file as `assets/tariffs/tariffs_<cc>_default.json` in the next app
+   version — then the country works offline from the first launch.
+
+Step 4 is optional: a country from the index appears in the address form without it, and its tariffs
+are downloaded the moment the user selects that country.
+
+On the generator side the same job is described in
+[ADDING_A_COUNTRY.md](ADDING_A_COUNTRY.md).

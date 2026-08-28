@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Command to execute tariff generation
-CMD ["python", "src/tariffs_fetcher.py"]
+CMD ["python", "src/run_country.py"]

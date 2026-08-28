@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-08-28T22:35:10.993421",
+  "countries": [
+    {
+      "country": "UA",
+      "country_names": {
+        "ru": "Украина",
+        "uk": "Україна"
+      },
+      "currency": "UAH",
+      "last_updated_at": "2026-08-28T22:21:14.435506",
+      "path": "ua/tariffs_ua.json",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "country": "AM",
+      "country_names": {
+        "ru": "Армения",
+        "uk": "Вірменія"
+      },
+      "currency": "AMD",
+      "last_updated_at": "2026-08-28T22:35:10.990626",
+      "path": "am/tariffs_am.json",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "country": "AZ",
+      "country_names": {
+        "ru": "Азербайджан",
+        "uk": "Азербайджан"
+      },
+      "currency": "AZN",
+      "last_updated_at": "2026-08-28T22:35:10.992777",
+      "path": "az/tariffs_az.json",
+      "enabled": true,
+      "min_app_version": ""
+    }
+  ]
+}

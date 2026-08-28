@@ -1,0 +1,9 @@
+{
+  "suppliers": {
+    "ЗАО \"Веолиа Джур\"": {
+      "city_code": "yerevan",
+      "city_name": "Ереван"
+    }
+  },
+  "heat_suppliers": {}
+}

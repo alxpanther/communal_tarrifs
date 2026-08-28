@@ -57,7 +57,7 @@ Update the docs **in the same change** that touches the code, never as a follow-
 | New or removed file / directory | `PROJECT_STRUCTURE.md` (both languages) |
 | New pipeline stage, new validation, changed fallback behaviour | `ARCHITECTURE.md` |
 | Any change to the output JSON — new field, new block, changed meaning | `JSON_SPECIFICATION.md`, plus `README.md`, plus a note for the Android side. **Requires the maintainer's agreement first**, see section 5 |
-| New configuration key in `config/sources.json` | `README.md` and `ARCHITECTURE.md` |
+| New configuration key in `config/ua/sources.json` | `README.md` and `ARCHITECTURE.md` |
 | New country added | `ADDING_A_COUNTRY.md`, `PROJECT_STRUCTURE.md`, `docs/README.md` |
 | New documentation page | `docs/README.md` index, both languages |
 
@@ -66,18 +66,20 @@ rejected.
 
 ## 4. Structure rules
 
-1. **Configuration, not constants.** URLs, model names and timeouts belong in `config/`. A URL
-   hardcoded in Python is a defect regardless of how well it works.
-2. **Generated files are never hand-edited.** `docs/tariffs_ua.json` and
-   `assets/tariffs_ua_default.json` are overwritten on every run; force values through
-   `manual_override`.
+1. **Configuration, not constants.** URLs, model names, timeouts, tariff values and country names
+   belong in `config/`. A URL hardcoded in Python is a defect regardless of how well it works.
+2. **Generated files are never hand-edited.** `docs/tariffs_<cc>.json`,
+   `assets/tariffs_<cc>_default.json` and both copies of `tariffs_index.json` are overwritten on
+   every run; force values through `manual_override`.
 3. **Temporary work goes to `tmp/`** in the repository root, and the folder is deleted when the task
    ends. Debug dumps, benchmark output and scratch scripts must not stay in `src/`, `docs/` or the
    repository root.
-4. **One responsibility per module.** Telegram delivery lives in `telegram_notifier.py`, tariff
-   logic in the country pipeline. Do not spread I/O side effects around.
-5. **Code comments are English.** Regardless of the language used in chat or in the Russian docs.
-6. **`docs/` is a web root.** Everything committed there is published by GitHub Pages. No secrets,
+4. **One responsibility per module.** Telegram delivery lives in `common/telegram_notifier.py`,
+   tariff logic in the country pipeline. Do not spread I/O side effects around.
+5. **One implementation of shared behaviour.** Anything two countries do the same way belongs in
+   `src/common/`. A second copy in another country's fetcher is a defect even when it is correct.
+6. **Code comments are English.** Regardless of the language used in chat or in the Russian docs.
+7. **`docs/` is a web root.** Everything committed there is published by GitHub Pages. No secrets,
    no scratch files.
 
 ## 5. Frozen contracts
@@ -91,7 +93,7 @@ explicitly, because the app side needs a matching change. Document every additio
 `JSON_SPECIFICATION.md` in the same change.
 
 **The `city_code` values.** Once assigned, a code is permanent: the app stores it as the user's
-saved selection. `config/city_registry.json` must be committed, and codes may only be edited
+saved selection. `config/ua/city_registry.json` must be committed, and codes may only be edited
 deliberately together with a migration on the app side.
 
 ## 6. Style of a documentation page

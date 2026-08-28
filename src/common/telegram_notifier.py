@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 
-logging.basicConfig(level=logging.INFO)
+# No basicConfig here: a library module must not take over the entry point's logging setup.
 logger = logging.getLogger("TelegramNotifier")
 
 class TelegramNotifier:

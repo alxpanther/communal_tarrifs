@@ -3,9 +3,14 @@
 > **Language:** English — canonical version. AI agents read this file, not the Russian one.
 > Russian mirror: [../ru/ARCHITECTURE.md](../ru/ARCHITECTURE.md). Both files must stay identical in meaning; see [DOCUMENTATION_RULES.md](DOCUMENTATION_RULES.md).
 
-One entry point, `src/tariffs_fetcher.py`, run by `main()`. It is a batch job: it starts, produces
-one JSON file, notifies Telegram, and exits. There is no server, no database, no state other than
-the two generated JSON files and `config/city_registry.json`.
+One entry point for everything: `src/run_country.py`. It is a batch job — it starts, runs the
+pipeline of every requested country one after another, rebuilds the country index, notifies
+Telegram, and exits. There is no server, no database, no state other than the generated JSON files
+and the `config/<cc>/city_registry.json` registries.
+
+Sections 2–6 describe the Ukrainian pipeline, which is the richest one and the reference for
+everything else. Section 8 covers the config-driven pipeline used by Armenia and Azerbaijan, and
+section 9 the country index.
 
 ---
 
@@ -24,23 +29,28 @@ These are the rules the current code follows. Keep following them.
    read back from the HTML. Models routinely "fix" unusual Ukrainian company names, and only the
    spelling from the site may reach the JSON.
 4. **Identifiers are permanent.** `city_code` is assigned once by a pure Python function and stored
-   in `config/city_registry.json`. It never changes, whatever the model or the source returns,
+   in `config/ua/city_registry.json`. It never changes, whatever the model or the source returns,
    because the Android app persists it as the user's choice.
-5. **No hardcoded URLs.** Everything the pipeline fetches is declared in `config/sources.json`.
+5. **No hardcoded URLs.** Everything a pipeline fetches is declared in `config/<cc>/sources.json`,
+   and everything about a country itself in `config/countries.json`.
 6. **Notifications must never break the run.** `TelegramNotifier` swallows its own errors.
+7. **Countries are independent.** One country failing must not stop, delay or alter another, and must
+   not remove it from the index.
+8. **Shared behaviour lives in `src/common/`.** Anything two countries do the same way — overrides,
+   the registry, writing the file — has exactly one implementation.
 
 ---
 
-## 2. Execution order (`main()`)
+## 2. Execution order of the Ukrainian pipeline (`main()`)
 
 | # | Step | Function | Failure behaviour |
 |---|---|---|---|
-| 1 | Load config | `load_config()` | Missing file or missing `electricity`/`water` source → fatal: Telegram alert, process exits without writing anything |
+| 1 | Load config | `load_config()` | Missing file or missing `electricity`/`water` source → the country is aborted by `run_country.py`, which alerts Telegram and moves on to the next one; nothing is written |
 | 2 | Resolve model | `resolve_latest_gemini_model()` | `GEMINI_MODEL` env → auto-selected newest Flash model via `client.models.list()` → `settings.gemini_model` as the last fallback |
 | 3 | Scrape and parse | `extract_reference_tariffs()` | Per-block fallback to the previous JSON, see section 3 |
 | 4 | Apply overrides | `apply_manual_overrides()` | Incomplete override records are skipped and reported to Telegram |
 | 5 | Cross-check | `search_alternative_tariffs()` + `compare_and_validate()` | Purely advisory, see section 5 |
-| 6 | Write output | `build_final_json()` + `save_json()` | Writes `docs/tariffs_ua.json` and `assets/tariffs_ua_default.json` |
+| 6 | Write output | `build_root()` + `save_country_json()` (both in `common/jsonio.py`) | Writes `docs/tariffs_ua.json` and `assets/tariffs_ua_default.json`; refuses to write at all if the electricity block came out empty |
 | 7 | Report | `TelegramNotifier.send_discrepancy_report()` | Only when discrepancies were found |
 
 The order matters: **the file is always saved**, and discrepancies only produce a message. A
@@ -48,7 +58,7 @@ disagreeing third-party source never blocks an update.
 
 ---
 
-## 3. Stage 3 in detail: building the four blocks
+## 3. Ukraine, stage 3 in detail: building the four blocks
 
 `extract_reference_tariffs()` starts from `load_base_schema()`, which loads the previous
 `docs/tariffs_ua.json` (or `assets/tariffs_ua_default.json`, or a built-in default) and uses it as
@@ -155,13 +165,85 @@ Full field-by-field reference with worked examples: README, section "Ручно�
 
 ## 7. Output and deployment
 
-`build_final_json()` assembles the root object (`version`, `last_updated_at`, `country`, `currency`
-plus the four blocks) and `save_json()` writes the same content to both `docs/tariffs_ua.json` and
-`assets/tariffs_ua_default.json`.
+`build_root()` assembles the root object (`version`, `last_updated_at`, `country`, `country_names`,
+`currency` plus the four blocks) from `config/countries.json`, and `save_country_json()` writes the
+same content to both `docs/tariffs_ua.json` and `assets/tariffs_ua_default.json`. Both live in
+`src/common/jsonio.py`, so every country produces an identically shaped file.
 
 `.github/workflows/fetch_tariffs.yml` then, on the 25th of each month at 11:00 UTC (or on manual
-dispatch): runs the pipeline, commits the two JSON files **and the registry**, uploads the file to
-the Cloudflare R2 bucket `kommeter` as `ua/tariffs_ua.json`, and publishes `docs/` to GitHub Pages.
+dispatch, which accepts a list of country codes):
+
+1. runs `python src/run_country.py` — every enabled country in turn, then the index;
+2. commits the tariff files, both index copies and the registries, rebasing onto the branch before
+   pushing so a concurrent push cannot fail the job;
+3. uploads to the Cloudflare R2 bucket `kommeter`: the index at the bucket root and every country
+   file under `<cc>/tariffs_<cc>.json`, with the list taken from the generated index rather than
+   from the workflow file;
+4. publishes `docs/` to GitHub Pages.
+
+One job does all countries, so two runs can never push to the same branch or deploy Pages at the
+same time.
+
+---
+
+## 8. Countries without a scrapable source
+
+Armenia and Azerbaijan have no page a parser can trust: the regulators publish decisions as prose
+and PDFs. For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
+`src/common/manual_pipeline.py` is the whole pipeline. `src/countries/am/fetcher.py` and
+`src/countries/az/fetcher.py` only name the country and delegate to it.
+
+Order of work in `manual_pipeline.run()`:
+
+1. `load_config()` — a country with no scraping stage must have `manual_override.enabled`, otherwise
+   the run is aborted rather than publishing a stale file silently.
+2. The previous published file becomes the base. With no previous file, `build_skeleton()` builds an
+   empty one from config: zone schedule and coefficients from `electricity.zones`, source URLs from
+   `reference_sources`, no rates.
+3. `sync_zone_schedule()` copies the zone schedule from config over the file, so editing hours or a
+   coefficient in config actually reaches the published file.
+4. `apply_manual_overrides()` — the same shared function Ukraine uses.
+5. A zero `base_rate` aborts the country: a file claiming free electricity is worse than yesterday's
+   file.
+6. `reconcile_cities()` records new suppliers in `config/<cc>/city_registry.json` and forces already
+   registered codes onto the data.
+7. `build_root()` + `save_country_json()`, exactly as for Ukraine.
+
+Adding a scraping stage to such a country later means inserting it in front of step 4 in that
+country's own `fetcher.py`; nothing downstream changes.
+
+---
+
+## 9. The country index
+
+`src/build_index.py` renders `tariffs_index.json` — the list of countries whose tariffs are
+published — once per publication target declared in `config/countries.json`. It runs at the end of
+every `run_country.py` invocation, after the pipelines, so it always describes what is really on
+disk.
+
+* An entry is built from the country registry (code, names, currency, `enabled`, `min_app_version`)
+  and from the country's own published file (`last_updated_at`).
+* A country whose file is missing or unreadable is left out of the index, with a warning. It is not
+  invented.
+* If **no** country file could be read, nothing is written at all: an empty index would tell the app
+  that nothing is published, and keeping yesterday's index is always better than that.
+* Each host gets its own copy because the file layouts differ: `docs/tariffs_index.json` with flat
+  paths for GitHub Pages, `dist/cloudflare/tariffs_index.json` with `<cc>/tariffs_<cc>.json` paths
+  for R2. Both are rendered from the same registry, so they cannot disagree about which countries
+  exist.
+
+Format and the rules the app applies to it: [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md),
+section 6.
+
+---
+
+## 10. Running several countries
+
+`src/run_country.py` takes country codes (`ua`, `am az`, `all`, or nothing for every enabled
+country), runs them in the order of `config/countries.json`, and catches everything each one throws:
+the failure is logged, reported to Telegram, and the next country still runs. The exit code is
+non-zero if any country or the index failed, which is what turns the CI job red — while the
+countries that did succeed are already published.
 
 The output contract itself — every field, its type and meaning — is in
 [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md).

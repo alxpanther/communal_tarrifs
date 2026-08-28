@@ -58,10 +58,12 @@ CRITICAL! Documentation is part of the deliverable, not a follow-up task.
   fallback → `ARCHITECTURE.md`; new config key → `README.md` and `ARCHITECTURE.md`; new page → the
   `docs/README.md` index. Both languages, every time.
 - `README.md` in the root stays Russian and must not contradict `docs/`.
-- Keep the structure rules: URLs, model names and timeouts live in `config/`, never hardcoded in
-  Python; generated files (`docs/tariffs_ua.json`, `assets/tariffs_ua_default.json`) are never
-  hand-edited — force values through `manual_override`; one responsibility per module.
-- An assigned `city_code` in `config/city_registry.json` is permanent and must never be rewritten:
-  the Android application stores it as the user's saved selection.
+- Keep the structure rules: URLs, model names, timeouts, tariff values and country names live in
+  `config/`, never hardcoded in Python; generated files (`docs/tariffs_<cc>.json`,
+  `assets/tariffs_<cc>_default.json`, both copies of `tariffs_index.json`) are never hand-edited —
+  force values through `manual_override`; one responsibility per module; anything two countries do
+  the same way lives in `src/common/`, not copied.
+- An assigned `city_code` in `config/<cc>/city_registry.json` is permanent and must never be
+  rewritten: the Android application stores it as the user's saved selection.
 - When adding support for another country, follow `docs/en/ADDING_A_COUNTRY.md` and do not deviate
   from the layout and the output contract described there without agreeing it with me first.

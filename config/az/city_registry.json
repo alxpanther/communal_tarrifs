@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "ОАО \"Азерсу\"": {
+      "city_code": "baku",
+      "city_name": "Баку"
+    }
+  },
+  "heat_suppliers": {
+    "ОАО \"Азеристиликтечизат\"": {
+      "city_code": "baku",
+      "city_name": "Баку"
+    }
+  }
+}

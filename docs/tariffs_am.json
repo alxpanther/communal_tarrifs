@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "last_updated_at": "2026-08-28T22:35:10.990626",
+  "country": "AM",
+  "country_names": {
+    "ru": "Армения",
+    "uk": "Вірменія"
+  },
+  "currency": "AMD",
+  "electricity": {
+    "source_url": "https://www.ena.am/Tariffs.aspx?lang=2",
+    "base_rate": 48.48,
+    "unit": "kWh",
+    "effective_date": "2024-02-01",
+    "update_date": "2026-08-28",
+    "decree_info": "Решение КРОУ РА № 524-Н",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.0,
+          "rate": 48.48
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 0.79373,
+          "rate": 38.48
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 48.48
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 48.48
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 48.48
+        }
+      }
+    }
+  },
+  "water": {
+    "source_url": "https://www.veoliajur.am/hy/tariffs",
+    "update_date": "2026-08-26",
+    "cities": [
+      {
+        "city_code": "yerevan",
+        "city_name": "Ереван",
+        "supplier": "ЗАО \"Веолиа Джур\"",
+        "water_supply": 175.093,
+        "sewage": 30.899,
+        "total_rate": 205.992,
+        "unit": "m3",
+        "effective_date": "2024-01-01",
+        "decree_info": "Решение КРОУ РА № 437-Н"
+      }
+    ]
+  },
+  "hot_water": {
+    "source_url": "",
+    "update_date": "2026-08-26",
+    "cities": []
+  },
+  "heating": {
+    "source_url": "",
+    "update_date": "2026-08-26",
+    "cities": []
+  }
+}

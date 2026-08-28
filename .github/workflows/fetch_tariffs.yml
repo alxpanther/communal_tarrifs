@@ -5,12 +5,19 @@ on:
     # Runs at 11:00 UTC on the 25th day of every month
     - cron: '0 11 25 * *'
   workflow_dispatch:
+    inputs:
+      countries:
+        description: 'Country codes to run, space separated (empty = every enabled country)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
   pages: write
   id-token: write
 
+# One job publishes every country, so there is never a second run pushing to the same branch
+# or deploying Pages at the same time.
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -23,10 +30,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -34,31 +41,63 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Run Tariffs Fetcher & AI Comparison
+      - name: Run Tariff Pipelines & Build Country Index
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # Passed through the environment rather than interpolated into the command line:
+          # workflow_dispatch input must never be able to inject shell.
+          COUNTRIES: ${{ github.event.inputs.countries }}
         run: |
-          python src/tariffs_fetcher.py
+          python src/run_country.py $COUNTRIES
 
       - name: Commit and Push Updated Tariffs (if changed)
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/tariffs_ua.json assets/tariffs_ua_default.json config/city_registry.json
-          git status
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-update UAH tariffs_ua.json [skip ci]" && git push)
+          git add docs/tariffs_*.json assets/tariffs_*_default.json \
+                  config/*/city_registry.json dist/cloudflare/tariffs_index.json
+          git status --short
+          if git diff --staged --quiet; then
+            echo "Nothing changed, skipping commit."
+            exit 0
+          fi
+          git commit -m "chore: auto-update tariff files and country index [skip ci]"
+          # The branch may have moved on while the pipeline was running (another workflow,
+          # a manual push). Rebase onto it instead of failing the whole job.
+          for attempt in 1 2 3; do
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push && exit 0
+            echo "Push attempt $attempt failed, retrying..."
+            sleep 10
+          done
+          echo "Could not push the updated tariffs after 3 attempts." >&2
+          exit 1
 
       - name: Install Wrangler CLI
         run: npm install -g wrangler
 
-      - name: Deploy tariffs_ua.json to Cloudflare R2 Bucket
+      - name: Deploy Tariff Files and Index to Cloudflare R2
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          wrangler r2 object put kommeter/ua/tariffs_ua.json --file=docs/tariffs_ua.json --remote
+          # The R2 layout is <cc>/tariffs_<cc>.json plus the index at the bucket root.
+          # Country list and paths come from config/countries.json, never from this file.
+          wrangler r2 object put kommeter/tariffs_index.json \
+            --file=dist/cloudflare/tariffs_index.json --remote
+          python - <<'PY' > r2_uploads.txt
+          import json
+          index = json.load(open("dist/cloudflare/tariffs_index.json"))
+          for entry in index["countries"]:
+              code = entry["country"].lower()
+              print(f"{entry['path']}\tdocs/tariffs_{code}.json")
+          PY
+          while IFS=$'\t' read -r key source; do
+            echo "Uploading $source -> kommeter/$key"
+            wrangler r2 object put "kommeter/$key" --file="$source" --remote
+          done < r2_uploads.txt
+          rm -f r2_uploads.txt
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5

@@ -37,6 +37,38 @@
       "pipeline": "az",
       "enabled": true,
       "min_app_version": ""
+    },
+    {
+      "code": "MD",
+      "country_names": { "ru": "Молдова", "uk": "Молдова" },
+      "currency": "MDL",
+      "pipeline": "md",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "UZ",
+      "country_names": { "ru": "Узбекистан", "uk": "Узбекистан" },
+      "currency": "UZS",
+      "pipeline": "uz",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "KZ",
+      "country_names": { "ru": "Казахстан", "uk": "Казахстан" },
+      "currency": "KZT",
+      "pipeline": "kz",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "BY",
+      "country_names": { "ru": "Беларусь", "uk": "Білорусь" },
+      "currency": "BYN",
+      "pipeline": "by",
+      "enabled": true,
+      "min_app_version": ""
     }
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "suppliers": {
+    "SA \"Apă-Canal Chișinău\"": {
+      "city_code": "chisinau",
+      "city_name": "Кишинёв"
+    }
+  },
+  "heat_suppliers": {
+    "SA \"Termoelectrica\"": {
+      "city_code": "chisinau",
+      "city_name": "Кишинёв"
+    },
+    "SA \"CET-Nord\"": {
+      "city_code": "balti",
+      "city_name": "Бельцы"
+    }
+  }
+}

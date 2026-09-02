@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "УП \"Минскводоканал\"": {
+      "city_code": "minsk",
+      "city_name": "Минск"
+    }
+  },
+  "heat_suppliers": {
+    "УП \"Минсккоммунтеплосеть\"": {
+      "city_code": "minsk",
+      "city_name": "Минск"
+    }
+  }
+}

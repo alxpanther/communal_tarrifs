@@ -16,11 +16,16 @@ identical in meaning.
 | Adding a country / Добавление страны | [en/ADDING_A_COUNTRY.md](en/ADDING_A_COUNTRY.md) | [ru/ADDING_A_COUNTRY.md](ru/ADDING_A_COUNTRY.md) | Layout, output contract and checklist for a new country pipeline |
 | Documentation rules / Правила документации | [en/DOCUMENTATION_RULES.md](en/DOCUMENTATION_RULES.md) | [ru/DOCUMENTATION_RULES.md](ru/DOCUMENTATION_RULES.md) | How docs and structure are maintained, bilingual parity, frozen contracts |
 | Android brief / Задание для Android | [en/ANDROID_MIGRATION.md](en/ANDROID_MIGRATION.md) | [ru/ANDROID_MIGRATION.md](ru/ANDROID_MIGRATION.md) | Work brief for the app side: hot water and heating |
+| Armenia tariffs / Тарифы Армении | [en/am/README.md](en/am/README.md) | [ru/am/README.md](ru/am/README.md) | Armenia tariff pipeline specification |
+| Azerbaijan tariffs / Тарифы Азербайджана | [en/az/README.md](en/az/README.md) | [ru/az/README.md](ru/az/README.md) | Azerbaijan tariff pipeline specification |
+| Moldova tariffs / Тарифы Молдовы | [en/md/README.md](en/md/README.md) | [ru/md/README.md](ru/md/README.md) | Moldova tariff pipeline specification |
+| Uzbekistan tariffs / Тарифы Узбекистана | [en/uz/README.md](en/uz/README.md) | [ru/uz/README.md](ru/uz/README.md) | Uzbekistan tariff pipeline specification |
+| Kazakhstan tariffs / Тарифы Казахстана | [en/kz/README.md](en/kz/README.md) | [ru/kz/README.md](ru/kz/README.md) | Kazakhstan tariff pipeline specification |
+| Belarus tariffs / Тарифы Беларуси | [en/by/README.md](en/by/README.md) | [ru/by/README.md](ru/by/README.md) | Belarus tariff pipeline specification |
 
 Other entry points / Остальные точки входа:
 
 * [`../README.md`](../README.md) — setup and operation guide, Russian, for humans.
 * [`../CLAUDE.md`](../CLAUDE.md) — what an AI agent must read before touching anything.
 * [`tariffs_index.json`](tariffs_index.json) — the list of countries whose tariffs are published.
-* [`tariffs_ua.json`](tariffs_ua.json), [`tariffs_am.json`](tariffs_am.json),
-  [`tariffs_az.json`](tariffs_az.json) — the published data files themselves.
+* [`tariffs_ua.json`](tariffs_ua.json), [`tariffs_am.json`](tariffs_am.json), [`tariffs_az.json`](tariffs_az.json), [`tariffs_md.json`](tariffs_md.json), [`tariffs_uz.json`](tariffs_uz.json), [`tariffs_kz.json`](tariffs_kz.json), [`tariffs_by.json`](tariffs_by.json) — the published data files themselves.

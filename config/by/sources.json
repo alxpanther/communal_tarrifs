@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://energosbyt.by/",
+    "water": "https://minskwater.by/",
+    "hot_water": "https://minsk.gov.by/",
+    "heating": "https://minsk.gov.by/"
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "22:00 - 17:00",
+          "coefficient": 0.7,
+          "rate": 0.1779
+        },
+        "night": {
+          "hours": "17:00 - 22:00",
+          "coefficient": 1.4,
+          "rate": 0.3557
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.2541
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.2541
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.2541
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "https://energosbyt.by/",
+      "base_rate": 0.2541,
+      "effective_date": "2024-01-01",
+      "decree_info": "Постановление Совета Министров Республики Беларусь № 992"
+    },
+    "water": {
+      "source_url": "https://minskwater.by/",
+      "cities": {
+        "minsk": {
+          "city_name": "Минск",
+          "supplier": "УП \"Минскводоканал\"",
+          "water_supply": 1.5553,
+          "sewage": 1.3095,
+          "total_rate": 2.8648,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Мингорисполкома № 5240"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": "https://minsk.gov.by/",
+      "cities": {
+        "minsk": {
+          "city_name": "Минск",
+          "supplier": "УП \"Минсккоммунтеплосеть\"",
+          "rate": 24.7187,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Постановление Совета Министров Республики Беларусь № 992 (субсидируемый тариф за Гкал)"
+        }
+      }
+    },
+    "heating": {
+      "source_url": "https://minsk.gov.by/",
+      "cities": {
+        "minsk": {
+          "city_name": "Минск",
+          "supplier": "УП \"Минсккоммунтеплосеть\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 24.7187,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Постановление Совета Министров Республики Беларусь № 992 (субсидируемый тариф)"
+        }
+      }
+    }
+  }
+}

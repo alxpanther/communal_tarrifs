@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://gov.kz/memleket/entities/krem",
+    "water": "https://astanasu.kz/",
+    "hot_water": "https://astana-teplo.kz/",
+    "heating": "https://astana-teplo.kz/"
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.0,
+          "rate": 25.5
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 1.0,
+          "rate": 25.5
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 25.5
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 25.5
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 25.5
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "https://gov.kz/memleket/entities/krem",
+      "base_rate": 25.5,
+      "effective_date": "2024-01-01",
+      "decree_info": "Приказ КРЕМ МНЭ РК (базовый тариф для населения)"
+    },
+    "water": {
+      "source_url": "https://astanasu.kz/",
+      "cities": {
+        "astana": {
+          "city_name": "Астана",
+          "supplier": "ГКП \"Астана Су Арнасы\"",
+          "water_supply": 58.14,
+          "sewage": 48.28,
+          "total_rate": 106.42,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": "https://astana-teplo.kz/",
+      "cities": {
+        "astana": {
+          "city_name": "Астана",
+          "supplier": "АО \"Астана-Теплотранзит\"",
+          "rate": 300.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
+        }
+      }
+    },
+    "heating": {
+      "source_url": "https://astana-teplo.kz/",
+      "cities": {
+        "astana": {
+          "city_name": "Астана",
+          "supplier": "АО \"Астана-Теплотранзит\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 3055.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
+        }
+      }
+    }
+  }
+}

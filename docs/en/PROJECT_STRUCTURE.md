@@ -37,7 +37,11 @@ kommeter_scripts/
 │   │   ├── sources.json          # Source URLs, model settings, manual_override
 │   │   └── city_registry.json    # Permanent supplier → city_code registry (never rewrite codes)
 │   ├── am/{sources.json, city_registry.json}
-│   └── az/{sources.json, city_registry.json}
+│   ├── az/{sources.json, city_registry.json}
+│   ├── md/{sources.json, city_registry.json}
+│   ├── uz/{sources.json, city_registry.json}
+│   ├── kz/{sources.json, city_registry.json}
+│   └── by/{sources.json, city_registry.json}
 │
 ├── src/                          # Pipeline code
 │   ├── run_country.py            # Entry point: runs one country, several, or all, then the index
@@ -53,12 +57,20 @@ kommeter_scripts/
 │   └── countries/
 │       ├── ua/fetcher.py         # Ukraine: scrape → parse → validate → save
 │       ├── am/fetcher.py         # Armenia: config-driven, uses common/manual_pipeline.py
-│       └── az/fetcher.py         # Azerbaijan: config-driven, uses common/manual_pipeline.py
+│       ├── az/fetcher.py         # Azerbaijan: config-driven, uses common/manual_pipeline.py
+│       ├── md/fetcher.py         # Moldova: config-driven, uses common/manual_pipeline.py
+│       ├── uz/fetcher.py         # Uzbekistan: config-driven, uses common/manual_pipeline.py
+│       ├── kz/fetcher.py         # Kazakhstan: config-driven, uses common/manual_pipeline.py
+│       └── by/fetcher.py         # Belarus: config-driven, uses common/manual_pipeline.py
 │
 ├── assets/                       # Generated. Offline fallbacks bundled into the Android app
 │   ├── tariffs_ua_default.json
 │   ├── tariffs_am_default.json
-│   └── tariffs_az_default.json
+│   ├── tariffs_az_default.json
+│   ├── tariffs_md_default.json
+│   ├── tariffs_uz_default.json
+│   ├── tariffs_kz_default.json
+│   └── tariffs_by_default.json
 │
 ├── dist/cloudflare/
 │   └── tariffs_index.json        # Generated. The R2 copy of the index (its own `path` values)
@@ -67,6 +79,10 @@ kommeter_scripts/
     ├── tariffs_ua.json           # Generated. Served by GitHub Pages and mirrored to R2
     ├── tariffs_am.json           # Generated
     ├── tariffs_az.json           # Generated
+    ├── tariffs_md.json           # Generated
+    ├── tariffs_uz.json           # Generated
+    ├── tariffs_kz.json           # Generated
+    ├── tariffs_by.json           # Generated
     ├── tariffs_index.json        # Generated. The GitHub Pages copy of the country index
     ├── README.md                 # Documentation index
     ├── en/                       # English documentation — canonical, read by AI agents

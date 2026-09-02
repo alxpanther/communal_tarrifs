@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "ГКП \"Астана Су Арнасы\"": {
+      "city_code": "astana",
+      "city_name": "Астана"
+    }
+  },
+  "heat_suppliers": {
+    "АО \"Астана-Теплотранзит\"": {
+      "city_code": "astana",
+      "city_name": "Астана"
+    }
+  }
+}

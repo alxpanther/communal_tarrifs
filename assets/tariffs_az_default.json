@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-08-28T22:35:10.992777",
+  "last_updated_at": "2026-09-02T14:49:49.141778",
   "country": "AZ",
   "country_names": {
     "ru": "Азербайджан",
@@ -12,7 +12,7 @@
     "base_rate": 0.08,
     "unit": "kWh",
     "effective_date": "2021-11-01",
-    "update_date": "2026-08-28",
+    "update_date": "2026-09-02",
     "decree_info": "Решение Тарифного Совета Азербайджанской Республики",
     "zones": {
       "two_zone": {

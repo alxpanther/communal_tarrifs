@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "АО \"Узсувтаъминот\"": {
+      "city_code": "tashkent",
+      "city_name": "Ташкент"
+    }
+  },
+  "heat_suppliers": {
+    "ИП ООО \"Veolia Energy Tashkent\"": {
+      "city_code": "tashkent",
+      "city_name": "Ташкент"
+    }
+  }
+}

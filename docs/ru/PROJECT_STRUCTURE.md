@@ -38,7 +38,11 @@ kommeter_scripts/
 │   │   ├── sources.json          # URL источников, настройки модели, manual_override
 │   │   └── city_registry.json    # Постоянный реестр «поставщик → city_code» (коды не переписываем)
 │   ├── am/{sources.json, city_registry.json}
-│   └── az/{sources.json, city_registry.json}
+│   ├── az/{sources.json, city_registry.json}
+│   ├── md/{sources.json, city_registry.json}
+│   ├── uz/{sources.json, city_registry.json}
+│   ├── kz/{sources.json, city_registry.json}
+│   └── by/{sources.json, city_registry.json}
 │
 ├── src/                          # Код пайплайнов
 │   ├── run_country.py            # Точка входа: одна страна, несколько или все, затем индекс
@@ -54,12 +58,20 @@ kommeter_scripts/
 │   └── countries/
 │       ├── ua/fetcher.py         # Украина: сбор → разбор → валидация → сохранение
 │       ├── am/fetcher.py         # Армения: из конфига, через common/manual_pipeline.py
-│       └── az/fetcher.py         # Азербайджан: из конфига, через common/manual_pipeline.py
+│       ├── az/fetcher.py         # Азербайджан: из конфига, через common/manual_pipeline.py
+│       ├── md/fetcher.py         # Молдова: из конфига, через common/manual_pipeline.py
+│       ├── uz/fetcher.py         # Узбекистан: из конфига, через common/manual_pipeline.py
+│       ├── kz/fetcher.py         # Казахстан: из конфига, через common/manual_pipeline.py
+│       └── by/fetcher.py         # Беларусь: из конфига, через common/manual_pipeline.py
 │
 ├── assets/                       # Генерируется. Оффлайн-файлы, вшиваемые в Android-приложение
 │   ├── tariffs_ua_default.json
 │   ├── tariffs_am_default.json
-│   └── tariffs_az_default.json
+│   ├── tariffs_az_default.json
+│   ├── tariffs_md_default.json
+│   ├── tariffs_uz_default.json
+│   ├── tariffs_kz_default.json
+│   └── tariffs_by_default.json
 │
 ├── dist/cloudflare/
 │   └── tariffs_index.json        # Генерируется. Копия индекса для R2 (со своими значениями `path`)
@@ -68,6 +80,10 @@ kommeter_scripts/
     ├── tariffs_ua.json           # Генерируется. Раздаётся GitHub Pages и дублируется в R2
     ├── tariffs_am.json           # Генерируется
     ├── tariffs_az.json           # Генерируется
+    ├── tariffs_md.json           # Генерируется
+    ├── tariffs_uz.json           # Генерируется
+    ├── tariffs_kz.json           # Генерируется
+    ├── tariffs_by.json           # Генерируется
     ├── tariffs_index.json        # Генерируется. Копия индекса стран для GitHub Pages
     ├── README.md                 # Индекс документации
     ├── en/                       # Английская документация — каноническая, её читают AI-агенты

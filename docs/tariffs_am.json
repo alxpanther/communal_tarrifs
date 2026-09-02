@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-08-28T22:35:10.990626",
+  "last_updated_at": "2026-09-02T14:49:49.139029",
   "country": "AM",
   "country_names": {
     "ru": "Армения",
@@ -12,7 +12,7 @@
     "base_rate": 48.48,
     "unit": "kWh",
     "effective_date": "2024-02-01",
-    "update_date": "2026-08-28",
+    "update_date": "2026-09-02",
     "decree_info": "Решение КРОУ РА № 524-Н",
     "zones": {
       "two_zone": {

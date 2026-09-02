@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://minenergy.uz/",
+    "water": "https://uzsuv.uz/",
+    "hot_water": "https://kp.veoliaenergy.uz/",
+    "heating": "https://kp.veoliaenergy.uz/"
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "08:00 - 22:00",
+          "coefficient": 1.0,
+          "rate": 450.0
+        },
+        "night": {
+          "hours": "22:00 - 08:00",
+          "coefficient": 1.0,
+          "rate": 450.0
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 450.0
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 450.0
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 450.0
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "https://minenergy.uz/",
+      "base_rate": 450.0,
+      "effective_date": "2024-05-01",
+      "decree_info": "Постановление ПКМ РУз № 204 от 16.04.2024 (базовая социальная норма до 200 кВт·ч)"
+    },
+    "water": {
+      "source_url": "https://uzsuv.uz/",
+      "cities": {
+        "tashkent": {
+          "city_name": "Ташкент",
+          "supplier": "АО \"Узсувтаъминот\"",
+          "water_supply": 1400.0,
+          "sewage": 1000.0,
+          "total_rate": 2400.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Кенгаша народных депутатов г. Ташкента"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": "https://kp.veoliaenergy.uz/",
+      "cities": {
+        "tashkent": {
+          "city_name": "Ташкент",
+          "supplier": "ИП ООО \"Veolia Energy Tashkent\"",
+          "rate": 10575.04,
+          "unit": "m3",
+          "effective_date": "2024-04-02",
+          "decree_info": "Тариф ИП ООО \"Veolia Energy Tashkent\" для населения"
+        }
+      }
+    },
+    "heating": {
+      "source_url": "https://kp.veoliaenergy.uz/",
+      "cities": {
+        "tashkent": {
+          "city_name": "Ташкент",
+          "supplier": "ИП ООО \"Veolia Energy Tashkent\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 105654.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-04-02",
+          "decree_info": "Тариф ИП ООО \"Veolia Energy Tashkent\" для населения"
+        }
+      }
+    }
+  }
+}

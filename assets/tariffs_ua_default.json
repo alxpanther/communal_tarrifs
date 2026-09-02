@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-08-28T22:21:14.435506",
+  "last_updated_at": "2026-09-02T17:30:35.403374",
   "country": "UA",
   "country_names": {
     "ru": "Украина",
@@ -12,8 +12,8 @@
     "base_rate": 4.32,
     "unit": "kWh",
     "effective_date": "2024-06-01",
-    "update_date": "2026-08-28",
-    "decree_info": "постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
+    "update_date": "2026-09-02",
+    "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
         "description": "Двозонний тариф (День/Ніч)",
@@ -50,7 +50,7 @@
   },
   "water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
-    "update_date": "2026-08-28",
+    "update_date": "2026-09-02",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -606,7 +606,7 @@
   },
   "hot_water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/hotwater/",
-    "update_date": "2026-08-28",
+    "update_date": "2026-09-02",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -774,7 +774,7 @@
   },
   "heating": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/heating/",
-    "update_date": "2026-08-28",
+    "update_date": "2026-09-02",
     "cities": [
       {
         "city_code": "vinnytsia",

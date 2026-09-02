@@ -42,7 +42,12 @@ kommeter_scripts/
 │   ├── md/{sources.json, city_registry.json}
 │   ├── uz/{sources.json, city_registry.json}
 │   ├── kz/{sources.json, city_registry.json}
-│   └── by/{sources.json, city_registry.json}
+│   ├── by/{sources.json, city_registry.json}
+│   ├── ge/{sources.json, city_registry.json}
+│   ├── kg/{sources.json, city_registry.json}
+│   ├── tj/{sources.json, city_registry.json}
+│   ├── tm/{sources.json, city_registry.json}
+│   └── ru/{sources.json, city_registry.json}
 │
 ├── src/                          # Код пайплайнов
 │   ├── run_country.py            # Точка входа: одна страна, несколько или все, затем индекс
@@ -62,7 +67,12 @@ kommeter_scripts/
 │       ├── md/fetcher.py         # Молдова: из конфига, через common/manual_pipeline.py
 │       ├── uz/fetcher.py         # Узбекистан: из конфига, через common/manual_pipeline.py
 │       ├── kz/fetcher.py         # Казахстан: из конфига, через common/manual_pipeline.py
-│       └── by/fetcher.py         # Беларусь: из конфига, через common/manual_pipeline.py
+│       ├── by/fetcher.py         # Беларусь: из конфига, через common/manual_pipeline.py
+│       ├── ge/fetcher.py         # Грузия: из конфига, через common/manual_pipeline.py
+│       ├── kg/fetcher.py         # Кыргызстан: из конфига, через common/manual_pipeline.py
+│       ├── tj/fetcher.py         # Таджикистан: из конфига, через common/manual_pipeline.py
+│       ├── tm/fetcher.py         # Туркменистан: из конфига, через common/manual_pipeline.py
+│       └── ru/fetcher.py         # Россия: из конфига, через common/manual_pipeline.py
 │
 ├── assets/                       # Генерируется. Оффлайн-файлы, вшиваемые в Android-приложение
 │   ├── tariffs_ua_default.json
@@ -71,7 +81,12 @@ kommeter_scripts/
 │   ├── tariffs_md_default.json
 │   ├── tariffs_uz_default.json
 │   ├── tariffs_kz_default.json
-│   └── tariffs_by_default.json
+│   ├── tariffs_by_default.json
+│   ├── tariffs_ge_default.json
+│   ├── tariffs_kg_default.json
+│   ├── tariffs_tj_default.json
+│   ├── tariffs_tm_default.json
+│   └── tariffs_ru_default.json
 │
 ├── dist/cloudflare/
 │   └── tariffs_index.json        # Генерируется. Копия индекса для R2 (со своими значениями `path`)
@@ -84,6 +99,11 @@ kommeter_scripts/
     ├── tariffs_uz.json           # Генерируется
     ├── tariffs_kz.json           # Генерируется
     ├── tariffs_by.json           # Генерируется
+    ├── tariffs_ge.json           # Генерируется
+    ├── tariffs_kg.json           # Генерируется
+    ├── tariffs_tj.json           # Генерируется
+    ├── tariffs_tm.json           # Генерируется
+    ├── tariffs_ru.json           # Генерируется
     ├── tariffs_index.json        # Генерируется. Копия индекса стран для GitHub Pages
     ├── README.md                 # Индекс документации
     ├── en/                       # Английская документация — каноническая, её читают AI-агенты

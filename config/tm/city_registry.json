@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "ПО \"Ашхабадводоканал\"": {
+      "city_code": "ashgabat",
+      "city_name": "Ашхабад"
+    }
+  },
+  "heat_suppliers": {
+    "ПО \"Ашхабадтепло\"": {
+      "city_code": "ashgabat",
+      "city_name": "Ашхабад"
+    }
+  }
+}

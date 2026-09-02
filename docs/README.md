@@ -22,10 +22,15 @@ identical in meaning.
 | Uzbekistan tariffs / Тарифы Узбекистана | [en/uz/README.md](en/uz/README.md) | [ru/uz/README.md](ru/uz/README.md) | Uzbekistan tariff pipeline specification |
 | Kazakhstan tariffs / Тарифы Казахстана | [en/kz/README.md](en/kz/README.md) | [ru/kz/README.md](ru/kz/README.md) | Kazakhstan tariff pipeline specification |
 | Belarus tariffs / Тарифы Беларуси | [en/by/README.md](en/by/README.md) | [ru/by/README.md](ru/by/README.md) | Belarus tariff pipeline specification |
+| Georgia tariffs / Тарифы Грузии | [en/ge/README.md](en/ge/README.md) | [ru/ge/README.md](ru/ge/README.md) | Georgia tariff pipeline specification |
+| Kyrgyzstan tariffs / Тарифы Кыргызстана | [en/kg/README.md](en/kg/README.md) | [ru/kg/README.md](ru/kg/README.md) | Kyrgyzstan tariff pipeline specification |
+| Tajikistan tariffs / Тарифы Таджикистана | [en/tj/README.md](en/tj/README.md) | [ru/tj/README.md](ru/tj/README.md) | Tajikistan tariff pipeline specification |
+| Turkmenistan tariffs / Тарифы Туркменистана | [en/tm/README.md](en/tm/README.md) | [ru/tm/README.md](ru/tm/README.md) | Turkmenistan tariff pipeline specification |
+| Russia tariffs / Тарифы России | [en/ru/README.md](en/ru/README.md) | [ru/ru/README.md](ru/ru/README.md) | Russia tariff pipeline specification |
 
 Other entry points / Остальные точки входа:
 
 * [`../README.md`](../README.md) — setup and operation guide, Russian, for humans.
 * [`../CLAUDE.md`](../CLAUDE.md) — what an AI agent must read before touching anything.
 * [`tariffs_index.json`](tariffs_index.json) — the list of countries whose tariffs are published.
-* [`tariffs_ua.json`](tariffs_ua.json), [`tariffs_am.json`](tariffs_am.json), [`tariffs_az.json`](tariffs_az.json), [`tariffs_md.json`](tariffs_md.json), [`tariffs_uz.json`](tariffs_uz.json), [`tariffs_kz.json`](tariffs_kz.json), [`tariffs_by.json`](tariffs_by.json) — the published data files themselves.
+* [`tariffs_ua.json`](tariffs_ua.json), [`tariffs_am.json`](tariffs_am.json), [`tariffs_az.json`](tariffs_az.json), [`tariffs_md.json`](tariffs_md.json), [`tariffs_uz.json`](tariffs_uz.json), [`tariffs_kz.json`](tariffs_kz.json), [`tariffs_by.json`](tariffs_by.json), [`tariffs_ge.json`](tariffs_ge.json), [`tariffs_kg.json`](tariffs_kg.json), [`tariffs_tj.json`](tariffs_tj.json), [`tariffs_tm.json`](tariffs_tm.json), [`tariffs_ru.json`](tariffs_ru.json) — the published data files themselves.

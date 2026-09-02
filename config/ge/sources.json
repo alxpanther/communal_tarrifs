@@ -1,0 +1,81 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://gnerc.org/",
+    "water": "https://gwp.ge/",
+    "hot_water": null,
+    "heating": null
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.0,
+          "rate": 0.18041
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 1.0,
+          "rate": 0.18041
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.18041
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.18041
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.18041
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "https://gnerc.org/",
+      "base_rate": 0.18041,
+      "effective_date": "2024-01-01",
+      "decree_info": "Постановление GNERC (тариф 1-й ступени до 101 кВт·ч)"
+    },
+    "water": {
+      "source_url": "https://gwp.ge/",
+      "cities": {
+        "tbilisi": {
+          "city_name": "Тбилиси",
+          "supplier": "ООО \"Georgian Water and Power\"",
+          "water_supply": 0.50,
+          "sewage": 0.103,
+          "total_rate": 0.603,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение GNERC для населения со счетчиком"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": null,
+      "cities": {}
+    },
+    "heating": {
+      "source_url": null,
+      "cities": {}
+    }
+  }
+}

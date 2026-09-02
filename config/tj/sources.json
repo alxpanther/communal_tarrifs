@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "http://barqitojik.tj/",
+    "water": "http://dushanbe.tj/",
+    "hot_water": "http://dushanbe.tj/",
+    "heating": "http://dushanbe.tj/"
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.0,
+          "rate": 0.3075
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 1.0,
+          "rate": 0.3075
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.3075
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.3075
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.3075
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "http://barqitojik.tj/",
+      "base_rate": 0.3075,
+      "effective_date": "2024-01-01",
+      "decree_info": "Постановление Правительства Республики Таджикистан (тариф для населения)"
+    },
+    "water": {
+      "source_url": "http://dushanbe.tj/",
+      "cities": {
+        "dushanbe": {
+          "city_name": "Душанбе",
+          "supplier": "ГУП \"Оби Душанбе\"",
+          "water_supply": 1.80,
+          "sewage": 0.70,
+          "total_rate": 2.50,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Председателя г. Душанбе"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": "http://dushanbe.tj/",
+      "cities": {
+        "dushanbe": {
+          "city_name": "Душанбе",
+          "supplier": "Душанбинские тепловые сети",
+          "rate": 15.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Тариф Душанбинских тепловых сетей"
+        }
+      }
+    },
+    "heating": {
+      "source_url": "http://dushanbe.tj/",
+      "cities": {
+        "dushanbe": {
+          "city_name": "Душанбе",
+          "supplier": "Душанбинские тепловые сети",
+          "tariff_type": "one_rate",
+          "rate_gcal": 45.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Тариф Душанбинских тепловых сетей для населения"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://energo-mre.gov.kg/",
+    "water": "http://bishkekvodokanal.kg/",
+    "hot_water": "https://teploseti.kg/",
+    "heating": "https://teploseti.kg/"
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.0,
+          "rate": 1.11
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 1.0,
+          "rate": 1.11
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 1.11
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 1.11
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 1.11
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "https://energo-mre.gov.kg/",
+      "base_rate": 1.11,
+      "effective_date": "2024-05-01",
+      "decree_info": "Приказ ДРТЭК при Минэнерго КР (социальная норма до 700 кВт·ч)"
+    },
+    "water": {
+      "source_url": "http://bishkekvodokanal.kg/",
+      "cities": {
+        "bishkek": {
+          "city_name": "Бишкек",
+          "supplier": "ПЭУ \"Бишкекводоканал\"",
+          "water_supply": 10.45,
+          "sewage": 3.45,
+          "total_rate": 13.90,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Постановление Бишкекского городского кенеша"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": "https://teploseti.kg/",
+      "cities": {
+        "bishkek": {
+          "city_name": "Бишкек",
+          "supplier": "ОАО \"Бишкектеплосеть\"",
+          "rate": 85.0,
+          "unit": "m3",
+          "effective_date": "2024-06-01",
+          "decree_info": "Приказ ДРТЭК при Минэнерго КР для населения"
+        }
+      }
+    },
+    "heating": {
+      "source_url": "https://teploseti.kg/",
+      "cities": {
+        "bishkek": {
+          "city_name": "Бишкек",
+          "supplier": "ОАО \"Бишкектеплосеть\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 1540.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-06-01",
+          "decree_info": "Приказ ДРТЭК при Минэнерго КР (субсидируемый тариф)"
+        }
+      }
+    }
+  }
+}

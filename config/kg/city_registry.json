@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "ПЭУ \"Бишкекводоканал\"": {
+      "city_code": "bishkek",
+      "city_name": "Бишкек"
+    }
+  },
+  "heat_suppliers": {
+    "ОАО \"Бишкектеплосеть\"": {
+      "city_code": "bishkek",
+      "city_name": "Бишкек"
+    }
+  }
+}

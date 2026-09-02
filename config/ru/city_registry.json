@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "АО \"Мосводоканал\"": {
+      "city_code": "moscow",
+      "city_name": "Москва"
+    }
+  },
+  "heat_suppliers": {
+    "ПАО \"МОЭК\"": {
+      "city_code": "moscow",
+      "city_name": "Москва"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "suppliers": {
+    "ООО \"Georgian Water and Power\"": {
+      "city_code": "tbilisi",
+      "city_name": "Тбилиси"
+    }
+  },
+  "heat_suppliers": {}
+}

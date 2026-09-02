@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://minenergo.gov.tm/",
+    "water": "https://ashgabat.gov.tm/",
+    "hot_water": "https://ashgabat.gov.tm/",
+    "heating": "https://ashgabat.gov.tm/"
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.0,
+          "rate": 0.025
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 1.0,
+          "rate": 0.025
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Не применяется)",
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.025
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.025
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0,
+          "rate": 0.025
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "https://minenergo.gov.tm/",
+      "base_rate": 0.025,
+      "effective_date": "2019-01-01",
+      "decree_info": "Постановление Президента Туркменистана (государственный тариф)"
+    },
+    "water": {
+      "source_url": "https://ashgabat.gov.tm/",
+      "cities": {
+        "ashgabat": {
+          "city_name": "Ашхабад",
+          "supplier": "ПО \"Ашхабадводоканал\"",
+          "water_supply": 0.50,
+          "sewage": 0.20,
+          "total_rate": 0.70,
+          "unit": "m3",
+          "effective_date": "2019-01-01",
+          "decree_info": "Государственный тариф для населения"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": "https://ashgabat.gov.tm/",
+      "cities": {
+        "ashgabat": {
+          "city_name": "Ашхабад",
+          "supplier": "ПО \"Ашхабадтепло\"",
+          "rate": 0.30,
+          "unit": "m3",
+          "effective_date": "2019-01-01",
+          "decree_info": "Государственный тариф для населения"
+        }
+      }
+    },
+    "heating": {
+      "source_url": "https://ashgabat.gov.tm/",
+      "cities": {
+        "ashgabat": {
+          "city_name": "Ашхабад",
+          "supplier": "ПО \"Ашхабадтепло\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 5.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2019-01-01",
+          "decree_info": "Государственный тариф для населения"
+        }
+      }
+    }
+  }
+}

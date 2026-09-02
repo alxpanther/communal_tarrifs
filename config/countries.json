@@ -69,6 +69,46 @@
       "pipeline": "by",
       "enabled": true,
       "min_app_version": ""
+    },
+    {
+      "code": "GE",
+      "country_names": { "ru": "Грузия", "uk": "Грузія" },
+      "currency": "GEL",
+      "pipeline": "ge",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "KG",
+      "country_names": { "ru": "Кыргызстан", "uk": "Киргизстан" },
+      "currency": "KGS",
+      "pipeline": "kg",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "TJ",
+      "country_names": { "ru": "Таджикистан", "uk": "Таджикистан" },
+      "currency": "TJS",
+      "pipeline": "tj",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "TM",
+      "country_names": { "ru": "Туркменистан", "uk": "Туркменістан" },
+      "currency": "TMT",
+      "pipeline": "tm",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "code": "RU",
+      "country_names": { "ru": "Россия", "uk": "Росія" },
+      "currency": "RUB",
+      "pipeline": "ru",
+      "enabled": true,
+      "min_app_version": ""
     }
   ]
 }

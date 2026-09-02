@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-02T13:09:39.941421",
+  "generated_at": "2026-09-02T17:30:35.439190",
   "countries": [
     {
       "country": "UA",
@@ -9,7 +9,7 @@
         "uk": "Україна"
       },
       "currency": "UAH",
-      "last_updated_at": "2026-08-28T22:21:14.435506",
+      "last_updated_at": "2026-09-02T17:30:35.403374",
       "path": "tariffs_ua.json",
       "enabled": true,
       "min_app_version": ""
@@ -21,7 +21,7 @@
         "uk": "Вірменія"
       },
       "currency": "AMD",
-      "last_updated_at": "2026-09-02T14:49:49.139029",
+      "last_updated_at": "2026-09-02T17:30:35.412473",
       "path": "tariffs_am.json",
       "enabled": true,
       "min_app_version": ""
@@ -33,7 +33,7 @@
         "uk": "Азербайджан"
       },
       "currency": "AZN",
-      "last_updated_at": "2026-09-02T14:49:49.141778",
+      "last_updated_at": "2026-09-02T17:30:35.416080",
       "path": "tariffs_az.json",
       "enabled": true,
       "min_app_version": ""
@@ -45,7 +45,7 @@
         "uk": "Молдова"
       },
       "currency": "MDL",
-      "last_updated_at": "2026-09-02T13:09:39.938982",
+      "last_updated_at": "2026-09-02T17:30:35.419687",
       "path": "tariffs_md.json",
       "enabled": true,
       "min_app_version": ""
@@ -57,7 +57,7 @@
         "uk": "Узбекистан"
       },
       "currency": "UZS",
-      "last_updated_at": "2026-09-02T13:09:39.940650",
+      "last_updated_at": "2026-09-02T17:30:35.422735",
       "path": "tariffs_uz.json",
       "enabled": true,
       "min_app_version": ""
@@ -69,7 +69,7 @@
         "uk": "Казахстан"
       },
       "currency": "KZT",
-      "last_updated_at": "2026-09-02T13:09:39.937196",
+      "last_updated_at": "2026-09-02T17:30:35.425465",
       "path": "tariffs_kz.json",
       "enabled": true,
       "min_app_version": ""
@@ -81,8 +81,68 @@
         "uk": "Білорусь"
       },
       "currency": "BYN",
-      "last_updated_at": "2026-09-02T13:09:39.935246",
+      "last_updated_at": "2026-09-02T17:30:35.428345",
       "path": "tariffs_by.json",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "country": "GE",
+      "country_names": {
+        "ru": "Грузия",
+        "uk": "Грузія"
+      },
+      "currency": "GEL",
+      "last_updated_at": "2026-09-02T17:30:35.429978",
+      "path": "tariffs_ge.json",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "country": "KG",
+      "country_names": {
+        "ru": "Кыргызстан",
+        "uk": "Киргизстан"
+      },
+      "currency": "KGS",
+      "last_updated_at": "2026-09-02T17:30:35.431568",
+      "path": "tariffs_kg.json",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "country": "TJ",
+      "country_names": {
+        "ru": "Таджикистан",
+        "uk": "Таджикистан"
+      },
+      "currency": "TJS",
+      "last_updated_at": "2026-09-02T17:30:35.435217",
+      "path": "tariffs_tj.json",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "country": "TM",
+      "country_names": {
+        "ru": "Туркменистан",
+        "uk": "Туркменістан"
+      },
+      "currency": "TMT",
+      "last_updated_at": "2026-09-02T17:30:35.436889",
+      "path": "tariffs_tm.json",
+      "enabled": true,
+      "min_app_version": ""
+    },
+    {
+      "country": "RU",
+      "country_names": {
+        "ru": "Россия",
+        "uk": "Росія"
+      },
+      "currency": "RUB",
+      "last_updated_at": "2026-09-02T17:30:35.438483",
+      "path": "tariffs_ru.json",
       "enabled": true,
       "min_app_version": ""
     }

@@ -41,7 +41,12 @@ kommeter_scripts/
 │   ├── md/{sources.json, city_registry.json}
 │   ├── uz/{sources.json, city_registry.json}
 │   ├── kz/{sources.json, city_registry.json}
-│   └── by/{sources.json, city_registry.json}
+│   ├── by/{sources.json, city_registry.json}
+│   ├── ge/{sources.json, city_registry.json}
+│   ├── kg/{sources.json, city_registry.json}
+│   ├── tj/{sources.json, city_registry.json}
+│   ├── tm/{sources.json, city_registry.json}
+│   └── ru/{sources.json, city_registry.json}
 │
 ├── src/                          # Pipeline code
 │   ├── run_country.py            # Entry point: runs one country, several, or all, then the index
@@ -61,7 +66,12 @@ kommeter_scripts/
 │       ├── md/fetcher.py         # Moldova: config-driven, uses common/manual_pipeline.py
 │       ├── uz/fetcher.py         # Uzbekistan: config-driven, uses common/manual_pipeline.py
 │       ├── kz/fetcher.py         # Kazakhstan: config-driven, uses common/manual_pipeline.py
-│       └── by/fetcher.py         # Belarus: config-driven, uses common/manual_pipeline.py
+│       ├── by/fetcher.py         # Belarus: config-driven, uses common/manual_pipeline.py
+│       ├── ge/fetcher.py         # Georgia: config-driven, uses common/manual_pipeline.py
+│       ├── kg/fetcher.py         # Kyrgyzstan: config-driven, uses common/manual_pipeline.py
+│       ├── tj/fetcher.py         # Tajikistan: config-driven, uses common/manual_pipeline.py
+│       ├── tm/fetcher.py         # Turkmenistan: config-driven, uses common/manual_pipeline.py
+│       └── ru/fetcher.py         # Russia: config-driven, uses common/manual_pipeline.py
 │
 ├── assets/                       # Generated. Offline fallbacks bundled into the Android app
 │   ├── tariffs_ua_default.json
@@ -70,7 +80,12 @@ kommeter_scripts/
 │   ├── tariffs_md_default.json
 │   ├── tariffs_uz_default.json
 │   ├── tariffs_kz_default.json
-│   └── tariffs_by_default.json
+│   ├── tariffs_by_default.json
+│   ├── tariffs_ge_default.json
+│   ├── tariffs_kg_default.json
+│   ├── tariffs_tj_default.json
+│   ├── tariffs_tm_default.json
+│   └── tariffs_ru_default.json
 │
 ├── dist/cloudflare/
 │   └── tariffs_index.json        # Generated. The R2 copy of the index (its own `path` values)
@@ -83,6 +98,11 @@ kommeter_scripts/
     ├── tariffs_uz.json           # Generated
     ├── tariffs_kz.json           # Generated
     ├── tariffs_by.json           # Generated
+    ├── tariffs_ge.json           # Generated
+    ├── tariffs_kg.json           # Generated
+    ├── tariffs_tj.json           # Generated
+    ├── tariffs_tm.json           # Generated
+    ├── tariffs_ru.json           # Generated
     ├── tariffs_index.json        # Generated. The GitHub Pages copy of the country index
     ├── README.md                 # Documentation index
     ├── en/                       # English documentation — canonical, read by AI agents

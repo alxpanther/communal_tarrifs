@@ -1,0 +1,101 @@
+{
+  "settings": {
+    "auto_select_latest_model": true,
+    "gemini_model": "gemini-2.5-flash",
+    "timeout_seconds": 15
+  },
+  "reference_sources": {
+    "electricity": "https://mosenergosbyt.ru/",
+    "water": "https://mosvodokanal.ru/",
+    "hot_water": "https://moek.ru/",
+    "heating": "https://moek.ru/"
+  },
+  "electricity": {
+    "unit": "kWh",
+    "zones": {
+      "two_zone": {
+        "description": "Двухзонный тариф (День/Ночь)",
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.1502,
+          "rate": 8.04
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 0.3748,
+          "rate": 2.62
+        }
+      },
+      "three_zone": {
+        "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
+        "peak": {
+          "hours": "07:00 - 10:00, 17:00 - 21:00",
+          "coefficient": 1.3405,
+          "rate": 9.37
+        },
+        "half_peak": {
+          "hours": "10:00 - 17:00, 21:00 - 23:00",
+          "coefficient": 1.0,
+          "rate": 6.99
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 0.3748,
+          "rate": 2.62
+        }
+      }
+    }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": "https://mosenergosbyt.ru/",
+      "base_rate": 6.99,
+      "effective_date": "2024-07-01",
+      "decree_info": "Приказ ДЭПиР г. Москвы № 203-ТР от 15.12.2023"
+    },
+    "water": {
+      "source_url": "https://mosvodokanal.ru/",
+      "cities": {
+        "moscow": {
+          "city_name": "Москва",
+          "supplier": "АО \"Мосводоканал\"",
+          "water_supply": 59.80,
+          "sewage": 45.91,
+          "total_rate": 105.71,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ ДЭПиР г. Москвы № 204-ТР от 15.12.2023"
+        }
+      }
+    },
+    "hot_water": {
+      "source_url": "https://moek.ru/",
+      "cities": {
+        "moscow": {
+          "city_name": "Москва",
+          "supplier": "ПАО \"МОЭК\"",
+          "rate": 272.79,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР от 15.12.2023"
+        }
+      }
+    },
+    "heating": {
+      "source_url": "https://moek.ru/",
+      "cities": {
+        "moscow": {
+          "city_name": "Москва",
+          "supplier": "ПАО \"МОЭК\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2912.24,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР от 15.12.2023"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "suppliers": {
+    "ГУП \"Оби Душанбе\"": {
+      "city_code": "dushanbe",
+      "city_name": "Душанбе"
+    }
+  },
+  "heat_suppliers": {
+    "Душанбинские тепловые сети": {
+      "city_code": "dushanbe",
+      "city_name": "Душанбе"
+    }
+  }
+}

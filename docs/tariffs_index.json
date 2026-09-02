@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-02T14:49:49.142370",
+  "generated_at": "2026-09-02T13:09:39.941421",
   "countries": [
     {
       "country": "UA",
@@ -45,7 +45,7 @@
         "uk": "Молдова"
       },
       "currency": "MDL",
-      "last_updated_at": "2026-09-02T14:49:49.130988",
+      "last_updated_at": "2026-09-02T13:09:39.938982",
       "path": "tariffs_md.json",
       "enabled": true,
       "min_app_version": ""
@@ -57,7 +57,7 @@
         "uk": "Узбекистан"
       },
       "currency": "UZS",
-      "last_updated_at": "2026-09-02T14:49:49.132881",
+      "last_updated_at": "2026-09-02T13:09:39.940650",
       "path": "tariffs_uz.json",
       "enabled": true,
       "min_app_version": ""
@@ -69,7 +69,7 @@
         "uk": "Казахстан"
       },
       "currency": "KZT",
-      "last_updated_at": "2026-09-02T14:49:49.135546",
+      "last_updated_at": "2026-09-02T13:09:39.937196",
       "path": "tariffs_kz.json",
       "enabled": true,
       "min_app_version": ""
@@ -81,7 +81,7 @@
         "uk": "Білорусь"
       },
       "currency": "BYN",
-      "last_updated_at": "2026-09-02T14:49:49.137116",
+      "last_updated_at": "2026-09-02T13:09:39.935246",
       "path": "tariffs_by.json",
       "enabled": true,
       "min_app_version": ""

@@ -3,12 +3,40 @@
     "АО \"Узсувтаъминот\"": {
       "city_code": "tashkent",
       "city_name": "Ташкент"
+    },
+    "АО \"Самарканд сув таъминоти\"": {
+      "city_code": "samarkand",
+      "city_name": "Самарканд"
+    },
+    "АО \"Бухоро сув таъминоти\"": {
+      "city_code": "bukhara",
+      "city_name": "Бухара"
+    },
+    "АО \"Фаргона сув таъминоти\"": {
+      "city_code": "fergana",
+      "city_name": "Фергана"
+    },
+    "АО \"Наманган сув таъминоти\"": {
+      "city_code": "namangan",
+      "city_name": "Наманган"
+    },
+    "АО \"Андижон сув таъминоти\"": {
+      "city_code": "andijan",
+      "city_name": "Андижан"
     }
   },
   "heat_suppliers": {
     "ИП ООО \"Veolia Energy Tashkent\"": {
       "city_code": "tashkent",
       "city_name": "Ташкент"
+    },
+    "ГУП \"Иссиклик манбаи\"": {
+      "city_code": "samarkand",
+      "city_name": "Самарканд"
+    },
+    "ГУП \"Бухоро иссиклик манбаи\"": {
+      "city_code": "bukhara",
+      "city_name": "Бухара"
     }
   }
 }

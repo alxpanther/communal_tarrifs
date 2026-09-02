@@ -66,6 +66,46 @@
           "unit": "m3",
           "effective_date": "2024-01-01",
           "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
+        },
+        "almaty": {
+          "city_name": "Алматы",
+          "supplier": "ГКП \"Алматы Су\"",
+          "water_supply": 75.20,
+          "sewage": 55.60,
+          "total_rate": 130.80,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Алматы"
+        },
+        "shymkent": {
+          "city_name": "Шымкент",
+          "supplier": "ТОО \"Водные ресурсы-Маркетинг\"",
+          "water_supply": 72.00,
+          "sewage": 43.00,
+          "total_rate": 115.00,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Шымкент"
+        },
+        "karaganda": {
+          "city_name": "Караганда",
+          "supplier": "ТОО \"Караганды Су\"",
+          "water_supply": 88.00,
+          "sewage": 57.00,
+          "total_rate": 145.00,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по Карагандинской обл."
+        },
+        "aktobe": {
+          "city_name": "Актобе",
+          "supplier": "АО \"Aqtobe su-energy group\"",
+          "water_supply": 68.00,
+          "sewage": 52.00,
+          "total_rate": 120.00,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по Актюбинской обл."
         }
       }
     },
@@ -79,6 +119,14 @@
           "unit": "m3",
           "effective_date": "2024-01-01",
           "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
+        },
+        "almaty": {
+          "city_name": "Алматы",
+          "supplier": "ТОО \"Алматинские тепловые сети\"",
+          "rate": 450.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Алматы"
         }
       }
     },
@@ -94,6 +142,36 @@
           "unit": "Gcal",
           "effective_date": "2024-01-01",
           "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
+        },
+        "almaty": {
+          "city_name": "Алматы",
+          "supplier": "ТОО \"Алматинские тепловые сети\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 4500.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Алматы"
+        },
+        "shymkent": {
+          "city_name": "Шымкент",
+          "supplier": "ГКП \"Куатжылуорталык-3\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2800.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Шымкент"
+        },
+        "karaganda": {
+          "city_name": "Караганда",
+          "supplier": "ТОО \"Теплотранзит Караганда\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 3900.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Приказ ДКРЕМ МНЭ РК по Карагандинской обл."
         }
       }
     }

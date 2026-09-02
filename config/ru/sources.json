@@ -65,7 +65,97 @@
           "total_rate": 105.71,
           "unit": "m3",
           "effective_date": "2024-07-01",
-          "decree_info": "Приказ ДЭПиР г. Москвы № 204-ТР от 15.12.2023"
+          "decree_info": "Приказ ДЭПиР г. Москвы № 204-ТР"
+        },
+        "saint_petersburg": {
+          "city_name": "Санкт-Петербург",
+          "supplier": "ГУП \"Водоканал Санкт-Петербурга\"",
+          "water_supply": 42.12,
+          "sewage": 35.30,
+          "total_rate": 77.42,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Распоряжение Комитета по тарифам Санкт-Петербурга"
+        },
+        "novosibirsk": {
+          "city_name": "Новосибирск",
+          "supplier": "МУП \"Горводоканал г. Новосибирска\"",
+          "water_supply": 26.50,
+          "sewage": 20.30,
+          "total_rate": 46.80,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ Департамента по тарифам Новосибирской области"
+        },
+        "yekaterinburg": {
+          "city_name": "Екатеринбург",
+          "supplier": "МУП \"Водоканал г. Екатеринбурга\"",
+          "water_supply": 32.20,
+          "sewage": 26.20,
+          "total_rate": 58.40,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление РЭК Свердловской области"
+        },
+        "kazan": {
+          "city_name": "Казань",
+          "supplier": "МУП \"Водоканал г. Казани\"",
+          "water_supply": 33.10,
+          "sewage": 29.20,
+          "total_rate": 62.30,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление Госкомитета РТ по тарифам"
+        },
+        "nizhny_novgorod": {
+          "city_name": "Нижний Новгород",
+          "supplier": "АО \"Нижегородский водоканал\"",
+          "water_supply": 35.80,
+          "sewage": 28.70,
+          "total_rate": 64.50,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Решение РСТ Нижегородской области"
+        },
+        "krasnodar": {
+          "city_name": "Краснодар",
+          "supplier": "ООО \"Краснодар Водоканал\"",
+          "water_supply": 45.30,
+          "sewage": 25.90,
+          "total_rate": 71.20,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ РЭК - Департамента цен и тарифов Краснодарского края"
+        },
+        "samara": {
+          "city_name": "Самара",
+          "supplier": "ООО \"Самарские коммунальные системы\"",
+          "water_supply": 38.60,
+          "sewage": 28.20,
+          "total_rate": 66.80,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ Министерства энергетики и ЖКХ Самарской области"
+        },
+        "chelyabinsk": {
+          "city_name": "Челябинск",
+          "supplier": "МУП \"ПОВВ\"",
+          "water_supply": 30.80,
+          "sewage": 21.80,
+          "total_rate": 52.60,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление Министерства тарифного регулирования Челябинской области"
+        },
+        "rostov_on_don": {
+          "city_name": "Ростов-на-Дону",
+          "supplier": "АО \"Ростовводоканал\"",
+          "water_supply": 49.50,
+          "sewage": 34.70,
+          "total_rate": 84.20,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление РСТ Ростовской области"
         }
       }
     },
@@ -78,7 +168,15 @@
           "rate": 272.79,
           "unit": "m3",
           "effective_date": "2024-07-01",
-          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР от 15.12.2023"
+          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР"
+        },
+        "saint_petersburg": {
+          "city_name": "Санкт-Петербург",
+          "supplier": "ГУП \"ТЭК СПб\"",
+          "rate": 145.00,
+          "unit": "m3",
+          "effective_date": "2024-07-01",
+          "decree_info": "Распоряжение Комитета по тарифам Санкт-Петербурга"
         }
       }
     },
@@ -93,7 +191,97 @@
           "rate_gcal_hour": 0.0,
           "unit": "Gcal",
           "effective_date": "2024-07-01",
-          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР от 15.12.2023"
+          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР"
+        },
+        "saint_petersburg": {
+          "city_name": "Санкт-Петербург",
+          "supplier": "ГУП \"ТЭК СПб\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2350.50,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Распоряжение Комитета по тарифам Санкт-Петербурга"
+        },
+        "novosibirsk": {
+          "city_name": "Новосибирск",
+          "supplier": "АО \"СИБЭКО\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 1870.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ Департамента по тарифам Новосибирской области"
+        },
+        "yekaterinburg": {
+          "city_name": "Екатеринбург",
+          "supplier": "АО \"ЕТК\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2450.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление РЭК Свердловской области"
+        },
+        "kazan": {
+          "city_name": "Казань",
+          "supplier": "АО \"Татэнерго\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2280.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление Госкомитета РТ по тарифам"
+        },
+        "nizhny_novgorod": {
+          "city_name": "Нижний Новгород",
+          "supplier": "АО \"Теплоэнерго\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2560.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Решение РСТ Нижегородской области"
+        },
+        "krasnodar": {
+          "city_name": "Краснодар",
+          "supplier": "АО \"Краснодартеплосеть\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2680.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ РЭК Краснодарского края"
+        },
+        "samara": {
+          "city_name": "Самара",
+          "supplier": "ПАО \"Т Плюс\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2420.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Приказ Министерства энергетики и ЖКХ Самарской области"
+        },
+        "chelyabinsk": {
+          "city_name": "Челябинск",
+          "supplier": "АО \"УСТЭК-Челябинск\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 1780.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление Министерства тарифного регулирования Челябинской области"
+        },
+        "rostov_on_don": {
+          "city_name": "Ростов-на-Дону",
+          "supplier": "ООО \"Ростовские тепловые сети\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 2850.00,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-07-01",
+          "decree_info": "Постановление РСТ Ростовской области"
         }
       }
     }

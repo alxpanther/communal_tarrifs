@@ -3,6 +3,26 @@
     "SA \"Apă-Canal Chișinău\"": {
       "city_code": "chisinau",
       "city_name": "Кишинёв"
+    },
+    "ÎM \"Regia Apă-Canal-Bălți\"": {
+      "city_code": "balti",
+      "city_name": "Бельцы"
+    },
+    "SA \"Apă-Canal Cahul\"": {
+      "city_code": "cahul",
+      "city_name": "Кагул"
+    },
+    "ÎM \"Apă-Canal Ungheni\"": {
+      "city_code": "ungheni",
+      "city_name": "Унгены"
+    },
+    "SA \"Apă-Canal Orhei\"": {
+      "city_code": "orhei",
+      "city_name": "Орхей"
+    },
+    "SA \"Regia Apă-Canal Soroca\"": {
+      "city_code": "soroca",
+      "city_name": "Сороки"
     }
   },
   "heat_suppliers": {

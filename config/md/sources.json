@@ -66,6 +66,56 @@
           "unit": "m3",
           "effective_date": "2024-01-12",
           "decree_info": "Постановление ANRE № 12/2024"
+        },
+        "balti": {
+          "city_name": "Бельцы",
+          "supplier": "ÎM \"Regia Apă-Canal-Bălți\"",
+          "water_supply": 11.23,
+          "sewage": 7.93,
+          "total_rate": 19.16,
+          "unit": "m3",
+          "effective_date": "2024-02-01",
+          "decree_info": "Постановление ANRE № 58/2024"
+        },
+        "cahul": {
+          "city_name": "Кагул",
+          "supplier": "SA \"Apă-Canal Cahul\"",
+          "water_supply": 15.60,
+          "sewage": 8.50,
+          "total_rate": 24.10,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Постановление ANRE"
+        },
+        "ungheni": {
+          "city_name": "Унгены",
+          "supplier": "ÎM \"Apă-Canal Ungheni\"",
+          "water_supply": 14.20,
+          "sewage": 7.20,
+          "total_rate": 21.40,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Постановление ANRE"
+        },
+        "orhei": {
+          "city_name": "Орхей",
+          "supplier": "SA \"Apă-Canal Orhei\"",
+          "water_supply": 16.00,
+          "sewage": 7.50,
+          "total_rate": 23.50,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Постановление ANRE"
+        },
+        "soroca": {
+          "city_name": "Сороки",
+          "supplier": "SA \"Regia Apă-Canal Soroca\"",
+          "water_supply": 15.30,
+          "sewage": 7.50,
+          "total_rate": 22.80,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Постановление ANRE"
         }
       }
     },

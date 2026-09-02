@@ -66,6 +66,56 @@
           "unit": "m3",
           "effective_date": "2024-01-01",
           "decree_info": "Решение Кенгаша народных депутатов г. Ташкента"
+        },
+        "samarkand": {
+          "city_name": "Самарканд",
+          "supplier": "АО \"Самарканд сув таъминоти\"",
+          "water_supply": 1150.0,
+          "sewage": 700.0,
+          "total_rate": 1850.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Кенгаша народных депутатов Самаркандской обл."
+        },
+        "bukhara": {
+          "city_name": "Бухара",
+          "supplier": "АО \"Бухоро сув таъминоти\"",
+          "water_supply": 1200.0,
+          "sewage": 700.0,
+          "total_rate": 1900.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Кенгаша народных депутатов Бухарской обл."
+        },
+        "fergana": {
+          "city_name": "Фергана",
+          "supplier": "АО \"Фаргона сув таъминоти\"",
+          "water_supply": 1100.0,
+          "sewage": 600.0,
+          "total_rate": 1700.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Кенгаша народных депутатов Ферганской обл."
+        },
+        "namangan": {
+          "city_name": "Наманган",
+          "supplier": "АО \"Наманган сув таъминоти\"",
+          "water_supply": 1000.0,
+          "sewage": 600.0,
+          "total_rate": 1600.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Кенгаша народных депутатов Наманганской обл."
+        },
+        "andijan": {
+          "city_name": "Андижан",
+          "supplier": "АО \"Андижон сув таъминоти\"",
+          "water_supply": 1050.0,
+          "sewage": 600.0,
+          "total_rate": 1650.0,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение Кенгаша народных депутатов Андижанской обл."
         }
       }
     },
@@ -94,6 +144,26 @@
           "unit": "Gcal",
           "effective_date": "2024-04-02",
           "decree_info": "Тариф ИП ООО \"Veolia Energy Tashkent\" для населения"
+        },
+        "samarkand": {
+          "city_name": "Самарканд",
+          "supplier": "ГУП \"Иссиклик манбаи\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 68000.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Тариф ГУП \"Иссиклик манбаи\" для населения"
+        },
+        "bukhara": {
+          "city_name": "Бухара",
+          "supplier": "ГУП \"Бухоро иссиклик манбаи\"",
+          "tariff_type": "one_rate",
+          "rate_gcal": 65000.0,
+          "rate_gcal_hour": 0.0,
+          "unit": "Gcal",
+          "effective_date": "2024-01-01",
+          "decree_info": "Тариф ГУП \"Бухоро иссиклик манбаи\" для населения"
         }
       }
     }

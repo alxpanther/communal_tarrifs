@@ -3,12 +3,84 @@
     "АО \"Мосводоканал\"": {
       "city_code": "moscow",
       "city_name": "Москва"
+    },
+    "ГУП \"Водоканал Санкт-Петербурга\"": {
+      "city_code": "saint_petersburg",
+      "city_name": "Санкт-Петербург"
+    },
+    "МУП \"Горводоканал г. Новосибирска\"": {
+      "city_code": "novosibirsk",
+      "city_name": "Новосибирск"
+    },
+    "МУП \"Водоканал г. Екатеринбурга\"": {
+      "city_code": "yekaterinburg",
+      "city_name": "Екатеринбург"
+    },
+    "МУП \"Водоканал г. Казани\"": {
+      "city_code": "kazan",
+      "city_name": "Казань"
+    },
+    "АО \"Нижегородский водоканал\"": {
+      "city_code": "nizhny_novgorod",
+      "city_name": "Нижний Новгород"
+    },
+    "ООО \"Краснодар Водоканал\"": {
+      "city_code": "krasnodar",
+      "city_name": "Краснодар"
+    },
+    "ООО \"Самарские коммунальные системы\"": {
+      "city_code": "samara",
+      "city_name": "Самара"
+    },
+    "МУП \"ПОВВ\"": {
+      "city_code": "chelyabinsk",
+      "city_name": "Челябинск"
+    },
+    "АО \"Ростовводоканал\"": {
+      "city_code": "rostov_on_don",
+      "city_name": "Ростов-на-Дону"
     }
   },
   "heat_suppliers": {
     "ПАО \"МОЭК\"": {
       "city_code": "moscow",
       "city_name": "Москва"
+    },
+    "ГУП \"ТЭК СПб\"": {
+      "city_code": "saint_petersburg",
+      "city_name": "Санкт-Петербург"
+    },
+    "АО \"СИБЭКО\"": {
+      "city_code": "novosibirsk",
+      "city_name": "Новосибирск"
+    },
+    "АО \"ЕТК\"": {
+      "city_code": "yekaterinburg",
+      "city_name": "Екатеринбург"
+    },
+    "АО \"Татэнерго\"": {
+      "city_code": "kazan",
+      "city_name": "Казань"
+    },
+    "АО \"Теплоэнерго\"": {
+      "city_code": "nizhny_novgorod",
+      "city_name": "Нижний Новгород"
+    },
+    "АО \"Краснодартеплосеть\"": {
+      "city_code": "krasnodar",
+      "city_name": "Краснодар"
+    },
+    "ПАО \"Т Плюс\"": {
+      "city_code": "samara",
+      "city_name": "Самара"
+    },
+    "АО \"УСТЭК-Челябинск\"": {
+      "city_code": "chelyabinsk",
+      "city_name": "Челябинск"
+    },
+    "ООО \"Ростовские тепловые сети\"": {
+      "city_code": "rostov_on_don",
+      "city_name": "Ростов-на-Дону"
     }
   }
 }

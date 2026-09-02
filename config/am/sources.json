@@ -2,31 +2,43 @@
   "settings": {
     "timeout_seconds": 15
   },
-
   "reference_sources": {
     "electricity": "https://www.ena.am/Tariffs.aspx?lang=2",
     "water": "https://www.veoliajur.am/hy/tariffs",
     "hot_water": null,
     "heating": null
   },
-
   "electricity": {
     "unit": "kWh",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (День/Ночь)",
-        "day": { "hours": "07:00 - 23:00", "coefficient": 1.0 },
-        "night": { "hours": "23:00 - 07:00", "coefficient": 0.79373 }
+        "day": {
+          "hours": "07:00 - 23:00",
+          "coefficient": 1.0
+        },
+        "night": {
+          "hours": "23:00 - 07:00",
+          "coefficient": 0.79373
+        }
       },
       "three_zone": {
         "description": "Трехзонный тариф (не применяется)",
-        "peak": { "hours": "00:00 - 00:00", "coefficient": 1.0 },
-        "half_peak": { "hours": "00:00 - 00:00", "coefficient": 1.0 },
-        "night": { "hours": "00:00 - 00:00", "coefficient": 1.0 }
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0
+        }
       }
     }
   },
-
   "manual_override": {
     "enabled": true,
     "electricity": {
@@ -40,13 +52,43 @@
       "cities": {
         "yerevan": {
           "city_name": "Ереван",
-          "supplier": "ЗАО \"Веолиа Джур\"",
+          "supplier": "ЗАО \"Веолиа Джур\" (Ереван)",
           "water_supply": 175.093,
           "sewage": 30.899,
           "total_rate": 205.992,
           "unit": "m3",
           "effective_date": "2024-01-01",
-          "decree_info": "Решение КРОУ РА № 437-Н"
+          "decree_info": "Решение КРОУ РА № 437-Н (единый тариф по стране)"
+        },
+        "gyumri": {
+          "city_name": "Гюмри",
+          "supplier": "ЗАО \"Веолиа Джур\" (Гюмри)",
+          "water_supply": 175.093,
+          "sewage": 30.899,
+          "total_rate": 205.992,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение КРОУ РА № 437-Н (единый тариф по стране)"
+        },
+        "vanadzor": {
+          "city_name": "Ванадзор",
+          "supplier": "ЗАО \"Веолиа Джур\" (Ванадзор)",
+          "water_supply": 175.093,
+          "sewage": 30.899,
+          "total_rate": 205.992,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение КРОУ РА № 437-Н (единый тариф по стране)"
+        },
+        "other_cities": {
+          "city_name": "Другие города (единый тариф)",
+          "supplier": "ЗАО \"Веолиа Джур\" (другие города)",
+          "water_supply": 175.093,
+          "sewage": 30.899,
+          "total_rate": 205.992,
+          "unit": "m3",
+          "effective_date": "2024-01-01",
+          "decree_info": "Решение КРОУ РА № 437-Н (единый тариф по стране)"
         }
       }
     },

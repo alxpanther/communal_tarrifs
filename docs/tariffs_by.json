@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T17:30:35.428345",
+  "last_updated_at": "2026-09-02T18:09:40.457464",
   "country": "BY",
   "country_names": {
     "ru": "Беларусь",
@@ -61,7 +61,73 @@
         "total_rate": 2.8648,
         "unit": "m3",
         "effective_date": "2024-01-01",
-        "decree_info": "Решение Мингорисполкома № 5240"
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "gomel",
+        "city_name": "Гомель",
+        "supplier": "КПУП \"Гомельводоканал\"",
+        "water_supply": 1.5553,
+        "sewage": 1.3095,
+        "total_rate": 2.8648,
+        "unit": "m3",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "mogilev",
+        "city_name": "Могилёв",
+        "supplier": "МУКП \"Горводоканал г. Могилева\"",
+        "water_supply": 1.5553,
+        "sewage": 1.3095,
+        "total_rate": 2.8648,
+        "unit": "m3",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "vitebsk",
+        "city_name": "Витебск",
+        "supplier": "УП \"Витебскводоканал\"",
+        "water_supply": 1.5553,
+        "sewage": 1.3095,
+        "total_rate": 2.8648,
+        "unit": "m3",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "grodno",
+        "city_name": "Гродно",
+        "supplier": "ГУКП \"Гродноводоканал\"",
+        "water_supply": 1.5553,
+        "sewage": 1.3095,
+        "total_rate": 2.8648,
+        "unit": "m3",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "brest",
+        "city_name": "Брест",
+        "supplier": "КУП \"Брестводоканал\"",
+        "water_supply": 1.5553,
+        "sewage": 1.3095,
+        "total_rate": 2.8648,
+        "unit": "m3",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "other_cities",
+        "city_name": "Другие города (республиканский тариф)",
+        "supplier": "Региональные предприятия ЖКХ Беларуси",
+        "water_supply": 1.5553,
+        "sewage": 1.3095,
+        "total_rate": 2.8648,
+        "unit": "m3",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
       }
     ]
   },
@@ -74,9 +140,63 @@
         "city_name": "Минск",
         "supplier": "УП \"Минсккоммунтеплосеть\"",
         "rate": 24.7187,
-        "unit": "m3",
+        "unit": "Gcal",
         "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров Республики Беларусь № 992 (субсидируемый тариф за Гкал)"
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+      },
+      {
+        "city_code": "gomel",
+        "city_name": "Гомель",
+        "supplier": "КПУП \"Гомельоблтеплосеть\"",
+        "rate": 24.7187,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+      },
+      {
+        "city_code": "mogilev",
+        "city_name": "Могилёв",
+        "supplier": "МГКУП \"Горводоканал / Теплоэнергетика\"",
+        "rate": 24.7187,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+      },
+      {
+        "city_code": "vitebsk",
+        "city_name": "Витебск",
+        "supplier": "ВПКО \"Гордормост / ВПКиТС\"",
+        "rate": 24.7187,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+      },
+      {
+        "city_code": "grodno",
+        "city_name": "Гродно",
+        "supplier": "КУП \"Гроднооблтеплосеть\"",
+        "rate": 24.7187,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+      },
+      {
+        "city_code": "brest",
+        "city_name": "Брест",
+        "supplier": "КУПП \"Брестское котельное хозяйство\"",
+        "rate": 24.7187,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+      },
+      {
+        "city_code": "other_cities",
+        "city_name": "Другие города (республиканский тариф)",
+        "supplier": "Региональные предприятия теплосетей Беларуси",
+        "rate": 24.7187,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
       }
     ]
   },
@@ -93,7 +213,73 @@
         "rate_gcal_hour": 0.0,
         "unit": "Gcal",
         "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров Республики Беларусь № 992 (субсидируемый тариф)"
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "gomel",
+        "city_name": "Гомель",
+        "supplier": "КПУП \"Гомельоблтеплосеть\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 24.7187,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "mogilev",
+        "city_name": "Могилёв",
+        "supplier": "МГКУП \"Горводоканал / Теплоэнергетика\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 24.7187,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "vitebsk",
+        "city_name": "Витебск",
+        "supplier": "ВПКО \"Гордормост / ВПКиТС\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 24.7187,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "grodno",
+        "city_name": "Гродно",
+        "supplier": "КУП \"Гроднооблтеплосеть\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 24.7187,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "brest",
+        "city_name": "Брест",
+        "supplier": "КУПП \"Брестское котельное хозяйство\"",
+        "tariff_type": "one_rate",
+        "rate_gcal": 24.7187,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+      },
+      {
+        "city_code": "other_cities",
+        "city_name": "Другие города (республиканский тариф)",
+        "supplier": "Региональные предприятия теплосетей Беларуси",
+        "tariff_type": "one_rate",
+        "rate_gcal": 24.7187,
+        "rate_gcal_hour": 0.0,
+        "unit": "Gcal",
+        "effective_date": "2024-01-01",
+        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
       }
     ]
   }

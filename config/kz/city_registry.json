@@ -3,12 +3,40 @@
     "ГКП \"Астана Су Арнасы\"": {
       "city_code": "astana",
       "city_name": "Астана"
+    },
+    "ГКП \"Алматы Су\"": {
+      "city_code": "almaty",
+      "city_name": "Алматы"
+    },
+    "ТОО \"Водные ресурсы-Маркетинг\"": {
+      "city_code": "shymkent",
+      "city_name": "Шымкент"
+    },
+    "ТОО \"Караганды Су\"": {
+      "city_code": "karaganda",
+      "city_name": "Караганда"
+    },
+    "АО \"Aqtobe su-energy group\"": {
+      "city_code": "aktobe",
+      "city_name": "Актобе"
     }
   },
   "heat_suppliers": {
     "АО \"Астана-Теплотранзит\"": {
       "city_code": "astana",
       "city_name": "Астана"
+    },
+    "ТОО \"Алматинские тепловые сети\"": {
+      "city_code": "almaty",
+      "city_name": "Алматы"
+    },
+    "ГКП \"Куатжылуорталык-3\"": {
+      "city_code": "shymkent",
+      "city_name": "Шымкент"
+    },
+    "ТОО \"Теплотранзит Караганда\"": {
+      "city_code": "karaganda",
+      "city_name": "Караганда"
     }
   }
 }

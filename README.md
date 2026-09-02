@@ -2,7 +2,7 @@
 
 Интеллектуальная система автоматического сбора, AI-сравнения, отправки отчетов в Telegram и публикации тарифов ЖКХ для Android-приложения.
 
-Поддерживается несколько стран: **Украина (`UA`)**, **Армения (`AM`)** и **Азербайджан (`AZ`)**. У каждой страны свой конфиг (`config/<код>/`), свой пайплайн (`src/countries/<код>/fetcher.py`) и свой выходной файл `tariffs_<код>.json`; всё общее вынесено в `src/common/`. Рядом с файлами тарифов публикуется `tariffs_index.json` — список стран, которые вообще опубликованы: по нему приложение узнаёт о новой стране, не обновляясь.
+Поддерживается страны бывшего СССР. У каждой страны свой конфиг (`config/<код>/`), свой пайплайн (`src/countries/<код>/fetcher.py`) и свой выходной файл `tariffs_<код>.json`; всё общее вынесено в `src/common/`. Рядом с файлами тарифов публикуется `tariffs_index.json` — список стран, которые вообще опубликованы: по нему приложение узнаёт о новой стране, не обновляясь.
 
 ---
 
@@ -498,4 +498,3 @@ python -c "import json; d=json.load(open('docs/tariffs_ua.json')); print([c for 
    * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_<код>.json`
 3. **Индекс стран:** `https://tarrifs.foleks.com/tariffs_index.json` и `https://alxpanther.github.io/communal_tarrifs/tariffs_index.json`. У каждого хоста своя копия со своими значениями `path`, потому что раскладка файлов на хостах разная.
 4. **Парсинг и Модели:** Для быстрого создания моделей данных в Android используйте Kotlin DTO из [docs/ru/JSON_SPECIFICATION.md](docs/ru/JSON_SPECIFICATION.md#3-готовые-kotlin-data-classes-kotlinxserialization).
-

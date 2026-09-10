@@ -55,6 +55,11 @@ kommeter_scripts/
 │   │   ├── paths.py              # Every path derived from a country code
 │   │   ├── countries.py          # Reads config/countries.json
 │   │   ├── jsonio.py             # Previous file, root object, writing both output files
+│   │   ├── ai_pipeline.py        # Per-city collection pipeline
+│   │   ├── fetching.py           # Downloading a source (HTML, PDF, scan)
+│   │   ├── llm.py                # The extraction model
+│   │   ├── prompts.py            # What the model is asked
+│   │   ├── validation.py         # Whether an extraction may be published
 │   │   ├── overrides.py          # manual_override semantics, identical for all countries
 │   │   ├── registry.py           # city_code registry: read, reconcile, append
 │   │   ├── manual_pipeline.py    # Pipeline for countries whose tariffs come from config only
@@ -136,6 +141,11 @@ kommeter_scripts/
 | `common/paths.py` | The single place that knows the file layout of the repository. A pipeline never composes a path itself. |
 | `common/countries.py` | Loads and validates `config/countries.json`. |
 | `common/jsonio.py` | Loads the previous published file, assembles the root object (including `country_names`), writes both output files, and refuses to write a file with an empty electricity block. |
+| `common/ai_pipeline.py` | Per-city collection: fetch, extract, validate, merge, save. Used by every country whose cities are regulated separately. |
+| `common/fetching.py` | Downloading one source and preparing it for the model: HTML flattened to text with table structure kept, PDFs and scans passed as bytes. |
+| `common/llm.py` | Which extraction model to use and how a document is handed to it. |
+| `common/prompts.py` | What the model is asked, one template per tariff block. |
+| `common/validation.py` | Whether an extracted tariff may be published. Rejects a city whole rather than publish a doubtful field. |
 | `common/overrides.py` | `manual_override` semantics, shared by every country so they cannot drift apart. |
 | `common/registry.py` | The permanent `city_code` registry: read, force registered codes onto the data, append new suppliers, notify. |
 | `common/manual_pipeline.py` | The whole pipeline of a country that has no scrapable source: previous file → config values → validation → save. |

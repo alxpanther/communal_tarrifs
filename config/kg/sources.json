@@ -1,7 +1,7 @@
 {
   "settings": {
     "auto_select_latest_model": true,
-    "gemini_model": "gemini-2.5-flash",
+    "gemini_model": "gemini-3.6-flash",
     "timeout_seconds": 15
   },
   "reference_sources": {

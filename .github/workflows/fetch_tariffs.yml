@@ -2,8 +2,14 @@ name: Fetch and Update Tariffs
 
 on:
   schedule:
-    # Runs at 11:00 UTC on the 25th day of every month
+    # The 25th catches a tariff change announced during the month.
     - cron: '0 11 25 * *'
+    # The 1st catches the change itself. A regulator publishes the whole indexation schedule
+    # years ahead, and the pipeline publishes the period in force on the day it runs — so a
+    # tariff that switches on the 1st is only picked up by a run on the 1st. Russia moved its
+    # indexation from 1 July to 1 October in 2026; without this line the file would have kept
+    # the September values for three more weeks.
+    - cron: '0 11 1 * *'
   workflow_dispatch:
     inputs:
       countries:

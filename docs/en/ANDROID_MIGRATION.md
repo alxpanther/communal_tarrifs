@@ -1,227 +1,121 @@
-# Android task brief: hot water and heating
+# Android task brief
 
 > **Language:** English — canonical version. AI agents read this file, not the Russian one.
 > Russian mirror: [../ru/ANDROID_MIGRATION.md](../ru/ANDROID_MIGRATION.md). Both files must stay identical in meaning; see [DOCUMENTATION_RULES.md](DOCUMENTATION_RULES.md).
 
-> **Audience:** the assistant (or developer) sent to this repository to implement the matching part
-> in the Android application.
+> **Audience:** the assistant sent to the Android project (a sibling directory in
+> `~/AndroidStudioProjects`, Flutter/Dart) to implement the app side of a data change made here.
 >
-> **What this file is:** a description of the changes already made to `tariffs_ua.json` on the
-> pipeline side, plus the list of what remains to be done in the app. It is not a changelog, it is a
-> work brief — read it top to bottom.
+> **What this file is:** a work brief, not a changelog. Read it top to bottom before touching the
+> app, then read [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md) for the field reference.
 
 ---
 
-## 0. Where to start
+## 0. What is already done in the app — do not rebuild it
 
-1. Read this file completely.
-2. Read [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md) — the full field reference and Kotlin DTOs
-   you can copy verbatim.
-3. Look at the real data: [docs/tariffs_ua.json](../tariffs_ua.json) — exactly what the app
-   downloads.
-4. Only then open the app project and find where the tariff JSON is parsed.
+Verified in the app source, so that nothing below is implemented twice:
 
-The application lives in a **separate directory** (a sibling project in `~/AndroidStudioProjects`).
-This repository is only the data generator; there is no app code here.
-
----
-
-## 1. What changed in the JSON
-
-Two **new blocks** appeared at the root: `hot_water` and `heating`.
-
-```jsonc
-{
-  "version": "1.0",
-  "last_updated_at": "...",
-  "country": "UA",
-  "currency": "UAH",
-  "electricity": { ... },   // UNCHANGED
-  "water":       { ... },   // UNCHANGED
-  "hot_water":   { ... },   // NEW
-  "heating":     { ... }    // NEW
-}
-```
-
-**`electricity` and `water` did not change by a single byte** — no field was renamed, removed or
-re-typed. Every existing piece of code reading electricity and cold water keeps working untouched.
-
----
-
-## 2. The mandatory minimum (without it the app crashes)
-
-If the JSON is parsed with `kotlinx.serialization`, the parser must ignore unknown root keys:
-
-```kotlin
-val json = Json { ignoreUnknownKeys = true }
-```
-
-Without that flag `Json.decodeFromString<TariffResponse>(...)` throws
-`SerializationException: Encountered an unknown key 'hot_water'`, and the app stops reading tariffs
-**altogether, including the old blocks**.
-
-* If the flag is already set — nothing to do, the app keeps working and simply does not show the new
-  services.
-* If Moshi or Gson is used — they ignore unknown keys by default, also nothing to do.
-
-**This is the first thing to find and verify in the app project.**
-
----
-
-## 3. Data models
-
-Ready DTOs are in [JSON_SPECIFICATION.md, section 3](JSON_SPECIFICATION.md#3-ready-made-kotlin-data-classes-kotlinxserialization). Key points:
-
-```kotlin
-@Serializable
-data class TariffResponse(
-    // ... existing fields unchanged ...
-    @SerialName("hot_water") val hotWater: HotWaterTariff? = null,
-    @SerialName("heating")   val heating:  HeatingTariff?  = null
-)
-```
-
-**Both fields must be nullable with a default.** Reason: the user's cache (Room / DataStore / a file
-in `filesDir`) may hold a JSON downloaded earlier, without those blocks. Declaring them non-null
-crashes the app when it reads its own cache after the update.
-
-The block structure mirrors the existing `water`:
-
-| Block | List element | Tariff |
-|---|---|---|
-| `hot_water` | `CityHotWaterTariff` | `rate: Double` — UAH per m³ incl. VAT |
-| `heating` | `CityHeatingTariff` | `rateGcal: Double` — UAH per Gcal; `rateGcalHour: Double` — standing charge, `0.0` for single-rate; `tariffType: String` — `"one_rate"` / `"two_rate"` |
-
----
-
-## 4. Calculations
-
-The formulas with derivations are in
-[JSON_SPECIFICATION.md, sections 4.3 and 4.4](JSON_SPECIFICATION.md#43-hot-water). In short:
-
-**Hot water** (meter in m³, exactly like cold water):
-
-```kotlin
-val sum = deltaCubicMeters * city.rate
-```
-
-**Heating** (meter in Gcal):
-
-```kotlin
-val sum = deltaGcal * city.rateGcal
-```
-
-For `tariffType == "two_rate"` there is formally a standing part as well — `rateGcalHour` multiplied
-by the building's connected heat load in Gcal/hour. **The resident does not know that figure** and
-the app has nowhere to get it, therefore:
-
-* bill on `rateGcal`;
-* either hide `rateGcalHour` entirely, or show it for information with a caption such as
-  "абонплата за підключене навантаження, нараховується постачальником".
-
-Do not try to guess the load or ask the user for it — they will not find that number on their bill
-in any usable form.
-
----
-
-## 5. Four traps — read before writing code
-
-### 5.1. The city lists of the three blocks differ
-
-| Block | Cities |
+| Already there | Where |
 |---|---|
-| `water` | 50 |
-| `hot_water` | 18 |
-| `heating` | 28 |
+| DTOs for all four blocks, unknown JSON keys ignored, `status` → `available` | `lib/domain/tariffs/tariff_catalog.dart` |
+| `hasRates` per entry, so an entry with no rate never reaches the UI | same file |
+| A separate saved supplier per service — `hotWaterCityCode`, `heatingCityCode` | `lib/domain/entities/house.dart` |
+| Services related by `city_name`, not by `city_code` | `CityTariffs.named()` |
+| Supplier picker with search, and the "my city is not in the list" path | `lib/presentation/widgets/city_picker_dialog.dart` |
+| A new edition is rejected if a block loses too many charging cities | `TariffCatalog.acceptsAsSuccessor()` |
+| Meter types `hotWater`, `heating`, and — already — `waterHeating` | `lib/domain/enums/meter_type.dart` |
 
-This is not incomplete scraping: the aggregate source publishes only tariffs set by NKREKP, and
-centralised heat simply does not exist everywhere. It is the normal state and will not change.
-
-**Consequence:** the city the user selected may have no heating data at all. The app must survive
-that — hide the service rather than crash or render zeros.
-
-### 5.2. `city_code` does not always match across blocks
-
-It matches where the city has **one** heat supplier: `kyiv`, `lviv`, `vinnytsia`, `kharkiv`,
-`poltava`, `rivne`, `sumy`, `odesa`, `zaporizhzhia` and most of the rest.
-
-It does not match where there are several suppliers — then the plain code goes to nobody:
-
-| City | `water` | `heating` |
-|---|---|---|
-| Дніпро | `dnipro` | `dnipro_teploenerho`, `dnipro_komenerhoservis` |
-| Миколаїв | `mykolaiv` | `mykolaiv_mykolaivoblteploenerho`, `mykolaiv_mykolaivska_teploelektrotsentral` |
-| Черкаси | `cherkasy` | `cherkasy_cherkaske_khimvolokno`, `cherkasy_cherkasyteplokomunenerho` |
-| Чернігів | `chernihiv` | `chernihiv_firma`, `chernihiv_oblteplokomunenerho` |
-
-This is not a bug: different districts of those cities are served by different companies with
-different tariffs, and the choice cannot be made for the user.
-
-**How to do it right:**
-
-* `city_code` is a stable primary key **within its own block**. Store the user's selection separately
-  per service.
-* Relate services through `city_name`: if the user picked Черкаси for water, offer both heating
-  records with `cityName == "Черкаси"` and let them pick their supplier.
-* Do not write `heating.cities.first { it.cityCode == waterCityCode }` — for four cities that
-  silently returns null.
-
-For the code assignment rules see [README.md → Как назначается «простой» код города](../../README.md#как-назначается-простой-код-города).
-
-### 5.3. An `effective_date` in the past is normal
-
-Most hot water and heating records carry `2021-02-01`, Kyiv carries `2022-10-01`. This is **not**
-stale data. A moratorium on raising household heat tariffs is in force for the whole period of
-martial law plus six months, so the numbers really are frozen since then. Verified against the
-suppliers' own websites — they match to the kopeck.
-
-The file holds **the tariff households actually pay**. The economically justified tariffs (one and a
-half to two times higher, published next to it on company sites) never enter the file.
-
-Do not label the tariff "outdated" in the UI based on the date. If you want to show something, show
-`decree_info` — it carries a human caption such as "Розпорядження КМВА № 673 від 30.09.2022, тариф
-для населення на період воєнного стану".
-
-### 5.4. Kyiv heat means Kyivteploenergo
-
-`city_code == "kyiv"` in `hot_water` and `heating` is КП «КИЇВТЕПЛОЕНЕРГО», the city's main supplier
-(97.89 UAH/m³ and 1654.41 UAH/Gcal). The second Kyiv supplier, ТОВ «Євро-Реконструкція», serves part
-of the districts and sits under the code `kyiv_yevro_rekonstruktsiia` (75.96 and 1408.27). Kyiv users
-must be offered a choice between them.
+The multi-supplier city case is handled too: a city with two heat companies offers both, and the
+plain city code belongs to neither.
 
 ---
 
-## 6. Work checklist
+## 1. What changed on the data side
 
-- [ ] Find where the `Json` parser is created, make sure `ignoreUnknownKeys = true` is set. **Do this first.**
-- [ ] Add the DTOs `HotWaterTariff`, `CityHotWaterTariff`, `HeatingTariff`, `CityHeatingTariff` (copy from the specification).
-- [ ] Add `hotWater` and `heating` to `TariffResponse` — nullable, with `= null`.
-- [ ] Extend the storage layer (Room entities / DataStore) for the two new city lists.
-- [ ] Add two meter types to the domain model: hot water (m³) and heating (Gcal).
-- [ ] Supplier selection screen: a separate selection for hot water and heating, do not reuse the cold water selection (see 5.2).
-- [ ] Implement the calculations from section 4.
-- [ ] Handle "no data for your city for this service" — hide the service instead of showing zeros.
-- [ ] Refresh `app/src/main/assets/tariffs_ua_default.json` from [assets/tariffs_ua_default.json](../../assets/tariffs_ua_default.json) in this repository.
-- [ ] Verify that an old cached JSON without the new blocks still parses and does not crash the app.
-- [ ] UI strings only through `.arb` / `strings.xml`; hardcoded service names are not acceptable.
+Tariffs are no longer copied from a hand-written config. Each city's tariff is fetched from the
+regulator or the utility and read out of that document on the run that publishes it, then validated
+before it may enter the file (see [ARCHITECTURE.md](ARCHITECTURE.md), section 8a).
+
+Three consequences reach the app:
+
+1. **`effective_date` and `decree_info` are now trustworthy and specific.** They come from the
+   document the number was read from, not from a caption someone typed once.
+2. **A city can now hold the same tariff for months and then change on a fixed date.** Regulators
+   publish the whole indexation schedule years ahead; the file always carries the period in force
+   on the day it was generated. Russia's indexation moved from 1 July to 1 October in 2026, so a
+   date-based assumption about when tariffs change is wrong.
+3. **A city may silently keep an old value.** When a source is unreachable the previous tariff stays
+   published rather than being wiped — correct for the file, but it means `effective_date` is the
+   only honest signal of freshness.
+
+**The published schema has not changed.** No field was added, renamed or re-typed. Everything below
+is app-side work that a schema change would enable, not work the current file forces.
 
 ---
 
-## 7. Where the data comes from (informational, no action needed)
+## 2. The one real gap: two-component hot water
 
-| Block | Source |
-|---|---|
-| `electricity` | tariffa.com.ua |
-| `water` | index.minfin.com.ua/ua/tariff/water/ |
-| `hot_water` | index.minfin.com.ua/ua/tariff/hotwater/ plus a dedicated Kyiv page for КП «Київтеплоенерго» |
-| `heating` | index.minfin.com.ua/ua/tariff/heating/ plus a manual override for КП «Київтеплоенерго» |
+In Russia and several neighbouring countries hot water is not priced per cubic metre. It is priced
+as two numbers:
 
-Kyiv heating is entered manually because КП «Київтеплоенерго» publishes its tariffs as PNG images
-and PDFs, and the aggregate tables do not include it at all — they carry only NKREKP tariffs, while
-KTE's tariff is municipal. Details in
-[README.md → Ручное переопределение](../../README.md#-ручное-переопределение-тарифов-manual_override).
+* a **carrier component**, roubles per m³ — the water itself;
+* an **energy component**, roubles per Gcal — heating that water.
 
-The file is published at two addresses, both serving the same content:
+A price per m³ exists only after multiplying the energy component by a **regional norm for heating
+one m³**, and that norm depends on the building: open or closed system, insulated risers or not,
+heated towel rails or not. In Sverdlovsk oblast the eight published norms run from 0.04912 to
+0.06506 Gcal/m³ — a spread of a third on the heating part of the bill.
 
-* `https://tarrifs.foleks.com/ua/tariffs_ua.json` (Cloudflare R2)
-* `https://alxpanther.github.io/communal_tarrifs/tariffs_ua.json` (GitHub Pages)
+Today the pipeline folds the three numbers into a single `rate` and publishes that, picking the norm
+for the most common building type. The arithmetic is spelled out in `decree_info`. This is honest
+but approximate: a resident of a building with a different system pays a different price, and the
+app has no way to say so.
+
+### What to build
+
+1. **Extend the DTO** — `CityHotWaterTariff` in `lib/domain/tariffs/tariff_catalog.dart`:
+   `componentWater`, `componentEnergy`, `heatNorm`, all nullable with a default of `null`. Nullable
+   is not a style choice: the user's cached file has no such keys, and a non-null field crashes the
+   app when it reads its own cache after an update.
+2. **Leave `rate` alone.** It stays the published price and the fallback. `hasRates` keeps meaning
+   `available && rate > 0`.
+3. **Ask the building's hot water system.** A new field on the house, next to the supplier pickers
+   in `lib/presentation/screens/houses/house_edit_screen.dart`, with a Drift migration
+   (`lib/data/database/tables.dart`, schema is at v13). Four to eight options, worded for a resident
+   rather than for a regulator: "is there a heated towel rail on the hot water riser?" is answerable,
+   "closed system with insulated risers" is not.
+4. **Compute when possible.** Where all three components and the building's norm are known:
+   `volume × (componentWater + componentEnergy × norm)`. Otherwise `volume × rate`, exactly as now.
+5. **Show the breakdown** under the hot water figure — `52.63 + 2899.98 × 0.05131` — so a resident
+   can check it against the bill. Today that arithmetic is buried in `decree_info` as prose.
+
+Steps 1, 2 and 4 without step 3 change nothing: without the building's system there is no norm to
+use, and the result is the same number the pipeline already computed. Do them together or not at all.
+
+**This requires a schema change here first.** The three fields exist inside the pipeline and are
+deliberately withheld from the published file (`PUBLISHED_FIELDS` in `common/ai_pipeline.py`),
+because the field list is a contract with a released app. Ask before publishing them.
+
+---
+
+## 3. Smaller things worth doing
+
+* **Do not label a tariff stale by its date.** Ukrainian heat tariffs are frozen since 2021 by a
+  wartime moratorium and are genuinely current. Show `decree_info` instead — it now carries the real
+  decree number for every collected country.
+* **Electricity is one rate per country**, which is wrong for Russia: the published figure is
+  Moscow's. Fixing it needs a schema change (regional electricity) and is not started. Do not build
+  UI that assumes a single national electricity price will stay meaningful.
+* **A city may appear in `water` and not in `heating`**, or the other way round. Already handled —
+  keep it that way when touching those screens.
+
+---
+
+## 4. What not to do
+
+* Do not add a hardcoded tariff, norm or supplier name to the app. The app renders what the file
+  says; every number in it is traceable to a document, and a value typed into the app breaks that.
+* Do not compute a hot water price from components until the building's system is asked for. The
+  fallback `rate` is more accurate than a guessed norm.
+* Do not treat a missing block or a missing city as an error. It is the normal state: central hot
+  water does not reach every town.

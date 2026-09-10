@@ -239,6 +239,96 @@ Two traps met while entering Russian tariffs, both of them general:
 
 ---
 
+## 8a. Countries read city by city
+
+Ukraine has one page listing every city. Most countries have nothing of the kind: each city is
+regulated separately, by its own commission, and publishes its own decree. For those the unit of
+work is **one city and one service**, each with its own source URLs in `config/<cc>/sources.json`,
+and the pipeline is `src/common/ai_pipeline.py`. Russia runs on it.
+
+### Where the pieces live
+
+| Module | Responsibility |
+|---|---|
+| `common/fetching.py` | Downloads one source. Returns text for markup, raw bytes for a PDF — including a scan with no text layer, which several regulators still publish. Flattens HTML to text while keeping table rows and cells, which cuts a 136 KB page to 7 KB without losing which number sits next to which label. |
+| `common/llm.py` | The extraction model: which one to use, how a document is handed over, how a failure is reported. No model name is written in the code — `settings.gemini_model` is the floor and auto-selection only ever raises it to a newer plain `gemini-<version>-flash`. |
+| `common/prompts.py` | What the model is asked. One template per block, filled from config. |
+| `common/validation.py` | Whether the answer may be published. |
+| `common/ai_pipeline.py` | The run: previous file → fetch → extract → validate → merge what passed → save. |
+
+### One city, one service
+
+1. `fetch_all()` downloads every URL declared for that city and block. A URL that fails is skipped;
+   the others still go to the model. All of them go together, because a tariff is often split
+   across documents — the water component on the utility's site, the heating norm on the
+   regulator's.
+2. `prompts.city_prompt()` builds the instruction: the service, the city, the supplier config
+   expects, the currency, the unit, **today's date**, and the per-source `hint`.
+3. `llm.extract()` returns JSON, or nothing.
+4. `validation.validate_city()` decides whether it may be published.
+5. On success the record is flattened by `resolve_periods()` to the values in force today and
+   replaces that city in the block. On failure **nothing is replaced**: the city keeps the tariff
+   it had, and the reason is logged and sent to Telegram.
+
+### Why the prompt carries the date and a hint
+
+Both exist because of mistakes that were made and caught, not as decoration.
+
+* **The date.** A decree lists a decade of periods. A model with no idea what today is returns the
+  ones from two years ago, and an old tariff extracted from a real document passes every structural
+  check there is.
+* **The hint.** One page usually prints several tariffs that are all real: before and after the heat
+  substation, drinking and technical water, every price zone the regulator governs. Which one a
+  household in this city pays is knowledge about the city, so it sits in config next to the URL.
+  Without it the Moscow heating tariff came back as the "before the substation" figure — a genuine
+  number from a genuine document, and the wrong one for a flat.
+
+### What the validator refuses
+
+`validation.py` drops a city whole rather than publish a doubtful field, because a partly wrong
+record is worse than a stale one: it looks current.
+
+* a zero, a negative, or a non-numeric rate — a standing charge on a single-rate heat tariff is the
+  only value allowed to be zero;
+* a rate above the block's ceiling in `validation` — a decimal point in the wrong place;
+* water where `water_supply + sewage` does not match `total_rate`. The sum itself is computed by the
+  code when the source does not print one: asking a model to add two numbers invites it to "fix" a
+  total that does not add up, which is the mistake worth catching;
+* hot water whose components do not multiply out to the stated price. Two-component tariffs are
+  folded to one price per m³ **by `fold_hot_water()`, not by the model** — a number the code
+  computed can be checked, a number the model computed cannot;
+* a supplier the source does not name. Compared after dropping the legal form and any parenthesised
+  qualifier, so «МУП "Водоканал г. Екатеринбурга"» matches «МУП «Водоканал»» while «АО "СИБЭКО"»
+  does not match «ООО "Новосибирская теплосетевая компания"». Where the source uses an abbreviation
+  that cannot be matched to its expansion, config lists it under `supplier_aka`;
+* a period with no parsable start date, or two periods starting the same day;
+* **a jump larger than `max_change_ratio` against what is already published.** This is the one that
+  catches a confident, plausible, wrong extraction — the model read the industrial column, or
+  another year, or another city. The number itself passes every other check; only its distance from
+  last month's number gives it away.
+
+### Retiring a city
+
+A city with no readable source for any of its services is removed rather than kept. An entry nobody
+can refresh is worse than a missing one: the app renders it as a current tariff, and its age is not
+visible to the user.
+
+`retired_cities` in config lists the codes to drop; `drop_retired_cities()` removes them from the
+file on every run, and the city is deleted from `cities` as well because there is nothing left to
+collect it from.
+
+The `city_code` is **not** released. It stays in `city_registry.json` for good and is never handed to
+another supplier, so a city that finds a usable source later comes back under the code its users
+already saved. Until then the app simply shows no tariff for it, which it already handles.
+
+### What a run reports
+
+One Telegram message per country: how many cities were refreshed in each block, and every reason
+something was not. A miss is a normal outcome — a regulator's site is down, a decree has not been
+published yet — but it is never silent, and the file always keeps the previous value.
+
+---
+
 ## 9. The country index
 
 `src/build_index.py` renders `tariffs_index.json` — the list of countries whose tariffs are

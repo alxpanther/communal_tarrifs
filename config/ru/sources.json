@@ -1,47 +1,358 @@
 {
   "settings": {
     "auto_select_latest_model": true,
-    "gemini_model": "gemini-2.5-flash",
-    "timeout_seconds": 15
+    "gemini_model": "gemini-3.6-flash",
+    "timeout_seconds": 30
   },
-  "reference_sources": {
-    "electricity": "https://mosenergosbyt.ru/",
-    "water": "https://mosvodokanal.ru/",
-    "hot_water": "https://moek.ru/",
-    "heating": "https://moek.ru/"
+  "validation": {
+    "max_change_ratio": 0.6,
+    "sum_tolerance": 0.02,
+    "water": {
+      "max_rate": 500.0
+    },
+    "hot_water": {
+      "max_rate": 2000.0
+    },
+    "heating": {
+      "max_rate_gcal": 20000.0,
+      "max_rate_gcal_hour": 1000000.0
+    },
+    "electricity": {
+      "max_rate": 100.0
+    }
   },
   "electricity": {
+    "region": "город Москва",
     "unit": "kWh",
+    "source": {
+      "urls": [
+        "https://energosbyt.net/tarify/",
+        "http://zhilfond.msk.ru/files/All_docs/tarif_jkh_2026.pdf",
+        "https://www.ruscable.ru/articles/tarifs/_na_elektroenergiu_na_2026_god_1-e_polug/_na_elektroenergiu_v_moskve_s_1_yanvarya_1",
+        "https://www.mosenergosbyt.ru/individuals/tariffs-n-payments/tariffs-msk/"
+      ],
+      "hint": "нужен тариф для населения города Москвы, живущего в домах С ГАЗОВЫМИ ПЛИТАМИ — это группа «население, за исключением проживающего в домах, оборудованных стационарными электроплитами, и за исключением сельских населённых пунктов». Нужен ОДНОСТАВОЧНЫЙ тариф с НДС. Тарифы для домов с электроплитами и для сельских населённых пунктов не подходят, тарифы Московской области тоже. Реквизиты приказа, которым установлен тариф, ищи во всех переданных документах — если в одном их нет, возьми из другого"
+    },
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (День/Ночь)",
         "day": {
           "hours": "07:00 - 23:00",
-          "coefficient": 1.1502,
-          "rate": 8.04
+          "coefficient": 1.2005,
+          "rate": 0.0
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.3748,
-          "rate": 2.62
+          "coefficient": 0.5179,
+          "rate": 0.0
         }
       },
       "three_zone": {
         "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
         "peak": {
           "hours": "07:00 - 10:00, 17:00 - 21:00",
-          "coefficient": 1.3405,
-          "rate": 9.37
+          "coefficient": 1.4286,
+          "rate": 0.0
         },
         "half_peak": {
           "hours": "10:00 - 17:00, 21:00 - 23:00",
           "coefficient": 1.0,
-          "rate": 6.99
+          "rate": 0.0
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.3748,
-          "rate": 2.62
+          "coefficient": 0.5179,
+          "rate": 0.0
+        }
+      }
+    }
+  },
+  "cities": {
+    "moscow": {
+      "city_name": "Москва",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Мосводоканал\"",
+          "urls": [
+            "https://www.mosvodokanal.ru/forpeople/tariffs/",
+            "https://amoskva.com/articles/voda-1jan2026"
+          ]
+        },
+        "hot_water": {
+          "supplier": "ПАО \"МОЭК\"",
+          "urls": [
+            "https://www.moek.ru/d/textpage/6d/109/tarifnoe-menyu-pao-moehk-na-2026-2028g_-utv.-na-sajt.pdf"
+          ],
+          "hint": "закрытая система теплоснабжения, территория города Москвы за исключением Троицкого и Новомосковского административных округов; тариф уже указан готовой ценой за 1 м³, компоненты и норматив подогрева не нужны"
+        },
+        "heating": {
+          "supplier": "ПАО \"МОЭК\"",
+          "urls": [
+            "https://www.moek.ru/d/textpage/6d/109/tarifnoe-menyu-pao-moehk-na-2026-2028g_-utv.-na-sajt.pdf"
+          ],
+          "hint": "нужен тариф для потребителей, подключённых ПОСЛЕ тепловых пунктов — это обычный случай многоквартирного дома; вариант «до тепловых пунктов» не подходит"
+        }
+      }
+    },
+    "saint_petersburg": {
+      "city_name": "Санкт-Петербург",
+      "sources": {
+        "water": {
+          "supplier": "ГУП \"Водоканал Санкт-Петербурга\"",
+          "urls": [
+            "https://tarifspb.ru/media/kt/documents/document/file/%D0%A2%D0%B0%D1%80%D0%B8%D1%84%D1%8B_%D0%B4%D0%BB%D1%8F_%D1%80%D0%B0%D1%81%D1%87%D0%B5%D1%82%D0%B0_%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%D0%B0_%D0%BF%D0%BB%D0%B0%D1%82%D1%8B_%D0%B7%D0%B0_%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8_2026_1.pdf",
+            "https://www.gov.spb.ru/helper/tarif/tarifs-2026/"
+          ],
+          "hint": "в Петербурге водоснабжение и водоотведение тарифицируются одной строкой и одинаковой ценой: одно и то же число нужно вернуть и как water_supply, и как sewage"
+        },
+        "hot_water": {
+          "supplier": "ГУП \"ТЭК СПб\"",
+          "urls": [
+            "https://tarifspb.ru/media/kt/documents/document/file/%D0%A2%D0%B0%D1%80%D0%B8%D1%84%D1%8B_%D0%B4%D0%BB%D1%8F_%D1%80%D0%B0%D1%81%D1%87%D0%B5%D1%82%D0%B0_%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%D0%B0_%D0%BF%D0%BB%D0%B0%D1%82%D1%8B_%D0%B7%D0%B0_%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8_2026_1.pdf"
+          ],
+          "hint": "в документе горячая вода указана готовой ценой за 1 м³ (строка «Централизованное горячее водоснабжение»), компоненты возвращать не нужно"
+        },
+        "heating": {
+          "supplier": "ГУП \"ТЭК СПб\"",
+          "urls": [
+            "https://tarifspb.ru/media/kt/documents/document/file/%D0%A2%D0%B0%D1%80%D0%B8%D1%84%D1%8B_%D0%B4%D0%BB%D1%8F_%D1%80%D0%B0%D1%81%D1%87%D0%B5%D1%82%D0%B0_%D1%80%D0%B0%D0%B7%D0%BC%D0%B5%D1%80%D0%B0_%D0%BF%D0%BB%D0%B0%D1%82%D1%8B_%D0%B7%D0%B0_%D0%BA%D0%BE%D0%BC%D0%BC%D1%83%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8_2026_1.pdf"
+          ]
+        }
+      }
+    },
+    "novosibirsk": {
+      "city_name": "Новосибирск",
+      "sources": {
+        "water": {
+          "supplier": "МУП \"Горводоканал г. Новосибирска\"",
+          "urls": [
+            "https://degkh.ru/deyatelnost/gil_hoz/tarify/tarify-na-kommunalnye-uslugi/"
+          ]
+        },
+        "hot_water": {
+          "supplier": "АО \"СИБЭКО\"",
+          "urls": [
+            "http://uk-servisdom.ru/tarif/2047.html",
+            "https://degkh.ru/deyatelnost/gil_hoz/tarify/tarify-na-kommunalnye-uslugi/"
+          ],
+          "supplier_aka": [
+            "ООО \"Новосибирская теплосетевая компания\"",
+            "НТСК"
+          ],
+          "hint": "тариф двухкомпонентный: компонент на холодную воду равен тарифу на питьевую воду, компонент на тепловую энергию — цена ЕТО, норматив расхода тепловой энергии на подогрев указан в том же документе. Если нормативов несколько, возьми больший"
+        },
+        "heating": {
+          "supplier": "АО \"СИБЭКО\"",
+          "urls": [
+            "http://uk-servisdom.ru/tarif/2047.html",
+            "https://degkh.ru/deyatelnost/gil_hoz/tarify/tarify-na-kommunalnye-uslugi/"
+          ],
+          "supplier_aka": [
+            "ООО \"Новосибирская теплосетевая компания\"",
+            "НТСК"
+          ],
+          "hint": "Новосибирск отнесён к ценовой зоне теплоснабжения: нужна цена на тепловую энергию для населения с НДС, применяемая единой теплоснабжающей организацией ООО «Новосибирская теплосетевая компания»"
+        }
+      }
+    },
+    "yekaterinburg": {
+      "city_name": "Екатеринбург",
+      "sources": {
+        "water": {
+          "supplier": "МУП \"Водоканал г. Екатеринбурга\"",
+          "urls": [
+            "https://xn--80aadbki6adhshb.xn--p1ai/tarify/"
+          ],
+          "hint": "нужны «Питьевая вода» и «Водоотведение (прием, транспортировка и очистка сточных вод)» по городу Екатеринбургу; техническая вода, посёлок Чусовское озеро и город Березовский не подходят"
+        },
+        "heating": {
+          "supplier": "АО \"ЕТК\"",
+          "urls": [
+            "https://xn--96-mlc8b4a.xn--p1ai/teplo.html"
+          ],
+          "supplier_aka": [
+            "Акционерное общество \"Екатеринбургская теплосетевая компания\"",
+            "Единая теплоснабжающая организация - акционерное общество \"Екатеринбургская теплосетевая компания\"",
+            "Екатеринбургская теплосетевая компания"
+          ],
+          "hint": "Екатеринбург отнесён к ценовой зоне теплоснабжения, поэтому обычного тарифа нет: нужен предельный уровень цены на тепловую энергию с НДС для единой теплоснабжающей организации «Екатеринбургская теплосетевая компания», система теплоснабжения № 54, для потребителей, подключённых к тепловой сети"
+        }
+      }
+    },
+    "yekaterinburg_tplus": {
+      "city_name": "Екатеринбург",
+      "sources": {
+        "hot_water": {
+          "supplier": "ПАО \"Т Плюс\" (Екатеринбург)",
+          "urls": [
+            "https://xn--96-mlc8b4a.xn--p1ai/gvs.html",
+            "https://xn--96-mlc8b4a.xn--p1ai/teplo.html",
+            "https://xn--96-mlc8b4a.xn--p1ai/client/tarifiinormativi/normativy/podogr-holodn-vody.html"
+          ],
+          "hint": "поставщик — ПАО «Т Плюс», закрытая система горячего водоснабжения, строка «Население (тарифы указываются с учетом НДС)». Компонент на теплоноситель есть в первом документе. Компонент на тепловую энергию там заменён формулировкой про предельный уровень цены — возьми его из второго документа: предельный уровень цены на тепловую энергию с НДС для ЕТО ПАО «Т Плюс», система теплоснабжения № 2, потребители, подключённые к тепловой сети. Норматив подогрева — в третьем документе: закрытая система, изолированные стояки, с полотенцесушителями",
+          "supplier_aka": [
+            "Публичное акционерное общество \"Т Плюс\"",
+            "Т Плюс"
+          ]
+        },
+        "heating": {
+          "supplier": "ПАО \"Т Плюс\" (Екатеринбург)",
+          "urls": [
+            "https://xn--96-mlc8b4a.xn--p1ai/teplo.html"
+          ],
+          "hint": "Екатеринбург отнесён к ценовой зоне теплоснабжения: нужен предельный уровень цены на тепловую энергию с НДС для единой теплоснабжающей организации ПАО «Т Плюс», система теплоснабжения № 2, для потребителей, подключённых к тепловой сети",
+          "supplier_aka": [
+            "Публичное акционерное общество \"Т Плюс\"",
+            "Т Плюс"
+          ]
+        }
+      }
+    },
+    "yekaterinburg_ekaterinburgenergo": {
+      "city_name": "Екатеринбург",
+      "sources": {
+        "hot_water": {
+          "supplier": "МУП \"Екатеринбургэнерго\"",
+          "urls": [
+            "https://xn--96-mlc8b4a.xn--p1ai/gvs.html",
+            "https://xn--96-mlc8b4a.xn--p1ai/client/tarifiinormativi/normativy/podogr-holodn-vody.html"
+          ],
+          "hint": "нужна горячая вода в закрытой системе горячего водоснабжения МУП «Екатеринбургэнерго», тепловая энергия отпускается ИЗ СЕТЕЙ, строка «Население (тарифы указываются с учетом НДС)». Норматив подогрева возьми из второго документа: закрытая система, с изолированными стояками и с полотенцесушителями"
+        },
+        "heating": {
+          "supplier": "МУП \"Екатеринбургэнерго\"",
+          "urls": [
+            "https://xn--96-mlc8b4a.xn--p1ai/teplo.html"
+          ],
+          "hint": "нужен одноставочный тариф МУП «Екатеринбургэнерго», строка «Население (тарифы указаны с учетом НДС)»"
+        }
+      }
+    },
+    "kazan": {
+      "city_name": "Казань",
+      "sources": {
+        "water": {
+          "supplier": "МУП \"Водоканал г. Казани\"",
+          "urls": [
+            "https://www.kznvodokanal.ru/tariff",
+            "https://kzn-vodokanal.ru/tarify/",
+            "https://kt.tatarstan.ru/tarifi-2026.htm"
+          ]
+        },
+        "hot_water": {
+          "supplier": "АО \"Татэнерго\"",
+          "urls": [
+            "https://tatenergosbyt.ru/communal/calculations/hot-water/"
+          ]
+        },
+        "heating": {
+          "supplier": "АО \"Татэнерго\"",
+          "urls": [
+            "https://kt.tatarstan.ru/tarifi-2026.htm",
+            "https://www.tatenergo.ru/consumers/tariffs/"
+          ]
+        }
+      }
+    },
+    "nizhny_novgorod": {
+      "city_name": "Нижний Новгород",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Нижегородский водоканал\"",
+          "urls": [
+            "https://www.vodokanal-nn.ru/upload/medialibrary/07a/j4ga18qq40267hke7alj1p5yyck24giw/%D0%A0%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%A0%D0%A1%D0%A2%20%D0%9D%D0%9E%20%D0%BE%D1%82%2011.12.2025%20%E2%84%96%2058_5%20_%D0%A5%D0%92%20%D0%92%D0%9E%20%D0%96%D0%91%D0%9E%20%D1%81%D1%82%D0%BE%D0%BA%D0%B8%20%D0%9D%D0%9D.pdf",
+            "https://www.vodokanal-nn.ru/tarify/"
+          ],
+          "hint": "нужны питьевая вода и водоотведение для населения города Нижнего Новгорода (АО «Нижегородский водоканал»), с НДС"
+        },
+        "hot_water": {
+          "supplier": "АО \"Теплоэнерго\"",
+          "urls": [
+            "https://www.teploenergo-nn.ru/potrebitelyam/tseny-i-tarify/tarify-na-goryachuyu-vodu/"
+          ],
+          "hint": "нужен тариф для населения города Нижнего Новгорода с НДС; тарифы для Чкаловска, Арзамаса и отдельных котельных не подходят"
+        },
+        "heating": {
+          "supplier": "АО \"Теплоэнерго\"",
+          "urls": [
+            "https://www.teploenergo-nn.ru/potrebitelyam/tseny-i-tarify/tarify-na-teplovuyu-energiyu/"
+          ],
+          "hint": "нужен тариф для населения города Нижнего Новгорода с НДС; тарифы для Чкаловска, Арзамаса и отдельных котельных не подходят"
+        }
+      }
+    },
+    "krasnodar": {
+      "city_name": "Краснодар",
+      "sources": {
+        "water": {
+          "supplier": "ООО \"Краснодар Водоканал\"",
+          "urls": [
+            "https://krasnodar.rosvodokanal.ru/clients/tarify/",
+            "https://gkh.krasnodar.ru/tarify/"
+          ]
+        },
+        "hot_water": {
+          "supplier": "АО \"Краснодартеплосеть\"",
+          "urls": [
+            "https://ktsk.ru/tarify/",
+            "https://krd-tp.ru/tarify/"
+          ]
+        },
+        "heating": {
+          "supplier": "АО \"Краснодартеплосеть\"",
+          "urls": [
+            "https://ktsk.ru/tarify/",
+            "https://krd-tp.ru/tarify/"
+          ]
+        }
+      }
+    },
+    "samara": {
+      "city_name": "Самара",
+      "sources": {
+        "water": {
+          "supplier": "ООО \"Самарские коммунальные системы\"",
+          "urls": [
+            "https://www.samcomsys.ru/informaciya/tarify/",
+            "https://samcomsys.ru/tariffs/"
+          ]
+        },
+        "hot_water": {
+          "supplier": "ПАО \"Т Плюс\"",
+          "urls": [
+            "https://samara.esplus.ru/tariffs/samara/ur/"
+          ]
+        },
+        "heating": {
+          "supplier": "ПАО \"Т Плюс\"",
+          "urls": [
+            "https://samara.esplus.ru/tariffs/samara/ur/"
+          ]
+        }
+      }
+    },
+    "chelyabinsk": {
+      "city_name": "Челябинск",
+      "sources": {
+        "water": {
+          "supplier": "МУП \"ПОВВ\"",
+          "urls": [
+            "https://www.povv.ru/tarify/",
+            "https://chelvodokanal.ru/tarify/"
+          ]
+        },
+        "hot_water": {
+          "supplier": "АО \"УСТЭК-Челябинск\"",
+          "urls": [
+            "https://ustekchel.ru/potrebitelyam/tarify-i-normativy/"
+          ]
+        },
+        "heating": {
+          "supplier": "АО \"УСТЭК-Челябинск\"",
+          "urls": [
+            "https://ustekchel.ru/93-52_%D0%A3%D0%A1%D0%A2%D0%AD%D0%9A-%D0%BB%D1%8C%D0%B3%D0%BE%D1%82%D0%BD%D1%8B%D0%B5.pdf"
+          ],
+          "hint": "нужен льготный тариф на тепловую энергию для населения Челябинского городского округа, зона теплоснабжения № 01, кроме домов по пер. Арматурный"
         }
       }
     }
@@ -49,333 +360,25 @@
   "manual_override": {
     "enabled": true,
     "electricity": {
-      "source_url": "https://mosenergosbyt.ru/",
-      "base_rate": 6.99,
-      "effective_date": "2024-07-01",
-      "decree_info": "Приказ ДЭПиР г. Москвы № 203-ТР от 15.12.2023"
+      "source_url": null,
+      "base_rate": null,
+      "effective_date": null,
+      "decree_info": null
     },
     "water": {
-      "source_url": "https://mosvodokanal.ru/",
-      "cities": {
-        "moscow": {
-          "city_name": "Москва",
-          "supplier": "АО \"Мосводоканал\"",
-          "water_supply": 59.8,
-          "sewage": 45.91,
-          "total_rate": 105.71,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ ДЭПиР г. Москвы № 204-ТР"
-        },
-        "saint_petersburg": {
-          "city_name": "Санкт-Петербург",
-          "supplier": "ГУП \"Водоканал Санкт-Петербурга\"",
-          "water_supply": 42.12,
-          "sewage": 35.3,
-          "total_rate": 77.42,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Распоряжение Комитета по тарифам Санкт-Петербурга"
-        },
-        "novosibirsk": {
-          "city_name": "Новосибирск",
-          "supplier": "МУП \"Горводоканал г. Новосибирска\"",
-          "water_supply": 26.5,
-          "sewage": 20.3,
-          "total_rate": 46.8,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ Департамента по тарифам Новосибирской области"
-        },
-        "yekaterinburg": {
-          "city_name": "Екатеринбург",
-          "supplier": "МУП \"Водоканал г. Екатеринбурга\"",
-          "unit": "m3",
-          "periods": [
-            {
-              "from": "2026-01-01",
-              "to": "2026-09-30",
-              "water_supply": 52.63,
-              "sewage": 34.65,
-              "total_rate": 87.28,
-              "decree_info": "Постановление РЭК Свердловской области от 15.12.2025 № 294-ПК, тариф для категории «население» (с НДС)"
-            },
-            {
-              "from": "2026-10-01",
-              "to": "2026-12-31",
-              "water_supply": 59.41,
-              "sewage": 36.83,
-              "total_rate": 96.24,
-              "decree_info": "Постановление РЭК Свердловской области от 15.12.2025 № 294-ПК, тариф для категории «население» (с НДС)"
-            }
-          ]
-        },
-        "kazan": {
-          "city_name": "Казань",
-          "supplier": "МУП \"Водоканал г. Казани\"",
-          "water_supply": 33.1,
-          "sewage": 29.2,
-          "total_rate": 62.3,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Постановление Госкомитета РТ по тарифам"
-        },
-        "nizhny_novgorod": {
-          "city_name": "Нижний Новгород",
-          "supplier": "АО \"Нижегородский водоканал\"",
-          "water_supply": 35.8,
-          "sewage": 28.7,
-          "total_rate": 64.5,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Решение РСТ Нижегородской области"
-        },
-        "krasnodar": {
-          "city_name": "Краснодар",
-          "supplier": "ООО \"Краснодар Водоканал\"",
-          "water_supply": 45.3,
-          "sewage": 25.9,
-          "total_rate": 71.2,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ РЭК - Департамента цен и тарифов Краснодарского края"
-        },
-        "samara": {
-          "city_name": "Самара",
-          "supplier": "ООО \"Самарские коммунальные системы\"",
-          "water_supply": 38.6,
-          "sewage": 28.2,
-          "total_rate": 66.8,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ Министерства энергетики и ЖКХ Самарской области"
-        },
-        "chelyabinsk": {
-          "city_name": "Челябинск",
-          "supplier": "МУП \"ПОВВ\"",
-          "water_supply": 30.8,
-          "sewage": 21.8,
-          "total_rate": 52.6,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Постановление Министерства тарифного регулирования Челябинской области"
-        },
-        "rostov_on_don": {
-          "city_name": "Ростов-на-Дону",
-          "supplier": "АО \"Ростовводоканал\"",
-          "water_supply": 49.5,
-          "sewage": 34.7,
-          "total_rate": 84.2,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Постановление РСТ Ростовской области"
-        }
-      }
+      "source_url": null,
+      "cities": {}
     },
     "hot_water": {
-      "source_url": "https://moek.ru/",
-      "cities": {
-        "moscow": {
-          "city_name": "Москва",
-          "supplier": "ПАО \"МОЭК\"",
-          "rate": 272.79,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР"
-        },
-        "saint_petersburg": {
-          "city_name": "Санкт-Петербург",
-          "supplier": "ГУП \"ТЭК СПб\"",
-          "rate": 145.0,
-          "unit": "m3",
-          "effective_date": "2024-07-01",
-          "decree_info": "Распоряжение Комитета по тарифам Санкт-Петербурга"
-        },
-        "yekaterinburg_tplus": {
-          "city_name": "Екатеринбург",
-          "supplier": "ПАО \"Т Плюс\" (Екатеринбург)",
-          "unit": "m3",
-          "periods": [
-            {
-              "from": "2026-01-01",
-              "to": "2026-09-30",
-              "rate": 201.43,
-              "decree_info": "52,63 руб/м³ + 2899,98 руб/Гкал; двухкомпонентный тариф свёрнут в цену 1 м³: компонент на теплоноситель плюс компонент на тепловую энергию, умноженный на норматив расхода тепла на подогрев 0,05131 Гкал/м³ (закрытая система, изолированные стояки с полотенцесушителями, постановление РЭК Свердловской области от 22.11.2017 № 123-ПК в ред. от 31.10.2025). Компонент на теплоноситель — постановление РЭК Свердловской области от 13.12.2023 № 229-ПК; цена на тепловую энергию — объявленная ЕТО ПАО \"Т Плюс\" цена для населения в ценовой зоне теплоснабжения, не выше предельного уровня (постановление РЭК СО от 29.12.2025 № 334-ПК)"
-            }
-          ]
-        },
-        "yekaterinburg_ekaterinburgenergo": {
-          "city_name": "Екатеринбург",
-          "supplier": "МУП \"Екатеринбургэнерго\"",
-          "unit": "m3",
-          "periods": [
-            {
-              "from": "2026-01-01",
-              "to": "2026-09-30",
-              "rate": 191.49,
-              "decree_info": "52,63 руб/м³ + 2706,23 руб/Гкал; двухкомпонентный тариф свёрнут в цену 1 м³: компонент на теплоноситель плюс компонент на тепловую энергию, умноженный на норматив расхода тепла на подогрев 0,05131 Гкал/м³ (закрытая система, изолированные стояки с полотенцесушителями, постановление РЭК Свердловской области от 22.11.2017 № 123-ПК в ред. от 31.10.2025). Постановление РЭК Свердловской области от 13.12.2023 № 229-ПК, тариф для населения (с НДС)"
-            },
-            {
-              "from": "2026-10-01",
-              "to": "2026-12-31",
-              "rate": 216.18,
-              "decree_info": "59,41 руб/м³ + 3055,26 руб/Гкал; двухкомпонентный тариф свёрнут в цену 1 м³: компонент на теплоноситель плюс компонент на тепловую энергию, умноженный на норматив расхода тепла на подогрев 0,05131 Гкал/м³ (закрытая система, изолированные стояки с полотенцесушителями, постановление РЭК Свердловской области от 22.11.2017 № 123-ПК в ред. от 31.10.2025). Постановление РЭК Свердловской области от 13.12.2023 № 229-ПК, тариф для населения (с НДС)"
-            }
-          ]
-        }
-      }
+      "source_url": null,
+      "cities": {}
     },
     "heating": {
-      "source_url": "https://moek.ru/",
-      "cities": {
-        "moscow": {
-          "city_name": "Москва",
-          "supplier": "ПАО \"МОЭК\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2912.24,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ ДЭПиР г. Москвы № 207-ТР"
-        },
-        "saint_petersburg": {
-          "city_name": "Санкт-Петербург",
-          "supplier": "ГУП \"ТЭК СПб\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2350.5,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Распоряжение Комитета по тарифам Санкт-Петербурга"
-        },
-        "novosibirsk": {
-          "city_name": "Новосибирск",
-          "supplier": "АО \"СИБЭКО\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 1870.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ Департамента по тарифам Новосибирской области"
-        },
-        "yekaterinburg": {
-          "city_name": "Екатеринбург",
-          "supplier": "АО \"ЕТК\"",
-          "tariff_type": "one_rate",
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "periods": [
-            {
-              "from": "2026-01-01",
-              "to": "2026-09-30",
-              "rate_gcal": 2890.09,
-              "decree_info": "Предельный уровень цены на тепловую энергию с НДС, система теплоснабжения № 54, потребители, подключённые к тепловой сети (постановление РЭК Свердловской области от 29.12.2025 № 334-ПК). У АО \"ЕТК\" три системы с разной ценой: № 56 — 2614,57, № 54 — 2890,09, № 60 — 3048,98 руб/Гкал"
-            },
-            {
-              "from": "2026-10-01",
-              "to": "2026-12-31",
-              "rate_gcal": 3302.26,
-              "decree_info": "Предельный уровень цены на тепловую энергию с НДС, система теплоснабжения № 54, потребители, подключённые к тепловой сети (постановление РЭК Свердловской области от 29.12.2025 № 334-ПК). У АО \"ЕТК\" три системы с разной ценой: № 56 — 3063,13, № 54 — 3302,26, № 60 — 3437,40 руб/Гкал"
-            }
-          ]
-        },
-        "kazan": {
-          "city_name": "Казань",
-          "supplier": "АО \"Татэнерго\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2280.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Постановление Госкомитета РТ по тарифам"
-        },
-        "nizhny_novgorod": {
-          "city_name": "Нижний Новгород",
-          "supplier": "АО \"Теплоэнерго\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2560.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Решение РСТ Нижегородской области"
-        },
-        "krasnodar": {
-          "city_name": "Краснодар",
-          "supplier": "АО \"Краснодартеплосеть\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2680.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ РЭК Краснодарского края"
-        },
-        "samara": {
-          "city_name": "Самара",
-          "supplier": "ПАО \"Т Плюс\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2420.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Приказ Министерства энергетики и ЖКХ Самарской области"
-        },
-        "chelyabinsk": {
-          "city_name": "Челябинск",
-          "supplier": "АО \"УСТЭК-Челябинск\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 1780.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Постановление Министерства тарифного регулирования Челябинской области"
-        },
-        "rostov_on_don": {
-          "city_name": "Ростов-на-Дону",
-          "supplier": "ООО \"Ростовские тепловые сети\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2850.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-07-01",
-          "decree_info": "Постановление РСТ Ростовской области"
-        },
-        "yekaterinburg_tplus": {
-          "city_name": "Екатеринбург",
-          "supplier": "ПАО \"Т Плюс\" (Екатеринбург)",
-          "tariff_type": "one_rate",
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "periods": [
-            {
-              "from": "2026-01-01",
-              "to": "2026-09-30",
-              "rate_gcal": 2899.98,
-              "decree_info": "Цена ЕТО ПАО \"Т Плюс\" для населения в объединённой централизованной зоне теплоснабжения Екатеринбурга (около 70 % города) с НДС. Ценовая зона, метод альтернативной котельной: цена по соглашению сторон, но не выше предельного уровня (постановление РЭК Свердловской области от 29.12.2025 № 334-ПК)"
-            }
-          ]
-        },
-        "yekaterinburg_ekaterinburgenergo": {
-          "city_name": "Екатеринбург",
-          "supplier": "МУП \"Екатеринбургэнерго\"",
-          "tariff_type": "one_rate",
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "periods": [
-            {
-              "from": "2026-01-01",
-              "to": "2026-09-30",
-              "rate_gcal": 2706.23,
-              "decree_info": "Постановление РЭК Свердловской области от 13.12.2023 № 229-ПК, одноставочный тариф для населения (с НДС)"
-            },
-            {
-              "from": "2026-10-01",
-              "to": "2026-12-31",
-              "rate_gcal": 3055.26,
-              "decree_info": "Постановление РЭК Свердловской области от 13.12.2023 № 229-ПК, одноставочный тариф для населения (с НДС)"
-            }
-          ]
-        }
-      }
+      "source_url": null,
+      "cities": {}
     }
-  }
+  },
+  "retired_cities": [
+    "rostov_on_don"
+  ]
 }

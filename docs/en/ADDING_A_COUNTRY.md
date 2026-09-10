@@ -171,3 +171,50 @@ them will not be merged.
 - [ ] The country appears in both copies of `tariffs_index.json` after a run
 - [ ] Documentation added in `docs/en/` **and** `docs/ru/`, index updated
 - [ ] A sample of the generated JSON included in the pull request description
+
+---
+
+## Which pipeline a new country gets
+
+**A country is added by teaching the pipeline to read its sources, never by typing its tariffs into
+config.** That is the rule this repository exists for; see the hard rules in `CLAUDE.md`. A country
+whose numbers were entered by hand is not added, it is faked, and the fake passes every test until
+the tariffs move.
+
+Pick the pipeline by what the country's regulator actually publishes:
+
+| If the country has… | Use | Example |
+|---|---|---|
+| one page listing every city | a country fetcher like `src/countries/ua/fetcher.py` | Ukraine, via minfin |
+| a separate source per city | `src/common/ai_pipeline.py` and a `cities` section in config | Russia |
+
+The second is the common case and needs no new Python at all: the fetcher is ten lines naming the
+country and delegating, and everything else is `config/<cc>/sources.json`.
+
+### Adding a country on per-city collection
+
+1. `config/countries.json` — code, names, currency, `pipeline`, `enabled`.
+2. `config/<cc>/sources.json`:
+   * `settings` — model and timeout;
+   * `validation` — the ceilings and `max_change_ratio` for that country's currency. A rouble
+     ceiling makes no sense for tenge; set them from what a real tariff there looks like;
+   * `electricity` — the zone schedule, coefficients, and a `source` if there is one;
+   * `cities` — for every city, its `city_name` and, per block, `urls`, `supplier`, optionally
+     `supplier_aka` and `hint`;
+   * `manual_override` — present but empty.
+3. `src/countries/<cc>/fetcher.py` — a copy of `src/countries/ru/fetcher.py` with the code changed.
+4. Run it, read the Telegram report, and fix the source list until the misses are gone. The first
+   run of a country needs an already published file to build on; create it by running the country
+   once through `manual_pipeline` with an empty override, or by committing a skeleton file.
+5. Documentation in both `docs/en/` and `docs/ru/`.
+
+### Choosing sources
+
+* Prefer the regulator's own decree, then the utility's tariff page, then a settlement centre that
+  reprints decrees in full. Avoid news articles: they paraphrase, and they are not republished when
+  the tariff changes.
+* A block may list several URLs, and all of them reach the model together — use that when a tariff
+  is split across documents, as a two-component hot water tariff usually is.
+* PDFs work, including scans with no text layer.
+* Check a URL from the machine that will run it. Several regional sites answer a browser and refuse
+  a datacentre, and several answer nothing at all from outside the country.

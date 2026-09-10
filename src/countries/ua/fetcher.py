@@ -8,6 +8,7 @@ from datetime import datetime
 import requests
 from dotenv import load_dotenv
 
+from common import llm
 from common.countries import load_country
 from common.jsonio import build_root, empty_city_block, save_country_json
 from common.overrides import apply_base_rate_to_zones, apply_manual_overrides
@@ -133,44 +134,8 @@ def load_base_schema() -> dict:
     }
 
 def resolve_latest_gemini_model(config: dict) -> str:
-    env_model = os.getenv("GEMINI_MODEL")
-    if env_model:
-        logger.info(f"Using GEMINI_MODEL from environment: {env_model}")
-        return env_model
-
-    settings = config.get("settings", {})
-    fallback_model = settings.get("gemini_model", "gemini-2.5-flash")
-    auto_select = settings.get("auto_select_latest_model", True)
-
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not auto_select or not api_key:
-        return fallback_model
-
-    try:
-        from google import genai
-        client = genai.Client(api_key=api_key)
-        models_list = list(client.models.list())
-        
-        flash_models = []
-        for m in models_list:
-            m_name = getattr(m, "name", str(m))
-            clean_name = m_name.replace("models/", "")
-            if "flash" in clean_name.lower() and "gemini" in clean_name.lower() and "experimental" not in clean_name.lower():
-                flash_models.append(clean_name)
-
-        if not flash_models:
-            return fallback_model
-
-        def parse_version(name: str) -> float:
-            match = re.search(r"gemini-(\d+(?:\.\d+)?)-flash", name, re.IGNORECASE)
-            return float(match.group(1)) if match else 0.0
-
-        flash_models.sort(key=parse_version, reverse=True)
-        return flash_models[0]
-
-    except Exception as e:
-        logger.warning(f"Failed to dynamically list Gemini models ({e}). Falling back to config model: '{fallback_model}'")
-        return fallback_model
+    """Which model to extract with. The choice is shared, so it cannot drift per country."""
+    return llm.resolve_model(config)
 
 def parse_json_from_llm(raw_text: str) -> dict:
     if not raw_text or not isinstance(raw_text, str):

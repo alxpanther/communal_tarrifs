@@ -1,7 +1,7 @@
 """Pipeline for a country whose tariffs are not scraped but declared in config.
 
 Some countries publish their regulated tariffs only as a decision of the regulator, with no
-machine-readable page to scrape: today Armenia and Azerbaijan. For those, config/<cc>/
+machine-readable page to scrape: today every country except Ukraine. For those, config/<cc>/
 sources.json -> manual_override *is* the source, and this module turns it into the same
 JSON file the Ukrainian scraper produces.
 

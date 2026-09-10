@@ -7,7 +7,7 @@ touching a generated file by hand, so their semantics must not differ between co
 """
 
 import logging
-from datetime import datetime
+from datetime import date, datetime
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +23,70 @@ MANUAL_CITY_REQUIRED_FIELDS = {
 
 CITY_BLOCKS = ("water", "hot_water", "heating")
 
+# A city record may carry `periods` instead of flat values: the regulator publishes the
+# whole indexation schedule years ahead, so the maintainer enters every dated version once
+# and the pipeline picks the one in force on the day it runs.
+PERIOD_KEY = "periods"
+PERIOD_BOUNDS = ("from", "to")
+DATE_FORMAT = "%Y-%m-%d"
+
+
+def _parse_date(value, field: str, where: str) -> date:
+    try:
+        return datetime.strptime(str(value), DATE_FORMAT).date()
+    except (TypeError, ValueError):
+        raise ValueError(f"{where}: '{field}' must be a {DATE_FORMAT} date, got {value!r}")
+
+
+def resolve_periods(fields: dict, today: date, where: str = "") -> tuple:
+    """Flattens a dated city record down to the version in force on `today`.
+
+    Returns (fields, warning). A record without `periods` is returned untouched. The
+    period in force is the last one that has already started; its `from` becomes the
+    default `effective_date`, so the date is written once rather than twice.
+
+    An expired last period is still published, with a warning: a tariff nobody entered yet
+    is stale data, and stale data beats no data — the app would otherwise lose the city.
+    """
+    periods = fields.get(PERIOD_KEY)
+    if not periods:
+        return fields, None
+
+    if not isinstance(periods, list):
+        raise ValueError(f"{where}: '{PERIOD_KEY}' must be a list")
+
+    dated = []
+    for index, period in enumerate(periods):
+        if not isinstance(period, dict):
+            raise ValueError(f"{where}: '{PERIOD_KEY}[{index}]' must be an object")
+        start = _parse_date(period.get("from"), "from", f"{where} {PERIOD_KEY}[{index}]")
+        end = period.get("to")
+        end = _parse_date(end, "to", f"{where} {PERIOD_KEY}[{index}]") if end else None
+        if end and end < start:
+            raise ValueError(f"{where}: '{PERIOD_KEY}[{index}]' ends before it starts")
+        dated.append((start, end, period))
+    dated.sort(key=lambda item: item[0])
+
+    warning = None
+    started = [item for item in dated if item[0] <= today]
+    if started:
+        start, end, period = started[-1]
+        if end and end < today:
+            warning = (f"{where}: последний период закончился {end.isoformat()}, "
+                       f"публикуется устаревший тариф")
+    else:
+        # Every version is still in the future: the first one is the closest thing to a
+        # current tariff there is, and publishing nothing would drop the city instead.
+        start, end, period = dated[0]
+        warning = (f"{where}: первый период начинается {start.isoformat()}, "
+                   f"тарифа на сегодня нет")
+
+    resolved = {key: value for key, value in fields.items() if key != PERIOD_KEY}
+    resolved.update({key: value for key, value in period.items()
+                     if key not in PERIOD_BOUNDS and value is not None})
+    resolved.setdefault("effective_date", start.strftime(DATE_FORMAT))
+    return resolved, warning
+
 
 def apply_base_rate_to_zones(elec_data: dict, base_rate: float):
     """Recomputes every zone rate from the base rate and the coefficient of that zone."""
@@ -34,21 +98,32 @@ def apply_base_rate_to_zones(elec_data: dict, base_rate: float):
                 part["rate"] = round(base_rate * float(part["coefficient"]), 4)
 
 
-def merge_city_overrides(cities: list, overrides: dict, block: str, notifier=None) -> list:
+def merge_city_overrides(cities: list, overrides: dict, block: str, notifier=None,
+                        today: date = None) -> list:
     """
     Applies manual per-city overrides keyed by city_code. A city already present is patched
     field by field, an unknown one is appended — the only way to publish a supplier the
     source site does not list at all, such as КП "КИЇВТЕПЛОЕНЕРГО" for heating.
+
+    A record written as `periods` is collapsed to the version in force today first, so the
+    rest of the function never sees the difference.
     """
     if not overrides:
         return cities
 
+    today = today or date.today()
     by_code = {city.get("city_code"): city for city in cities}
     incomplete = []
+    stale = []
 
     for code, fields in overrides.items():
         if not isinstance(fields, dict):
             continue
+
+        fields, expired = resolve_periods(fields, today, f"{block}.{code}")
+        if expired:
+            logger.warning(expired)
+            stale.append(expired)
 
         target = by_code.get(code)
         if target is not None:
@@ -77,6 +152,15 @@ def merge_city_overrides(cities: list, overrides: dict, block: str, notifier=Non
                 + "\n".join(f"• <code>{i}</code>" for i in incomplete),
                 parse_mode="HTML"
             )
+
+    if stale and notifier:
+        # Not an error: the file keeps the last known tariff. It is a reminder that the
+        # regulator has moved on and the next period has to be entered by hand.
+        notifier.send_message(
+            f"🗓 <b>manual_override: истёк срок тарифов в блоке «{block}»</b>\n"
+            + "\n".join(f"• <code>{i}</code>" for i in stale),
+            parse_mode="HTML"
+        )
 
     return cities
 
@@ -116,7 +200,8 @@ def apply_manual_overrides(data: dict, config: dict, notifier=None) -> dict:
             target["source_url"] = override["source_url"]
         before = [dict(city) for city in target.get("cities", [])]
         target["cities"] = merge_city_overrides(
-            target.get("cities", []), override.get("cities", {}) or {}, block, notifier
+            target.get("cities", []), override.get("cities", {}) or {}, block, notifier,
+            today=date.today()
         )
         if before != target["cities"]:
             target["update_date"] = today

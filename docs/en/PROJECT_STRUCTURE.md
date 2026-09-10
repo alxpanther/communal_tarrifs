@@ -140,7 +140,7 @@ kommeter_scripts/
 | `common/registry.py` | The permanent `city_code` registry: read, force registered codes onto the data, append new suppliers, notify. |
 | `common/manual_pipeline.py` | The whole pipeline of a country that has no scrapable source: previous file → config values → validation → save. |
 | `common/telegram_notifier.py` | The only place that talks to Telegram. Degrades gracefully: with no token configured it prints the message to stdout and returns `False`, so a pipeline never fails because of notifications. |
-| `countries/<cc>/fetcher.py` | One country's pipeline, exposing a single `main(notifier)`. Ukraine scrapes and validates; Armenia and Azerbaijan only name the country and delegate to the shared manual pipeline. |
+| `countries/<cc>/fetcher.py` | One country's pipeline, exposing a single `main(notifier)`. Ukraine scrapes and validates; every other country only names itself and delegates to the shared manual pipeline. |
 
 ### Generated files — never edit by hand
 

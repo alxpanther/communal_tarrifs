@@ -9,7 +9,7 @@ Telegram, and exits. There is no server, no database, no state other than the ge
 and the `config/<cc>/city_registry.json` registries.
 
 Sections 2–6 describe the Ukrainian pipeline, which is the richest one and the reference for
-everything else. Section 8 covers the config-driven pipeline used by Armenia and Azerbaijan, and
+everything else. Section 8 covers the config-driven pipeline used by every country except Ukraine, and
 section 9 the country index.
 
 ---
@@ -48,7 +48,7 @@ These are the rules the current code follows. Keep following them.
 | 1 | Load config | `load_config()` | Missing file or missing `electricity`/`water` source → the country is aborted by `run_country.py`, which alerts Telegram and moves on to the next one; nothing is written |
 | 2 | Resolve model | `resolve_latest_gemini_model()` | `GEMINI_MODEL` env → auto-selected newest Flash model via `client.models.list()` → `settings.gemini_model` as the last fallback |
 | 3 | Scrape and parse | `extract_reference_tariffs()` | Per-block fallback to the previous JSON, see section 3 |
-| 4 | Apply overrides | `apply_manual_overrides()` | Incomplete override records are skipped and reported to Telegram |
+| 4 | Apply overrides | `apply_manual_overrides()` | Incomplete override records are skipped and reported to Telegram; a dated `periods` record is collapsed to the version in force today |
 | 5 | Cross-check | `search_alternative_tariffs()` + `compare_and_validate()` | Purely advisory, see section 5 |
 | 6 | Write output | `build_root()` + `save_country_json()` (both in `common/jsonio.py`) | Writes `docs/tariffs_ua.json` and `assets/tariffs_ua_default.json`; refuses to write at all if the electricity block came out empty |
 | 7 | Report | `TelegramNotifier.send_discrepancy_report()` | Only when discrepancies were found |
@@ -158,6 +158,17 @@ values while everything not overridden keeps refreshing itself.
   fields listed in `MANUAL_CITY_REQUIRED_FIELDS` are present, otherwise the record is skipped and
   the missing fields are reported to Telegram.
 * `"enabled": false` disables the whole block while keeping the drafts inside it.
+* A city record may carry `periods` instead of flat values: a list of dated versions of the same
+  tariff, each with `from` and an optional `to`. `resolve_periods()` collapses it to the version in
+  force on the day of the run before anything else looks at the record, and `from` becomes the
+  default `effective_date`. Everything downstream — patching, the completeness check, the registry —
+  sees a plain flat record and cannot tell the difference.
+
+  This exists because a regulator normally publishes the whole indexation schedule years ahead:
+  Russia moved its indexation to 1 October 2026 and the values for that date were known in December
+  2025. Entering them once means the monthly cron switches over on its own. When the last period has
+  expired and no newer one was entered, the file **keeps the last known tariff** and a reminder goes
+  to Telegram — stale data still beats dropping the city out of the app.
 
 Full field-by-field reference with worked examples: README, section "Ручное переопределение тарифов".
 
@@ -188,8 +199,8 @@ same time.
 
 ## 8. Countries without a scrapable source
 
-Armenia and Azerbaijan have no page a parser can trust: the regulators publish decisions as prose
-and PDFs. For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
+Every country except Ukraine has no page a parser can trust: the regulators publish decisions as
+prose and PDFs. For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
 `src/common/manual_pipeline.py` is the whole pipeline. `src/countries/am/fetcher.py` and
 `src/countries/az/fetcher.py` only name the country and delegate to it.
 
@@ -211,6 +222,20 @@ Order of work in `manual_pipeline.run()`:
 
 Adding a scraping stage to such a country later means inserting it in front of step 4 in that
 country's own `fetcher.py`; nothing downstream changes.
+
+Two traps met while entering Russian tariffs, both of them general:
+
+* **A supplier name is the registry key, so it must be unique inside a country.**
+  `reconcile_cities()` matches on the normalized supplier name across the whole country, not per
+  city. ПАО «Т Плюс» supplies heat in Samara and in Yekaterinburg alike, and the bare name would have
+  dragged the Samara `city_code` onto the Yekaterinburg record. The city has to be part of the name:
+  `ПАО "Т Плюс" (Екатеринбург)`.
+* **Russian hot water is a two-component tariff** — roubles per m³ of carrier plus roubles per Gcal
+  of heat — while `hot_water.cities[].rate` is a single price per m³. It is folded into one number
+  as `carrier + energy × the regional norm for heating one m³` (Sverdlovsk oblast: 0.05131 Gcal/m³
+  for a closed system), and the arithmetic is spelled out in `decree_info` so the published number
+  can be traced back. The alternative — three new fields — is a change to the contract with the
+  released app and has not been made.
 
 ---
 

@@ -81,6 +81,15 @@
     "ООО \"Ростовские тепловые сети\"": {
       "city_code": "rostov_on_don",
       "city_name": "Ростов-на-Дону"
+    },
+    "ПАО \"Т Плюс\" (Екатеринбург)": {
+      "city_code": "yekaterinburg_tplus",
+      "city_name": "Екатеринбург"
+    },
+    "МУП \"Екатеринбургэнерго\"": {
+      "city_code": "yekaterinburg_ekaterinburgenergo",
+      "city_name": "Екатеринбург"
     }
-  }
+  },
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection."
 }

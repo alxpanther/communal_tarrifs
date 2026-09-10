@@ -6,5 +6,7 @@ tmp/
 __pycache__/
 *.pyc
 
-# Локальные настройки и worktree-копии Claude Code
-.claude/
+# Настройки Claude Code: правила и агенты проекта хранятся в репозитории,
+# а личные настройки и рабочие копии — нет.
+.claude/settings.local.json
+.claude/worktrees/

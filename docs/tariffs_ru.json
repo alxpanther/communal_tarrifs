@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-11T10:50:15.541880",
+  "last_updated_at": "2026-09-11T13:54:59.834942",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -53,28 +53,6 @@
     "update_date": "2026-09-11",
     "cities": [
       {
-        "city_code": "moscow",
-        "city_name": "Москва",
-        "supplier": "АО \"Мосводоканал\"",
-        "unit": "m3",
-        "water_supply": 66.87,
-        "sewage": 52.48,
-        "total_rate": 119.35,
-        "effective_date": "2026-01-01",
-        "decree_info": "приказом Департамента экономической политики и развития города Москвы от 16.12.2025 года № ДПР-ТР-334/25"
-      },
-      {
-        "city_code": "saint_petersburg",
-        "city_name": "Санкт-Петербург",
-        "supplier": "ГУП \"Водоканал Санкт-Петербурга\"",
-        "unit": "m3",
-        "water_supply": 43.13,
-        "sewage": 43.13,
-        "total_rate": 86.26,
-        "effective_date": "2026-01-01",
-        "decree_info": "распоряжение от 19.12.2025 № 260-р"
-      },
-      {
         "city_code": "novosibirsk",
         "city_name": "Новосибирск",
         "supplier": "МУП \"Горводоканал г. Новосибирска\"",
@@ -100,23 +78,12 @@
         "city_code": "kazan",
         "city_name": "Казань",
         "supplier": "МУП \"Водоканал г. Казани\"",
-        "water_supply": 33.1,
-        "sewage": 29.2,
-        "total_rate": 62.3,
         "unit": "m3",
-        "effective_date": "2024-07-01",
-        "decree_info": "Постановление Госкомитета РТ по тарифам"
-      },
-      {
-        "city_code": "nizhny_novgorod",
-        "city_name": "Нижний Новгород",
-        "supplier": "АО \"Нижегородский водоканал\"",
-        "water_supply": 35.8,
-        "sewage": 28.7,
-        "total_rate": 64.5,
-        "unit": "m3",
-        "effective_date": "2024-07-01",
-        "decree_info": "Решение РСТ Нижегородской области"
+        "water_supply": 35.14,
+        "sewage": 46.97,
+        "total_rate": 82.11,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановление Государственного комитета РТ по тарифам от 16.12.2025 г. № 609-167/кс-2025"
       },
       {
         "city_code": "krasnodar",
@@ -133,23 +100,23 @@
         "city_code": "samara",
         "city_name": "Самара",
         "supplier": "ООО \"Самарские коммунальные системы\"",
-        "water_supply": 38.6,
-        "sewage": 28.2,
-        "total_rate": 66.8,
         "unit": "m3",
-        "effective_date": "2024-07-01",
-        "decree_info": "Приказ Министерства энергетики и ЖКХ Самарской области"
+        "water_supply": 51.65,
+        "sewage": 29.38,
+        "total_rate": 81.03,
+        "effective_date": "2026-01-01",
+        "decree_info": "Приказ 628 от 18.12.2025 Комитета ценового и тарифного регулирования Самарской области, тарифы на период с 01.01.2026 по 31.12.2026 года, установлены в следующих размерах:"
       },
       {
         "city_code": "chelyabinsk",
         "city_name": "Челябинск",
         "supplier": "МУП \"ПОВВ\"",
-        "water_supply": 30.8,
-        "sewage": 21.8,
-        "total_rate": 52.6,
         "unit": "m3",
-        "effective_date": "2024-07-01",
-        "decree_info": "Постановление Министерства тарифного регулирования Челябинской области"
+        "water_supply": 40.22,
+        "sewage": 26.85,
+        "total_rate": 67.07,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановление Министерства тарифного регулирования и энергетики Челябинской области от 12.12.2025 № 87/266 тарифы на питьевую воду и водоотведение для МУП «ПОВВ»."
       }
     ]
   },
@@ -157,24 +124,6 @@
     "source_url": "https://moek.ru/",
     "update_date": "2026-09-11",
     "cities": [
-      {
-        "city_code": "moscow",
-        "city_name": "Москва",
-        "supplier": "ПАО \"МОЭК\"",
-        "unit": "m3",
-        "rate": 317.71,
-        "effective_date": "2026-01-01",
-        "decree_info": "Приказ ДЭПиР от 15.12.2025 № ДПР-ТР- 316/25"
-      },
-      {
-        "city_code": "saint_petersburg",
-        "city_name": "Санкт-Петербург",
-        "supplier": "ГУП \"ТЭК СПб\"",
-        "unit": "m3",
-        "rate": 147.97,
-        "effective_date": "2026-01-01",
-        "decree_info": "информационное письмо от 30.12.2025 № 01-13-1138/25-0-0 распоряжения теплоснабжающих орг-ций, распоряжение от 15.12.2017 № 201-р"
-      },
       {
         "city_code": "yekaterinburg_tplus",
         "city_name": "Екатеринбург",
@@ -209,28 +158,6 @@
     "update_date": "2026-09-11",
     "cities": [
       {
-        "city_code": "moscow",
-        "city_name": "Москва",
-        "supplier": "ПАО \"МОЭК\"",
-        "unit": "Gcal",
-        "tariff_type": "one_rate",
-        "rate_gcal": 3800.68,
-        "rate_gcal_hour": 0.0,
-        "effective_date": "2026-01-01",
-        "decree_info": "Приказ ДЭПиР от 15.12.2025 № ДПР-ТР- 312/25"
-      },
-      {
-        "city_code": "saint_petersburg",
-        "city_name": "Санкт-Петербург",
-        "supplier": "ГУП \"ТЭК СПб\"",
-        "unit": "Gcal",
-        "tariff_type": "one_rate",
-        "rate_gcal": 2466.22,
-        "rate_gcal_hour": 0.0,
-        "effective_date": "2026-01-01",
-        "decree_info": "распоряжения теплоснабжающих организаций"
-      },
-      {
         "city_code": "novosibirsk",
         "city_name": "Новосибирск",
         "supplier": "АО \"СИБЭКО\"",
@@ -253,26 +180,15 @@
         "decree_info": "Постановление РЭК Свердловской области от 29.12.2025 № 334-ПК \"Об утверждении предельного уровня цены на тепловую энергию (мощность) в ценовой зоне теплоснабжения в городском округе муниципальном образовании \\\"город Екатеринбург\\\" на 2026 год\""
       },
       {
-        "city_code": "kazan",
-        "city_name": "Казань",
-        "supplier": "АО \"Татэнерго\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 2280.0,
-        "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
-        "effective_date": "2024-07-01",
-        "decree_info": "Постановление Госкомитета РТ по тарифам"
-      },
-      {
         "city_code": "nizhny_novgorod",
         "city_name": "Нижний Новгород",
-        "supplier": "АО \"Теплоэнерго\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 2560.0,
-        "rate_gcal_hour": 0.0,
+        "supplier": "АО \"ОКО\"",
         "unit": "Gcal",
-        "effective_date": "2024-07-01",
-        "decree_info": "Решение РСТ Нижегородской области"
+        "tariff_type": "two_rate",
+        "rate_gcal": 1602.42,
+        "rate_gcal_hour": 420910.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Решение РСТ Нижегородской области № 50/5 от 28.11.2022 (с изм. от 11.12.2025 №58/4)"
       },
       {
         "city_code": "krasnodar",
@@ -289,23 +205,12 @@
         "city_code": "samara",
         "city_name": "Самара",
         "supplier": "ПАО \"Т Плюс\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 2420.0,
-        "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
-        "effective_date": "2024-07-01",
-        "decree_info": "Приказ Министерства энергетики и ЖКХ Самарской области"
-      },
-      {
-        "city_code": "chelyabinsk",
-        "city_name": "Челябинск",
-        "supplier": "АО \"УСТЭК-Челябинск\"",
         "unit": "Gcal",
         "tariff_type": "one_rate",
-        "rate_gcal": 2184.44,
+        "rate_gcal": 2904.21,
         "rate_gcal_hour": 0.0,
         "effective_date": "2026-01-01",
-        "decree_info": "Постановление Министерства тарифного регулирования и энергетики Челябинской области от 25 декабря 2025 г. № 93/52"
+        "decree_info": "Соглашение от 02.10.2020 № 891, в ред. доп. соглашения от 18.04.2025 № 8"
       },
       {
         "city_code": "yekaterinburg_tplus",

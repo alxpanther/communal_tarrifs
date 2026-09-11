@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-11T10:50:15.543718",
+  "generated_at": "2026-09-11T13:54:59.836513",
   "countries": [
     {
       "country": "UA",
@@ -141,7 +141,7 @@
         "uk": "Росія"
       },
       "currency": "RUB",
-      "last_updated_at": "2026-09-11T10:50:15.541880",
+      "last_updated_at": "2026-09-11T13:54:59.834942",
       "path": "ru/tariffs_ru.json",
       "enabled": true,
       "min_app_version": ""

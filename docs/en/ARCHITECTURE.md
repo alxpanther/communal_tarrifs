@@ -307,8 +307,8 @@ A source may override `model`, `json_mode` and `extra_params` of `settings.llm` 
 The country's settings are chosen for the price of reading every city; a source too dense for them
 gets a stronger setup of its own rather than moving the whole country to the expensive one.
 
-Moscow's tariff menu is the case in point: eighteen columns. `qwen3-max` reads its hot water row
-correctly as it is. Its heat row came back wrong three times — from the text with the default model,
+Moscow's tariff menu was the case in point while Moscow was collected: eighteen columns. `qwen3-max`
+read its hot water row correctly as it was. Its heat row came back wrong three times — from the text with the default model,
 from the text with `qwen3-max`, from page images with the vision model — and right only with
 reasoning switched on: `extra_params: {"enable_thinking": true, "thinking_budget": 8000}` together
 with `json_mode: false`, because Qwen does not answer when both reasoning and JSON mode are on.
@@ -366,6 +366,16 @@ not found" served with status 200.
 **No URL goes into config without having been downloaded and read first.** Guessed addresses were
 tried once — three of them on domains that do not exist, one a disguised 404 — and each was a wasted
 run.
+
+**A source is a page that is updated in place.** The supplier's, the settlement centre's or the
+regulator's tariff page, which will carry next year's figures at the same address. A document tied
+to a date is not a source, however good its numbers are today: a decree PDF, a tariff menu "for
+2026–2028", a news article about "new tariffs from 1 October". It stops being current on a known
+day and never learns the next tariff. The file needs only the tariff in force; a page that shows a
+change in advance is welcome, but chasing announced future values is not a reason to add a URL.
+The same goes for hints: a hint that names this year's decree or dates stops matching the page once
+it is updated. When removing dated sources leaves a service with none, the service — or the whole
+city — goes to `retired_cities`; that is how Moscow and Saint Petersburg left the Russian file.
 
 Some sites send their certificate without the intermediate one that links it to a trusted root. A
 browser fetches the missing link by itself, Python does not, and the site fails with "unable to get

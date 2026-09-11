@@ -16,14 +16,20 @@ This pipeline fetches and publishes utility tariffs for Russia (`country: "RU"`,
 
 ## Sources & Regulations
 
-1. **Electricity (`electricity`)**: Regulated by the Department of Economic Policy and Development of Moscow (DEPIR) / FAS RF.
-   - Base single-zone tariff: 6.99 RUB/kWh (*Mosenergosbyt*, homes with gas stoves, Range 1).
-   - Two-zone tariff: Day (07:00 - 23:00) 8.04 RUB/kWh, Night (23:00 - 07:00) 2.62 RUB/kWh.
-   - Three-zone tariff: Peak 9.37 RUB/kWh, Half-peak 6.99 RUB/kWh, Night 2.62 RUB/kWh.
-2. **Water Supply & Sewage (`water`)**: Regulated by DEPIR Moscow.
-   - Moscow (*AO "Mosvodokanal"*): Water supply 59.80 RUB/m³, Sewage 45.91 RUB/m³, Total 105.71 RUB/m³.
-3. **Hot Water & Heating (`hot_water`, `heating`)**: Regulated by DEPIR Moscow.
-   - Moscow (*PAO "MOEK"*): Hot water 272.79 RUB/m³, Heating 2912.24 RUB/Gcal.
+Russia is collected city by city by `src/common/ai_pipeline.py`. There are no tariff figures in this
+file on purpose: every number is read from the city's sources on the run that publishes it, and the
+published JSON is the only place to look them up.
+
+- **Water, hot water, heating** are set by the tariff authority of each region, so every city has
+  its own sources. Which cities are collected, and from where, is `cities` in
+  `config/ru/sources.json`; a city or service with no usable source is listed in `retired_cities`.
+- **Electricity** is one value for the whole country today, read for the city of Moscow. Tariffs
+  differ by region, so this figure is wrong elsewhere; regional electricity needs a schema change
+  and is not done yet.
+- **A source is a page that is updated in place**: a supplier's or settlement centre's tariff page
+  that will carry next year's figures at the same address. Moscow and Saint Petersburg are retired
+  because the only sources that could be read from GitHub for them were documents fixed to a year
+  (a 2026 tariff menu, a 2026 PDF) and a dated article.
 
 ---
 

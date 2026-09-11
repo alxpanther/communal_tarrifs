@@ -143,7 +143,10 @@ python src/run_city.py ru yekaterinburg --write         # publish just this city
 ```
 
 Before a URL goes into config, prove it downloads — from GitHub, where the pipeline runs (the
-"Check Sources" workflow). It calls no model and costs nothing. Never enter a guessed address:
+"Check Sources" workflow). It calls no model and costs nothing. Never enter a guessed address,
+and never a document tied to a date — a decree PDF, a tariff menu "for 2026", a news article about
+"new tariffs from 1 October". A source is a page updated in place, which will carry next year's
+figures at the same address:
 
 ```bash
 python src/check_sources.py ru                          # every source of a country

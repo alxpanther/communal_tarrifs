@@ -142,5 +142,13 @@ python src/run_city.py ru yekaterinburg --block water   # one service
 python src/run_city.py ru yekaterinburg --write         # publish just this city
 ```
 
+Before a URL goes into config, prove it downloads — from GitHub, where the pipeline runs (the
+"Check Sources" workflow). It calls no model and costs nothing. Never enter a guessed address:
+
+```bash
+python src/check_sources.py ru                          # every source of a country
+python src/check_sources.py --url <candidate>           # before it goes into config
+```
+
 Docker and CI variants, plus the full `manual_override` reference, are in the Russian
 [`README.md`](README.md).

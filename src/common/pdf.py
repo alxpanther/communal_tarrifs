@@ -6,6 +6,7 @@ rendered page images when it is a scan with nothing to extract.
 """
 
 import logging
+import re
 
 import pymupdf
 
@@ -23,6 +24,14 @@ MAX_PAGES = 8
 
 # Enough for a vision model to read small table digits without making each page huge.
 DPI = 150
+
+def _cell_text(cell) -> str:
+    """A cell on one line. A word broken after a hyphen at the end of a line is joined back
+    without a space: "ДПР-ТР-" and "312/25" on two lines are one decree number, and joining them
+    with a space made it read "ДПР-ТР- 312/25" — a different caption on every run that read it."""
+    text = re.sub(r"-[ \t]*\n\s*", "-", cell or "")
+    return text.replace("\n", " ").strip()
+
 
 def _covering_text(table, texts: list, row: int, col: int) -> str:
     """Text of the merged cell that covers (row, col).
@@ -57,7 +66,7 @@ def _table_text(table) -> str:
     covering it. An empty string is a genuinely empty cell and stays empty.
     """
     raw = table.extract()
-    texts = [[(cell or "").replace("\n", " ").strip() for cell in row] for row in raw]
+    texts = [[_cell_text(cell) for cell in row] for row in raw]
     for r, row in enumerate(raw):
         for c, cell in enumerate(row):
             if cell is None and c < len(table.rows[r].cells):

@@ -195,6 +195,14 @@ dispatch, which accepts a list of country codes):
 One job does all countries, so two runs can never push to the same branch or deploy Pages at the
 same time.
 
+Three workflows share the repository:
+
+| Workflow | Runs | Does |
+|---|---|---|
+| Fetch and Update Tariffs | on the 1st and the 25th, or by hand with country codes | collects, commits the files with `[skip ci]`, publishes to R2 and Pages |
+| Publish Tariffs | on a push that changes a published file, or by hand | publishes the files already in the repository; no collection, no model call |
+| Check Sources | by hand | downloads sources from a GitHub runner and reports which answer; no model call, nothing written |
+
 ---
 
 ## 8. Countries without a scrapable source
@@ -336,6 +344,54 @@ electricity block, so it cannot collect a whole country by accident.
 The order of work is fixed: make every fix first, then test the cities it touches, then — only with
 the maintainer's agreement — collect the whole country.
 
+### Proving a source from GitHub
+
+A source is proven only from the machine the pipeline runs on. Several Russian sites answer one
+machine and time out for a GitHub runner — the Yekaterinburg водоканал and gov.spb.ru opened from a
+developer's machine and not from GitHub. The pipeline runs in GitHub Actions and nowhere else, with
+no other infrastructure, so a source GitHub cannot reach is replaced, or its city is retired.
+
+`src/check_sources.py` downloads sources and calls no model, so it costs nothing:
+
+```bash
+python src/check_sources.py ru                               # every URL in config/ru/sources.json
+python src/check_sources.py --url https://example.org/page   # a candidate, before it goes into config
+```
+
+The **Check Sources** workflow runs the same from a GitHub runner: Actions → Check Sources → Run
+workflow, with a country code or candidate URLs. For every URL it prints whether it answered, its
+type and size, how many price-like numbers it carries, and it warns when a page reads like a "page
+not found" served with status 200.
+
+**No URL goes into config without having been downloaded and read first.** Guessed addresses were
+tried once — three of them on domains that do not exist, one a disguised 404 — and each was a wasted
+run.
+
+Some sites send their certificate without the intermediate one that links it to a trusted root. A
+browser fetches the missing link by itself, Python does not, and the site fails with "unable to get
+local issuer certificate". `config/certs/` keeps such intermediates, each downloaded from the
+address the site's own certificate names for its issuer, and `common/fetching.py` trusts them in
+addition to the standard roots. Verification is not weakened: every chain still has to end at a
+standard root. The Kazan водоканал is read this way.
+
+### Captions and the report
+
+* A decree reference is normalised — spacing, case, stray escaping — and when the tariff is the one
+  already published, same period and same number, the published caption is kept. A page often lists
+  several decrees and the model names a different one on each run; the caption should change when
+  the tariff does, not whenever the page is read again.
+* Where one city has several suppliers listed separately, the report names the supplier too, so a
+  failure can be traced to one of Yekaterinburg's three heat companies.
+* A service declared for a city with an empty list of URLs is reported on every run as having no
+  source, instead of silently keeping a stale tariff.
+
+### Renaming a supplier
+
+`city_registry.json` never loses a code, but a supplier's name can change: Nizhny Novgorod's
+водоканал and heat company merged into АО «ОКО» in November 2025. With the maintainer's agreement the
+registry key is renamed and the code kept, and config names the new supplier. Users keep their saved
+selection; only the name shown next to it changes.
+
 ### Why the prompt carries the date and a hint
 
 Both exist because of mistakes that were made and caught, not as decoration.
@@ -343,6 +399,10 @@ Both exist because of mistakes that were made and caught, not as decoration.
 * **The date.** A decree lists a decade of periods. A model with no idea what today is returns the
   ones from two years ago, and an old tariff extracted from a real document passes every structural
   check there is.
+* **Supplier aliases.** When `supplier_aka` is set, the instruction tells the model the other names
+  the company goes by. Without it a name the model was not told about reads as "the tariff is not
+  here": the Novosibirsk heat company is published as АО «СИБЭКО» and printed as НТСК, and two
+  models in turn returned an empty answer.
 * **The hint.** One page usually prints several tariffs that are all real: before and after the heat
   substation, drinking and technical water, every price zone the regulator governs. Which one a
   household in this city pays is knowledge about the city, so it sits in config next to the URL.
@@ -360,6 +420,9 @@ record is worse than a stale one: it looks current.
 * water where `water_supply + sewage` does not match `total_rate`. The sum itself is computed by the
   code when the source does not print one: asking a model to add two numbers invites it to "fix" a
   total that does not add up, which is the mistake worth catching;
+* a two-rate heat tariff's standing charge in the wrong unit. The schema carries it in currency per
+  Gcal/hour, decrees often print it in thousands; the model reports which (`rate_gcal_hour_in_thousands`)
+  and the code multiplies, so Nizhny Novgorod's 420.91 thousand is published as 420910;
 * hot water whose components do not multiply out to the stated price. Two-component tariffs are
   folded to one price per m³ **by `fold_hot_water()`, not by the model** — a number the code
   computed can be checked, a number the model computed cannot;
@@ -368,6 +431,13 @@ record is worse than a stale one: it looks current.
   does not match «ООО "Новосибирская теплосетевая компания"». Where the source uses an abbreviation
   that cannot be matched to its expansion, config lists it under `supplier_aka`;
 * a period with no parsable start date, or two periods starting the same day;
+* a period starting on a day the country's regulators never start one — `period_starts` in
+  `validation`, for Russia 1 January, 1 July, 1 October and 1 December. Reading Yekaterinburg's
+  water from a settlement centre's page, the model returned a period "from 1 September" with the
+  October numbers: the page has no such date. Every other check passed it — no published period
+  to compare with, a plausible 10% rise, a start already in the past;
+* a source with only future periods. It has no tariff in force today, and publishing its first
+  period now would show an October tariff in September; the city keeps its value until then;
 * **an already published period that comes back with a different number**, beyond
   `same_period_tolerance`. A regulator does not reprice a period it has set, so a new number for
   the same dates means the model read another column — the tariff without VAT, another year,
@@ -389,6 +459,11 @@ visible to the user.
 `retired_cities` in config lists the codes to drop; `drop_retired_cities()` removes them from the
 file on every run, and the city is deleted from `cities` as well because there is nothing left to
 collect it from.
+
+An entry `<code>.<block>` retires one service of a city whose other services are still collected,
+and that block is removed from the city's `sources`. Kazan's heating went this way: no source
+reachable from GitHub carries the tariff in force, and the file held a made-up 2024 figure, while
+Kazan's water keeps being read from the водоканал.
 
 The `city_code` is **not** released. It stays in `city_registry.json` for good and is never handed to
 another supplier, so a city that finds a usable source later comes back under the code its users

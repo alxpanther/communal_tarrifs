@@ -74,6 +74,19 @@ def as_date(value):
         return None
 
 
+def clean_decree(text) -> str:
+    """A decree reference spelled the same way on every run.
+
+    The model varies spacing, letter case and quote escaping from one run to the next — one run
+    returned the quotes already escaped, which would have shown backslashes in the app. Every
+    variant is a caption that changes for no reason and a commit that carries no news.
+    """
+    cleaned = str(text or "").replace('\\"', '"').replace("\\", "")
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    cleaned = re.sub(r"(\S)-\s+(\d)", r"\1-\2", cleaned)
+    return cleaned[:1].upper() + cleaned[1:]
+
+
 def normalize_supplier(name: str) -> str:
     """Supplier names differ between a decree and a web page in quotes, case and form."""
     return "".join(ch.lower() for ch in str(name or "") if ch.isalnum())
@@ -164,6 +177,14 @@ def _check_period(block: str, period: dict, limits: dict, label: str, reasons: l
         reasons.append(f"{label}: период заканчивается {end} раньше начала {start}")
         return None
 
+    starts = limits.get("period_starts")
+    if starts and start.strftime("%m-%d") not in starts:
+        # Regulators start tariff periods on a handful of fixed days. Any other start is a misread
+        # date — the model once turned "по 30.09.2026" into a period "from 1 September".
+        reasons.append(f"{label}: период начинается {start}, а тарифы здесь с такой даты не "
+                       f"начинаются (допустимо: {', '.join(starts)})")
+        return None
+
     clean = {"from": start.strftime(DATE_FORMAT)}
     if end:
         clean["to"] = end.strftime(DATE_FORMAT)
@@ -185,6 +206,13 @@ def _check_period(block: str, period: dict, limits: dict, label: str, reasons: l
         sewage = as_number(values.get("sewage"))
         if as_number(values.get("total_rate")) is None and supply is not None and sewage is not None:
             values["total_rate"] = round(supply + sewage, 4)
+
+    if block == "heating" and values.get("rate_gcal_hour_in_thousands") is True:
+        # The schema carries the standing charge in currency units; decrees print it in thousands.
+        # The model only reports which, so the multiplication stays checkable.
+        standing = as_number(values.get("rate_gcal_hour"))
+        if standing is not None:
+            values["rate_gcal_hour"] = round(standing * 1000, 2)
 
     block_limits = limits.get(block, {}) or {}
     for field in BLOCK_FIELDS[block]:
@@ -225,7 +253,7 @@ def _check_period(block: str, period: dict, limits: dict, label: str, reasons: l
     if not decree:
         reasons.append(f"{label}: не указано основание тарифа (decree_info)")
         return None
-    clean["decree_info"] = decree
+    clean["decree_info"] = clean_decree(decree)
     return clean
 
 
@@ -301,7 +329,7 @@ def validate_city(block: str, code: str, identity: dict, extracted: dict,
     to catch an implausible jump.
     """
     reasons = []
-    label = identity.get("city_name") or code
+    label = identity.get("label") or identity.get("city_name") or code
 
     if not isinstance(extracted, dict):
         raise Rejected([f"{label}: модель не вернула объект"])
@@ -336,6 +364,13 @@ def validate_city(block: str, code: str, identity: dict, extracted: dict,
     starts = [p["from"] for p in periods]
     if len(set(starts)) != len(starts):
         reasons.append(f"{label}: два периода начинаются в один день")
+
+    # A source that lists only future periods has no tariff in force today. Publishing its
+    # first period now would put an October tariff in front of a user in September.
+    today = datetime.now().date()
+    if not any(as_date(p["from"]) <= today for p in periods):
+        reasons.append(f"{label}: в источнике только будущие периоды, первый с {periods[0]['from']} — "
+                       f"действующего на сегодня тарифа нет")
 
     _check_against_previous(block, periods, previous or {}, limits, label, reasons)
     _check_same_period(block, periods, previous or {}, limits, label, reasons)

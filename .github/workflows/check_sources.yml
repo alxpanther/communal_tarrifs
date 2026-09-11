@@ -1,0 +1,48 @@
+name: Check Sources
+
+# Downloads the sources of the given countries, or the given candidate URLs, from a GitHub
+# runner and reports which ones answer and whether they carry tariffs. Calls no model and writes
+# nothing: it costs nothing, and it is how a source is proven reachable from the machine the
+# pipeline actually runs on — several Russian sites open from elsewhere and not from here.
+
+on:
+  workflow_dispatch:
+    inputs:
+      countries:
+        description: 'Country codes, space separated (e.g. ru)'
+        required: false
+        default: ''
+      urls:
+        description: 'Candidate URLs to check, space separated'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check Sources
+        env:
+          # Passed through the environment, never interpolated into the command line.
+          COUNTRIES: ${{ github.event.inputs.countries }}
+          URLS: ${{ github.event.inputs.urls }}
+        run: |
+          # URLs are split on spaces but must not be globbed: '?' and '*' are common in them.
+          set -f
+          ARGS="$COUNTRIES"
+          if [ -n "$URLS" ]; then ARGS="$ARGS --url $URLS"; fi
+          python src/check_sources.py $ARGS

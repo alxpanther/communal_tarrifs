@@ -33,6 +33,8 @@ PERIOD_FIELDS = {
         '"rate_gcal": число — цена 1 Гкал тепловой энергии,\n'
         '      "rate_gcal_hour": число — плата за подключённую нагрузку (Гкал/час) '
         'у двухставочного тарифа, иначе 0,\n'
+        '      "rate_gcal_hour_in_thousands": true, если эта плата напечатана в тысячах рублей '
+        '(«тыс. руб.»), иначе false,\n'
         '      "tariff_type": "one_rate" или "two_rate"'
     ),
 }
@@ -153,7 +155,7 @@ CROSS_CHECK_WHAT = {
 
 
 def city_prompt(block: str, city_name: str, supplier: str, currency: str, unit: str,
-                hint: str = "", today: str = "") -> str:
+                hint: str = "", today: str = "", aliases: list = None) -> str:
     """The instruction for one city and one block.
 
     The date is passed in rather than left to the model: a decree usually lists a decade of
@@ -162,6 +164,10 @@ def city_prompt(block: str, city_name: str, supplier: str, currency: str, unit: 
     """
     today = today or date.today().strftime("%Y-%m-%d")
     supplier_line = f"Ожидаемый поставщик: {supplier}.\n" if supplier else ""
+    if supplier and aliases:
+        # Without this the model reads a name it was not told about as "the tariff is not here":
+        # the Novosibirsk heat company is published as АО "СИБЭКО" and printed as НТСК.
+        supplier_line += f"В документе он может называться иначе: {'; '.join(aliases)}.\n"
     hint_line = f"\nВажное уточнение по этому источнику: {hint}\n" if hint else ""
     return CITY_TEMPLATE.format(
         today=today,

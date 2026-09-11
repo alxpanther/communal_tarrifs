@@ -27,7 +27,7 @@ from common.overrides import (CITY_BLOCKS, apply_base_rate_to_zones, apply_manua
                               resolve_periods)
 from common.paths import sources_path
 from common.registry import HEAT_SECTION, WATER_SECTION, reconcile_cities
-from common.validation import Rejected, as_number, validate_city
+from common.validation import Rejected, as_number, clean_decree, validate_city
 
 logger = logging.getLogger(__name__)
 
@@ -132,8 +132,18 @@ PUBLISHED_FIELDS = {
 }
 
 
-def _publish(record: dict, code: str, block: str, today: date) -> dict:
-    """Flattens a validated record to the single set of values published today."""
+# The number that identifies a tariff in each block: the one compared between runs.
+MAIN_FIELD = {"water": "total_rate", "hot_water": "rate", "heating": "rate_gcal"}
+
+
+def _publish(record: dict, code: str, block: str, today: date, previous: dict) -> dict:
+    """Flattens a validated record to the single set of values published today.
+
+    When the tariff is the one already published — same period, same number — the published
+    caption is kept. A decree page often lists several decrees, and the model names a
+    different one on each run; the caption should change when the tariff does, not whenever
+    the model reads the page again.
+    """
     resolved, stale = resolve_periods(record, today, f"{block}.{code}")
     if stale:
         logger.warning(stale)
@@ -142,7 +152,22 @@ def _publish(record: dict, code: str, block: str, today: date) -> dict:
     for field in PUBLISHED_FIELDS[block]:
         if field in resolved:
             published[field] = resolved[field]
+    main = MAIN_FIELD[block]
+    if (previous.get("decree_info") and previous.get("effective_date") == published.get("effective_date")
+            and as_number(previous.get(main)) == as_number(published.get(main))):
+        published["decree_info"] = clean_decree(previous["decree_info"])
     return published
+
+
+def _label_of(config: dict, city: dict, code: str, block: str) -> str:
+    """How a city is named in the run report. Where one city has several suppliers listed
+    separately — three heat companies in Yekaterinburg — the name alone does not say which of
+    them failed, so the supplier is added."""
+    name = city.get("city_name") or code
+    namesakes = [c for c in (config.get("cities") or {}).values()
+                 if c.get("city_name") == name and block in (c.get("sources") or {})]
+    supplier = _supplier_of(city, block)
+    return f"{name} ({supplier})" if len(namesakes) > 1 and supplier else name
 
 
 @dataclass
@@ -179,11 +204,16 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
     for code, city in (config.get("cities") or {}).items():
         if only and code not in only:
             continue
+        if block not in (city.get("sources") or {}):
+            continue
+        label = _label_of(config, city, code, block)
         urls = _sources_of(city, block)
         if not urls:
+            # Declared but empty means the service exists and nobody has found a readable source
+            # yet. That must show in every report, or a stale tariff sits there unnoticed.
+            failed(f"{label}: для этой услуги не задан ни один источник")
             continue
 
-        label = city.get("city_name") or code
         documents = fetch_all(urls, timeout)
         if not documents:
             failed(f"{label}: ни один источник не открылся ({', '.join(urls)})")
@@ -192,6 +222,7 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
         instruction = prompts.city_prompt(
             block, city.get("city_name", code), _supplier_of(city, block),
             country.currency, BLOCK_UNITS[block], _hint_of(city, block),
+            aliases=_aliases_of(city, block),
         )
         extracted = extractor.extract([d.as_llm_part() for d in documents], instruction,
                                       _llm_options_of(city, block))
@@ -204,6 +235,7 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
             continue
 
         identity = {"city_name": city.get("city_name", code),
+                    "label": label,
                     "supplier": _supplier_of(city, block),
                     "aliases": _aliases_of(city, block)}
         try:
@@ -214,7 +246,7 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
                 failed(reason)
             continue
 
-        published[code] = _publish(record, code, block, today)
+        published[code] = _publish(record, code, block, today, _previous_city(previous_block, code))
         records[code] = record
         refreshed.append(code)
         logger.info(f"{country.code} {block}: {label} refreshed from source")
@@ -238,7 +270,7 @@ def sync_zone_schedule(electricity: dict, config: dict):
 
 
 def drop_retired_cities(data: dict, config: dict) -> list:
-    """Removes cities config has retired, and says which ones were removed.
+    """Removes the cities and services config has retired, and says which ones were removed.
 
     A city is retired when it has no source that can be read and the values still published
     for it are not trustworthy — an entry nobody can refresh is worse than no entry, because
@@ -246,18 +278,22 @@ def drop_retired_cities(data: dict, config: dict) -> list:
     forever, so retiring is not the same as freeing the code for reuse: if a usable source
     appears later the city comes back under the code its users already saved.
     """
-    retired = {str(code) for code in (config.get("retired_cities") or [])}
-    if not retired:
+    entries = [str(entry) for entry in (config.get("retired_cities") or [])]
+    # "kazan" retires a city; "kazan.heating" retires one service of a city whose other services
+    # are still collected — its water keeps refreshing while the stale heat tariff goes.
+    whole = {entry for entry in entries if "." not in entry}
+    services = {tuple(entry.split(".", 1)) for entry in entries if "." in entry}
+    if not whole and not services:
         return []
 
     removed = []
     for block in CITY_BLOCKS:
         cities = data.get(block, {}).get("cities", [])
-        kept = [c for c in cities if c.get("city_code") not in retired]
-        if len(kept) != len(cities):
-            removed.extend(f"{block}: {c.get('city_code')}" for c in cities
-                           if c.get("city_code") in retired)
-            data[block]["cities"] = kept
+        gone = [c for c in cities
+                if c.get("city_code") in whole or (c.get("city_code"), block) in services]
+        if gone:
+            removed.extend(f"{block}: {c.get('city_code')}" for c in gone)
+            data[block]["cities"] = [c for c in cities if c not in gone]
     return removed
 
 
@@ -291,7 +327,7 @@ def collect_electricity(country: Country, config: dict, previous: dict, extracto
         if not rate or rate <= 0:
             continue
         entry = {"from": raw.get("from"), "base_rate": round(rate, 4),
-                 "decree_info": str(raw.get("decree_info") or "").strip()}
+                 "decree_info": clean_decree(raw.get("decree_info"))}
         if raw.get("to"):
             entry["to"] = raw["to"]
         record["periods"].append(entry)
@@ -323,7 +359,10 @@ def collect_electricity(country: Country, config: dict, previous: dict, extracto
     updated = dict(previous)
     updated["base_rate"] = rate
     updated["effective_date"] = resolved.get("effective_date", "")
-    updated["decree_info"] = resolved.get("decree_info", "")
+    unchanged = (previous.get("decree_info") and was == rate
+                 and previous.get("effective_date") == resolved.get("effective_date"))
+    updated["decree_info"] = clean_decree(previous["decree_info"] if unchanged
+                                          else resolved.get("decree_info", ""))
     updated["update_date"] = date.today().strftime("%Y-%m-%d")
     if isinstance(source, dict) and source.get("url"):
         updated["source_url"] = source["url"]

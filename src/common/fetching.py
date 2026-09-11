@@ -7,11 +7,18 @@ or raw bytes and the caller never has to know which it was.
 No URL and no timeout is written here: both come from config/<cc>/sources.json.
 """
 
+import glob
 import html as html_module
 import logging
+import os
 import re
+import ssl
 
+import certifi
 import requests
+from requests.adapters import HTTPAdapter
+
+from common.paths import CERTS_DIR
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +33,38 @@ BINARY_TYPES = ("application/pdf", "image/png", "image/jpeg", "image/webp")
 # A page larger than this is almost certainly a listing rather than a tariff document;
 # the text is cut so that one bad URL cannot exhaust the model's context.
 MAX_TEXT_CHARS = 200_000
+
+
+def _ssl_context() -> ssl.SSLContext:
+    """The usual trusted roots, plus the intermediate certificates kept in config/certs.
+
+    Some utility sites send their own certificate without the intermediate one that links it
+    to a trusted root. A browser fetches the missing link by itself; Python does not, and the
+    site fails with "unable to get local issuer certificate" — the Kazan водоканал does exactly
+    that. Each file in config/certs is such an intermediate, downloaded from the address the
+    site's own certificate names for its issuer. Nothing here weakens verification: every chain
+    still has to end at a standard root.
+    """
+    context = ssl.create_default_context(cafile=certifi.where())
+    for path in sorted(glob.glob(os.path.join(CERTS_DIR, "*.pem"))):
+        context.load_verify_locations(path)
+    return context
+
+
+class _TrustAdapter(HTTPAdapter):
+    def init_poolmanager(self, *args, **kwargs):
+        kwargs["ssl_context"] = _SSL_CONTEXT
+        return super().init_poolmanager(*args, **kwargs)
+
+
+_SSL_CONTEXT = _ssl_context()
+_SESSION = requests.Session()
+_SESSION.mount("https://", _TrustAdapter())
+_SESSION.headers["User-Agent"] = USER_AGENT
+
+# A tariff as a Russian-language page prints it: "3 800,68". Counting them is a cheap sign of
+# whether a page carries tariffs at all or is a menu, an article, or a disguised 404.
+PRICE = re.compile(r"\d,\d{2}\b")
 
 
 class Document:
@@ -91,7 +130,7 @@ def fetch(url: str, timeout: int) -> Document:
     the caller reports the miss.
     """
     try:
-        response = requests.get(url, headers={"User-Agent": USER_AGENT}, timeout=timeout)
+        response = _SESSION.get(url, timeout=timeout)
     except Exception as e:
         logger.warning(f"Could not fetch {url}: {e}")
         return Document(url)
@@ -122,3 +161,36 @@ def fetch_all(urls: list, timeout: int) -> list:
         if document:
             documents.append(document)
     return documents
+
+
+def probe(url: str, timeout: int) -> dict:
+    """Whether a source can be read from this machine, and whether it looks like a tariff.
+
+    Downloads the document but calls no model, so it costs nothing. Returns the status, the type,
+    the size, how many price-like numbers the text carries, and whether it reads like a "page
+    not found" served with a 200 — which is how one of the Samara addresses failed.
+    """
+    from common import pdf  # local: common.pdf imports this module
+
+    try:
+        response = _SESSION.get(url, timeout=timeout)
+    except Exception as e:
+        return {"ok": False, "error": f"{e.__class__.__name__}: {str(e)[:160]}"}
+    result = {"ok": response.status_code == 200, "status": response.status_code,
+              "bytes": len(response.content)}
+    if not result["ok"]:
+        return result
+
+    content_type = (response.headers.get("Content-Type") or "").lower()
+    if "application/pdf" in content_type:
+        text = pdf.text_of(response.content)
+        result["kind"] = "pdf, scan" if pdf.is_scan(text) else "pdf"
+    elif any(mime in content_type for mime in BINARY_TYPES):
+        text, result["kind"] = "", "image"
+    else:
+        text, result["kind"] = html_to_text(_decode(response.content, content_type)), "html"
+    result["chars"] = len(text)
+    result["prices"] = len(PRICE.findall(text))
+    low = text.lower()
+    result["looks_like_404"] = "404" in low and ("не найден" in low or "not found" in low)
+    return result

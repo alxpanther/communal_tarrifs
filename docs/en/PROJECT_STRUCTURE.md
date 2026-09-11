@@ -50,6 +50,7 @@ kommeter_scripts/
 │
 ├── src/                          # Pipeline code
 │   ├── run_country.py            # Entry point: runs one country, several, or all, then the index
+│   ├── run_city.py               # One city or one service; dry run by default
 │   ├── build_index.py            # Builds tariffs_index.json for every publication target
 │   ├── common/                   # Shared, country-agnostic code
 │   │   ├── paths.py              # Every path derived from a country code
@@ -57,7 +58,8 @@ kommeter_scripts/
 │   │   ├── jsonio.py             # Previous file, root object, writing both output files
 │   │   ├── ai_pipeline.py        # Per-city collection pipeline
 │   │   ├── fetching.py           # Downloading a source (HTML, PDF, scan)
-│   │   ├── llm.py                # The extraction model
+│   │   ├── llm/                  # The extraction model: one interface, a module per provider
+│   │   ├── pdf.py                # A PDF for a provider that cannot read one
 │   │   ├── prompts.py            # What the model is asked
 │   │   ├── validation.py         # Whether an extraction may be published
 │   │   ├── overrides.py          # manual_override semantics, identical for all countries
@@ -143,7 +145,8 @@ kommeter_scripts/
 | `common/jsonio.py` | Loads the previous published file, assembles the root object (including `country_names`), writes both output files, and refuses to write a file with an empty electricity block. |
 | `common/ai_pipeline.py` | Per-city collection: fetch, extract, validate, merge, save. Used by every country whose cities are regulated separately. |
 | `common/fetching.py` | Downloading one source and preparing it for the model: HTML flattened to text with table structure kept, PDFs and scans passed as bytes. |
-| `common/llm.py` | Which extraction model to use and how a document is handed to it. |
+| `common/llm/` | The extraction model behind one interface; one module per provider, chosen by `settings.llm`. |
+| `common/pdf.py` | Text layer or page images of a PDF, for a provider that cannot read PDFs. |
 | `common/prompts.py` | What the model is asked, one template per tariff block. |
 | `common/validation.py` | Whether an extracted tariff may be published. Rejects a city whole rather than publish a doubtful field. |
 | `common/overrides.py` | `manual_override` semantics, shared by every country so they cannot drift apart. |

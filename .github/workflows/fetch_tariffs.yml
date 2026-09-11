@@ -50,6 +50,11 @@ jobs:
       - name: Run Tariff Pipelines & Build Country Index
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # The extraction provider is chosen per country in config/<cc>/sources.json ->
+          # settings.llm, and reads its key from the variable named there: every provider
+          # a country uses needs its secret here. The endpoint secret is optional.
+          QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
+          QWEN_OPENAI_ENDPOINT: ${{ secrets.QWEN_OPENAI_ENDPOINT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           # Passed through the environment rather than interpolated into the command line:

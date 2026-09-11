@@ -195,7 +195,8 @@ country and delegating, and everything else is `config/<cc>/sources.json`.
 
 1. `config/countries.json` — code, names, currency, `pipeline`, `enabled`.
 2. `config/<cc>/sources.json`:
-   * `settings` — model and timeout;
+   * `settings` — the fetch timeout, and `settings.llm`: which provider and model read the
+     sources (see ARCHITECTURE, section 8a);
    * `validation` — the ceilings and `max_change_ratio` for that country's currency. A rouble
      ceiling makes no sense for tenge; set them from what a real tariff there looks like;
    * `electricity` — the zone schedule, coefficients, and a `source` if there is one;
@@ -203,7 +204,9 @@ country and delegating, and everything else is `config/<cc>/sources.json`.
      `supplier_aka` and `hint`;
    * `manual_override` — present but empty.
 3. `src/countries/<cc>/fetcher.py` — a copy of `src/countries/ru/fetcher.py` with the code changed.
-4. Run it, read the Telegram report, and fix the source list until the misses are gone. The first
+4. Test it city by city with `src/run_city.py` — a dry run by default — and fix the source list
+   until every city passes. Only then collect the whole country, and only with the maintainer's
+   agreement: every city is a paid model call. The first
    run of a country needs an already published file to build on; create it by running the country
    once through `manual_pipeline` with an empty override, or by committing a skeleton file.
 5. Documentation in both `docs/en/` and `docs/ru/`.

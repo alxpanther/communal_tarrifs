@@ -1,11 +1,23 @@
 {
   "settings": {
-    "auto_select_latest_model": true,
-    "gemini_model": "gemini-3.6-flash",
-    "timeout_seconds": 30
+    "timeout_seconds": 30,
+    "llm": {
+      "provider": "openai_compatible",
+      "model": "qwen-plus",
+      "vision_model": "qwen3-vl-plus",
+      "api_key_env": "QWEN_API_KEY",
+      "base_url_env": "QWEN_OPENAI_ENDPOINT",
+      "base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+      "json_mode": true,
+      "timeout_seconds": 300,
+      "extra_params": {
+        "enable_thinking": false
+      }
+    }
   },
   "validation": {
     "max_change_ratio": 0.6,
+    "same_period_tolerance": 0.005,
     "sum_tolerance": 0.02,
     "water": {
       "max_rate": 500.0
@@ -83,6 +95,7 @@
           "urls": [
             "https://www.moek.ru/d/textpage/6d/109/tarifnoe-menyu-pao-moehk-na-2026-2028g_-utv.-na-sajt.pdf"
           ],
+          "model": "qwen3-max",
           "hint": "закрытая система теплоснабжения, территория города Москвы за исключением Троицкого и Новомосковского административных округов; тариф уже указан готовой ценой за 1 м³, компоненты и норматив подогрева не нужны"
         },
         "heating": {
@@ -90,6 +103,12 @@
           "urls": [
             "https://www.moek.ru/d/textpage/6d/109/tarifnoe-menyu-pao-moehk-na-2026-2028g_-utv.-na-sajt.pdf"
           ],
+          "model": "qwen3-max",
+          "json_mode": false,
+          "extra_params": {
+            "enable_thinking": true,
+            "thinking_budget": 8000
+          },
           "hint": "нужен тариф для потребителей, подключённых ПОСЛЕ тепловых пунктов — это обычный случай многоквартирного дома; вариант «до тепловых пунктов» не подходит"
         }
       }

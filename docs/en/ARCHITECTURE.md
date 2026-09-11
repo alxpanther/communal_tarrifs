@@ -251,7 +251,8 @@ and the pipeline is `src/common/ai_pipeline.py`. Russia runs on it.
 | Module | Responsibility |
 |---|---|
 | `common/fetching.py` | Downloads one source. Returns text for markup, raw bytes for a PDF — including a scan with no text layer, which several regulators still publish. Flattens HTML to text while keeping table rows and cells, which cuts a 136 KB page to 7 KB without losing which number sits next to which label. |
-| `common/llm.py` | The extraction model: which one to use, how a document is handed over, how a failure is reported. No model name is written in the code — `settings.gemini_model` is the floor and auto-selection only ever raises it to a newer plain `gemini-<version>-flash`. |
+| `common/llm/` | The extraction model behind one interface, `Extractor`: `base.py`, plus one module per provider — `gemini.py`, `openai_compatible.py`. Which provider and model a country uses is `settings.llm` in its config; no model name or endpoint is written in the code. |
+| `common/pdf.py` | A PDF for a provider that cannot read one: its text layer, or rendered page images when it is a scan. |
 | `common/prompts.py` | What the model is asked. One template per block, filled from config. |
 | `common/validation.py` | Whether the answer may be published. |
 | `common/ai_pipeline.py` | The run: previous file → fetch → extract → validate → merge what passed → save. |
@@ -264,11 +265,76 @@ and the pipeline is `src/common/ai_pipeline.py`. Russia runs on it.
    regulator's.
 2. `prompts.city_prompt()` builds the instruction: the service, the city, the supplier config
    expects, the currency, the unit, **today's date**, and the per-source `hint`.
-3. `llm.extract()` returns JSON, or nothing.
+3. The country's `Extractor` (`common/llm/`) returns JSON, or nothing.
 4. `validation.validate_city()` decides whether it may be published.
 5. On success the record is flattened by `resolve_periods()` to the values in force today and
    replaces that city in the block. On failure **nothing is replaced**: the city keeps the tariff
    it had, and the reason is logged and sent to Telegram.
+
+### Which model reads the sources
+
+The model is chosen per country, by `settings.llm` in its config. The pipeline talks to an
+`Extractor` from `common/llm/` and never learns which provider is behind it, so moving a country
+to another provider is a config edit.
+
+| `provider` | Module | Reads a PDF | Web search |
+|---|---|---|---|
+| `gemini` | `common/llm/gemini.py` | as bytes, scans included | yes |
+| `openai_compatible` | `common/llm/openai_compatible.py` | the text layer via `common/pdf.py`, tables written out row by row, every cell covered by a merge — across or down — given the text of the cell covering it; a scan is rendered to page images and sent to `vision_model` | no |
+
+`openai_compatible` covers every API speaking the OpenAI chat-completions format: Qwen on Alibaba
+Cloud Model Studio (Russia, today), OpenRouter, GLM, a local server.
+
+| Field | Meaning |
+|---|---|
+| `model` | The text model. |
+| `vision_model` | The model for scans and images. Without it a scanned source fails with a clear reason. |
+| `api_key_env` | Name of the env variable holding the key. The key itself is never in config. |
+| `base_url_env`, `base_url` | The endpoint. The env variable wins, so an account-specific address stays out of this public repository; `base_url` is the fallback. |
+| `json_mode` | Ask for a JSON object. Text requests only. |
+| `timeout_seconds` | Per call. A large decree takes minutes to read, far longer than fetching a page. |
+| `extra_params` | Put into the request as is — e.g. `enable_thinking: false` for Qwen, which keeps reasoning tokens off the bill. |
+
+A source may override `model`, `json_mode` and `extra_params` of `settings.llm` next to its URLs.
+The country's settings are chosen for the price of reading every city; a source too dense for them
+gets a stronger setup of its own rather than moving the whole country to the expensive one.
+
+Moscow's tariff menu is the case in point: eighteen columns. `qwen3-max` reads its hot water row
+correctly as it is. Its heat row came back wrong three times — from the text with the default model,
+from the text with `qwen3-max`, from page images with the vision model — and right only with
+reasoning switched on: `extra_params: {"enable_thinking": true, "thinking_budget": 8000}` together
+with `json_mode: false`, because Qwen does not answer when both reasoning and JSON mode are on.
+Reasoning is paid output — that call cost 8.7k output tokens against about 0.5k without it — so it
+belongs to the one source that needs it, and `thinking_budget` caps it. A model override applies to
+text requests; a scan always goes to `vision_model`.
+
+A config without `settings.llm` is read the old way: Gemini, `settings.gemini_model`. Every provider
+a country uses needs its key as a GitHub secret, passed to the job in
+`.github/workflows/fetch_tariffs.yml`.
+
+Every call is logged with its token count and a run ends with a total, which also goes into the
+Telegram report: a source that suddenly costs ten times more shows up there, not on the invoice.
+
+### Testing one city
+
+A model call is paid for, and collecting a whole country to check a fix in one city is how a
+month's credits disappear in a day. `src/run_city.py` runs part of a country:
+
+```bash
+python src/run_city.py ru yekaterinburg                  # every service of one city
+python src/run_city.py ru yekaterinburg --block water    # one service
+python src/run_city.py ru --block electricity            # the country-wide tariff
+python src/run_city.py ru yekaterinburg --write          # publish just this city
+```
+
+By default it is a dry run: it fetches, extracts and validates, prints what would be published and
+every reason something would not, and writes nothing — no file, no registry entry, no Telegram
+message. `--write` publishes the selected cities into the country file, keeps every other city as
+published, and rebuilds the index. It refuses to run without a city, except for the country-wide
+electricity block, so it cannot collect a whole country by accident.
+
+The order of work is fixed: make every fix first, then test the cities it touches, then — only with
+the maintainer's agreement — collect the whole country.
 
 ### Why the prompt carries the date and a hint
 
@@ -302,6 +368,13 @@ record is worse than a stale one: it looks current.
   does not match «ООО "Новосибирская теплосетевая компания"». Where the source uses an abbreviation
   that cannot be matched to its expansion, config lists it under `supplier_aka`;
 * a period with no parsable start date, or two periods starting the same day;
+* **an already published period that comes back with a different number**, beyond
+  `same_period_tolerance`. A regulator does not reprice a period it has set, so a new number for
+  the same dates means the model read another column — the tariff without VAT, another year,
+  another consumer group. It is caught by nothing else: the wrong number is a real tariff from
+  a real document, usually within a few percent of the right one. This is how the Moscow heat
+  tariff came back without VAT when Russia was first read through a text-only model. A genuine
+  correction by the regulator is accepted by hand: `src/run_city.py … --accept-period-changes`;
 * **a jump larger than `max_change_ratio` against what is already published.** This is the one that
   catches a confident, plausible, wrong extraction — the model read the industrial column, or
   another year, or another city. The number itself passes every other check; only its distance from

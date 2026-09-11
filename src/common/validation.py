@@ -262,6 +262,36 @@ def _check_against_previous(block: str, periods: list, previous: dict, limits: d
         )
 
 
+def _check_same_period(block: str, periods: list, previous: dict, limits: dict,
+                       label: str, reasons: list):
+    """An already published period must come back with the same number.
+
+    A regulator does not reprice a period it has already set. A different number for the
+    same dates means the model read another column — the tariff without VAT, another year,
+    another consumer group — and nothing else gives that away: the wrong number is still a
+    real tariff from a real document, and usually within a few percent of the right one.
+    So the tolerance here is a rounding margin, not an allowance for indexation.
+    """
+    tolerance = as_number(limits.get("same_period_tolerance"))
+    if tolerance is None or not previous:
+        return
+    since = previous.get("effective_date")
+    field = "total_rate" if block == "water" else BLOCK_FIELDS[block][0]
+    was = as_number(previous.get(field))
+    if not since or not was:
+        return
+    for period in periods:
+        if period["from"] != since:
+            continue
+        now = as_number(period.get(field))
+        if now and abs(now - was) / was > tolerance:
+            reasons.append(
+                f"{label}: период с {since} уже опубликован со значением {was}, а извлечено "
+                f"{now} — вероятно, прочитана не та колонка или не та строка"
+            )
+        return
+
+
 def validate_city(block: str, code: str, identity: dict, extracted: dict,
                   previous: dict, limits: dict) -> dict:
     """Checks one city's extraction. Returns a record with periods, or raises Rejected.
@@ -308,6 +338,7 @@ def validate_city(block: str, code: str, identity: dict, extracted: dict,
         reasons.append(f"{label}: два периода начинаются в один день")
 
     _check_against_previous(block, periods, previous or {}, limits, label, reasons)
+    _check_same_period(block, periods, previous or {}, limits, label, reasons)
 
     if reasons:
         raise Rejected(reasons)

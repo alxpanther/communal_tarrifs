@@ -122,6 +122,9 @@ to open it — which is exactly how these rules came to be ignored before.
   not a follow-up.
 * **Code comments in English.** Chat replies to the maintainer are in Russian.
 * **Temporary files go to a `tmp/` folder** in the repository root and are deleted afterwards.
+* **A model call is paid for.** Make every fix first, then test only the cities it touches with
+  `src/run_city.py`, and collect a whole country only after telling the maintainer what was
+  changed and what the city tests showed, and getting their agreement.
 
 ## Running it
 
@@ -129,6 +132,14 @@ to open it — which is exactly how these rules came to be ignored before.
 python src/run_country.py          # every enabled country, then the country index
 python src/run_country.py ua       # one country
 python src/run_country.py am az    # several
+```
+
+To test a change, run only the cities it touches. A dry run by default — it writes nothing:
+
+```bash
+python src/run_city.py ru yekaterinburg                 # every service of one city
+python src/run_city.py ru yekaterinburg --block water   # one service
+python src/run_city.py ru yekaterinburg --write         # publish just this city
 ```
 
 Docker and CI variants, plus the full `manual_override` reference, are in the Russian

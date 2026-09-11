@@ -16,6 +16,7 @@ a country, a URL, a supplier or a price — all of that lives in config.
 import json
 import logging
 import os
+from dataclasses import dataclass
 from datetime import date, datetime
 
 from common import llm, prompts
@@ -80,6 +81,24 @@ def _hint_of(city: dict, block: str) -> str:
     return ""
 
 
+# Keys of `settings.llm` a single source may override, next to its URLs.
+SOURCE_LLM_OPTIONS = ("model", "json_mode", "extra_params")
+
+
+def _llm_options_of(city: dict, block: str) -> dict:
+    """What one source changes about how the model is called.
+
+    The country's settings are chosen for the price of reading every city. A source too dense
+    for them — the eighteen-column tariff menu of a Moscow heat company, where the default
+    model mixed up rows and columns — gets a stronger model, or reasoning switched on, of its
+    own instead of moving the whole country to the expensive setup.
+    """
+    block_config = (city.get("sources") or {}).get(block)
+    if not isinstance(block_config, dict):
+        return {}
+    return {key: block_config[key] for key in SOURCE_LLM_OPTIONS if key in block_config}
+
+
 def _supplier_of(city: dict, block: str) -> str:
     block_config = (city.get("sources") or {}).get(block)
     if isinstance(block_config, dict) and block_config.get("supplier"):
@@ -126,20 +145,30 @@ def _publish(record: dict, code: str, block: str, today: date) -> dict:
     return published
 
 
+@dataclass
+class BlockResult:
+    """What one block of a run produced."""
+
+    cities: list     # the full list to publish: refreshed cities and carried-over ones
+    refreshed: list  # codes refreshed from a source on this run
+    failures: list   # one line per reason something was not refreshed
+    records: dict    # code -> validated record, with every period the source listed
+    raw: dict        # code -> the model's answer as it came, kept to diagnose a rejection
+
+
 def collect_block(country: Country, config: dict, block: str, previous_block: dict,
-                  model: str, notifier=None) -> tuple:
+                  extractor, only: list = None) -> BlockResult:
     """Reads one block for every city that declares a source for it.
 
-    Returns (cities, refreshed, failures): the full city list to publish, how many were
-    actually refreshed from a source, and the reasons the rest were not.
+    With `only`, just those cities are read and every other city is carried over as it was
+    published — that is what makes testing a single city cost one model call.
     """
     timeout = int((config.get("settings", {}) or {}).get("timeout_seconds") or 30)
     limits = config.get("validation", {}) or {}
     today = date.today()
 
     published = {c.get("city_code"): dict(c) for c in (previous_block or {}).get("cities", [])}
-    refreshed = 0
-    failures = []
+    refreshed, failures, records, raw = [], [], {}, {}
 
     def failed(reason: str):
         """A miss is a normal outcome, but it must never be silent: the city keeps its old
@@ -148,6 +177,8 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
         failures.append(reason)
 
     for code, city in (config.get("cities") or {}).items():
+        if only and code not in only:
+            continue
         urls = _sources_of(city, block)
         if not urls:
             continue
@@ -162,7 +193,9 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
             block, city.get("city_name", code), _supplier_of(city, block),
             country.currency, BLOCK_UNITS[block], _hint_of(city, block),
         )
-        extracted = llm.extract([d.as_llm_part() for d in documents], instruction, model, notifier)
+        extracted = extractor.extract([d.as_llm_part() for d in documents], instruction,
+                                      _llm_options_of(city, block))
+        raw[code] = extracted
         if not extracted:
             failed(f"{label}: модель ничего не извлекла из источника")
             continue
@@ -182,10 +215,11 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
             continue
 
         published[code] = _publish(record, code, block, today)
-        refreshed += 1
+        records[code] = record
+        refreshed.append(code)
         logger.info(f"{country.code} {block}: {label} refreshed from source")
 
-    return list(published.values()), refreshed, failures
+    return BlockResult(list(published.values()), refreshed, failures, records, raw)
 
 
 def sync_zone_schedule(electricity: dict, config: dict):
@@ -227,8 +261,7 @@ def drop_retired_cities(data: dict, config: dict) -> list:
     return removed
 
 
-def collect_electricity(country: Country, config: dict, previous: dict, model: str,
-                        notifier=None) -> tuple:
+def collect_electricity(country: Country, config: dict, previous: dict, extractor) -> tuple:
     """Reads the country-wide electricity tariff, when a source is declared for it."""
     source = (config.get("electricity", {}) or {}).get("source")
     if not source:
@@ -243,9 +276,9 @@ def collect_electricity(country: Country, config: dict, previous: dict, model: s
     unit = (config.get("electricity", {}) or {}).get("unit", "kWh")
     region = (config.get("electricity", {}) or {}).get("region") or country.code
     hint = source.get("hint", "") if isinstance(source, dict) else ""
-    extracted = llm.extract(
+    extracted = extractor.extract(
         [d.as_llm_part() for d in documents],
-        prompts.electricity_prompt(region, country.currency, unit, hint=hint), model, notifier,
+        prompts.electricity_prompt(region, country.currency, unit, hint=hint),
     )
 
     periods = extracted.get("periods") if isinstance(extracted, dict) else None
@@ -298,14 +331,21 @@ def collect_electricity(country: Country, config: dict, previous: dict, model: s
     return updated, notes, 1
 
 
-def _report(country: Country, refreshed: dict, failures: dict, notifier):
-    """One message per run: what was refreshed and every reason something was not."""
+def _report(country: Country, refreshed: dict, failures: dict, notifier,
+            scope: str = "", usage: str = ""):
+    """One message per run: what was refreshed, what it cost, and every reason something
+    was not refreshed."""
     if not notifier:
         return
     total_failures = sum(len(v) for v in failures.values())
-    lines = [f"<b>{country.code}: обновление тарифов</b>"]
+    title = f"<b>{country.code}: обновление тарифов</b>"
+    if scope:
+        title += f"\nтолько: {scope}"
+    lines = [title]
     for block, count in refreshed.items():
         lines.append(f"• {block}: обновлено {count}")
+    if usage:
+        lines.append(f"• модель: <code>{usage}</code>")
     if total_failures:
         lines.append(f"\n⚠️ <b>Не обновлено ({total_failures}) — опубликованы прежние значения:</b>")
         shown = 0
@@ -320,11 +360,61 @@ def _report(country: Country, refreshed: dict, failures: dict, notifier):
     notifier.send_message("\n".join(lines), parse_mode="HTML")
 
 
-def run(country: Country, notifier=None) -> dict:
-    """Generates and saves the country file from its live sources."""
-    config = load_config(country)
-    model = llm.resolve_model(config)
-    logger.info(f"{country.code}: extracting with {model}")
+def _scope(cities: list, blocks: list) -> str:
+    return " / ".join(", ".join(part) for part in (cities, blocks) if part)
+
+
+def collect(country: Country, config: dict, previous: dict, extractor,
+            cities: list = None, blocks: list = None) -> tuple:
+    """Reads the selected part of a country from its sources. Writes nothing.
+
+    `cities` and `blocks` narrow the run; everything outside them is carried over from the
+    previous file untouched. Returns (data, refreshed, failures, results), where results
+    maps each block that was read to its BlockResult.
+    """
+    today = date.today().strftime("%Y-%m-%d")
+    data = {block: previous.get(block, empty_city_block()) for block in CITY_BLOCKS}
+    data["electricity"] = previous.get("electricity", {})
+    refreshed, failures, results = {}, {}, {}
+
+    for block in CITY_BLOCKS:
+        if blocks and block not in blocks:
+            continue
+        result = collect_block(country, config, block, data[block], extractor, cities)
+        data[block] = dict(data[block])
+        data[block]["cities"] = result.cities
+        if result.refreshed:
+            data[block]["update_date"] = today
+        refreshed[block] = len(result.refreshed)
+        results[block] = result
+        if result.failures:
+            failures[block] = result.failures
+
+    # Electricity is one value for the whole country, so a run narrowed to cities leaves it
+    # alone unless it is asked for by name.
+    if (blocks and "electricity" in blocks) or (not blocks and not cities):
+        data["electricity"], notes, count = collect_electricity(
+            country, config, data["electricity"], extractor)
+        refreshed["electricity"] = count
+        if notes:
+            for reason in notes:
+                logger.warning(f"{country.code} electricity: {reason}")
+            failures["electricity"] = notes
+
+    return data, refreshed, failures, results
+
+
+def run(country: Country, notifier=None, cities: list = None, blocks: list = None,
+        config: dict = None) -> dict:
+    """Generates and saves the country file from its live sources.
+
+    `cities` and `blocks` publish part of a country and keep the rest as it was. Without them
+    the whole country is collected — the most expensive thing this repository does, and never
+    the way to check a fix in one city: that is what src/run_city.py is for.
+    """
+    config = config or load_config(country)
+    extractor = llm.from_config(config, notifier)
+    logger.info(f"{country.code}: extracting with {extractor.name}")
 
     previous = load_previous(country)
     if not previous:
@@ -333,27 +423,8 @@ def run(country: Country, notifier=None) -> dict:
             f"country is created by its manual pipeline; this one only refreshes."
         )
 
-    data = {block: previous.get(block, empty_city_block()) for block in CITY_BLOCKS}
-    data["electricity"] = previous.get("electricity", {})
-
-    refreshed, failures = {}, {}
-    for block in CITY_BLOCKS:
-        cities, count, problems = collect_block(country, config, block, data[block], model, notifier)
-        data[block] = dict(data[block])
-        data[block]["cities"] = cities
-        if count:
-            data[block]["update_date"] = date.today().strftime("%Y-%m-%d")
-        refreshed[block] = count
-        if problems:
-            failures[block] = problems
-
-    data["electricity"], power_problems, power_count = collect_electricity(
-        country, config, data["electricity"], model, notifier)
-    refreshed["electricity"] = power_count
-    if power_problems:
-        for reason in power_problems:
-            logger.warning(f"{country.code} electricity: {reason}")
-        failures["electricity"] = power_problems
+    data, refreshed, failures, _ = collect(country, config, previous, extractor, cities, blocks)
+    logger.info(f"{country.code}: {extractor.usage_line()}")
 
     data = apply_manual_overrides(data, config, notifier)
     sync_zone_schedule(data["electricity"], config)
@@ -369,7 +440,7 @@ def run(country: Country, notifier=None) -> dict:
     for block in ("hot_water", "heating"):
         reconcile_cities(country.code, data[block].get("cities", []), HEAT_SECTION, notifier)
 
-    _report(country, refreshed, failures, notifier)
+    _report(country, refreshed, failures, notifier, _scope(cities, blocks), extractor.usage_line())
 
     final = build_root(country, data)
     save_country_json(country, final)

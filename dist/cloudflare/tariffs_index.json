@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-11T13:54:59.836513",
+  "generated_at": "2026-09-12T13:04:12.927562",
   "countries": [
     {
       "country": "UA",
@@ -21,7 +21,7 @@
         "uk": "Вірменія"
       },
       "currency": "AMD",
-      "last_updated_at": "2026-09-02T16:22:28.447800",
+      "last_updated_at": "2026-09-12T13:04:12.926721",
       "path": "am/tariffs_am.json",
       "enabled": true,
       "min_app_version": ""
@@ -33,7 +33,7 @@
         "uk": "Азербайджан"
       },
       "currency": "AZN",
-      "last_updated_at": "2026-09-02T17:54:14.339483",
+      "last_updated_at": "2026-09-12T13:03:40.936510",
       "path": "az/tariffs_az.json",
       "enabled": true,
       "min_app_version": ""

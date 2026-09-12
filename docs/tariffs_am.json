@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T16:22:28.447800",
+  "last_updated_at": "2026-09-12T13:04:12.926721",
   "country": "AM",
   "country_names": {
     "ru": "Армения",
@@ -12,7 +12,7 @@
     "base_rate": 46.48,
     "unit": "kWh",
     "effective_date": "2022-02-01",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-12",
     "decree_info": "Решение КРОУ РА N 478-Н от 29.12.2021, изменённое решением КРОУ РА N 448-Н от 30.12.2024",
     "zones": {
       "two_zone": {
@@ -50,51 +50,51 @@
   },
   "water": {
     "source_url": "https://vjur.am/hy/consumers/hacaxaki-trvog-hartser",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-12",
     "cities": [
       {
         "city_code": "yerevan",
         "city_name": "Ереван",
         "supplier": "ЗАО \"Веолиа Джур\" (Ереван)",
+        "unit": "m3",
         "water_supply": 170.36,
         "sewage": 30.06,
         "total_rate": 200.42,
-        "unit": "m3",
-        "effective_date": "2025-01-01",
-        "decree_info": "Решение КРОУ РА от 27.11.2024 (тарифы ЗАО «Веолиа Джур»)"
+        "effective_date": "2026-01-01",
+        "decree_info": "Решение КРОУ РА N 397-Ն от 26.11.2025"
       },
       {
         "city_code": "gyumri",
         "city_name": "Гюмри",
         "supplier": "ЗАО \"Веолиа Джур\" (Гюмри)",
+        "unit": "m3",
         "water_supply": 170.36,
         "sewage": 30.06,
         "total_rate": 200.42,
-        "unit": "m3",
-        "effective_date": "2025-01-01",
-        "decree_info": "Решение КРОУ РА от 27.11.2024 (тарифы ЗАО «Веолиа Джур»)"
+        "effective_date": "2026-01-01",
+        "decree_info": "Решение КРОУ РА N 397-Ն от 26.11.2025"
       },
       {
         "city_code": "vanadzor",
         "city_name": "Ванадзор",
         "supplier": "ЗАО \"Веолиа Джур\" (Ванадзор)",
+        "unit": "m3",
         "water_supply": 170.36,
         "sewage": 30.06,
         "total_rate": 200.42,
-        "unit": "m3",
-        "effective_date": "2025-01-01",
-        "decree_info": "Решение КРОУ РА от 27.11.2024 (тарифы ЗАО «Веолиа Джур»)"
+        "effective_date": "2026-01-01",
+        "decree_info": "Решение КРОУ РА N 397-Ն от 26.11.2025"
       },
       {
         "city_code": "other_cities",
         "city_name": "Другие города (единый тариф)",
         "supplier": "ЗАО \"Веолиа Джур\" (другие города)",
+        "unit": "m3",
         "water_supply": 170.36,
         "sewage": 30.06,
         "total_rate": 200.42,
-        "unit": "m3",
-        "effective_date": "2025-01-01",
-        "decree_info": "Решение КРОУ РА от 27.11.2024 (тарифы ЗАО «Веолиа Джур»)"
+        "effective_date": "2026-01-01",
+        "decree_info": "Решение КРОУ РА N 397-Ն от 26.11.2025"
       }
     ]
   },

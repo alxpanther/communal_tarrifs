@@ -9,9 +9,9 @@ Telegram, and exits. There is no server, no database, no state other than the ge
 and the `config/<cc>/city_registry.json` registries.
 
 Sections 2–6 describe the Ukrainian pipeline, which is the richest one and the reference for
-everything else. Section 8 covers the config-declared pipeline, which eight countries are still waiting to leave,
-section 8a the per-city pipeline that collects Russia, Armenia and Azerbaijan, and section 9 the
-country index.
+everything else. Section 8 covers the config-declared pipeline, which six countries are still waiting to leave,
+section 8a the per-city pipeline that collects Russia, Armenia, Azerbaijan, Moldova and Georgia, and
+section 9 the country index.
 
 ---
 
@@ -208,12 +208,12 @@ Three workflows share the repository:
 
 ## 8. Countries without a scrapable source
 
-Eight countries are still here — BY, GE, KG, KZ, MD, TJ, TM, UZ — and none of them should stay.
+Six countries are still here — BY, KG, KZ, TJ, TM, UZ — and none of them should stay.
 For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
 `src/common/manual_pipeline.py` is the whole pipeline. `src/countries/by/fetcher.py` and
 `src/countries/ge/fetcher.py` only name the country and delegate to it.
 
-Russia, Armenia and Azerbaijan have left this pipeline for per-city collection (section 8a), and
+Russia, Armenia, Azerbaijan, Moldova and Georgia have left this pipeline for per-city collection (section 8a), and
 that is the direction for the rest: a country is moved by finding its sources, not by refreshing
 its numbers here. Armenia shows how little it takes — the regulator's tariff decision and the
 utility's own FAQ page were enough, even though its fetcher had claimed for a year that no readable
@@ -427,6 +427,16 @@ Both exist because of mistakes that were made and caught, not as decoration.
   the company goes by. Without it a name the model was not told about reads as "the tariff is not
   here": the Novosibirsk heat company is published as АО «СИБЭКО» and printed as НТСК, and two
   models in turn returned an empty answer.
+* **Tax the source leaves out (`vat_percent`).** Some regulators print the net tariff and the
+  household pays it with VAT added: GNERC publishes Georgian electricity "including VAT" and
+  Georgian water "excluding VAT" on neighbouring pages. The model returns the figure as printed and
+  the code multiplies, because arithmetic asked of a model is arithmetic nobody can check. It is set
+  per source, never per country — and it stays absent wherever the printed price is already final,
+  as in Moldova, where household utilities are VAT-exempt.
+* **A component that is legitimately zero (`zero_allowed`).** Bălți charges water and sewerage as
+  one figure, so its `sewage` comes back as zero and the validator would otherwise reject the city:
+  a tariff of nothing is the usual shape of a failed extraction. Listing the field in config says
+  the zero is the truth for this city and nowhere else.
 * **The hint.** One page usually prints several tariffs that are all real: before and after the heat
   substation, drinking and technical water, every price zone the regulator governs. Which one a
   household in this city pays is knowledge about the city, so it sits in config next to the URL.

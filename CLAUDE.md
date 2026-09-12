@@ -57,8 +57,8 @@ There are three pipelines, and only the first two are a finished state:
 | Pipeline | Module | Countries | What it means |
 |---|---|---|---|
 | Aggregated source | `src/countries/ua/fetcher.py` | UA | One page lists every city; scraped and extracted in one pass |
-| Per-city sources | `src/common/ai_pipeline.py` | RU, AM, AZ | Each city declares its own sources in config and is read separately |
-| Config-declared | `src/common/manual_pipeline.py` | BY, GE, KG, KZ, MD, TJ, TM, UZ | **Unfinished.** Numbers sit in config instead of being collected — see the migration note below |
+| Per-city sources | `src/common/ai_pipeline.py` | RU, AM, AZ, MD, GE | Each city declares its own sources in config and is read separately |
+| Config-declared | `src/common/manual_pipeline.py` | BY, KG, KZ, TJ, TM, UZ | **Unfinished.** Numbers sit in config instead of being collected — see the migration note below |
 
 The config-declared pipeline is a leftover, not a design. The countries still on it were entered by
 a model that wrote plausible-looking numbers into config rather than building a collector, and those

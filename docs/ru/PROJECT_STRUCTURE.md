@@ -72,11 +72,11 @@ kommeter_scripts/
 │       ├── ua/fetcher.py         # Украина: сбор → разбор → валидация → сохранение
 │       ├── am/fetcher.py         # Армения: по городам, через common/ai_pipeline.py
 │       ├── az/fetcher.py         # Азербайджан: по городам, через common/ai_pipeline.py
-│       ├── md/fetcher.py         # Молдова: из конфига, через common/manual_pipeline.py
+│       ├── md/fetcher.py         # Молдова: по городам, через common/ai_pipeline.py
 │       ├── uz/fetcher.py         # Узбекистан: из конфига, через common/manual_pipeline.py
 │       ├── kz/fetcher.py         # Казахстан: из конфига, через common/manual_pipeline.py
 │       ├── by/fetcher.py         # Беларусь: из конфига, через common/manual_pipeline.py
-│       ├── ge/fetcher.py         # Грузия: из конфига, через common/manual_pipeline.py
+│       ├── ge/fetcher.py         # Грузия: по городам, через common/ai_pipeline.py
 │       ├── kg/fetcher.py         # Кыргызстан: из конфига, через common/manual_pipeline.py
 │       ├── tj/fetcher.py         # Таджикистан: из конфига, через common/manual_pipeline.py
 │       ├── tm/fetcher.py         # Туркменистан: из конфига, через common/manual_pipeline.py

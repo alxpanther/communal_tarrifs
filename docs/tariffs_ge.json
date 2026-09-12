@@ -49,19 +49,19 @@
     }
   },
   "water": {
-    "source_url": "https://gwp.ge/",
+    "source_url": "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba",
     "update_date": "2026-09-02",
     "cities": [
       {
         "city_code": "tbilisi",
         "city_name": "Тбилиси",
         "supplier": "ООО \"Georgian Water and Power\"",
-        "water_supply": 0.5,
-        "sewage": 0.103,
-        "total_rate": 0.603,
+        "water_supply": 0.3788,
+        "sewage": 0.1215,
+        "total_rate": 0.5003,
         "unit": "m3",
         "effective_date": "2024-01-01",
-        "decree_info": "Решение GNERC для населения со счетчиком"
+        "decree_info": "Тарифы GNERC на 2024–2026 годы, с НДС 18%"
       }
     ]
   },

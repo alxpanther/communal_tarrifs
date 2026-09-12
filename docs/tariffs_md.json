@@ -100,12 +100,12 @@
         "city_code": "orhei",
         "city_name": "Орхей",
         "supplier": "SA \"Apă-Canal Orhei\"",
-        "water_supply": 16.0,
-        "sewage": 7.5,
-        "total_rate": 23.5,
+        "water_supply": 22.43,
+        "sewage": 26.75,
+        "total_rate": 49.18,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление ANRE"
+        "effective_date": "2025-08-29",
+        "decree_info": "Тарифы, утверждённые ANRE 26.08.2025, в силе с 29.08.2025"
       },
       {
         "city_code": "soroca",

@@ -1,47 +1,152 @@
 {
   "settings": {
-    "auto_select_latest_model": true,
-    "gemini_model": "gemini-3.6-flash",
-    "timeout_seconds": 15
+    "timeout_seconds": 30,
+    "llm": {
+      "provider": "gemini",
+      "model": "gemini-3.6-flash",
+      "auto_select_latest_model": true,
+      "api_key_env": "GEMINI_API_KEY"
+    }
   },
-  "reference_sources": {
-    "electricity": "https://anre.md/",
-    "water": "https://anre.md/",
-    "hot_water": "https://anre.md/",
-    "heating": "https://anre.md/"
+  "validation": {
+    "max_change_ratio": 0.6,
+    "same_period_tolerance": 0.005,
+    "sum_tolerance": 0.02,
+    "water": {
+      "max_rate": 100.0
+    },
+    "hot_water": {
+      "max_rate": 500.0
+    },
+    "heating": {
+      "max_rate_gcal": 10000.0,
+      "max_rate_gcal_hour": 1000000.0
+    },
+    "electricity": {
+      "max_rate": 20.0
+    }
   },
   "electricity": {
+    "region": "Республика Молдова",
     "unit": "kWh",
+    "source": {
+      "urls": [
+        "https://anre.md/energie-electrica-3-290"
+      ],
+      "hint": "нужен блок «Furnizarea energiei electrice în contextul obligației de serviciu public privind prestarea serviciului universal», поставщик «Î.C.S. „Premier Energy” S.R.L.», строка «tensiune joasă» (низкое напряжение — к нему подключены квартиры), колонка «Tarif/Preț reglementat bani/kWh (fără TVA)». Значение указано в БАНЯХ за кВт·ч — переведи в леи, разделив на 100 (356 бань = 3,56 лея). Это конечная цена: коммунальные услуги для жилья в Молдове освобождены от НДС. Не подходят: блок «furnizarea de ultimă opțiune», поставщик «Furnizarea Energiei Electrice Nord», строки «ieșire RT», «tensiune înaltă» и «tensiune medie», тарифы распределения «Premier Energy Distribution» и «RED Nord», а также «Moldelectrica», «Energocom» и «Operatorul Pieței de Energie». Колонки «Preț diferențiat în funcție de orele de consum» не нужны. Дату начала действия и реквизиты возьми из колонки «Hotărârea ANRE» той же строки"
+    },
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (День/Ночь)",
         "day": {
           "hours": "07:00 - 23:00",
-          "coefficient": 1.0,
-          "rate": 2.39
+          "coefficient": 1.053371
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 1.0,
-          "rate": 2.39
+          "coefficient": 0.825843
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 2.39
+          "coefficient": 1.0
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 2.39
+          "coefficient": 1.0
         },
         "night": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 2.39
+          "coefficient": 1.0
+        }
+      }
+    }
+  },
+  "cities": {
+    "chisinau": {
+      "city_name": "Кишинёв",
+      "sources": {
+        "water": {
+          "supplier": "SA \"Apă-Canal Chișinău\"",
+          "urls": [
+            "https://www.acc.md/tarif-serviciu-apa"
+          ],
+          "hint": "нужны ДЕЙСТВУЮЩИЕ тарифы для бытовых потребителей («Consumatorii casnici»): отдельно питьевая вода (колонка «AP») и отдельно канализация (колонка «C»), в леях за м³. Это самая свежая по дате строка таблицы «Istoricul modificării tarifelor» — колонка «Data punerii în aplicare» даёт дату начала действия. Колонку «T ap+c» (сумма) не бери, total_rate посчитает код. Тарифы напечатаны «fără TVA», и это конечная цена: коммунальные услуги для жилья в Молдове освобождены от НДС. Не подходят колонки «Consumatorii non-casnici» и «Tarife medii», а также тарифы на технологическую воду и вспомогательные услуги. Реквизиты — номер и дата решения ANRE, напечатанные над таблицей («Nr. ... Chişinău, ...»)",
+          "supplier_aka": [
+            "Apă-Canal Chișinău",
+            "S.A. „Apă-Canal Chişinău”",
+            "Апэ-Канал Кишинэу"
+          ]
+        },
+        "hot_water": {
+          "supplier": "SA \"Termoelectrica\"",
+          "urls": [],
+          "hint": "нужна цена 1 м³ горячей воды для населения Кишинёва в леях. Termoelectrica публикует тарифы на тепловую энергию, а цену горячей воды за кубометр — только в PDF с датой в имени, поэтому пригодного источника пока нет",
+          "supplier_aka": [
+            "Termoelectrica",
+            "S.A. „Termoelectrica”"
+          ]
+        },
+        "heating": {
+          "supplier": "SA \"Termoelectrica\"",
+          "urls": [
+            "https://anre.md/energie-termica-3-247"
+          ],
+          "hint": "нужна таблица «Tarifele în vigoare pentru energia termică livrată consumatorilor», строка «S.A. \"Termoelectrica\"», колонка «lei/Gcal (fără TVA)» — это конечная цена, тепло для жилья в Молдове освобождено от НДС. Колонка «lei/kWh» не нужна. Тариф одноставочный: tariff_type = one_rate, rate_gcal_hour = 0. Строки других лицензиатов («CET-Nord», «Comgaz-Plus» и прочие) не подходят. Дату начала действия и реквизиты возьми из колонки «Hotărârea ANRE» той же строки («HCA nr. ... din ...», «în vigoare din ...»)",
+          "supplier_aka": [
+            "Termoelectrica",
+            "S.A. „Termoelectrica”"
+          ]
+        }
+      }
+    },
+    "balti": {
+      "city_name": "Бельцы",
+      "sources": {
+        "water": {
+          "supplier": "ÎM \"Regia Apă-Canal-Bălți\"",
+          "urls": [
+            "https://apa-balti.md/?cat=112&lang=ro"
+          ],
+          "zero_allowed": [
+            "sewage"
+          ],
+          "hint": "нужна САМАЯ СВЕЖАЯ по дате запись списка — «Tarifele pentru serviciile publice de alimentare cu apă <дата>», строка «Consumatori casnici». В Бельцах вода и канализация тарифицируются одной суммой, поэтому верни это число как water_supply, а sewage верни нулём; total_rate не возвращай, его посчитает код. Тариф напечатан «fără TVA», и это конечная цена: коммунальные услуги для жилья в Молдове освобождены от НДС. Записи за прошлые даты и тарифы на вспомогательные услуги («servicii auxiliare») не подходят. Дата начала действия — дата в заголовке записи. Реквизиты — решение ANRE, если оно названо в записи; если нет, напиши «Тариф ÎM Regia „Apă-Canal-Bălți”, утверждённый ANRE, опубликован <дата записи>»",
+          "supplier_aka": [
+            "Apă-Canal-Bălți",
+            "Î.M. Regia „Apă-Canal-Bălți”",
+            "Regia Apă-Canal-Bălți"
+          ]
+        },
+        "heating": {
+          "supplier": "SA \"CET-Nord\"",
+          "urls": [
+            "https://anre.md/energie-termica-3-247"
+          ],
+          "hint": "нужна таблица «Tarifele în vigoare pentru energia termică livrată consumatorilor», строка «S.A. \"CET-Nord\"», колонка «lei/Gcal (fără TVA)» — это конечная цена, тепло для жилья в Молдове освобождено от НДС. Колонка «lei/kWh» не нужна. Тариф одноставочный: tariff_type = one_rate, rate_gcal_hour = 0. Строки других лицензиатов («Termoelectrica», «Comgaz-Plus» и прочие) не подходят. Дату начала действия и реквизиты возьми из колонки «Hotărârea ANRE» той же строки",
+          "supplier_aka": [
+            "CET-Nord",
+            "S.A. „CET-Nord”"
+          ]
+        }
+      }
+    },
+    "orhei": {
+      "city_name": "Орхей",
+      "sources": {
+        "water": {
+          "supplier": "SA \"Regia Apă-Canal Orhei\"",
+          "urls": [
+            "http://racorhei.md/index.php/megamai-multe/tarife/advanced-layout-manager"
+          ],
+          "hint": "нужна таблица «TARIFUL PENTRU SERVICIUL PUBLIC DE ALIMENTARE CU APĂ POTABILĂ ȘI CANALIZARE PE CATEGORII DE CONSUMATORI», строка «P/u consumatorii casnice»: колонка «PREȚ APA» → water_supply, колонка «PREȚ CANAL» → sewage. Колонку «PREȚ CUMULAT» не бери, total_rate посчитает код. Тарифы «nu include TVA» — это конечная цена: коммунальные услуги для жилья в Молдове освобождены от НДС. Не подходят: строка «P/u consumatorii noncasnice», «producerea și transportarea apei în vederea redistribuirii», «Serviciul public de epurare a apelor uzate», тарифы для сёл Piatra и Pelivan и вторая таблица с компенсациями городского совета. Дату начала действия и основание возьми из фразы об утверждении тарифов ANRE («aprobat de catre ANRE la data de ...»)",
+          "supplier_aka": [
+            "Regia Apă Canal-Orhei",
+            "S.A. „Regia Apă-Canal Orhei”",
+            "Regia Apă Canal - Orhei S.A."
+          ]
         }
       }
     }
@@ -49,113 +154,27 @@
   "manual_override": {
     "enabled": true,
     "electricity": {
-      "source_url": "https://anre.md/",
-      "base_rate": 2.39,
-      "effective_date": "2024-01-01",
-      "decree_info": "Постановление ANRE № 841/2023"
+      "source_url": null,
+      "base_rate": null,
+      "effective_date": null,
+      "decree_info": null
     },
     "water": {
-      "source_url": "https://anre.md/",
-      "cities": {
-        "chisinau": {
-          "city_name": "Кишинёв",
-          "supplier": "SA \"Apă-Canal Chișinău\"",
-          "water_supply": 10.79,
-          "sewage": 4.18,
-          "total_rate": 14.97,
-          "unit": "m3",
-          "effective_date": "2024-01-12",
-          "decree_info": "Постановление ANRE № 12/2024"
-        },
-        "balti": {
-          "city_name": "Бельцы",
-          "supplier": "ÎM \"Regia Apă-Canal-Bălți\"",
-          "water_supply": 11.23,
-          "sewage": 7.93,
-          "total_rate": 19.16,
-          "unit": "m3",
-          "effective_date": "2024-02-01",
-          "decree_info": "Постановление ANRE № 58/2024"
-        },
-        "cahul": {
-          "city_name": "Кагул",
-          "supplier": "SA \"Apă-Canal Cahul\"",
-          "water_supply": 15.60,
-          "sewage": 8.50,
-          "total_rate": 24.10,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Постановление ANRE"
-        },
-        "ungheni": {
-          "city_name": "Унгены",
-          "supplier": "ÎM \"Apă-Canal Ungheni\"",
-          "water_supply": 14.20,
-          "sewage": 7.20,
-          "total_rate": 21.40,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Постановление ANRE"
-        },
-        "orhei": {
-          "city_name": "Орхей",
-          "supplier": "SA \"Apă-Canal Orhei\"",
-          "water_supply": 16.00,
-          "sewage": 7.50,
-          "total_rate": 23.50,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Постановление ANRE"
-        },
-        "soroca": {
-          "city_name": "Сороки",
-          "supplier": "SA \"Regia Apă-Canal Soroca\"",
-          "water_supply": 15.30,
-          "sewage": 7.50,
-          "total_rate": 22.80,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Постановление ANRE"
-        }
-      }
+      "source_url": null,
+      "cities": {}
     },
     "hot_water": {
-      "source_url": "https://anre.md/",
-      "cities": {
-        "chisinau": {
-          "city_name": "Кишинёв",
-          "supplier": "SA \"Termoelectrica\"",
-          "rate": 115.0,
-          "unit": "m3",
-          "effective_date": "2024-03-19",
-          "decree_info": "Постановление ANRE № 142/2024"
-        }
-      }
+      "source_url": null,
+      "cities": {}
     },
     "heating": {
-      "source_url": "https://anre.md/",
-      "cities": {
-        "chisinau": {
-          "city_name": "Кишинёв",
-          "supplier": "SA \"Termoelectrica\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2138.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-03-19",
-          "decree_info": "Постановление ANRE № 142/2024"
-        },
-        "balti": {
-          "city_name": "Бельцы",
-          "supplier": "SA \"CET-Nord\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 2110.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-03-19",
-          "decree_info": "Постановление ANRE № 143/2024"
-        }
-      }
+      "source_url": null,
+      "cities": {}
     }
-  }
+  },
+  "retired_cities": [
+    "cahul.water",
+    "ungheni.water",
+    "soroca.water"
+  ]
 }

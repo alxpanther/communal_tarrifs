@@ -115,6 +115,17 @@ def _aliases_of(city: dict, block: str) -> list:
     return []
 
 
+def _vat_of(city: dict, block: str) -> float:
+    """Tax a source leaves out of its printed tariffs, in percent.
+
+    Zero — the usual case — means the figures are already what a household pays. It is set
+    per source, not per country: one regulator prints electricity with VAT and water without
+    it on pages next to each other.
+    """
+    block_config = (city.get("sources") or {}).get(block) or {}
+    return as_number(block_config.get("vat_percent")) or 0.0
+
+
 def _previous_city(previous_block: dict, code: str) -> dict:
     for city in (previous_block or {}).get("cities", []) or []:
         if city.get("city_code") == code:
@@ -237,7 +248,9 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
         identity = {"city_name": city.get("city_name", code),
                     "label": label,
                     "supplier": _supplier_of(city, block),
-                    "aliases": _aliases_of(city, block)}
+                    "aliases": _aliases_of(city, block),
+                    "vat_percent": _vat_of(city, block),
+                    "zero_allowed": ((city.get("sources") or {}).get(block) or {}).get("zero_allowed")}
         try:
             record = validate_city(block, code, identity, extracted,
                                    _previous_city(previous_block, code), limits)
@@ -340,6 +353,11 @@ def collect_electricity(country: Country, config: dict, previous: dict, extracto
     if stale:
         logger.warning(stale)
     rate = float(resolved["base_rate"])
+    # A regulator that prints the net price leaves the tax to the code, exactly as for a city
+    # block: see _vat_of. Zero, the usual case, changes nothing.
+    vat = as_number(source.get("vat_percent")) if isinstance(source, dict) else None
+    if vat:
+        rate = round(rate * (1 + vat / 100), 4)
     if ceiling and rate > ceiling:
         return previous, [f"электроэнергия: тариф {rate} выше предела {ceiling}"], 0
 

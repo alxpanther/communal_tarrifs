@@ -1,47 +1,78 @@
 {
   "settings": {
-    "auto_select_latest_model": true,
-    "gemini_model": "gemini-3.6-flash",
-    "timeout_seconds": 15
+    "timeout_seconds": 30,
+    "llm": {
+      "provider": "gemini",
+      "model": "gemini-3.6-flash",
+      "auto_select_latest_model": true,
+      "api_key_env": "GEMINI_API_KEY"
+    }
   },
-  "reference_sources": {
-    "electricity": "https://gnerc.org/",
-    "water": "https://gwp.ge/",
-    "hot_water": null,
-    "heating": null
+  "validation": {
+    "max_change_ratio": 0.6,
+    "same_period_tolerance": 0.005,
+    "sum_tolerance": 0.02,
+    "water": {
+      "max_rate": 10.0
+    },
+    "electricity": {
+      "max_rate": 5.0
+    }
   },
   "electricity": {
+    "region": "город Тбилиси",
     "unit": "kWh",
+    "source": {
+      "urls": [
+        "https://gnerc.org/en/tariffs/tariffs2"
+      ],
+      "hint": "нужна таблица поставщика «TELMICO LTD» — это поставщик электроэнергии Тбилиси. В ней блок «Tariffs for Consumers of Universal Service Provider (including VAT)», строка «0–101 kWh, and with a shared consumption meter (household)»: это первая ступень бытового тарифа. Значение указано в ТЕТРИ за кВт·ч — переведи в лари, разделив на 100 (20.261 тетри = 0.20261 лари). Не подходят: ступени «101–301 kWh» и «Above 301 kWh», строки «3,3-6-10 kV (household)» и «220/380 V (small enterprises)», блок «Public Service Provider», другие поставщики (EP Georgia Supply и прочие) и таблицы природного газа. Дату начала действия возьми из строки «Period» той же таблицы. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»"
+    },
     "zones": {
       "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
+        "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
           "hours": "07:00 - 23:00",
-          "coefficient": 1.0,
-          "rate": 0.18041
+          "coefficient": 1.0
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 1.0,
-          "rate": 0.18041
+          "coefficient": 1.0
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 0.18041
+          "coefficient": 1.0
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 0.18041
+          "coefficient": 1.0
         },
         "night": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 0.18041
+          "coefficient": 1.0
+        }
+      }
+    }
+  },
+  "cities": {
+    "tbilisi": {
+      "city_name": "Тбилиси",
+      "sources": {
+        "water": {
+          "supplier": "ООО \"Georgian Water and Power\"",
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba"
+          ],
+          "vat_percent": 18,
+          "hint": "нужна таблица «Georgian Water and Power LTD», блок «Household tariffs Metered (GEL/m3)», действующий период (2024-2026), колонка «Except for the selfgoverning city Rustavi» — Тбилиси не Рустави. Как water_supply верни строку «Drinking water», как sewage — строку «Wastewater». Строка «Water supply» — это сумма двух предыдущих, её не бери и total_rate не возвращай вовсе, его посчитает код. Не подходят: тарифы без счётчика («Un-metered, GEL/per person/per month»), небытовые («Non-household tariffs») и таблица «United Water Supply Company of Georgia». Тарифы напечатаны БЕЗ НДС — так и верни, НДС добавит код. Реквизиты запиши по-русски как «Тарифы GNERC на <период>»",
+          "supplier_aka": [
+            "Georgian Water and Power LTD",
+            "Georgian Water and Power",
+            "GWP"
+          ]
         }
       }
     }
@@ -49,25 +80,14 @@
   "manual_override": {
     "enabled": true,
     "electricity": {
-      "source_url": "https://gnerc.org/",
-      "base_rate": 0.18041,
-      "effective_date": "2024-01-01",
-      "decree_info": "Постановление GNERC (тариф 1-й ступени до 101 кВт·ч)"
+      "source_url": null,
+      "base_rate": null,
+      "effective_date": null,
+      "decree_info": null
     },
     "water": {
-      "source_url": "https://gwp.ge/",
-      "cities": {
-        "tbilisi": {
-          "city_name": "Тбилиси",
-          "supplier": "ООО \"Georgian Water and Power\"",
-          "water_supply": 0.50,
-          "sewage": 0.103,
-          "total_rate": 0.603,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Решение GNERC для населения со счетчиком"
-        }
-      }
+      "source_url": null,
+      "cities": {}
     },
     "hot_water": {
       "source_url": null,
@@ -77,5 +97,6 @@
       "source_url": null,
       "cities": {}
     }
-  }
+  },
+  "retired_cities": []
 }

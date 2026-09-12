@@ -87,9 +87,16 @@ def clean_decree(text) -> str:
     return cleaned[:1].upper() + cleaned[1:]
 
 
+# Romanian pages mix the comma-below letters with their cedilla lookalikes: «Apă-Canal-Bălți»
+# and «Apă-Canal-Bălţi» are one company, and a decree and a web page rarely agree on which
+# spelling to use. Folding them is the difference between a match and a rejected city.
+LOOKALIKE_LETTERS = str.maketrans({"ţ": "ț", "Ţ": "ț", "ş": "ș", "Ş": "ș"})
+
+
 def normalize_supplier(name: str) -> str:
     """Supplier names differ between a decree and a web page in quotes, case and form."""
-    return "".join(ch.lower() for ch in str(name or "") if ch.isalnum())
+    folded = str(name or "").translate(LOOKALIKE_LETTERS)
+    return "".join(ch.lower() for ch in folded if ch.isalnum())
 
 
 def strip_qualifier(name: str) -> str:
@@ -166,8 +173,21 @@ def fold_hot_water(period: dict, reasons: list, label: str):
     return folded
 
 
-def _check_period(block: str, period: dict, limits: dict, label: str, reasons: list) -> dict:
-    """Validates one dated version of a tariff. Returns the clean period or None."""
+def _check_period(block: str, period: dict, limits: dict, label: str, reasons: list,
+                  vat: float = 0.0, zero_allowed: tuple = ()) -> dict:
+    """Validates one dated version of a tariff. Returns the clean period or None.
+
+    `zero_allowed` names fields config permits to come back as zero, because the city does
+    not price that part separately: Bălți charges water and sewerage as one figure, and a
+    zero there is the truth rather than a misread cell. Zero is refused everywhere else,
+    since a tariff of nothing is the shape a failed extraction usually takes.
+
+    `vat` is the tax the source leaves out of its figures, in percent. Some regulators
+    publish the net tariff and the consumer pays it with VAT added — Georgian water is
+    printed as "excluding VAT". The model returns what the document prints and the code
+    does the multiplication, because arithmetic asked of a model is arithmetic nobody can
+    check afterwards.
+    """
     start = as_date(period.get("from"))
     if not start:
         reasons.append(f"{label}: период без разбираемой даты начала ('from')")
@@ -226,7 +246,9 @@ def _check_period(block: str, period: dict, limits: dict, label: str, reasons: l
         if number < 0:
             reasons.append(f"{label}: отрицательный тариф {field}={number}")
             return None
-        if number == 0 and field not in MAY_BE_ZERO:
+        if vat:
+            number = number * (1 + vat / 100)
+        if number == 0 and field not in MAY_BE_ZERO and field not in zero_allowed:
             reasons.append(f"{label}: нулевой тариф {field}")
             return None
         ceiling = as_number(block_limits.get(BLOCK_LIMITS[block][field]))
@@ -352,7 +374,9 @@ def validate_city(block: str, code: str, identity: dict, extracted: dict,
         if not isinstance(raw, dict):
             reasons.append(f"{label}: период #{index + 1} не является объектом")
             continue
-        clean = _check_period(block, raw, limits, f"{label}, период #{index + 1}", reasons)
+        clean = _check_period(block, raw, limits, f"{label}, период #{index + 1}", reasons,
+                              as_number(identity.get("vat_percent")) or 0.0,
+                              tuple(identity.get("zero_allowed") or ()))
         if clean:
             periods.append(clean)
 

@@ -71,11 +71,11 @@ kommeter_scripts/
 │       ├── ua/fetcher.py         # Ukraine: scrape → parse → validate → save
 │       ├── am/fetcher.py         # Armenia: per-city, uses common/ai_pipeline.py
 │       ├── az/fetcher.py         # Azerbaijan: per-city, uses common/ai_pipeline.py
-│       ├── md/fetcher.py         # Moldova: config-driven, uses common/manual_pipeline.py
+│       ├── md/fetcher.py         # Moldova: per-city, uses common/ai_pipeline.py
 │       ├── uz/fetcher.py         # Uzbekistan: config-driven, uses common/manual_pipeline.py
 │       ├── kz/fetcher.py         # Kazakhstan: config-driven, uses common/manual_pipeline.py
 │       ├── by/fetcher.py         # Belarus: config-driven, uses common/manual_pipeline.py
-│       ├── ge/fetcher.py         # Georgia: config-driven, uses common/manual_pipeline.py
+│       ├── ge/fetcher.py         # Georgia: per-city, uses common/ai_pipeline.py
 │       ├── kg/fetcher.py         # Kyrgyzstan: config-driven, uses common/manual_pipeline.py
 │       ├── tj/fetcher.py         # Tajikistan: config-driven, uses common/manual_pipeline.py
 │       ├── tm/fetcher.py         # Turkmenistan: config-driven, uses common/manual_pipeline.py

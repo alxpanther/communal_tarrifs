@@ -137,7 +137,7 @@
       "city_name": "Орхей",
       "sources": {
         "water": {
-          "supplier": "SA \"Regia Apă-Canal Orhei\"",
+          "supplier": "SA \"Apă-Canal Orhei\"",
           "urls": [
             "http://racorhei.md/index.php/megamai-multe/tarife/advanced-layout-manager"
           ],
@@ -145,7 +145,8 @@
           "supplier_aka": [
             "Regia Apă Canal-Orhei",
             "S.A. „Regia Apă-Canal Orhei”",
-            "Regia Apă Canal - Orhei S.A."
+            "Regia Apă Canal - Orhei S.A.",
+            "Apă-Canal Orhei"
           ]
         }
       }

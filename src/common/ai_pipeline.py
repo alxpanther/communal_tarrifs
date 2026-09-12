@@ -267,6 +267,20 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
     return BlockResult(list(published.values()), refreshed, failures, records, raw)
 
 
+def _block_source_url(config: dict, block: str) -> str:
+    """The one page a block was read from, or an empty string when there is no such page.
+
+    A per-city country usually has one source per city, and the block-level `source_url` of the
+    published file — a field from the days of a single aggregate source — then describes nothing.
+    Left alone it describes something worse than nothing: it kept naming pages that had been
+    dropped from config months earlier. So it is filled only when every city of the block reads
+    the same single page, which is the common case for a country-wide tariff.
+    """
+    urls = {tuple(_sources_of(city, block)) for city in (config.get("cities") or {}).values()
+            if block in (city.get("sources") or {}) and _sources_of(city, block)}
+    return urls.pop()[0] if len(urls) == 1 else ""
+
+
 def sync_zone_schedule(electricity: dict, config: dict):
     """Copies the zone schedule from config onto the block being published.
 
@@ -382,8 +396,8 @@ def collect_electricity(country: Country, config: dict, previous: dict, extracto
     updated["decree_info"] = clean_decree(previous["decree_info"] if unchanged
                                           else resolved.get("decree_info", ""))
     updated["update_date"] = date.today().strftime("%Y-%m-%d")
-    if isinstance(source, dict) and source.get("url"):
-        updated["source_url"] = source["url"]
+    if urls:
+        updated["source_url"] = urls[0]
     apply_base_rate_to_zones(updated, rate)
     return updated, notes, 1
 
@@ -442,6 +456,9 @@ def collect(country: Country, config: dict, previous: dict, extractor,
         data[block]["cities"] = result.cities
         if result.refreshed:
             data[block]["update_date"] = today
+        # Set whether or not anything was refreshed: the value describes what config declares,
+        # not what the run managed to read, and a block with no source should say so.
+        data[block]["source_url"] = _block_source_url(config, block)
         refreshed[block] = len(result.refreshed)
         results[block] = result
         if result.failures:

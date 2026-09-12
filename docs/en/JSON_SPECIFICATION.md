@@ -41,6 +41,14 @@ The aggregate source publishes only tariffs set by NKREKP, so a supplier with a 
 only reaches the JSON if it is configured separately (as KP "Kyivteploenergo" is). The app must
 handle "no heating data for the selected city" gracefully.
 
+### `source_url` can be empty
+
+The field comes from the days when one aggregate page held a whole block, and a country collected
+city by city usually has no such page: Moldova reads each water utility's own site. It is therefore
+filled only when every city of a block is read from the same single page, and is an empty string
+otherwise. The app must treat it as informational and never assume it is set — an empty value means
+"several sources", not "no data".
+
 **`city_code` matches across blocks only where a city has a single supplier.** For Київ, Львів,
 Вінниця, Харків and most others it does (`kyiv`, `lviv`, `vinnytsia`, `kharkiv`). But Дніпро,
 Миколаїв, Черкаси and Чернігів have several heat suppliers, and there the plain code belongs to

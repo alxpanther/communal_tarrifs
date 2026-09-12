@@ -427,6 +427,10 @@ Both exist because of mistakes that were made and caught, not as decoration.
   the company goes by. Without it a name the model was not told about reads as "the tariff is not
   here": the Novosibirsk heat company is published as АО «СИБЭКО» and printed as НТСК, and two
   models in turn returned an empty answer.
+* **The block's `source_url`.** It is filled from config on every run: the single page, when every
+  city of the block reads the same one, and an empty string otherwise. Nothing used to write it, so
+  the published file went on naming pages that had been dropped from config — Russia still claimed
+  `mosvodokanal.ru` months after Moscow was retired.
 * **Tax the source leaves out (`vat_percent`).** Some regulators print the net tariff and the
   household pays it with VAT added: GNERC publishes Georgian electricity "including VAT" and
   Georgian water "excluding VAT" on neighbouring pages. The model returns the figure as printed and

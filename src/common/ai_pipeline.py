@@ -115,6 +115,24 @@ def _aliases_of(city: dict, block: str) -> list:
     return []
 
 
+def _insecure_of(city: dict, block: str) -> bool:
+    """Whether this source's certificate is not to be verified. See fetching.fetch."""
+    block_config = (city.get("sources") or {}).get(block) or {}
+    return bool(block_config.get("insecure"))
+
+
+def _read_images_of(city: dict, block: str) -> bool:
+    """Whether the pages of this source carry their tariff as an image.
+
+    A regulator that publishes a decision as a photograph of its pages leaves nothing to read
+    in the page itself. With this set, the large images of the page are fetched too and go to
+    the vision model, so config keeps the stable page address instead of the file name of
+    this year's scan.
+    """
+    block_config = (city.get("sources") or {}).get(block) or {}
+    return bool(block_config.get("read_images"))
+
+
 def _vat_of(city: dict, block: str) -> float:
     """Tax a source leaves out of its printed tariffs, in percent.
 
@@ -225,7 +243,8 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
             failed(f"{label}: для этой услуги не задан ни один источник")
             continue
 
-        documents = fetch_all(urls, timeout)
+        documents = fetch_all(urls, timeout, _read_images_of(city, block),
+                              _insecure_of(city, block))
         if not documents:
             failed(f"{label}: ни один источник не открылся ({', '.join(urls)})")
             continue
@@ -332,7 +351,9 @@ def collect_electricity(country: Country, config: dict, previous: dict, extracto
 
     timeout = int((config.get("settings", {}) or {}).get("timeout_seconds") or 30)
     urls = [source] if isinstance(source, str) else list(source.get("urls") or [source.get("url")])
-    documents = fetch_all([u for u in urls if u], timeout)
+    read_images = bool(source.get("read_images")) if isinstance(source, dict) else False
+    insecure = bool(source.get("insecure")) if isinstance(source, dict) else False
+    documents = fetch_all([u for u in urls if u], timeout, read_images, insecure)
     if not documents:
         return previous, ["электроэнергия: источник не открылся"], 0
 

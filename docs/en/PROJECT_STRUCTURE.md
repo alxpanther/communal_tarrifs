@@ -77,8 +77,8 @@ kommeter_scripts/
 │       ├── by/fetcher.py         # Belarus: config-driven, uses common/manual_pipeline.py
 │       ├── ge/fetcher.py         # Georgia: per-city, uses common/ai_pipeline.py
 │       ├── kg/fetcher.py         # Kyrgyzstan: config-driven, uses common/manual_pipeline.py
-│       ├── tj/fetcher.py         # Tajikistan: config-driven, uses common/manual_pipeline.py
-│       ├── tm/fetcher.py         # Turkmenistan: config-driven, uses common/manual_pipeline.py
+│       ├── tj/fetcher.py         # Tajikistan: per-city, uses common/ai_pipeline.py
+│       ├── tm/fetcher.py         # Turkmenistan: retired, not collected (see ARCHITECTURE 8b)
 │       └── ru/fetcher.py         # Russia: per-city, uses common/ai_pipeline.py
 │
 ├── assets/                       # Generated. Offline fallbacks bundled into the Android app
@@ -92,7 +92,6 @@ kommeter_scripts/
 │   ├── tariffs_ge_default.json
 │   ├── tariffs_kg_default.json
 │   ├── tariffs_tj_default.json
-│   ├── tariffs_tm_default.json
 │   └── tariffs_ru_default.json
 │
 ├── dist/cloudflare/
@@ -109,7 +108,6 @@ kommeter_scripts/
     ├── tariffs_ge.json           # Generated
     ├── tariffs_kg.json           # Generated
     ├── tariffs_tj.json           # Generated
-    ├── tariffs_tm.json           # Generated
     ├── tariffs_ru.json           # Generated
     ├── tariffs_index.json        # Generated. The GitHub Pages copy of the country index
     ├── README.md                 # Documentation index

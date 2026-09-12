@@ -44,9 +44,17 @@ def parse_args(argv):
 
 
 def select_countries(registry, requested: list) -> list:
+    """The countries to collect. A retired one is dropped even when asked for by name:
+    collecting it would recreate the very file the retirement deleted."""
     if not requested or [c.lower() for c in requested] == ["all"]:
-        return [c for c in registry.countries if c.enabled]
-    return [registry.get(code) for code in requested]
+        chosen = [c for c in registry.countries if c.enabled]
+    else:
+        chosen = [registry.get(code) for code in requested]
+
+    for country in chosen:
+        if country.retired:
+            logger.warning(f"{country.code} is retired in countries.json — not collected")
+    return [country for country in chosen if not country.retired]
 
 
 def run_pipeline(country, notifier: TelegramNotifier):

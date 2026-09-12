@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-12T17:57:02.101848",
+  "generated_at": "2026-09-12T20:40:10.910951",
   "countries": [
     {
       "country": "UA",
@@ -119,18 +119,6 @@
       "currency": "TJS",
       "last_updated_at": "2026-09-02T17:54:14.360542",
       "path": "tariffs_tj.json",
-      "enabled": true,
-      "min_app_version": ""
-    },
-    {
-      "country": "TM",
-      "country_names": {
-        "ru": "Туркменистан",
-        "uk": "Туркменістан"
-      },
-      "currency": "TMT",
-      "last_updated_at": "2026-09-02T17:54:14.362617",
-      "path": "tariffs_tm.json",
       "enabled": true,
       "min_app_version": ""
     },

@@ -38,6 +38,11 @@ class Country:
         # Python module under src/countries/ that generates this country's file.
         self.pipeline = str(raw.get("pipeline") or self.lower)
         self.enabled = bool(raw.get("enabled", True))
+        # A retired country is not collected, not published and not listed in the index, and
+        # its published files are deleted. `enabled: false` only hides a country inside the
+        # app and keeps its file; this is the stronger statement — nobody can refresh these
+        # tariffs any more, so the app must stop offering them at all.
+        self.retired = bool(raw.get("retired", False))
         self.min_app_version = str(raw.get("min_app_version") or "")
 
     def __repr__(self):

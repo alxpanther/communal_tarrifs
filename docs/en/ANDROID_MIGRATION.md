@@ -98,6 +98,23 @@ because the field list is a contract with a released app. Ask before publishing 
 
 ---
 
+## 2a. A country can now disappear
+
+Until now the country list only grew. A country can now be retired here — its file deleted from
+both hosts and its record removed from the index — because nobody can refresh its tariffs any more.
+Turkmenistan is the first: nothing published anywhere in the country carries a utility tariff.
+
+The app has to handle that, and the current rule ("a country already chosen never disappears") is
+not enough:
+
+1. A country missing from a freshly downloaded index is gone deliberately, not by accident. Drop it
+   from the list offered for new addresses.
+2. Tell the user whose address uses it — not silently, and not by deleting their readings. The
+   honest message is that tariffs for this country are no longer published, so what they see is the
+   last known figure and will not update.
+3. Keep distinguishing this from a failed download. An index that did not arrive, arrived broken or
+   arrived empty changes nothing; that rule stays exactly as it is.
+
 ## 3. Smaller things worth doing
 
 * **Do not label a tariff stale by its date.** Ukrainian heat tariffs are frozen since 2021 by a

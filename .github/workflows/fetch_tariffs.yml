@@ -109,6 +109,23 @@ jobs:
             wrangler r2 object put "kommeter/$key" --file="$source" --remote
           done < r2_uploads.txt
           rm -f r2_uploads.txt
+          # A country retired in config/countries.json leaves the bucket too. Pages drops it by
+          # itself — docs/ no longer carries the file — but an object left in R2 would go on
+          # being served to every app that still has the previous index cached.
+          python - <<'PY' > r2_deletes.txt
+          import json
+          registry = json.load(open("config/countries.json"))
+          template = registry["publication"]["cloudflare"]["path_template"]
+          for entry in registry["countries"]:
+              if entry.get("retired"):
+                  print(template.format(cc=entry["code"].lower()))
+          PY
+          while read -r key; do
+            [ -n "$key" ] || continue
+            echo "Deleting retired kommeter/$key"
+            wrangler r2 object delete "kommeter/$key" --remote || echo "  (already gone)"
+          done < r2_deletes.txt
+          rm -f r2_deletes.txt
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5

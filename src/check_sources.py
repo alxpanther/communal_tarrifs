@@ -26,20 +26,24 @@ from common.paths import sources_path
 TIMEOUT_SECONDS = 30
 
 
-def urls_of_country(code: str) -> dict:
-    """url -> the places in config that use it."""
+def urls_of_country(code: str) -> tuple:
+    """(url -> the places in config that use it, the urls whose certificate is not verified)."""
     with open(sources_path(code), encoding="utf-8") as f:
         config = json.load(f)
-    used = {}
+    used, insecure = {}, set()
     for city_code, city in (config.get("cities") or {}).items():
         for block, source in (city.get("sources") or {}).items():
             urls = source.get("urls") or [] if isinstance(source, dict) else [source]
             for url in urls:
                 used.setdefault(url, []).append(f"{city_code}.{block}")
+                if isinstance(source, dict) and source.get("insecure"):
+                    insecure.add(url)
     power = (config.get("electricity") or {}).get("source") or {}
     for url in (power.get("urls") or []) if isinstance(power, dict) else [power]:
         used.setdefault(url, []).append("electricity")
-    return used
+        if isinstance(power, dict) and power.get("insecure"):
+            insecure.add(url)
+    return used, insecure
 
 
 def describe(result: dict) -> str:
@@ -63,16 +67,22 @@ def main(argv=None) -> int:
     if not args.countries and not args.url:
         parser.error("name a country or pass --url")
 
-    targets = {}
+    targets, insecure = {}, set()
     for code in args.countries:
-        for url, places in urls_of_country(code.lower()).items():
+        used, unverified = urls_of_country(code.lower())
+        for url, places in used.items():
             targets.setdefault(url, []).extend(places)
+        insecure |= unverified
     for url in args.url:
         targets.setdefault(url, []).append("candidate")
 
     failed = 0
     for url, places in targets.items():
-        verdict = describe(probe(url, TIMEOUT_SECONDS))
+        # A source config declares insecure is checked the same way the pipeline reads it,
+        # otherwise the check fails on a certificate the run itself does not look at.
+        verdict = describe(probe(url, TIMEOUT_SECONDS, url in insecure))
+        if url in insecure:
+            verdict += "  (certificate not verified)"
         failed += verdict.startswith("FAIL")
         print(f"{verdict}\n      {url}\n      used by: {', '.join(places)}")
     print(f"\n{len(targets) - failed} of {len(targets)} sources answered.")

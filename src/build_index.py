@@ -23,7 +23,7 @@ if __package__ is None and os.path.dirname(__file__) not in sys.path:
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from common.countries import load_countries
-from common.paths import REPO_ROOT, docs_output_path
+from common.paths import REPO_ROOT, assets_output_path, docs_output_path
 
 logger = logging.getLogger("TariffsIndex")
 
@@ -62,9 +62,30 @@ def country_entry(country, path_template: str) -> dict:
     }
 
 
+def drop_retired(registry) -> list:
+    """Deletes the published files of every retired country. Returns what was removed.
+
+    Deleting is the point: the index is built from the files that exist, so removing them is
+    what makes the country disappear from both indexes — and from GitHub Pages, which serves
+    `docs/` straight from the repository. The object in R2 is deleted by the workflow, which
+    is the only place with credentials for it.
+    """
+    removed = []
+    for country in registry.countries:
+        if not country.retired:
+            continue
+        for path in (docs_output_path(country.code), assets_output_path(country.code)):
+            if os.path.exists(path):
+                os.remove(path)
+                removed.append(os.path.relpath(path, REPO_ROOT))
+                logger.info(f"{country.code} is retired: deleted {path}")
+    return removed
+
+
 def build(notifier=None) -> dict:
     """Writes every configured index file. Returns {host: written path}."""
     registry = load_countries()
+    drop_retired(registry)
     generated_at = datetime.now().isoformat()
     written = {}
 
@@ -77,6 +98,8 @@ def build(notifier=None) -> dict:
 
         entries = []
         for country in registry.countries:
+            if country.retired:
+                continue
             entry = country_entry(country, path_template)
             if entry:
                 entries.append(entry)

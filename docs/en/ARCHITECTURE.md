@@ -9,9 +9,9 @@ Telegram, and exits. There is no server, no database, no state other than the ge
 and the `config/<cc>/city_registry.json` registries.
 
 Sections 2–6 describe the Ukrainian pipeline, which is the richest one and the reference for
-everything else. Section 8 covers the config-declared pipeline, which six countries are still waiting to leave,
-section 8a the per-city pipeline that collects Russia, Armenia, Azerbaijan, Moldova and Georgia, and
-section 9 the country index.
+everything else. Section 8 covers the config-declared pipeline, which five countries are still waiting to leave,
+section 8a the per-city pipeline that collects Russia, Armenia, Azerbaijan, Moldova, Georgia and
+Tajikistan, and section 9 the country index.
 
 ---
 
@@ -208,12 +208,12 @@ Three workflows share the repository:
 
 ## 8. Countries without a scrapable source
 
-Six countries are still here — BY, KG, KZ, TJ, TM, UZ — and none of them should stay.
+Five countries are still here — BY, KG, KZ, TM, UZ — and none of them should stay.
 For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
 `src/common/manual_pipeline.py` is the whole pipeline. `src/countries/by/fetcher.py` and
 `src/countries/ge/fetcher.py` only name the country and delegate to it.
 
-Russia, Armenia, Azerbaijan, Moldova and Georgia have left this pipeline for per-city collection (section 8a), and
+Russia, Armenia, Azerbaijan, Moldova, Georgia and Tajikistan have left this pipeline for per-city collection (section 8a), and
 that is the direction for the rest: a country is moved by finding its sources, not by refreshing
 its numbers here. Armenia shows how little it takes — the regulator's tariff decision and the
 utility's own FAQ page were enough, even though its fetcher had claimed for a year that no readable
@@ -427,6 +427,18 @@ Both exist because of mistakes that were made and caught, not as decoration.
   the company goes by. Without it a name the model was not told about reads as "the tariff is not
   here": the Novosibirsk heat company is published as АО «СИБЭКО» and printed as НТСК, and two
   models in turn returned an empty answer.
+* **A site whose certificate cannot be checked (`insecure`).** Set per source, never globally:
+  the request then skips chain and hostname verification and lowers the cipher security level,
+  because the sites that need it fail all three ways at once. It buys a public tariff page at the
+  cost of the guarantee that nobody tampered with it, which is the owner's call to make and is why
+  it is off unless config says otherwise. `src/check_sources.py` reads the same flag, so a source
+  is checked the way the pipeline actually reads it.
+* **A tariff published as a scan (`read_images`).** Tajikistan's ministry of energy posts the
+  government's tariff decision as a photograph of its pages, so the page itself has nothing to read.
+  With this set, the large images of every page fetched are downloaded too and handed to the vision
+  model; the small ones — logos, banners, a magazine cover — are left alone, which is what the size
+  threshold in `fetching.py` is for. Config keeps the stable page address, so next year's decision
+  arrives on its own instead of the link rotting with the file name of this year's scan.
 * **The block's `source_url`.** It is filled from config on every run: the single page, when every
   city of the block reads the same one, and an empty string otherwise. Nothing used to write it, so
   the published file went on naming pages that had been dropped from config — Russia still claimed
@@ -512,6 +524,25 @@ already saved. Until then the app simply shows no tariff for it, which it alread
 One Telegram message per country: how many cities were refreshed in each block, and every reason
 something was not. A miss is a normal outcome — a regulator's site is down, a decree has not been
 published yet — but it is never silent, and the file always keeps the previous value.
+
+---
+
+## 8b. Retiring a country
+
+`retired: true` in `config/countries.json` says nobody can refresh a country's tariffs any more.
+It is stronger than `enabled: false`, which only hides a country inside the app while its file
+stays published. A retired country is not collected — `run_country.py` skips it even when asked for
+by name, because collecting it would recreate the file — it is left out of both index copies, and
+`build_index.drop_retired()` deletes `docs/tariffs_<cc>.json` and
+`assets/tariffs_<cc>_default.json`. Pages then stops serving it by itself, since it serves `docs/`
+from the repository; the object in R2 is deleted by the workflow, the only place holding the
+credentials for the bucket.
+
+Turkmenistan is the first: its tariffs are set by presidential decree and published nowhere at all
+— not by the ministry, not by the Ashgabat city hall, not in the state press, not in a legal
+database. What was published for it were round numbers nobody could check, which is exactly what
+this repository exists not to publish. The app side of a country disappearing is in
+ANDROID_MIGRATION.md, section 2a.
 
 ---
 

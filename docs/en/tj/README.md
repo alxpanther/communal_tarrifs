@@ -16,13 +16,30 @@ This pipeline fetches and publishes utility tariffs for Tajikistan (`country: "T
 
 ## Sources & Regulations
 
-1. **Electricity (`electricity`)**: Regulated by the Antimonopoly Service and the Government of the Republic of Tajikistan.
-   - Base residential tariff: 0.3075 TJS/kWh (*OAO "Shabakahoi taksimoti bark"*).
-2. **Water Supply & Sewage (`water`)**: Regulated by the Executive Authority of Dushanbe City.
-   - Dushanbe (*SUE "Obi Dushanbe"*): Water supply 1.80 TJS/m³, Sewage 0.70 TJS/m³, Total 2.50 TJS/m³.
-3. **Hot Water & Heating (`hot_water`, `heating`)**: Operated by Dushanbe District Heating Network.
-   - Hot water: 15.00 TJS/m³.
-   - Heating: 45.00 TJS/Gcal.
+Tajikistan is collected by `src/common/ai_pipeline.py`; the sources are `config/tj/sources.json`.
+Only electricity is collected so far, and only Dushanbe is in the file.
+
+- **Electricity** is set by a decision of the Government of Tajikistan and published by the ministry
+  of energy — as a photograph of the decision's pages, not as text. The source is therefore the
+  ministry's stable tariff page with `read_images` set, so the scan itself goes to the vision model
+  (see ARCHITECTURE.md, section 8a). The table lists a dozen consumer groups; the published rate is
+  the row "Для населения", in dirams per kWh, which the model converts to somoni. The decision's own
+  note says the tariffs are net of VAT for every group **except** households, so the household
+  figure is final.
+- **Water, hot water and heating** have no readable source. Their tariffs are approved by the
+  Antimonopoly Service and reported in the state press, which is not a source (a dated article; see
+  ARCHITECTURE.md, section 8a). The water utility's own site serves a certificate that is expired
+  and too weak for Python to accept — not something `config/certs/` can fix, because the problem is
+  the site's own certificate rather than a missing intermediate. The city hall publishes a tariff
+  page, but it covers housing-fund maintenance and waste removal, priced per square metre and per
+  resident, which is not what these blocks hold. All three keep their previous values and every run
+  reports them as not refreshed.
+
+The figures still published for those three blocks came from the era when the country was entered by
+hand, and they are wrong: the water tariff of Dushanbe has since been reported as 1.50 somoni per m³
+plus 0.76 for sewerage. They are left alone rather than typed in, because a number nobody can
+refresh is the thing this repository exists to avoid — but that also means they should not be
+trusted until a source appears.
 
 ---
 

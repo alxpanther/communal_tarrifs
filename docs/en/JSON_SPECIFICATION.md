@@ -464,7 +464,13 @@ too. The generator writes both copies (`docs/tariffs_index.json` for Pages,
 * **An unreachable, broken or empty index removes nothing.** The previously saved copy stays, and
   the bundled countries are always there.
 * **A country already chosen for an address never disappears** from the list, even if it left the
-  index.
+  index — with one exception, described next.
+* **A country can be retired, and then it is gone from the index entirely.** `enabled: false` only
+  hides a country while its file stays published; retirement deletes the file from every host and
+  leaves no record in the index at all. It means nobody can refresh those tariffs any more, so the
+  app must stop offering the country, and must tell a user who had selected it that its tariffs no
+  longer exist rather than keep charging from a cached file forever. Turkmenistan is the first:
+  nothing published anywhere carries its utility tariffs.
 * The index is requested at app start at most once a day, and before every scheduled tariff check.
 
 ---

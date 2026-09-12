@@ -99,7 +99,8 @@
       "country_names": { "ru": "Туркменистан", "uk": "Туркменістан" },
       "currency": "TMT",
       "pipeline": "tm",
-      "enabled": true,
+      "enabled": false,
+      "retired": true,
       "min_app_version": ""
     },
     {

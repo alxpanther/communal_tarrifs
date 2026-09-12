@@ -78,8 +78,8 @@ kommeter_scripts/
 │       ├── by/fetcher.py         # Беларусь: из конфига, через common/manual_pipeline.py
 │       ├── ge/fetcher.py         # Грузия: по городам, через common/ai_pipeline.py
 │       ├── kg/fetcher.py         # Кыргызстан: из конфига, через common/manual_pipeline.py
-│       ├── tj/fetcher.py         # Таджикистан: из конфига, через common/manual_pipeline.py
-│       ├── tm/fetcher.py         # Туркменистан: из конфига, через common/manual_pipeline.py
+│       ├── tj/fetcher.py         # Таджикистан: по городам, через common/ai_pipeline.py
+│       ├── tm/fetcher.py         # Туркменистан: выведен, не собирается (см. ARCHITECTURE 8b)
 │       └── ru/fetcher.py         # Россия: по городам, через common/ai_pipeline.py
 │
 ├── assets/                       # Генерируется. Оффлайн-файлы, вшиваемые в Android-приложение
@@ -93,7 +93,6 @@ kommeter_scripts/
 │   ├── tariffs_ge_default.json
 │   ├── tariffs_kg_default.json
 │   ├── tariffs_tj_default.json
-│   ├── tariffs_tm_default.json
 │   └── tariffs_ru_default.json
 │
 ├── dist/cloudflare/
@@ -110,7 +109,6 @@ kommeter_scripts/
     ├── tariffs_ge.json           # Генерируется
     ├── tariffs_kg.json           # Генерируется
     ├── tariffs_tj.json           # Генерируется
-    ├── tariffs_tm.json           # Генерируется
     ├── tariffs_ru.json           # Генерируется
     ├── tariffs_index.json        # Генерируется. Копия индекса стран для GitHub Pages
     ├── README.md                 # Индекс документации

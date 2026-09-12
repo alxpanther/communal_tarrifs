@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T17:54:14.360542",
+  "last_updated_at": "2026-09-12T18:51:42.615076",
   "country": "TJ",
   "country_names": {
     "ru": "Таджикистан",
@@ -8,48 +8,48 @@
   },
   "currency": "TJS",
   "electricity": {
-    "source_url": "http://barqitojik.tj/",
-    "base_rate": 0.3075,
+    "source_url": "https://www.mewr.tj/?page_id=2914",
+    "base_rate": 0.4137,
     "unit": "kWh",
-    "effective_date": "2024-01-01",
-    "update_date": "2026-09-02",
-    "decree_info": "Постановление Правительства Республики Таджикистан (тариф для населения)",
+    "effective_date": "2025-12-29",
+    "update_date": "2026-09-12",
+    "decree_info": "Постановление Правительства Республики Таджикистан от 29 декабря 2025 года, № 709",
     "zones": {
       "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
+        "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
           "hours": "07:00 - 23:00",
           "coefficient": 1.0,
-          "rate": 0.3075
+          "rate": 0.4137
         },
         "night": {
           "hours": "23:00 - 07:00",
           "coefficient": 1.0,
-          "rate": 0.3075
+          "rate": 0.4137
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.3075
+          "rate": 0.4137
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.3075
+          "rate": 0.4137
         },
         "night": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.3075
+          "rate": 0.4137
         }
       }
     }
   },
   "water": {
-    "source_url": "http://dushanbe.tj/",
+    "source_url": "",
     "update_date": "2026-09-02",
     "cities": [
       {
@@ -66,7 +66,7 @@
     ]
   },
   "hot_water": {
-    "source_url": "http://dushanbe.tj/",
+    "source_url": "",
     "update_date": "2026-09-02",
     "cities": [
       {
@@ -81,7 +81,7 @@
     ]
   },
   "heating": {
-    "source_url": "http://dushanbe.tj/",
+    "source_url": "",
     "update_date": "2026-09-02",
     "cities": [
       {

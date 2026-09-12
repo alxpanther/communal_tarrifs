@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-12T20:40:10.910951",
+  "generated_at": "2026-09-12T18:51:42.616171",
   "countries": [
     {
       "country": "UA",
@@ -117,7 +117,7 @@
         "uk": "Таджикистан"
       },
       "currency": "TJS",
-      "last_updated_at": "2026-09-02T17:54:14.360542",
+      "last_updated_at": "2026-09-12T18:51:42.615076",
       "path": "tariffs_tj.json",
       "enabled": true,
       "min_app_version": ""

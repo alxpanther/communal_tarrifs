@@ -8,24 +8,24 @@
   },
   "currency": "AZN",
   "electricity": {
-    "source_url": "https://tariff.gov.az/",
-    "base_rate": 0.08,
+    "source_url": "https://regulator.gov.az/az/istehlakcilar/tarifler-qiymetler",
+    "base_rate": 0.084,
     "unit": "kWh",
-    "effective_date": "2021-11-01",
+    "effective_date": "2025-01-01",
     "update_date": "2026-09-02",
-    "decree_info": "Решение Тарифного Совета Азербайджанской Республики",
+    "decree_info": "Решение Тарифного совета Азербайджанской Республики от 29.12.2024 № 19",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
           "hours": "08:00 - 22:00",
           "coefficient": 1.0,
-          "rate": 0.08
+          "rate": 0.084
         },
         "night": {
           "hours": "22:00 - 08:00",
           "coefficient": 1.0,
-          "rate": 0.08
+          "rate": 0.084
         }
       },
       "three_zone": {
@@ -33,23 +33,23 @@
         "peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.08
+          "rate": 0.084
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.08
+          "rate": 0.084
         },
         "night": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.08
+          "rate": 0.084
         }
       }
     }
   },
   "water": {
-    "source_url": "https://tariff.gov.az/",
+    "source_url": "https://azersu.az/az/page/44",
     "update_date": "2026-08-26",
     "cities": [
       {
@@ -61,27 +61,27 @@
         "total_rate": 1.0,
         "unit": "m3",
         "effective_date": "2021-02-01",
-        "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
+        "decree_info": "Решение Тарифного совета Азербайджанской Республики от 30.01.2021 № 5"
       }
     ]
   },
   "hot_water": {
-    "source_url": "https://tariff.gov.az/",
+    "source_url": "https://azeristilik.gov.az/az/ictimai-melumat/istilik-ve-isti-su-tarifleri",
     "update_date": "2026-08-26",
     "cities": [
       {
         "city_code": "baku",
         "city_name": "Баку",
         "supplier": "ОАО \"Азеристиликтечизат\"",
-        "rate": 0.4,
+        "rate": 4.09,
         "unit": "m3",
-        "effective_date": "2011-12-01",
-        "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
+        "effective_date": "2023-07-01",
+        "decree_info": "Решение Правления ОАО «Азеристиликтечизат» от 01.07.2023"
       }
     ]
   },
   "heating": {
-    "source_url": "https://tariff.gov.az/",
+    "source_url": "https://azeristilik.gov.az/az/ictimai-melumat/istilik-ve-isti-su-tarifleri",
     "update_date": "2026-08-26",
     "cities": [
       {
@@ -89,11 +89,11 @@
         "city_name": "Баку",
         "supplier": "ОАО \"Азеристиликтечизат\"",
         "tariff_type": "one_rate",
-        "rate_gcal": 15.0,
+        "rate_gcal": 21.0,
         "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2011-12-01",
-        "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
+        "effective_date": "2025-07-30",
+        "decree_info": "Решение Тарифного совета Азербайджанской Республики от 30.07.2025 № 4"
       }
     ]
   }

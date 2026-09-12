@@ -1,82 +1,136 @@
 {
   "settings": {
-    "timeout_seconds": 15
+    "timeout_seconds": 30,
+    "llm": {
+      "provider": "gemini",
+      "model": "gemini-3.6-flash",
+      "auto_select_latest_model": true,
+      "api_key_env": "GEMINI_API_KEY"
+    }
   },
-
-  "reference_sources": {
-    "electricity": "https://tariff.gov.az/",
-    "water": "https://tariff.gov.az/",
-    "hot_water": "https://tariff.gov.az/",
-    "heating": "https://tariff.gov.az/"
+  "validation": {
+    "max_change_ratio": 0.6,
+    "same_period_tolerance": 0.005,
+    "sum_tolerance": 0.02,
+    "water": {
+      "max_rate": 10.0
+    },
+    "hot_water": {
+      "max_rate": 50.0
+    },
+    "heating": {
+      "max_rate_gcal": 200.0,
+      "max_rate_gcal_hour": 10000.0
+    },
+    "electricity": {
+      "max_rate": 5.0
+    }
   },
-
   "electricity": {
+    "region": "Азербайджанская Республика",
     "unit": "kWh",
+    "source": {
+      "urls": [
+        "https://regulator.gov.az/az/istehlakcilar/tarifler-qiymetler"
+      ],
+      "hint": "нужна таблица «Elektrik enerjisinin ölkədaxili tarifləri», раздел 3.1 «Əhali» (население), подпункт про часть месячного потребления до 200 кВтч включительно («aylıq istehlak həcminin 200 kVts-a qədər»). Тариф в таблице указан в КОПЕЙКАХ за кВтч с НДС (qəpik/kVts) — переведи его в манаты, разделив на 100: 8,4 qəpik это 0,084 маната. Не подходят: ступени свыше 200 и свыше 300 кВтч, группа «Qeyri-əhali», оптовые тарифы производителей (раздел 1), передача энергии (раздел 2) и фиксированная месячная плата «Sabit tarif» (раздел 4). На этой же странице есть тарифы на газ — они не нужны. Реквизиты решения Тарифного совета указаны в заголовке таблицы и в ссылках «Mənbə». Реквизиты решения запиши по-русски в виде «Решение Тарифного совета Азербайджанской Республики от <дата> № <номер>»"
+    },
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
-        "day": { "hours": "08:00 - 22:00", "coefficient": 1.0 },
-        "night": { "hours": "22:00 - 08:00", "coefficient": 1.0 }
+        "day": {
+          "hours": "08:00 - 22:00",
+          "coefficient": 1.0
+        },
+        "night": {
+          "hours": "22:00 - 08:00",
+          "coefficient": 1.0
+        }
       },
       "three_zone": {
         "description": "Трехзонный тариф (не применяется)",
-        "peak": { "hours": "00:00 - 00:00", "coefficient": 1.0 },
-        "half_peak": { "hours": "00:00 - 00:00", "coefficient": 1.0 },
-        "night": { "hours": "00:00 - 00:00", "coefficient": 1.0 }
+        "peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0
+        },
+        "half_peak": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0
+        },
+        "night": {
+          "hours": "00:00 - 00:00",
+          "coefficient": 1.0
+        }
       }
     }
   },
-
-  "manual_override": {
-    "enabled": true,
-    "electricity": {
-      "source_url": "https://tariff.gov.az/",
-      "base_rate": 0.08,
-      "effective_date": "2021-11-01",
-      "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
-    },
-    "water": {
-      "source_url": "https://tariff.gov.az/",
-      "cities": {
-        "baku": {
-          "city_name": "Баку",
+  "cities": {
+    "baku": {
+      "city_name": "Баку",
+      "sources": {
+        "water": {
           "supplier": "ОАО \"Азерсу\"",
-          "water_supply": 0.70,
-          "sewage": 0.30,
-          "total_rate": 1.00,
-          "unit": "m3",
-          "effective_date": "2021-02-01",
-          "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
-        }
-      }
-    },
-    "hot_water": {
-      "source_url": "https://tariff.gov.az/",
-      "cities": {
-        "baku": {
-          "city_name": "Баку",
+          "urls": [
+            "https://azersu.az/az/page/44"
+          ],
+          "hint": "нужны тарифы для группы «əhali» (население) городов Баку, Сумгаит, Хырдалан и Абшеронского района: отдельно водоснабжение (su təchizatı) и отдельно отведение сточных вод (tullantı sularının axıdılması), в манатах за 1 м³ с НДС (ƏDV ilə). Если тариф указан в копейках (qəpik), переведи в манаты, разделив на 100. Тарифы для других административных единиц, для группы «qeyri-əhali» и для потребителей, использующих воду как сырьё, не подходят. Норма потребления 5 м³ на человека в месяц — это не тариф",
+          "supplier_aka": [
+            "Azərsu",
+            "«Azərsu» ASC",
+            "Azərsu Açıq Səhmdar Cəmiyyəti",
+            "Азерсу"
+          ]
+        },
+        "hot_water": {
           "supplier": "ОАО \"Азеристиликтечизат\"",
-          "rate": 0.40,
-          "unit": "m3",
-          "effective_date": "2011-12-01",
-          "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
-        }
-      }
-    },
-    "heating": {
-      "source_url": "https://tariff.gov.az/",
-      "cities": {
-        "baku": {
-          "city_name": "Баку",
+          "urls": [
+            "https://azeristilik.gov.az/az/ictimai-melumat/istilik-ve-isti-su-tarifleri"
+          ],
+          "hint": "нужна ВТОРАЯ таблица на странице — она идёт после таблицы центрального отопления, её строки это эксплуатационные участки («N saylı İSİS») и номера котельных (qazanxana), а колонки — «Əhali istehlakçı qrupu üzrə, m 3» и «Qeyri əhali istehlakçı qrupu üzrə, m 3». Нужна цена 1 м³ горячей воды для НАСЕЛЕНИЯ, то есть колонка «Əhali», в манатах с НДС: она одинакова почти во всех строках, её и верни одним числом. Колонка «Qeyri əhali» не подходит. Тарифы центрального отопления (Mərkəzi isitmə) из первой таблицы здесь не нужны. Основание и дату начала действия возьми из отметки над этой таблицей о том, каким решением она утверждена (İdarə Heyətinin qərarı)",
+          "supplier_aka": [
+            "Azəristiliktəchizat",
+            "«Azəristiliktəchizat» ASC",
+            "Azəristiliktəchizat Açıq Səhmdar Cəmiyyəti",
+            "Азеристиликтечизат"
+          ]
+        },
+        "heating": {
           "supplier": "ОАО \"Азеристиликтечизат\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 15.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2011-12-01",
-          "decree_info": "Решение Тарифного Совета Азербайджанской Республики"
+          "urls": [
+            "https://azeristilik.gov.az/az/ictimai-melumat/istilik-ve-isti-su-tarifleri",
+            "https://regulator.gov.az/az/istilik/istilik-enerjisinin-tarifleri"
+          ],
+          "hint": "нужно центральное отопление (Mərkəzi isitmə) для группы «Əhali üzrə» (население) с единицей измерения «1 Qkal» — тариф за гигакалорию в манатах с НДС, одноставочный (tariff_type = one_rate). Строка с единицей «1 m2 ümumi sahə üçün» (месячная плата за квадратный метр для домов без счётчика) в схему не укладывается — её не бери. Тарифы для «Qeyri-əhali», оптовый тариф «Azərenerji» и тариф на теплоноситель не подходят. Дату начала действия и реквизиты бери из решения Тарифного совета во втором документе — именно им установлен действующий тариф; отметка об утверждении таблицы решением правления относится к горячей воде",
+          "supplier_aka": [
+            "Azəristiliktəchizat",
+            "«Azəristiliktəchizat» ASC",
+            "Azəristiliktəchizat Açıq Səhmdar Cəmiyyəti",
+            "Азеристиликтечизат"
+          ]
         }
       }
     }
-  }
+  },
+  "manual_override": {
+    "enabled": true,
+    "electricity": {
+      "source_url": null,
+      "base_rate": null,
+      "effective_date": null,
+      "decree_info": null
+    },
+    "water": {
+      "source_url": null,
+      "cities": {}
+    },
+    "hot_water": {
+      "source_url": null,
+      "cities": {}
+    },
+    "heating": {
+      "source_url": null,
+      "cities": {}
+    }
+  },
+  "retired_cities": []
 }

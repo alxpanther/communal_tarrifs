@@ -104,7 +104,11 @@ class GeminiExtractor(Extractor):
     def _generate(self, contents: list, config, what: str, model: str = "") -> dict:
         model = model or self.model
         try:
-            response = _client(self.key_env).models.generate_content(
+            # The client has to be held in a name of its own: the SDK closes its transport
+            # when the Client object is collected, and a temporary is collected the moment
+            # `.models` has been read — the request then fails with "client has been closed".
+            client = _client(self.key_env)
+            response = client.models.generate_content(
                 model=model, contents=contents, config=config)
         except LLMUnavailable as e:
             logger.warning(f"{what} skipped: {e}")

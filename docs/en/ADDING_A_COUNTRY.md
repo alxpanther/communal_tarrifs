@@ -116,8 +116,11 @@ Rules:
    written twice.
 3. **Create `config/<cc>/city_registry.json`** with the two empty sections.
 4. **Write `src/countries/<cc>/fetcher.py`** exposing `main(notifier)`.
-   * No scrapable source → call `common.manual_pipeline.run(country, notifier)` and stop. Armenia's
-     fetcher is the whole template.
+   * Per-city sources → call `common.ai_pipeline.run(country, notifier)` and stop. Armenia's and
+     Russia's fetchers are the whole template; everything else is config.
+   * No readable source at all → `common.manual_pipeline.run(country, notifier)`, and only as a
+     temporary state. Belarus's fetcher is the template, and every country still on it is a task,
+     not a design.
    * Scrapable source → for each category decide: rigid table → regular expressions; free-form page
      or irregular table → an LLM extraction call. Never use the model for numbers you can parse.
 5. **Validate before trusting.** At minimum: sanity ceilings per rate, component sums matching the

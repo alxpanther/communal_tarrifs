@@ -9,8 +9,9 @@ Telegram, and exits. There is no server, no database, no state other than the ge
 and the `config/<cc>/city_registry.json` registries.
 
 Sections 2–6 describe the Ukrainian pipeline, which is the richest one and the reference for
-everything else. Section 8 covers the config-driven pipeline used by every country except Ukraine, and
-section 9 the country index.
+everything else. Section 8 covers the config-declared pipeline, which eight countries are still waiting to leave,
+section 8a the per-city pipeline that collects Russia, Armenia and Azerbaijan, and section 9 the
+country index.
 
 ---
 
@@ -207,10 +208,16 @@ Three workflows share the repository:
 
 ## 8. Countries without a scrapable source
 
-Every country except Ukraine has no page a parser can trust: the regulators publish decisions as
-prose and PDFs. For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
-`src/common/manual_pipeline.py` is the whole pipeline. `src/countries/am/fetcher.py` and
-`src/countries/az/fetcher.py` only name the country and delegate to it.
+Eight countries are still here — BY, GE, KG, KZ, MD, TJ, TM, UZ — and none of them should stay.
+For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
+`src/common/manual_pipeline.py` is the whole pipeline. `src/countries/by/fetcher.py` and
+`src/countries/ge/fetcher.py` only name the country and delegate to it.
+
+Russia, Armenia and Azerbaijan have left this pipeline for per-city collection (section 8a), and
+that is the direction for the rest: a country is moved by finding its sources, not by refreshing
+its numbers here. Armenia shows how little it takes — the regulator's tariff decision and the
+utility's own FAQ page were enough, even though its fetcher had claimed for a year that no readable
+source existed.
 
 Order of work in `manual_pipeline.run()`:
 
@@ -376,6 +383,13 @@ change in advance is welcome, but chasing announced future values is not a reaso
 The same goes for hints: a hint that names this year's decree or dates stops matching the page once
 it is updated. When removing dated sources leaves a service with none, the service — or the whole
 city — goes to `retired_cities`; that is how Moscow and Saint Petersburg left the Russian file.
+
+Text is decoded before anything else looks at it. UTF-8 wins whenever the bytes decode as UTF-8,
+and the encoding the response declares is used only when they do not: a single-byte decoder accepts
+any bytes at all and turns real UTF-8 into mojibake, while the reverse practically never happens.
+Judging the result by how much Cyrillic it contains — the earlier rule — is what broke Azerbaijani
+and Armenian pages, which carry none: a correct decode looked like a failure and the page reached
+the model as "tariflЙ™r".
 
 Some sites send their certificate without the intermediate one that links it to a trusted root. A
 browser fetches the missing link by itself, Python does not, and the site fails with "unable to get

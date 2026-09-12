@@ -70,8 +70,8 @@ kommeter_scripts/
 │   │   └── telegram_notifier.py  # Отправка алертов и отчётов о расхождениях в Telegram
 │   └── countries/
 │       ├── ua/fetcher.py         # Украина: сбор → разбор → валидация → сохранение
-│       ├── am/fetcher.py         # Армения: из конфига, через common/manual_pipeline.py
-│       ├── az/fetcher.py         # Азербайджан: из конфига, через common/manual_pipeline.py
+│       ├── am/fetcher.py         # Армения: по городам, через common/ai_pipeline.py
+│       ├── az/fetcher.py         # Азербайджан: по городам, через common/ai_pipeline.py
 │       ├── md/fetcher.py         # Молдова: из конфига, через common/manual_pipeline.py
 │       ├── uz/fetcher.py         # Узбекистан: из конфига, через common/manual_pipeline.py
 │       ├── kz/fetcher.py         # Казахстан: из конфига, через common/manual_pipeline.py
@@ -80,7 +80,7 @@ kommeter_scripts/
 │       ├── kg/fetcher.py         # Кыргызстан: из конфига, через common/manual_pipeline.py
 │       ├── tj/fetcher.py         # Таджикистан: из конфига, через common/manual_pipeline.py
 │       ├── tm/fetcher.py         # Туркменистан: из конфига, через common/manual_pipeline.py
-│       └── ru/fetcher.py         # Россия: из конфига, через common/manual_pipeline.py
+│       └── ru/fetcher.py         # Россия: по городам, через common/ai_pipeline.py
 │
 ├── assets/                       # Генерируется. Оффлайн-файлы, вшиваемые в Android-приложение
 │   ├── tariffs_ua_default.json

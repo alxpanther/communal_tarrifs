@@ -69,8 +69,8 @@ kommeter_scripts/
 │   │   └── telegram_notifier.py  # Telegram delivery for alerts and discrepancy reports
 │   └── countries/
 │       ├── ua/fetcher.py         # Ukraine: scrape → parse → validate → save
-│       ├── am/fetcher.py         # Armenia: config-driven, uses common/manual_pipeline.py
-│       ├── az/fetcher.py         # Azerbaijan: config-driven, uses common/manual_pipeline.py
+│       ├── am/fetcher.py         # Armenia: per-city, uses common/ai_pipeline.py
+│       ├── az/fetcher.py         # Azerbaijan: per-city, uses common/ai_pipeline.py
 │       ├── md/fetcher.py         # Moldova: config-driven, uses common/manual_pipeline.py
 │       ├── uz/fetcher.py         # Uzbekistan: config-driven, uses common/manual_pipeline.py
 │       ├── kz/fetcher.py         # Kazakhstan: config-driven, uses common/manual_pipeline.py
@@ -79,7 +79,7 @@ kommeter_scripts/
 │       ├── kg/fetcher.py         # Kyrgyzstan: config-driven, uses common/manual_pipeline.py
 │       ├── tj/fetcher.py         # Tajikistan: config-driven, uses common/manual_pipeline.py
 │       ├── tm/fetcher.py         # Turkmenistan: config-driven, uses common/manual_pipeline.py
-│       └── ru/fetcher.py         # Russia: config-driven, uses common/manual_pipeline.py
+│       └── ru/fetcher.py         # Russia: per-city, uses common/ai_pipeline.py
 │
 ├── assets/                       # Generated. Offline fallbacks bundled into the Android app
 │   ├── tariffs_ua_default.json

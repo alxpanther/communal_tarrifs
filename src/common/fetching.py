@@ -106,20 +106,34 @@ def html_to_text(markup: str) -> str:
     return text.strip()
 
 
+CHARSET = re.compile(r"charset=[\"']?([\w-]+)", re.I)
+
+
+def _declared_charset(declared: str, raw: bytes) -> str:
+    """The encoding the response claims, from the header or from the page's own meta tag."""
+    match = CHARSET.search(declared or "") or CHARSET.search(raw[:2048].decode("ascii", "ignore"))
+    return match.group(1).lower() if match else ""
+
+
 def _decode(raw: bytes, declared: str) -> str:
-    """Regulator sites still serve windows-1251, and often mislabel it."""
-    encodings = ["utf-8", "cp1251"]
-    match = re.search(r"charset=([\w-]+)", declared or "", re.I)
-    if match:
-        encodings.insert(0, match.group(1).lower())
-    for encoding in encodings:
+    """Regulator sites still serve windows-1251, and mislabel it in both directions.
+
+    Valid UTF-8 is the one reliable signal. Single-byte text almost never decodes as UTF-8
+    by accident, while a single-byte decoder accepts any bytes at all and silently turns
+    real UTF-8 into mojibake — which is how an Azerbaijani page came back as "tariflЙ™r".
+    So UTF-8 wins whenever it decodes, and the declared encoding is used only when it
+    does not. Judging the result by the Cyrillic in it is what broke Azerbaijani and
+    Armenian: those pages carry none, and a correct UTF-8 decode looked like a failure.
+    """
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        pass
+    for encoding in (_declared_charset(declared, raw), "cp1251"):
         try:
-            decoded = raw.decode(encoding)
+            return raw.decode(encoding)
         except (UnicodeDecodeError, LookupError):
             continue
-        # A wrong single-byte guess decodes without error but produces no Cyrillic at all.
-        if len(re.findall(r"[А-Яа-яЁё]", decoded)) >= 10 or encoding == encodings[-1]:
-            return decoded
     return raw.decode("utf-8", "replace")
 
 

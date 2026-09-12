@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-12T13:04:12.927562",
+  "generated_at": "2026-09-12T17:41:25.452813",
   "countries": [
     {
       "country": "UA",
@@ -45,7 +45,7 @@
         "uk": "Молдова"
       },
       "currency": "MDL",
-      "last_updated_at": "2026-09-02T16:22:28.444854",
+      "last_updated_at": "2026-09-12T17:41:17.771050",
       "path": "md/tariffs_md.json",
       "enabled": true,
       "min_app_version": ""
@@ -93,7 +93,7 @@
         "uk": "Грузія"
       },
       "currency": "GEL",
-      "last_updated_at": "2026-09-02T16:22:28.449674",
+      "last_updated_at": "2026-09-12T17:41:25.451711",
       "path": "ge/tariffs_ge.json",
       "enabled": true,
       "min_app_version": ""

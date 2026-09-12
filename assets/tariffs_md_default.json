@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T16:22:28.444854",
+  "last_updated_at": "2026-09-12T17:41:17.771050",
   "country": "MD",
   "country_names": {
     "ru": "Молдова",
@@ -9,114 +9,81 @@
   "currency": "MDL",
   "electricity": {
     "source_url": "https://anre.md/",
-    "base_rate": 2.39,
+    "base_rate": 3.56,
     "unit": "kWh",
-    "effective_date": "2024-01-01",
-    "update_date": "2026-09-02",
-    "decree_info": "Постановление ANRE № 841/2023",
+    "effective_date": "2026-03-31",
+    "update_date": "2026-09-12",
+    "decree_info": "Hot. ANRE nr. 222 din 31.03.2026",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (День/Ночь)",
         "day": {
           "hours": "07:00 - 23:00",
-          "coefficient": 1.0,
-          "rate": 2.39
+          "coefficient": 1.053371,
+          "rate": 3.75
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 1.0,
-          "rate": 2.39
+          "coefficient": 0.825843,
+          "rate": 2.94
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 2.39
+          "rate": 3.56
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 2.39
+          "rate": 3.56
         },
         "night": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 2.39
+          "rate": 3.56
         }
       }
     }
   },
   "water": {
     "source_url": "https://anre.md/",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-12",
     "cities": [
       {
         "city_code": "chisinau",
         "city_name": "Кишинёв",
         "supplier": "SA \"Apă-Canal Chișinău\"",
-        "water_supply": 10.79,
-        "sewage": 4.18,
-        "total_rate": 14.97,
         "unit": "m3",
-        "effective_date": "2024-01-12",
-        "decree_info": "Постановление ANRE № 12/2024"
+        "water_supply": 14.03,
+        "sewage": 6.63,
+        "total_rate": 20.66,
+        "effective_date": "2026-08-06",
+        "decree_info": "Nr. 479. Chişinău, 4 august 2026."
       },
       {
         "city_code": "balti",
         "city_name": "Бельцы",
         "supplier": "ÎM \"Regia Apă-Canal-Bălți\"",
-        "water_supply": 11.23,
-        "sewage": 7.93,
-        "total_rate": 19.16,
         "unit": "m3",
-        "effective_date": "2024-02-01",
-        "decree_info": "Постановление ANRE № 58/2024"
-      },
-      {
-        "city_code": "cahul",
-        "city_name": "Кагул",
-        "supplier": "SA \"Apă-Canal Cahul\"",
-        "water_supply": 15.6,
-        "sewage": 8.5,
-        "total_rate": 24.1,
-        "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление ANRE"
-      },
-      {
-        "city_code": "ungheni",
-        "city_name": "Унгены",
-        "supplier": "ÎM \"Apă-Canal Ungheni\"",
-        "water_supply": 14.2,
-        "sewage": 7.2,
-        "total_rate": 21.4,
-        "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление ANRE"
+        "water_supply": 27.4,
+        "sewage": 0.0,
+        "total_rate": 27.4,
+        "effective_date": "2026-04-24",
+        "decree_info": "Тариф ÎM Regia „Apă-Canal-Bălți”, утверждённый ANRE, опубликован 24.04.2026"
       },
       {
         "city_code": "orhei",
         "city_name": "Орхей",
-        "supplier": "SA \"Apă-Canal Orhei\"",
+        "supplier": "SA \"Regia Apă-Canal Orhei\"",
+        "unit": "m3",
         "water_supply": 22.43,
         "sewage": 26.75,
         "total_rate": 49.18,
-        "unit": "m3",
         "effective_date": "2025-08-29",
         "decree_info": "Тарифы, утверждённые ANRE 26.08.2025, в силе с 29.08.2025"
-      },
-      {
-        "city_code": "soroca",
-        "city_name": "Сороки",
-        "supplier": "SA \"Regia Apă-Canal Soroca\"",
-        "water_supply": 15.3,
-        "sewage": 7.5,
-        "total_rate": 22.8,
-        "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление ANRE"
       }
     ]
   },
@@ -137,29 +104,29 @@
   },
   "heating": {
     "source_url": "https://anre.md/",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-12",
     "cities": [
       {
         "city_code": "chisinau",
         "city_name": "Кишинёв",
         "supplier": "SA \"Termoelectrica\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 2138.0,
-        "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-03-19",
-        "decree_info": "Постановление ANRE № 142/2024"
+        "tariff_type": "one_rate",
+        "rate_gcal": 2020.0,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-02-13",
+        "decree_info": "HCA nr. 74 din 12.02.2026 (în vigoare din 13.02.2026)"
       },
       {
         "city_code": "balti",
         "city_name": "Бельцы",
         "supplier": "SA \"CET-Nord\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 2110.0,
-        "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-03-19",
-        "decree_info": "Постановление ANRE № 143/2024"
+        "tariff_type": "one_rate",
+        "rate_gcal": 2201.0,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-02-13",
+        "decree_info": "HCA nr. 75 din 12.02.2026 (în vigoare din 13.02.2026)"
       }
     ]
   }

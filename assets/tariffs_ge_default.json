@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T16:22:28.449674",
+  "last_updated_at": "2026-09-12T17:41:25.451711",
   "country": "GE",
   "country_names": {
     "ru": "Грузия",
@@ -9,57 +9,57 @@
   "currency": "GEL",
   "electricity": {
     "source_url": "https://gnerc.org/",
-    "base_rate": 0.18041,
+    "base_rate": 0.2026,
     "unit": "kWh",
-    "effective_date": "2024-01-01",
-    "update_date": "2026-09-02",
-    "decree_info": "Постановление GNERC (тариф 1-й ступени до 101 кВт·ч)",
+    "effective_date": "2026-07-01",
+    "update_date": "2026-09-12",
+    "decree_info": "Тарифы GNERC на период 01.07.2026 - 01.01.2027",
     "zones": {
       "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
+        "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
           "hours": "07:00 - 23:00",
           "coefficient": 1.0,
-          "rate": 0.1804
+          "rate": 0.2026
         },
         "night": {
           "hours": "23:00 - 07:00",
           "coefficient": 1.0,
-          "rate": 0.1804
+          "rate": 0.2026
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.1804
+          "rate": 0.2026
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.1804
+          "rate": 0.2026
         },
         "night": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 0.1804
+          "rate": 0.2026
         }
       }
     }
   },
   "water": {
     "source_url": "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-12",
     "cities": [
       {
         "city_code": "tbilisi",
         "city_name": "Тбилиси",
         "supplier": "ООО \"Georgian Water and Power\"",
+        "unit": "m3",
         "water_supply": 0.3788,
         "sewage": 0.1215,
         "total_rate": 0.5003,
-        "unit": "m3",
         "effective_date": "2024-01-01",
         "decree_info": "Тарифы GNERC на 2024–2026 годы, с НДС 18%"
       }

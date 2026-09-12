@@ -30,12 +30,13 @@ There are no tariff figures in this file on purpose. Every tariff is set central
   schema — a meter reads gigacalories — so the monthly per-square-metre tariff for buildings without
   a meter is deliberately not published. The regulator's page is read alongside it for the decree
   that sets the current heating rate.
-- **Water and sewage** have no readable source. Azersu's own tariff page answers from Azerbaijan
-  but serves a parked hosting certificate to everyone else, including GitHub runners, and the Tariff
-  Council publishes its water decisions only as dated PDFs. The block therefore keeps the value of
-  the Council's decision of 30.01.2021, which is still the current one, and every run reports water
-  as not refreshed. That alert is the reminder that a source is missing — do not silence it by
-  writing the rate into config.
+- **Water and sewage** come from the Tariff Council's water section: the page lists the decisions in
+  force, and the current tariff table hangs off it as a PDF, which the pipeline reads as a table.
+  Azersu's own tariff page is useless from outside Azerbaijan — it serves a parked hosting
+  certificate to everyone else, GitHub runners included, which is why the regulator's copy is used
+  instead. The PDF is addressed by an opaque id with no date in it; when the Council replaces the
+  file the link breaks and the run reports that the source did not open, which is a loud failure
+  rather than a page that has quietly stopped being current.
 
 ---
 

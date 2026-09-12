@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-12T17:41:25.451711",
+  "last_updated_at": "2026-09-12T17:57:02.100815",
   "country": "GE",
   "country_names": {
     "ru": "Грузия",
@@ -8,7 +8,7 @@
   },
   "currency": "GEL",
   "electricity": {
-    "source_url": "https://gnerc.org/",
+    "source_url": "https://gnerc.org/en/tariffs/tariffs2",
     "base_rate": 0.2026,
     "unit": "kWh",
     "effective_date": "2026-07-01",

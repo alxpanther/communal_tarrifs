@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-12T17:41:17.771050",
+  "last_updated_at": "2026-09-12T17:56:54.337138",
   "country": "MD",
   "country_names": {
     "ru": "Молдова",
@@ -8,7 +8,7 @@
   },
   "currency": "MDL",
   "electricity": {
-    "source_url": "https://anre.md/",
+    "source_url": "https://anre.md/energie-electrica-3-290",
     "base_rate": 3.56,
     "unit": "kWh",
     "effective_date": "2026-03-31",
@@ -49,7 +49,7 @@
     }
   },
   "water": {
-    "source_url": "https://anre.md/",
+    "source_url": "",
     "update_date": "2026-09-12",
     "cities": [
       {
@@ -77,7 +77,7 @@
       {
         "city_code": "orhei",
         "city_name": "Орхей",
-        "supplier": "SA \"Regia Apă-Canal Orhei\"",
+        "supplier": "SA \"Apă-Canal Orhei\"",
         "unit": "m3",
         "water_supply": 22.43,
         "sewage": 26.75,
@@ -88,7 +88,7 @@
     ]
   },
   "hot_water": {
-    "source_url": "https://anre.md/",
+    "source_url": "",
     "update_date": "2026-09-02",
     "cities": [
       {
@@ -103,7 +103,7 @@
     ]
   },
   "heating": {
-    "source_url": "https://anre.md/",
+    "source_url": "https://anre.md/energie-termica-3-247",
     "update_date": "2026-09-12",
     "cities": [
       {

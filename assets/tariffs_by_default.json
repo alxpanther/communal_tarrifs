@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T16:22:28.442341",
+  "last_updated_at": "2026-09-13T10:54:09.681310",
   "country": "BY",
   "country_names": {
     "ru": "Беларусь",
@@ -8,278 +8,247 @@
   },
   "currency": "BYN",
   "electricity": {
-    "source_url": "https://energosbyt.by/",
-    "base_rate": 0.2541,
+    "source_url": "https://www.belenergo.by/content/klientam-fizicheskim-litsam-i-predprinimatelyam/tarify/",
+    "base_rate": 0.3037,
     "unit": "kWh",
-    "effective_date": "2024-01-01",
-    "update_date": "2026-09-02",
-    "decree_info": "Постановление Совета Министров Республики Беларусь № 992",
+    "effective_date": "2026-03-01",
+    "update_date": "2026-09-13",
+    "decree_info": "Постановление Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93",
     "zones": {
       "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
+        "description": "Дифференцированный тариф по двум периодам: минимальных нагрузок (day) и максимальных нагрузок (night)",
         "day": {
           "hours": "22:00 - 17:00",
           "coefficient": 0.7,
-          "rate": 0.1779
+          "rate": 0.2126
         },
         "night": {
           "hours": "17:00 - 22:00",
-          "coefficient": 1.4,
-          "rate": 0.3557
+          "coefficient": 2.0,
+          "rate": 0.6074
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Дифференцированный тариф по трём периодам",
         "peak": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 0.2541
+          "hours": "17:00 - 23:00",
+          "coefficient": 1.8,
+          "rate": 0.5467
         },
         "half_peak": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 0.2541
+          "hours": "06:00 - 17:00",
+          "coefficient": 0.7,
+          "rate": 0.2126
         },
         "night": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 0.2541
+          "hours": "23:00 - 06:00",
+          "coefficient": 0.6,
+          "rate": 0.1822
         }
       }
     }
   },
   "water": {
-    "source_url": "https://minskwater.by/",
-    "update_date": "2026-09-02",
+    "source_url": "",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "minsk",
         "city_name": "Минск",
         "supplier": "УП \"Минскводоканал\"",
-        "water_supply": 1.5553,
-        "sewage": 1.3095,
-        "total_rate": 2.8648,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "water_supply": 2.0248,
+        "sewage": 1.1295,
+        "total_rate": 3.1543,
+        "effective_date": "2026-01-01",
+        "decree_info": "Решение Минского городского исполнительного комитета от 29.01.2026 №376 \"О тарифах на жилищно-коммунальные услуги, предоставляемые населению\""
       },
       {
         "city_code": "gomel",
         "city_name": "Гомель",
         "supplier": "КПУП \"Гомельводоканал\"",
-        "water_supply": 1.5553,
-        "sewage": 1.3095,
-        "total_rate": 2.8648,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "water_supply": 2.2927,
+        "sewage": 1.9701,
+        "total_rate": 4.2628,
+        "effective_date": "2026-03-01",
+        "decree_info": "РЕШЕНИЕ ГОМЕЛЬСКОГО ОБЛАСТНОГО ИСПОЛНИТЕЛЬНОГО КОМИТЕТА 29 января 2026 г. № 63 «О регулировании тарифов на коммунальные услуги»"
       },
       {
         "city_code": "mogilev",
         "city_name": "Могилёв",
-        "supplier": "МУКП \"Горводоканал г. Могилева\"",
-        "water_supply": 1.5553,
-        "sewage": 1.3095,
-        "total_rate": 2.8648,
+        "supplier": "Филиал \"Могилевский водоканал\" УПКП ВКХ \"Могилевоблводоканал\"",
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "water_supply": 2.2927,
+        "sewage": 1.9701,
+        "total_rate": 4.2628,
+        "effective_date": "2026-03-01",
+        "decree_info": "Решением Могилевского областного исполнительного комитета от 13 февраля 2026 г. № 7-4 «О регулировании тарифов»"
       },
       {
         "city_code": "vitebsk",
         "city_name": "Витебск",
         "supplier": "УП \"Витебскводоканал\"",
-        "water_supply": 1.5553,
-        "sewage": 1.3095,
-        "total_rate": 2.8648,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "water_supply": 2.2927,
+        "sewage": 1.8364,
+        "total_rate": 4.1291,
+        "effective_date": "2026-03-01",
+        "decree_info": "Решение Витебского областного исполнительного комитета от 29.01.2026 г. № 39"
       },
       {
         "city_code": "grodno",
         "city_name": "Гродно",
         "supplier": "ГУКП \"Гродноводоканал\"",
-        "water_supply": 1.5553,
-        "sewage": 1.3095,
-        "total_rate": 2.8648,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "water_supply": 2.2927,
+        "sewage": 1.9701,
+        "total_rate": 4.2628,
+        "effective_date": "2026-03-01",
+        "decree_info": "Решение Гродненского областного исполнительного комитета №40 от 30.01.2026г. «О тарифах на жилищно-коммунальные услуги и услугу по управлению общим имуществом совместного домовладения»"
       },
       {
         "city_code": "brest",
         "city_name": "Брест",
         "supplier": "КУП \"Брестводоканал\"",
-        "water_supply": 1.5553,
-        "sewage": 1.3095,
-        "total_rate": 2.8648,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
-      },
-      {
-        "city_code": "other_cities",
-        "city_name": "Другие города (республиканский тариф)",
-        "supplier": "Региональные предприятия ЖКХ Беларуси",
-        "water_supply": 1.5553,
-        "sewage": 1.3095,
-        "total_rate": 2.8648,
-        "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "water_supply": 2.2357,
+        "sewage": 1.9701,
+        "total_rate": 4.2058,
+        "effective_date": "2026-03-01",
+        "decree_info": "РЕШЕНИЕ БРЕСТСКОГО ОБЛАСТНОГО ИСПОЛНИТЕЛЬНОГО КОМИТЕТА 29 января 2026 г. № 46"
       }
     ]
   },
   "hot_water": {
-    "source_url": "https://minsk.gov.by/",
-    "update_date": "2026-09-02",
+    "source_url": "https://www.belenergo.by/content/klientam-fizicheskim-litsam-i-predprinimatelyam/tarify/",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "minsk",
         "city_name": "Минск",
         "supplier": "УП \"Минсккоммунтеплосеть\"",
-        "rate": 24.7187,
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+        "rate": 29.2224,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "gomel",
         "city_name": "Гомель",
         "supplier": "КПУП \"Гомельоблтеплосеть\"",
-        "rate": 24.7187,
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+        "rate": 29.2224,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "mogilev",
         "city_name": "Могилёв",
-        "supplier": "МГКУП \"Горводоканал / Теплоэнергетика\"",
-        "rate": 24.7187,
+        "supplier": "МГКУП \"Теплоэнергетика\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+        "rate": 29.2224,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "vitebsk",
         "city_name": "Витебск",
-        "supplier": "ВПКО \"Гордормост / ВПКиТС\"",
-        "rate": 24.7187,
+        "supplier": "Филиал \"Витебские тепловые сети\" РУП \"Витебскэнерго\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+        "rate": 29.2224,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "grodno",
         "city_name": "Гродно",
-        "supplier": "КУП \"Гроднооблтеплосеть\"",
-        "rate": 24.7187,
+        "supplier": "Филиал \"Гродненские тепловые сети\" РУП \"Гродноэнерго\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+        "rate": 29.2224,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "brest",
         "city_name": "Брест",
-        "supplier": "КУПП \"Брестское котельное хозяйство\"",
-        "rate": 24.7187,
+        "supplier": "Филиал \"Брестские тепловые сети\" РУП \"Брестэнерго\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
-      },
-      {
-        "city_code": "other_cities",
-        "city_name": "Другие города (республиканский тариф)",
-        "supplier": "Региональные предприятия теплосетей Беларуси",
-        "rate": 24.7187,
-        "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф за Гкал)"
+        "rate": 29.2224,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       }
     ]
   },
   "heating": {
-    "source_url": "https://minsk.gov.by/",
-    "update_date": "2026-09-02",
+    "source_url": "https://www.belenergo.by/content/klientam-fizicheskim-litsam-i-predprinimatelyam/tarify/",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "minsk",
         "city_name": "Минск",
         "supplier": "УП \"Минсккоммунтеплосеть\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 24.7187,
-        "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "tariff_type": "one_rate",
+        "rate_gcal": 29.2224,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "gomel",
         "city_name": "Гомель",
         "supplier": "КПУП \"Гомельоблтеплосеть\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 24.7187,
-        "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "tariff_type": "one_rate",
+        "rate_gcal": 29.2224,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "mogilev",
         "city_name": "Могилёв",
-        "supplier": "МГКУП \"Горводоканал / Теплоэнергетика\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 24.7187,
-        "rate_gcal_hour": 0.0,
+        "supplier": "МГКУП \"Теплоэнергетика\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "tariff_type": "one_rate",
+        "rate_gcal": 29.2224,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "vitebsk",
         "city_name": "Витебск",
-        "supplier": "ВПКО \"Гордормост / ВПКиТС\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 24.7187,
-        "rate_gcal_hour": 0.0,
+        "supplier": "Филиал \"Витебские тепловые сети\" РУП \"Витебскэнерго\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "tariff_type": "one_rate",
+        "rate_gcal": 29.2224,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "grodno",
         "city_name": "Гродно",
-        "supplier": "КУП \"Гроднооблтеплосеть\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 24.7187,
-        "rate_gcal_hour": 0.0,
+        "supplier": "Филиал \"Гродненские тепловые сети\" РУП \"Гродноэнерго\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "tariff_type": "one_rate",
+        "rate_gcal": 29.2224,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       },
       {
         "city_code": "brest",
         "city_name": "Брест",
-        "supplier": "КУПП \"Брестское котельное хозяйство\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 24.7187,
-        "rate_gcal_hour": 0.0,
+        "supplier": "Филиал \"Брестские тепловые сети\" РУП \"Брестэнерго\"",
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
-      },
-      {
-        "city_code": "other_cities",
-        "city_name": "Другие города (республиканский тариф)",
-        "supplier": "Региональные предприятия теплосетей Беларуси",
         "tariff_type": "one_rate",
-        "rate_gcal": 24.7187,
+        "rate_gcal": 29.2224,
         "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Совета Министров РБ № 992 (субсидируемый тариф)"
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
       }
     ]
   }

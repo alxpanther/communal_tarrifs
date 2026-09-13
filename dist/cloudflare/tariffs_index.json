@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-12T18:51:42.616171",
+  "generated_at": "2026-09-13T10:54:35.802038",
   "countries": [
     {
       "country": "UA",
@@ -81,7 +81,7 @@
         "uk": "Білорусь"
       },
       "currency": "BYN",
-      "last_updated_at": "2026-09-02T16:22:28.442341",
+      "last_updated_at": "2026-09-13T10:54:09.681310",
       "path": "by/tariffs_by.json",
       "enabled": true,
       "min_app_version": ""
@@ -105,7 +105,7 @@
         "uk": "Киргизстан"
       },
       "currency": "KGS",
-      "last_updated_at": "2026-09-02T16:22:28.451755",
+      "last_updated_at": "2026-09-13T10:54:35.801037",
       "path": "kg/tariffs_kg.json",
       "enabled": true,
       "min_app_version": ""

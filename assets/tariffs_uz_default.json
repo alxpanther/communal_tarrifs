@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T16:22:28.460486",
+  "last_updated_at": "2026-09-13T11:52:49.446201",
   "country": "UZ",
   "country_names": {
     "ru": "Узбекистан",
@@ -8,69 +8,69 @@
   },
   "currency": "UZS",
   "electricity": {
-    "source_url": "https://minenergy.uz/",
-    "base_rate": 450.0,
+    "source_url": "https://het.uz/ru/pages/calculator",
+    "base_rate": 650.0,
     "unit": "kWh",
-    "effective_date": "2024-05-01",
-    "update_date": "2026-09-02",
-    "decree_info": "Постановление ПКМ РУз № 204 от 16.04.2024 (базовая социальная норма до 200 кВт·ч)",
+    "effective_date": "2026-06-01",
+    "update_date": "2026-09-13",
+    "decree_info": "Тарифы АО «Региональные электрические сети» для бытовых потребителей с 1 июня 2026 года",
     "zones": {
       "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
+        "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
           "hours": "08:00 - 22:00",
           "coefficient": 1.0,
-          "rate": 450.0
+          "rate": 650.0
         },
         "night": {
           "hours": "22:00 - 08:00",
           "coefficient": 1.0,
-          "rate": 450.0
+          "rate": 650.0
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 450.0
+          "rate": 650.0
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 450.0
+          "rate": 650.0
         },
         "night": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 450.0
+          "rate": 650.0
         }
       }
     }
   },
   "water": {
-    "source_url": "https://uzsuv.uz/",
-    "update_date": "2026-09-02",
+    "source_url": "https://api.uzsuv.uz/api/v1/r/service/tariff/",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "tashkent",
         "city_name": "Ташкент",
-        "supplier": "АО \"Узсувтаъминот\"",
-        "water_supply": 1400.0,
-        "sewage": 1000.0,
-        "total_rate": 2400.0,
+        "supplier": "АО \"Тошкент шаҳар сув таъминоти\"",
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Решение Кенгаша народных депутатов г. Ташкента"
+        "water_supply": 1568.0,
+        "sewage": 1120.0,
+        "total_rate": 2688.0,
+        "effective_date": "2023-12-15",
+        "decree_info": "Тариф АO \"Тошкент шаҳар сув таъминоти\" для населения с 2023-12-15"
       },
       {
         "city_code": "samarkand",
         "city_name": "Самарканд",
         "supplier": "АО \"Самарканд сув таъминоти\"",
+        "unit": "m3",
         "water_supply": 3136.0,
         "sewage": 2128.0,
         "total_rate": 5264.0,
-        "unit": "m3",
         "effective_date": "2025-04-15",
         "decree_info": "Тариф АО \"Самарканд сув таъминоти\" для населения с 2025-04-15"
       },
@@ -78,10 +78,10 @@
         "city_code": "bukhara",
         "city_name": "Бухара",
         "supplier": "АО \"Бухоро сув таъминоти\"",
+        "unit": "m3",
         "water_supply": 4480.0,
         "sewage": 4256.0,
         "total_rate": 8736.0,
-        "unit": "m3",
         "effective_date": "2025-07-01",
         "decree_info": "Тариф АО \"Бухоро сув таъминоти\" для населения с 2025-07-01"
       },
@@ -89,10 +89,10 @@
         "city_code": "fergana",
         "city_name": "Фергана",
         "supplier": "АО \"Фаргона сув таъминоти\"",
+        "unit": "m3",
         "water_supply": 3447.36,
         "sewage": 728.0,
         "total_rate": 4175.36,
-        "unit": "m3",
         "effective_date": "2025-05-11",
         "decree_info": "Тариф АО \"Фарғона сув таъминоти\" для населения с 2025-05-11"
       },
@@ -100,10 +100,10 @@
         "city_code": "namangan",
         "city_name": "Наманган",
         "supplier": "АО \"Наманган сув таъминоти\"",
+        "unit": "m3",
         "water_supply": 5488.0,
         "sewage": 1904.0,
         "total_rate": 7392.0,
-        "unit": "m3",
         "effective_date": "2025-07-13",
         "decree_info": "Тариф АО \"Наманган сув таъминоти\" для населения с 2025-07-13"
       },
@@ -111,66 +111,34 @@
         "city_code": "andijan",
         "city_name": "Андижан",
         "supplier": "АО \"Андижон сув таъминоти\"",
+        "unit": "m3",
         "water_supply": 1848.0,
         "sewage": 1848.0,
         "total_rate": 3696.0,
-        "unit": "m3",
         "effective_date": "2025-06-01",
         "decree_info": "Тариф АО \"Андижон сув таъминоти\" для населения с 2025-06-01"
       }
     ]
   },
   "hot_water": {
-    "source_url": "https://kp.veoliaenergy.uz/",
+    "source_url": "",
     "update_date": "2026-09-02",
-    "cities": [
-      {
-        "city_code": "tashkent",
-        "city_name": "Ташкент",
-        "supplier": "ИП ООО \"Veolia Energy Tashkent\"",
-        "rate": 10575.04,
-        "unit": "m3",
-        "effective_date": "2024-04-02",
-        "decree_info": "Тариф ИП ООО \"Veolia Energy Tashkent\" для населения"
-      }
-    ]
+    "cities": []
   },
   "heating": {
-    "source_url": "https://kp.veoliaenergy.uz/",
-    "update_date": "2026-09-02",
+    "source_url": "https://feeds.tildacdn.com/api/getfeed/?feeduid=954914528491&size=30&slice=1&sort%5Bdate%5D=desc",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "tashkent",
         "city_name": "Ташкент",
         "supplier": "ИП ООО \"Veolia Energy Tashkent\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 105654.0,
-        "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-04-02",
-        "decree_info": "Тариф ИП ООО \"Veolia Energy Tashkent\" для населения"
-      },
-      {
-        "city_code": "samarkand",
-        "city_name": "Самарканд",
-        "supplier": "ГУП \"Иссиклик манбаи\"",
         "tariff_type": "one_rate",
-        "rate_gcal": 68000.0,
+        "rate_gcal": 156643.2,
         "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Тариф ГУП \"Иссиклик манбаи\" для населения"
-      },
-      {
-        "city_code": "bukhara",
-        "city_name": "Бухара",
-        "supplier": "ГУП \"Бухоро иссиклик манбаи\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 65000.0,
-        "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Тариф ГУП \"Бухоро иссиклик манбаи\" для населения"
+        "effective_date": "2025-11-12",
+        "decree_info": "Постановление хокима города Ташкента 767-14-0-Q/25 от 27 октября 2025 года"
       }
     ]
   }

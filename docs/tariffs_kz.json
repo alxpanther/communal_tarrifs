@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T16:22:28.454121",
+  "last_updated_at": "2026-09-13T11:52:26.497217",
   "country": "KZ",
   "country_names": {
     "ru": "Казахстан",
@@ -8,58 +8,58 @@
   },
   "currency": "KZT",
   "electricity": {
-    "source_url": "https://gov.kz/memleket/entities/krem",
-    "base_rate": 25.5,
+    "source_url": "https://astrec.kz/abonentam/tarify-dlia-fizicheskih-lits",
+    "base_rate": 24.81,
     "unit": "kWh",
-    "effective_date": "2024-01-01",
-    "update_date": "2026-09-02",
-    "decree_info": "Приказ КРЕМ МНЭ РК (базовый тариф для населения)",
+    "effective_date": "2026-07-01",
+    "update_date": "2026-09-13",
+    "decree_info": "Тарифы АО «Астана-РЭК» для физических лиц с 01.07.2026г",
     "zones": {
       "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
+        "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
           "hours": "07:00 - 23:00",
           "coefficient": 1.0,
-          "rate": 25.5
+          "rate": 24.81
         },
         "night": {
           "hours": "23:00 - 07:00",
           "coefficient": 1.0,
-          "rate": 25.5
+          "rate": 24.81
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 25.5
+          "rate": 24.81
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 25.5
+          "rate": 24.81
         },
         "night": {
           "hours": "00:00 - 00:00",
           "coefficient": 1.0,
-          "rate": 25.5
+          "rate": 24.81
         }
       }
     }
   },
   "water": {
-    "source_url": "https://astanasu.kz/",
-    "update_date": "2026-09-02",
+    "source_url": "",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "astana",
         "city_name": "Астана",
         "supplier": "ГКП \"Астана Су Арнасы\"",
+        "unit": "m3",
         "water_supply": 119.36,
         "sewage": 127.41,
         "total_rate": 246.77,
-        "unit": "m3",
         "effective_date": "2026-07-01",
         "decree_info": "Приказы Департамента Комитета по регулированию естественных монополий по городу Астана №105-ОД от 25.11.2025 и №21-ОД от 25.06.2026"
       },
@@ -67,10 +67,10 @@
         "city_code": "almaty",
         "city_name": "Алматы",
         "supplier": "ГКП \"Алматы Су\"",
+        "unit": "m3",
         "water_supply": 76.56,
         "sewage": 47.5,
         "total_rate": 124.06,
-        "unit": "m3",
         "effective_date": "2026-01-01",
         "decree_info": "Тарифы ГКП «Алматы Су» на период с 1 января по 31 марта 2026 года"
       },
@@ -78,21 +78,21 @@
         "city_code": "shymkent",
         "city_name": "Шымкент",
         "supplier": "ТОО \"Водные ресурсы-Маркетинг\"",
-        "water_supply": 72.0,
-        "sewage": 43.0,
-        "total_rate": 115.0,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Шымкент"
+        "water_supply": 111.44,
+        "sewage": 62.41,
+        "total_rate": 173.85,
+        "effective_date": "2026-07-01",
+        "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий Министерства национальной экономики Республики Казахстан по городу Шымкент №33 от 26 июня 2026 года"
       },
       {
         "city_code": "karaganda",
         "city_name": "Караганда",
         "supplier": "ТОО \"Караганды Су\"",
+        "unit": "m3",
         "water_supply": 178.73,
         "sewage": 243.18,
         "total_rate": 421.91,
-        "unit": "m3",
         "effective_date": "2026-07-23",
         "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий по Карагандинской области от 13.07.2026 № 76-ОД"
       },
@@ -100,62 +100,42 @@
         "city_code": "aktobe",
         "city_name": "Актобе",
         "supplier": "АО \"Aqtobe su-energy group\"",
+        "unit": "m3",
         "water_supply": 154.164,
         "sewage": 148.2132,
         "total_rate": 302.3772,
-        "unit": "m3",
         "effective_date": "2026-04-01",
         "decree_info": "Приказы Департамента Комитета по регулированию естественных монополий по Актюбинской области №35-ОД и №34-ОД"
       }
     ]
   },
   "hot_water": {
-    "source_url": "https://astana-teplo.kz/",
-    "update_date": "2026-09-02",
+    "source_url": "https://alts.kz/tarify/",
+    "update_date": "2026-09-13",
     "cities": [
-      {
-        "city_code": "astana",
-        "city_name": "Астана",
-        "supplier": "АО \"Астана-Теплотранзит\"",
-        "rate": 300.0,
-        "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
-      },
       {
         "city_code": "almaty",
         "city_name": "Алматы",
         "supplier": "ТОО \"Алматинские тепловые сети\"",
-        "rate": 450.0,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Алматы"
+        "rate": 683.0196,
+        "effective_date": "2026-05-01",
+        "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий по г. Алматы от 22.04.2026 № 65-ОД"
       }
     ]
   },
   "heating": {
-    "source_url": "https://astana-teplo.kz/",
-    "update_date": "2026-09-02",
+    "source_url": "",
+    "update_date": "2026-09-13",
     "cities": [
-      {
-        "city_code": "astana",
-        "city_name": "Астана",
-        "supplier": "АО \"Астана-Теплотранзит\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 3055.0,
-        "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
-      },
       {
         "city_code": "almaty",
         "city_name": "Алматы",
         "supplier": "ТОО \"Алматинские тепловые сети\"",
+        "unit": "Gcal",
         "tariff_type": "one_rate",
         "rate_gcal": 9139.0716,
         "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
         "effective_date": "2026-05-01",
         "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий по г. Алматы от 22.04.2026 № 65-ОД"
       },
@@ -174,12 +154,12 @@
         "city_code": "karaganda",
         "city_name": "Караганда",
         "supplier": "ТОО \"Теплотранзит Караганда\"",
-        "tariff_type": "one_rate",
-        "rate_gcal": 3900.0,
-        "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по Карагандинской обл."
+        "tariff_type": "one_rate",
+        "rate_gcal": 5735.27,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-08-15",
+        "decree_info": "Тарифы ТОО «Теплотранзит Караганда» с 15 августа 2026 года"
       }
     ]
   }

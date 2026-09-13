@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-12T17:56:54.337138",
+  "last_updated_at": "2026-09-13T11:53:28.882280",
   "country": "MD",
   "country_names": {
     "ru": "Молдова",
@@ -12,7 +12,7 @@
     "base_rate": 3.56,
     "unit": "kWh",
     "effective_date": "2026-03-31",
-    "update_date": "2026-09-12",
+    "update_date": "2026-09-13",
     "decree_info": "Hot. ANRE nr. 222 din 31.03.2026",
     "zones": {
       "two_zone": {
@@ -50,7 +50,7 @@
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-12",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "chisinau",
@@ -90,21 +90,11 @@
   "hot_water": {
     "source_url": "",
     "update_date": "2026-09-02",
-    "cities": [
-      {
-        "city_code": "chisinau",
-        "city_name": "Кишинёв",
-        "supplier": "SA \"Termoelectrica\"",
-        "rate": 115.0,
-        "unit": "m3",
-        "effective_date": "2024-03-19",
-        "decree_info": "Постановление ANRE № 142/2024"
-      }
-    ]
+    "cities": []
   },
   "heating": {
     "source_url": "https://anre.md/energie-termica-3-247",
-    "update_date": "2026-09-12",
+    "update_date": "2026-09-13",
     "cities": [
       {
         "city_code": "chisinau",

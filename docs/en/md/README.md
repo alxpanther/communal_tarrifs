@@ -36,9 +36,8 @@ no tax is added anywhere in the pipeline.
   effect nor the decision behind them, and the schema needs both. Bălți charges water and sewerage as
   one figure, so its `sewage` is published as zero and `zero_allowed` in config says that is the
   truth rather than a misread cell.
-- **Hot water** for Chișinău has no readable source. Termoelectrica publishes the price of a cubic
-  metre only in PDFs named by date, which are not sources (see ARCHITECTURE.md, section 8a), so the
-  entry keeps its previous value and every run reports it as not refreshed.
+- **Hot water** for Chișinău is retired. Termoelectrica publishes the price of a cubic metre only in
+  PDFs named by date, which are not sources (see ARCHITECTURE.md, section 8a). Removing an entry makes the released app reject the country's new file until the app is changed (see ANDROID_MIGRATION.md, section 2b).
 - **Cahul, Ungheni and Soroca** are retired from the water block. Their current figures exist on
   ANRE's consolidated table, but nothing published anywhere gives them together with a date and a
   decision, and an entry nobody can refresh is worse than no entry.

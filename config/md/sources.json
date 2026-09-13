@@ -80,15 +80,6 @@
             "Апэ-Канал Кишинэу"
           ]
         },
-        "hot_water": {
-          "supplier": "SA \"Termoelectrica\"",
-          "urls": [],
-          "hint": "нужна цена 1 м³ горячей воды для населения Кишинёва в леях. Termoelectrica публикует тарифы на тепловую энергию, а цену горячей воды за кубометр — только в PDF с датой в имени, поэтому пригодного источника пока нет",
-          "supplier_aka": [
-            "Termoelectrica",
-            "S.A. „Termoelectrica”"
-          ]
-        },
         "heating": {
           "supplier": "SA \"Termoelectrica\"",
           "urls": [
@@ -176,6 +167,7 @@
   "retired_cities": [
     "cahul.water",
     "ungheni.water",
-    "soroca.water"
+    "soroca.water",
+    "chisinau.hot_water"
   ]
 }

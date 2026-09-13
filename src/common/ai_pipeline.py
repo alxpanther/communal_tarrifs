@@ -47,10 +47,13 @@ def load_config(country: Country) -> dict:
     with open(path, "r", encoding="utf-8") as f:
         config = json.load(f)
 
-    if not config.get("cities"):
+    # A country may collect nothing but its electricity: every city service of Tajikistan was
+    # retired for want of a source. With neither, there is nothing this pipeline could read.
+    if not config.get("cities") and not (config.get("electricity") or {}).get("source"):
         raise ConfigError(
-            f"{country.code}: config needs a 'cities' section — this pipeline reads tariffs "
-            f"from the sources declared there, it has no other way to obtain a number"
+            f"{country.code}: config needs a 'cities' section or an electricity source — this "
+            f"pipeline reads tariffs from the sources declared there, it has no other way to "
+            f"obtain a number"
         )
     return config
 
@@ -525,7 +528,7 @@ def run(country: Country, notifier=None, cities: list = None, blocks: list = Non
     if not previous:
         raise ConfigError(
             f"{country.code}: no previously published file to build on. The first file of a "
-            f"country is created by its manual pipeline; this one only refreshes."
+            f"country is committed as a skeleton file; this one only refreshes."
         )
 
     data, refreshed, failures, _ = collect(country, config, previous, extractor, cities, blocks)

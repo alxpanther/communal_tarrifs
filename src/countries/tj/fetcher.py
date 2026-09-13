@@ -5,10 +5,9 @@ config/tj/sources.json. Only electricity is collected: the ministry of energy pu
 government's tariff decision as a scan of its pages, so the source is the stable page and
 `read_images` hands the scan to the vision model.
 
-Water, hot water and heating for Dushanbe have no readable source yet — the utility's own
-site is closed for maintenance, and the city hall publishes only
-housing-fund and waste tariffs. Those blocks keep their previous values and every run
-reports them as not refreshed.
+Water, hot water and heating for Dushanbe are retired: no readable source exists — the
+utility's own site is closed for maintenance, and the city hall publishes only housing-fund
+and waste tariffs.
 """
 
 import logging

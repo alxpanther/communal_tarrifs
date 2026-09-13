@@ -17,7 +17,7 @@ This pipeline fetches and publishes utility tariffs for Tajikistan (`country: "T
 ## Sources & Regulations
 
 Tajikistan is collected by `src/common/ai_pipeline.py`; the sources are `config/tj/sources.json`.
-Only electricity is collected so far, and only Dushanbe is in the file.
+Only electricity is collected so far.
 
 - **Electricity** is set by a decision of the Government of Tajikistan and published by the ministry
   of energy — as a photograph of the decision's pages, not as text. The source is therefore the
@@ -26,18 +26,12 @@ Only electricity is collected so far, and only Dushanbe is in the file.
   the row "Для населения", in dirams per kWh, which the model converts to somoni. The decision's own
   note says the tariffs are net of VAT for every group **except** households, so the household
   figure is final.
-- **Water, hot water and heating** have no readable source. Their tariffs are approved by the
-  Antimonopoly Service and reported in the state press, which is not a source (a dated article; see
-  ARCHITECTURE.md, section 8a). The water utility's own site is closed for maintenance. The city hall publishes a tariff
-  page, but it covers housing-fund maintenance and waste removal, priced per square metre and per
-  resident, which is not what these blocks hold. All three keep their previous values and every run
-  reports them as not refreshed.
-
-The figures still published for those three blocks came from the era when the country was entered by
-hand, and they are wrong: the water tariff of Dushanbe has since been reported as 1.50 somoni per m³
-plus 0.76 for sewerage. They are left alone rather than typed in, because a number nobody can
-refresh is the thing this repository exists to avoid — but that also means they should not be
-trusted until a source appears.
+- **Water, hot water and heating** of Dushanbe are retired (`retired_cities`). Their tariffs are
+  approved by the Antimonopoly Service and reported in the state press, which is not a source (a dated
+  article; see ARCHITECTURE.md, section 8a). The water utility's own site is closed for maintenance,
+  and the city hall's tariff page covers housing-fund maintenance and waste removal. The figures once
+  published there came from the era when the country was entered by hand and were wrong, so the
+  entries were removed; the file now carries electricity only. Removing an entry makes the released app reject the country's new file until the app is changed (see ANDROID_MIGRATION.md, section 2b).
 
 ---
 

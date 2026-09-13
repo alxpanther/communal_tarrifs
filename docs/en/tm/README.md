@@ -35,6 +35,6 @@ rather than left in place.
 ## If a source appears
 
 Remove `"retired": true` from `config/countries.json`, move the country to per-city collection the
-way Georgia or Tajikistan are configured, and run it once. The city registry
+way Georgia or Tajikistan are configured, and run it once — its `config/tm/sources.json` and `src/countries/tm/fetcher.py` were deleted and are written anew, as for any country. The city registry
 (`config/tm/city_registry.json`) was kept, so Ashgabat comes back under the same `city_code` its
 users had saved.

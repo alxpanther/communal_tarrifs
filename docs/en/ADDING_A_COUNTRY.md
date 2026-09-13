@@ -11,18 +11,17 @@ pipeline for one more country. Read [PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)
 
 ## 1. Current state
 
-Three countries are published: Ukraine (`UA`), Armenia (`AM`) and Azerbaijan (`AZ`). They are two
-different kinds of pipeline, and a new country will be one of them:
+Every published country is collected from its own sources, by one of two pipelines, and a new
+country will use one of them:
 
 * **Scraping pipeline** — Ukraine. Official aggregate pages exist, so `src/countries/ua/fetcher.py`
   fetches, parses, validates and only then saves.
-* **Config-driven pipeline** — Armenia and Azerbaijan. The regulator publishes decisions as prose and
-  PDFs, with nothing a parser can rely on, so the numbers live in `config/<cc>/sources.json` under
-  `manual_override` and `src/common/manual_pipeline.py` turns them into the same JSON file. The
-  country's own `fetcher.py` is a dozen lines that name the country.
+* **Per-city pipeline** — every other country. Each city and service declares its source pages in
+  `config/<cc>/sources.json`, and `src/common/ai_pipeline.py` reads and validates them. The country's
+  own `fetcher.py` is a dozen lines that name the country.
 
-Start config-driven if there is no source worth scraping. It is a complete, supported pipeline, not
-a placeholder: adding a scraping stage later does not change anything downstream of it.
+There is no pipeline for numbers written into config: it existed, it published wrong tariffs, and it
+was deleted. A country with no readable source is not added.
 
 ---
 
@@ -111,16 +110,13 @@ Rules:
    language, `currency`, `pipeline` (the folder name under `src/countries/`), `enabled`,
    `min_app_version`. Nothing is published until this entry exists.
 2. **Create `config/<cc>/sources.json`.** Every URL you touch goes here, plus `settings` and a
-   `manual_override` skeleton. For a config-driven country also fill `electricity.zones` with the
+   `manual_override` skeleton. Also fill `electricity.zones` with the
    zone schedule and coefficients — rates are always derived as `base_rate × coefficient`, never
    written twice.
 3. **Create `config/<cc>/city_registry.json`** with the two empty sections.
 4. **Write `src/countries/<cc>/fetcher.py`** exposing `main(notifier)`.
    * Per-city sources → call `common.ai_pipeline.run(country, notifier)` and stop. Armenia's and
      Russia's fetchers are the whole template; everything else is config.
-   * No readable source at all → `common.manual_pipeline.run(country, notifier)`, and only as a
-     temporary state. Belarus's fetcher is the template, and every country still on it is a task,
-     not a design.
    * Scrapable source → for each category decide: rigid table → regular expressions; free-form page
      or irregular table → an LLM extraction call. Never use the model for numbers you can parse.
 5. **Validate before trusting.** At minimum: sanity ceilings per rate, component sums matching the
@@ -210,8 +206,7 @@ country and delegating, and everything else is `config/<cc>/sources.json`.
 4. Test it city by city with `src/run_city.py` — a dry run by default — and fix the source list
    until every city passes. Only then collect the whole country, and only with the maintainer's
    agreement: every city is a paid model call. The first
-   run of a country needs an already published file to build on; create it by running the country
-   once through `manual_pipeline` with an empty override, or by committing a skeleton file.
+   run of a country needs an already published file to build on; create it by committing a skeleton file.
 5. Documentation in both `docs/en/` and `docs/ru/`.
 
 ### Choosing sources

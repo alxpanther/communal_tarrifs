@@ -225,21 +225,42 @@ def _inline_image(page_url: str, mime: str, payload: str):
     return Document(page_url, data=data, mime=mime)
 
 
-def _linked_documents(markup: str, page_url: str, match) -> list:
+BARE_URL = re.compile(r"""https?://[^\s"'<>\\]+""")
+
+
+def _links_of(markup: str) -> list:
+    """(address, caption) pairs of a page's links. A page with no <a> tags at all is a JSON
+    feed or an API answer — Veolia Energy Tashkent's news reach its site that way — and its
+    links are the bare addresses in it, with no caption beyond the address itself."""
+    anchors = LINK_ANCHOR.findall(markup)
+    if anchors or "<a" in markup.lower():
+        return anchors
+    # JSON escapes the slashes of every address it carries: "https:\/\/site\/page".
+    return [(url, "") for url in BARE_URL.findall(markup.replace("\\/", "/"))]
+
+
+def _linked_documents(markup: str, page_url: str, option) -> list:
     """Absolute URLs of the documents a page links to, in page order, capped.
 
-    `match` is True for every PDF on the page, or a piece of text the link's address or caption
+    `option` is True for every PDF on the page, or a piece of text the link's address or caption
     must contain — and then the link may lead to a page as well as to a PDF, because Bishkek's
     city council publishes each resolution as a page of its own in a list of all of them. A
     filter is what keeps the application forms, the 2009 decrees and the menu out, since every
     document sent is paid for. The ones kept all go to the model, which picks the decision in
-    force by its date: which end of a list is the newest differs from site to site. A page
-    linking more than the cap is logged rather than cut silently, since the newest decision may
-    be the one left out.
+    force by its date.
+
+    Which end of a list is the newest differs from site to site, so when more links match than
+    the cap allows the cap needs a direction: `{"match": ..., "from_end": true}` keeps the last
+    ones — Aktobe's water utility has listed every decision since 2022 oldest first. Without it
+    the first ones are kept, and the cut is logged rather than silent.
     """
+    if isinstance(option, dict):
+        match, from_end = option.get("match", True), bool(option.get("from_end"))
+    else:
+        match, from_end = option, False
     wanted = match.lower() if isinstance(match, str) else ""
     found = []
-    for href, caption in LINK_ANCHOR.findall(markup):
+    for href, caption in _links_of(markup):
         href = html_module.unescape(href.strip())
         address = unquote(href)
         if wanted:
@@ -251,9 +272,10 @@ def _linked_documents(markup: str, page_url: str, match) -> list:
         if url.startswith(("http://", "https://")) and url != page_url and url not in found:
             found.append(url)
     if len(found) > MAX_PAGE_DOCUMENTS:
-        logger.warning(f"{page_url}: links {len(found)} matching documents, only the first "
+        kept = "last" if from_end else "first"
+        logger.warning(f"{page_url}: links {len(found)} matching documents, only the {kept} "
                        f"{MAX_PAGE_DOCUMENTS} are read")
-    return found[:MAX_PAGE_DOCUMENTS]
+    return found[-MAX_PAGE_DOCUMENTS:] if from_end else found[:MAX_PAGE_DOCUMENTS]
 
 
 def as_pixels(value) -> int:

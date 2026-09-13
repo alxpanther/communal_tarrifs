@@ -115,6 +115,34 @@ not enough:
 3. Keep distinguishing this from a failed download. An index that did not arrive, arrived broken or
    arrived empty changes nothing; that rule stays exactly as it is.
 
+## 2b. A city or a service can disappear from a country
+
+A country can also lose single entries. When nobody publishes a readable tariff for a city's service
+any more — or the number once published turns out to have no source — the entry is removed from the
+file (`retired_cities` in config) rather than left standing as a current tariff. On 13 September 2026
+this removed Tashkent's hot water, heating in Samarkand and Bukhara, all three city services of
+Dushanbe, Chișinău's hot water and Astana's heating and hot water.
+
+**The released app rejects such a file.** `TariffCatalog.acceptsAsSuccessor()` refuses a new edition
+when a block keeps fewer than half of its charging cities (`minimumSurvivingShare = 0.5`), so for
+Uzbekistan, Tajikistan and Moldova every installed app stopped taking updates of the whole country —
+their fresh water and electricity tariffs included — until this is changed. The maintainer accepted
+that, on the condition that the change below is made when the app is reworked:
+
+1. **A removal the publisher made on purpose is not a broken download.** The guard exists against a
+   half-downloaded or damaged file; it must not block a well-formed edition that simply carries fewer
+   entries. Keep rejecting a file that fails to parse, is empty, or has lost its electricity block;
+   stop rejecting a complete file because a block got shorter.
+2. **Tell the user, per entry.** When a city or a service the user relies on (a saved supplier for
+   one of their addresses) is no longer in the file, say so in plain words: the tariff for that city
+   and service has been removed and is no longer updated — most likely the tariff collection system
+   stopped finding it at its source. Do not delete the user's readings.
+3. **Keep what the user already has.** The last known tariff may stay visible, clearly marked as no
+   longer updated, so a calculation does not silently switch to nothing.
+
+This is the same idea as section 2a, one level down: section 2a handles a whole country leaving the
+index, this section a single city or service leaving a country file.
+
 ## 3. Smaller things worth doing
 
 * **Do not label a tariff stale by its date.** Ukrainian heat tariffs are frozen since 2021 by a

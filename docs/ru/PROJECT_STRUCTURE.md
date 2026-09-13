@@ -46,7 +46,7 @@ kommeter_scripts/
 │   ├── ge/{sources.json, city_registry.json}
 │   ├── kg/{sources.json, city_registry.json}
 │   ├── tj/{sources.json, city_registry.json}
-│   ├── tm/{sources.json, city_registry.json}
+│   ├── tm/city_registry.json   # выведенная страна: сохранён только реестр городов
 │   └── ru/{sources.json, city_registry.json}
 │
 ├── src/                          # Код пайплайнов
@@ -66,20 +66,18 @@ kommeter_scripts/
 │   │   ├── validation.py         # Можно ли публиковать извлечённое
 │   │   ├── overrides.py          # Семантика manual_override, одинаковая для всех стран
 │   │   ├── registry.py           # Реестр city_code: чтение, сверка, добавление
-│   │   ├── manual_pipeline.py    # Пайплайн для стран, чьи тарифы берутся только из конфига
 │   │   └── telegram_notifier.py  # Отправка алертов и отчётов о расхождениях в Telegram
 │   └── countries/
 │       ├── ua/fetcher.py         # Украина: сбор → разбор → валидация → сохранение
 │       ├── am/fetcher.py         # Армения: по городам, через common/ai_pipeline.py
 │       ├── az/fetcher.py         # Азербайджан: по городам, через common/ai_pipeline.py
 │       ├── md/fetcher.py         # Молдова: по городам, через common/ai_pipeline.py
-│       ├── uz/fetcher.py         # Узбекистан: из конфига, через common/manual_pipeline.py
-│       ├── kz/fetcher.py         # Казахстан: из конфига, через common/manual_pipeline.py
+│       ├── uz/fetcher.py         # Узбекистан: по городам, через common/ai_pipeline.py
+│       ├── kz/fetcher.py         # Казахстан: по городам, через common/ai_pipeline.py
 │       ├── by/fetcher.py         # Беларусь: по городам, через common/ai_pipeline.py
 │       ├── ge/fetcher.py         # Грузия: по городам, через common/ai_pipeline.py
 │       ├── kg/fetcher.py         # Кыргызстан: по городам, через common/ai_pipeline.py
 │       ├── tj/fetcher.py         # Таджикистан: по городам, через common/ai_pipeline.py
-│       ├── tm/fetcher.py         # Туркменистан: выведен, не собирается (см. ARCHITECTURE 8b)
 │       └── ru/fetcher.py         # Россия: по городам, через common/ai_pipeline.py
 │
 ├── assets/                       # Генерируется. Оффлайн-файлы, вшиваемые в Android-приложение
@@ -151,9 +149,8 @@ kommeter_scripts/
 | `common/validation.py` | Можно ли публиковать извлечённый тариф. Отбраковывает город целиком, а не публикует сомнительное поле. |
 | `common/overrides.py` | Семантика `manual_override`, общая для всех стран, чтобы она не разошлась. |
 | `common/registry.py` | Постоянный реестр `city_code`: чтение, навязывание зарегистрированных кодов данным, добавление новых поставщиков, уведомление. |
-| `common/manual_pipeline.py` | Полный пайплайн страны без пригодного к разбору источника: предыдущий файл → значения из конфига → проверки → сохранение. |
 | `common/telegram_notifier.py` | Единственное место, разговаривающее с Telegram. Деградирует мягко: без токена печатает сообщение в stdout и возвращает `False`, поэтому пайплайн никогда не падает из-за уведомлений. |
-| `countries/<cc>/fetcher.py` | Пайплайн одной страны с единственной функцией `main(notifier)`. Украина собирает и валидирует; все остальные страны только называют себя и передают работу общему «ручному» пайплайну. |
+| `countries/<cc>/fetcher.py` | Пайплайн одной страны с единственной функцией `main(notifier)`. Украина собирает и валидирует; все остальные страны только называют себя и передают работу общему пайплайну сбора по городам. |
 
 ### Генерируемые файлы — руками не править
 

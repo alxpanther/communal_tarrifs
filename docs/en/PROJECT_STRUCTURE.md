@@ -45,7 +45,7 @@ kommeter_scripts/
 │   ├── ge/{sources.json, city_registry.json}
 │   ├── kg/{sources.json, city_registry.json}
 │   ├── tj/{sources.json, city_registry.json}
-│   ├── tm/{sources.json, city_registry.json}
+│   ├── tm/city_registry.json   # retired country: only its city registry is kept
 │   └── ru/{sources.json, city_registry.json}
 │
 ├── src/                          # Pipeline code
@@ -65,20 +65,18 @@ kommeter_scripts/
 │   │   ├── validation.py         # Whether an extraction may be published
 │   │   ├── overrides.py          # manual_override semantics, identical for all countries
 │   │   ├── registry.py           # city_code registry: read, reconcile, append
-│   │   ├── manual_pipeline.py    # Pipeline for countries whose tariffs come from config only
 │   │   └── telegram_notifier.py  # Telegram delivery for alerts and discrepancy reports
 │   └── countries/
 │       ├── ua/fetcher.py         # Ukraine: scrape → parse → validate → save
 │       ├── am/fetcher.py         # Armenia: per-city, uses common/ai_pipeline.py
 │       ├── az/fetcher.py         # Azerbaijan: per-city, uses common/ai_pipeline.py
 │       ├── md/fetcher.py         # Moldova: per-city, uses common/ai_pipeline.py
-│       ├── uz/fetcher.py         # Uzbekistan: config-driven, uses common/manual_pipeline.py
-│       ├── kz/fetcher.py         # Kazakhstan: config-driven, uses common/manual_pipeline.py
+│       ├── uz/fetcher.py         # Uzbekistan: per-city, uses common/ai_pipeline.py
+│       ├── kz/fetcher.py         # Kazakhstan: per-city, uses common/ai_pipeline.py
 │       ├── by/fetcher.py         # Belarus: per-city, uses common/ai_pipeline.py
 │       ├── ge/fetcher.py         # Georgia: per-city, uses common/ai_pipeline.py
 │       ├── kg/fetcher.py         # Kyrgyzstan: per-city, uses common/ai_pipeline.py
 │       ├── tj/fetcher.py         # Tajikistan: per-city, uses common/ai_pipeline.py
-│       ├── tm/fetcher.py         # Turkmenistan: retired, not collected (see ARCHITECTURE 8b)
 │       └── ru/fetcher.py         # Russia: per-city, uses common/ai_pipeline.py
 │
 ├── assets/                       # Generated. Offline fallbacks bundled into the Android app
@@ -150,9 +148,8 @@ kommeter_scripts/
 | `common/validation.py` | Whether an extracted tariff may be published. Rejects a city whole rather than publish a doubtful field. |
 | `common/overrides.py` | `manual_override` semantics, shared by every country so they cannot drift apart. |
 | `common/registry.py` | The permanent `city_code` registry: read, force registered codes onto the data, append new suppliers, notify. |
-| `common/manual_pipeline.py` | The whole pipeline of a country that has no scrapable source: previous file → config values → validation → save. |
 | `common/telegram_notifier.py` | The only place that talks to Telegram. Degrades gracefully: with no token configured it prints the message to stdout and returns `False`, so a pipeline never fails because of notifications. |
-| `countries/<cc>/fetcher.py` | One country's pipeline, exposing a single `main(notifier)`. Ukraine scrapes and validates; every other country only names itself and delegates to the shared manual pipeline. |
+| `countries/<cc>/fetcher.py` | One country's pipeline, exposing a single `main(notifier)`. Ukraine scrapes and validates; every other country only names itself and delegates to the shared per-city pipeline. |
 
 ### Generated files — never edit by hand
 

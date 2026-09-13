@@ -206,37 +206,12 @@ Three workflows share the repository:
 
 ---
 
-## 8. Countries without a scrapable source
+## 8. The deleted config-declared pipeline
 
-Two countries are still here — KZ and UZ — and neither should stay.
-For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
-`src/common/manual_pipeline.py` is the whole pipeline. `src/countries/kz/fetcher.py` and
-`src/countries/uz/fetcher.py` only name the country and delegate to it.
-
-Russia, Armenia, Azerbaijan, Moldova, Georgia, Tajikistan, Belarus and Kyrgyzstan have left this pipeline for per-city collection (section 8a), and
-that is the direction for the rest: a country is moved by finding its sources, not by refreshing
-its numbers here. Armenia shows how little it takes — the regulator's tariff decision and the
-utility's own FAQ page were enough, even though its fetcher had claimed for a year that no readable
-source existed.
-
-Order of work in `manual_pipeline.run()`:
-
-1. `load_config()` — a country with no scraping stage must have `manual_override.enabled`, otherwise
-   the run is aborted rather than publishing a stale file silently.
-2. The previous published file becomes the base. With no previous file, `build_skeleton()` builds an
-   empty one from config: zone schedule and coefficients from `electricity.zones`, source URLs from
-   `reference_sources`, no rates.
-3. `sync_zone_schedule()` copies the zone schedule from config over the file, so editing hours or a
-   coefficient in config actually reaches the published file.
-4. `apply_manual_overrides()` — the same shared function Ukraine uses.
-5. A zero `base_rate` aborts the country: a file claiming free electricity is worse than yesterday's
-   file.
-6. `reconcile_cities()` records new suppliers in `config/<cc>/city_registry.json` and forces already
-   registered codes onto the data.
-7. `build_root()` + `save_country_json()`, exactly as for Ukraine.
-
-Adding a scraping stage to such a country later means inserting it in front of step 4 in that
-country's own `fetcher.py`; nothing downstream changes.
+Until September 2026 some countries had no collector at all: their numbers sat in
+`config/<cc>/sources.json` → `manual_override` and `src/common/manual_pipeline.py` turned them into a
+file. Every one of them has been moved to per-city collection (section 8a) and the module was
+deleted. A country with no readable source is retired (section 8b), never typed in.
 
 Two traps met while entering Russian tariffs, both of them general:
 
@@ -440,8 +415,11 @@ Both exist because of mistakes that were made and caught, not as decoration.
   handed to the model, which picks the decision in force by its date — which end of a list
   is the newest differs from site to site, so no position is trusted. `true` takes every PDF; a
   string takes only the links whose address or caption contains it — PDFs or pages alike — because a utility's tariff
-  page also links application forms and decrees from 2009, and each PDF sent is paid for. A page
-  linking more PDFs than the cap in `fetching.py` is logged, not cut silently. As with
+  page also links application forms and decrees from 2009, and each PDF sent is paid for. When more
+  links match than the cap in `fetching.py`, the cut is logged, and
+  `{"match": ..., "from_end": true}` keeps the last ones instead of the first — Aktobe's water
+  utility lists its decisions oldest first. A source with no `<a>` tags at all, such as a JSON feed
+  (Veolia Energy Tashkent's news, Uzsuvtaminot's tariff API), yields its bare addresses as links. As with
   `read_images`, config keeps the stable page and the file name of this year's decision never
   enters it. `read_images` also understands a table pasted into the page as a `data:` image, as
   Bishkekteploset's is: such an image has no width or height to judge, so its decoded size is used.

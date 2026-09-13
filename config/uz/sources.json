@@ -1,47 +1,185 @@
 {
   "settings": {
-    "auto_select_latest_model": true,
-    "gemini_model": "gemini-3.6-flash",
-    "timeout_seconds": 15
+    "timeout_seconds": 40,
+    "llm": {
+      "provider": "gemini",
+      "model": "gemini-3.6-flash",
+      "auto_select_latest_model": true,
+      "api_key_env": "GEMINI_API_KEY"
+    }
   },
-  "reference_sources": {
-    "electricity": "https://minenergy.uz/",
-    "water": "https://uzsuv.uz/",
-    "hot_water": "https://kp.veoliaenergy.uz/",
-    "heating": "https://kp.veoliaenergy.uz/"
+  "validation": {
+    "max_change_ratio": 0.6,
+    "same_period_tolerance": 0.005,
+    "sum_tolerance": 0.02,
+    "water": {
+      "max_rate": 30000.0
+    },
+    "hot_water": {
+      "max_rate": 100000.0
+    },
+    "heating": {
+      "max_rate_gcal": 1000000.0,
+      "max_rate_gcal_hour": 100000000.0
+    },
+    "electricity": {
+      "max_rate": 5000.0
+    }
   },
   "electricity": {
+    "region": "Республика Узбекистан",
     "unit": "kWh",
+    "source": {
+      "urls": [
+        "https://het.uz/ru/pages/calculator"
+      ],
+      "hint": "страница калькулятора АО «Региональные электрические сети» показывает две шкалы тарифов для бытовых потребителей: прежнюю и «После <дата> года». Нужна строка «0-200 кВт·ч» из шкалы «После <дата> года» — если эта дата уже наступила; иначе из прежней шкалы. Значение в сумах за кВт·ч («650 сум 0 тийин» = 650). Строки «201-500 кВт·ч» и выше не подходят. Дата начала действия — дата из заголовка шкалы. Реквизиты — «Тарифы АО «Региональные электрические сети» для бытовых потребителей с <дата>», номер постановления на странице не назван"
+    },
     "zones": {
       "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
+        "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
           "hours": "08:00 - 22:00",
-          "coefficient": 1.0,
-          "rate": 450.0
+          "coefficient": 1.0
         },
         "night": {
           "hours": "22:00 - 08:00",
-          "coefficient": 1.0,
-          "rate": 450.0
+          "coefficient": 1.0
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (Не применяется)",
+        "description": "Трехзонный тариф (не применяется)",
         "peak": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 450.0
+          "coefficient": 1.0
         },
         "half_peak": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 450.0
+          "coefficient": 1.0
         },
         "night": {
           "hours": "00:00 - 00:00",
-          "coefficient": 1.0,
-          "rate": 450.0
+          "coefficient": 1.0
+        }
+      }
+    }
+  },
+  "cities": {
+    "tashkent": {
+      "city_name": "Ташкент",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Тошкент шаҳар сув таъминоти\"",
+          "urls": [
+            "https://api.uzsuv.uz/api/v1/r/service/tariff/"
+          ],
+          "vat_percent": 12,
+          "hint": "источник — JSON со списком тарифов всех региональных предприятий «Ўзсувтаъминот»; название предприятия может быть напечатано латиницей. Нужны ровно две записи с organization_name \"Toshkent shahar suv taʼminoti\" AJ (оно же «АO \"Тошкент шаҳар сув таъминоти\"»): запись с \"type\": 2 (type_name «Ichimlik suv», питьевая вода) → water_supply и запись с \"type\": 1 (type_name «Oqova suv», канализация) → sewage. Значение — поле population этой же записи (тариф для населения, сум за м³), переписанное без изменений; дата начала действия — поле effective_date. Поля budget и other не нужны, записи других предприятий не подходят. total_rate не возвращай, его посчитает код. Числа в этом списке без НДС — верни их как есть, НДС 12% прибавит код. Реквизиты — «Тариф АO \"Тошкент шаҳар сув таъминоти\" для населения с <effective_date>»",
+          "supplier_aka": [
+            "\"Toshkent shahar suv taʼminoti\" AJ",
+            "Тошкент шаҳар сув таъминоти",
+            "АO \"Тошкент шаҳар сув таъминоти\""
+          ]
+        },
+        "heating": {
+          "supplier": "ИП ООО \"Veolia Energy Tashkent\"",
+          "urls": [
+            "https://feeds.tildacdn.com/api/getfeed/?feeduid=954914528491&size=30&slice=1&sort%5Bdate%5D=desc"
+          ],
+          "read_documents": "tarif",
+          "vat_percent": 12,
+          "hint": "первый документ — лента новостей Veolia Energy Tashkent, за ней страницы новостей о тарифах. Возьми САМУЮ СВЕЖУЮ новость «Новые тарифы на услуги теплоснабжения и горячего водоснабжения», тарифы из которой уже вступили в силу; строка «Для населения» (или «розничный тариф для населения»), сум за Гкал без НДС — верни число как есть, НДС 12% прибавит код. Тариф одноставочный: tariff_type = one_rate, rate_gcal_hour = 0. Базовый тариф, тарифы для бюджетных организаций и юридических лиц не подходят. Дата начала действия — «с <дата> тарифы … составляют» / «вступят в силу <дата>», реквизиты — постановление хокима города Ташкента с номером и датой из новости",
+          "supplier_aka": [
+            "Veolia Energy Tashkent"
+          ]
+        }
+      }
+    },
+    "samarkand": {
+      "city_name": "Самарканд",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Самарканд сув таъминоти\"",
+          "urls": [
+            "https://api.uzsuv.uz/api/v1/r/service/tariff/"
+          ],
+          "vat_percent": 12,
+          "hint": "источник — JSON со списком тарифов всех региональных предприятий «Ўзсувтаъминот»; название предприятия может быть напечатано латиницей. Нужны ровно две записи с organization_name \"Samarqand suv taʼminoti\" AJ (оно же «АО \"Самарканд сув таъминоти\"»): запись с \"type\": 2 (type_name «Ichimlik suv», питьевая вода) → water_supply и запись с \"type\": 1 (type_name «Oqova suv», канализация) → sewage. Значение — поле population этой же записи (тариф для населения, сум за м³), переписанное без изменений; дата начала действия — поле effective_date. Поля budget и other не нужны, записи других предприятий не подходят. total_rate не возвращай, его посчитает код. Числа в этом списке без НДС — верни их как есть, НДС 12% прибавит код. Реквизиты — «Тариф АО \"Самарканд сув таъминоти\" для населения с <effective_date>»",
+          "supplier_aka": [
+            "\"Samarqand suv taʼminoti\" AJ",
+            "Самарканд сув таъминоти",
+            "Самарқанд сув таъминоти"
+          ]
+        }
+      }
+    },
+    "bukhara": {
+      "city_name": "Бухара",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Бухоро сув таъминоти\"",
+          "urls": [
+            "https://api.uzsuv.uz/api/v1/r/service/tariff/"
+          ],
+          "vat_percent": 12,
+          "hint": "источник — JSON со списком тарифов всех региональных предприятий «Ўзсувтаъминот»; название предприятия может быть напечатано латиницей. Нужны ровно две записи с organization_name \"Buxoro suv taʼminoti\" AJ (оно же «АО \"Бухоро сув таъминоти\"»): запись с \"type\": 2 (type_name «Ichimlik suv», питьевая вода) → water_supply и запись с \"type\": 1 (type_name «Oqova suv», канализация) → sewage. Значение — поле population этой же записи (тариф для населения, сум за м³), переписанное без изменений; дата начала действия — поле effective_date. Поля budget и other не нужны, записи других предприятий не подходят. total_rate не возвращай, его посчитает код. Числа в этом списке без НДС — верни их как есть, НДС 12% прибавит код. Реквизиты — «Тариф АО \"Бухоро сув таъминоти\" для населения с <effective_date>»",
+          "supplier_aka": [
+            "\"Buxoro suv taʼminoti\" AJ",
+            "Бухоро сув таъминоти"
+          ]
+        }
+      }
+    },
+    "fergana": {
+      "city_name": "Фергана",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Фаргона сув таъминоти\"",
+          "urls": [
+            "https://api.uzsuv.uz/api/v1/r/service/tariff/"
+          ],
+          "vat_percent": 12,
+          "hint": "источник — JSON со списком тарифов всех региональных предприятий «Ўзсувтаъминот»; название предприятия может быть напечатано латиницей. Нужны ровно две записи с organization_name \"Farg‘ona suv taʼminoti\" AJ (оно же «АO \"Фарғона сув таъминоти\"»): запись с \"type\": 2 (type_name «Ichimlik suv», питьевая вода) → water_supply и запись с \"type\": 1 (type_name «Oqova suv», канализация) → sewage. Значение — поле population этой же записи (тариф для населения, сум за м³), переписанное без изменений; дата начала действия — поле effective_date. Поля budget и other не нужны, записи других предприятий не подходят. total_rate не возвращай, его посчитает код. Числа в этом списке без НДС — верни их как есть, НДС 12% прибавит код. Реквизиты — «Тариф АO \"Фарғона сув таъминоти\" для населения с <effective_date>»",
+          "supplier_aka": [
+            "\"Farg‘ona suv taʼminoti\" AJ",
+            "Фарғона сув таъминоти",
+            "АO \"Фарғона сув таъминоти\""
+          ]
+        }
+      }
+    },
+    "namangan": {
+      "city_name": "Наманган",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Наманган сув таъминоти\"",
+          "urls": [
+            "https://api.uzsuv.uz/api/v1/r/service/tariff/"
+          ],
+          "vat_percent": 12,
+          "hint": "источник — JSON со списком тарифов всех региональных предприятий «Ўзсувтаъминот»; название предприятия может быть напечатано латиницей. Нужны ровно две записи с organization_name \"Namangan suv taʼminoti\" AJ (оно же «АO \"Наманган сув таъминоти\"»): запись с \"type\": 2 (type_name «Ichimlik suv», питьевая вода) → water_supply и запись с \"type\": 1 (type_name «Oqova suv», канализация) → sewage. Значение — поле population этой же записи (тариф для населения, сум за м³), переписанное без изменений; дата начала действия — поле effective_date. Поля budget и other не нужны, записи других предприятий не подходят. total_rate не возвращай, его посчитает код. Числа в этом списке без НДС — верни их как есть, НДС 12% прибавит код. Реквизиты — «Тариф АO \"Наманган сув таъминоти\" для населения с <effective_date>»",
+          "supplier_aka": [
+            "\"Namangan suv taʼminoti\" AJ",
+            "Наманган сув таъминоти",
+            "АO \"Наманган сув таъминоти\""
+          ]
+        }
+      }
+    },
+    "andijan": {
+      "city_name": "Андижан",
+      "sources": {
+        "water": {
+          "supplier": "АО \"Андижон сув таъминоти\"",
+          "urls": [
+            "https://api.uzsuv.uz/api/v1/r/service/tariff/"
+          ],
+          "vat_percent": 12,
+          "hint": "источник — JSON со списком тарифов всех региональных предприятий «Ўзсувтаъминот»; название предприятия может быть напечатано латиницей. Нужны ровно две записи с organization_name \"Andijon suv taʼminoti\" AJ (оно же «АО \"Андижон сув таъминоти\"»): запись с \"type\": 2 (type_name «Ichimlik suv», питьевая вода) → water_supply и запись с \"type\": 1 (type_name «Oqova suv», канализация) → sewage. Значение — поле population этой же записи (тариф для населения, сум за м³), переписанное без изменений; дата начала действия — поле effective_date. Поля budget и other не нужны, записи других предприятий не подходят. total_rate не возвращай, его посчитает код. Числа в этом списке без НДС — верни их как есть, НДС 12% прибавит код. Реквизиты — «Тариф АО \"Андижон сув таъминоти\" для населения с <effective_date>»",
+          "supplier_aka": [
+            "\"Andijon suv taʼminoti\" AJ",
+            "Андижон сув таъминоти"
+          ]
         }
       }
     }
@@ -49,123 +187,27 @@
   "manual_override": {
     "enabled": true,
     "electricity": {
-      "source_url": "https://minenergy.uz/",
-      "base_rate": 450.0,
-      "effective_date": "2024-05-01",
-      "decree_info": "Постановление ПКМ РУз № 204 от 16.04.2024 (базовая социальная норма до 200 кВт·ч)"
+      "source_url": null,
+      "base_rate": null,
+      "effective_date": null,
+      "decree_info": null
     },
     "water": {
-      "source_url": "https://uzsuv.uz/",
-      "cities": {
-        "tashkent": {
-          "city_name": "Ташкент",
-          "supplier": "АО \"Узсувтаъминот\"",
-          "water_supply": 1400.0,
-          "sewage": 1000.0,
-          "total_rate": 2400.0,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Решение Кенгаша народных депутатов г. Ташкента"
-        },
-        "samarkand": {
-          "city_name": "Самарканд",
-          "supplier": "АО \"Самарканд сув таъминоти\"",
-          "water_supply": 1150.0,
-          "sewage": 700.0,
-          "total_rate": 1850.0,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Решение Кенгаша народных депутатов Самаркандской обл."
-        },
-        "bukhara": {
-          "city_name": "Бухара",
-          "supplier": "АО \"Бухоро сув таъминоти\"",
-          "water_supply": 1200.0,
-          "sewage": 700.0,
-          "total_rate": 1900.0,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Решение Кенгаша народных депутатов Бухарской обл."
-        },
-        "fergana": {
-          "city_name": "Фергана",
-          "supplier": "АО \"Фаргона сув таъминоти\"",
-          "water_supply": 1100.0,
-          "sewage": 600.0,
-          "total_rate": 1700.0,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Решение Кенгаша народных депутатов Ферганской обл."
-        },
-        "namangan": {
-          "city_name": "Наманган",
-          "supplier": "АО \"Наманган сув таъминоти\"",
-          "water_supply": 1000.0,
-          "sewage": 600.0,
-          "total_rate": 1600.0,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Решение Кенгаша народных депутатов Наманганской обл."
-        },
-        "andijan": {
-          "city_name": "Андижан",
-          "supplier": "АО \"Андижон сув таъминоти\"",
-          "water_supply": 1050.0,
-          "sewage": 600.0,
-          "total_rate": 1650.0,
-          "unit": "m3",
-          "effective_date": "2024-01-01",
-          "decree_info": "Решение Кенгаша народных депутатов Андижанской обл."
-        }
-      }
+      "source_url": null,
+      "cities": {}
     },
     "hot_water": {
-      "source_url": "https://kp.veoliaenergy.uz/",
-      "cities": {
-        "tashkent": {
-          "city_name": "Ташкент",
-          "supplier": "ИП ООО \"Veolia Energy Tashkent\"",
-          "rate": 10575.04,
-          "unit": "m3",
-          "effective_date": "2024-04-02",
-          "decree_info": "Тариф ИП ООО \"Veolia Energy Tashkent\" для населения"
-        }
-      }
+      "source_url": null,
+      "cities": {}
     },
     "heating": {
-      "source_url": "https://kp.veoliaenergy.uz/",
-      "cities": {
-        "tashkent": {
-          "city_name": "Ташкент",
-          "supplier": "ИП ООО \"Veolia Energy Tashkent\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 105654.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-04-02",
-          "decree_info": "Тариф ИП ООО \"Veolia Energy Tashkent\" для населения"
-        },
-        "samarkand": {
-          "city_name": "Самарканд",
-          "supplier": "ГУП \"Иссиклик манбаи\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 68000.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-01-01",
-          "decree_info": "Тариф ГУП \"Иссиклик манбаи\" для населения"
-        },
-        "bukhara": {
-          "city_name": "Бухара",
-          "supplier": "ГУП \"Бухоро иссиклик манбаи\"",
-          "tariff_type": "one_rate",
-          "rate_gcal": 65000.0,
-          "rate_gcal_hour": 0.0,
-          "unit": "Gcal",
-          "effective_date": "2024-01-01",
-          "decree_info": "Тариф ГУП \"Бухоро иссиклик манбаи\" для населения"
-        }
-      }
+      "source_url": null,
+      "cities": {}
     }
-  }
+  },
+  "retired_cities": [
+    "tashkent.hot_water",
+    "samarkand.heating",
+    "bukhara.heating"
+  ]
 }

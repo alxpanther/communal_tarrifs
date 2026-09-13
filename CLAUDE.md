@@ -52,19 +52,18 @@ Every country has its own `config/<cc>/` folder and its own `src/countries/<cc>/
 everything they share lives in `src/common/`. A fetcher names its country and delegates to one of
 the shared pipelines — it is a handful of lines, not a place for logic.
 
-There are three pipelines, and only the first two are a finished state:
+There are two pipelines:
 
 | Pipeline | Module | Countries | What it means |
 |---|---|---|---|
 | Aggregated source | `src/countries/ua/fetcher.py` | UA | One page lists every city; scraped and extracted in one pass |
-| Per-city sources | `src/common/ai_pipeline.py` | RU, AM, AZ, MD, GE, TJ, BY, KG | Each city declares its own sources in config and is read separately |
-| Config-declared | `src/common/manual_pipeline.py` | KZ, UZ | **Unfinished.** Numbers sit in config instead of being collected — see the migration note below |
+| Per-city sources | `src/common/ai_pipeline.py` | RU, AM, AZ, MD, GE, TJ, BY, KG, KZ, UZ | Each city declares its own sources in config and is read separately |
 
-The config-declared pipeline is a leftover, not a design. The countries still on it were entered by
-a model that wrote plausible-looking numbers into config rather than building a collector, and those
-numbers were wrong: the Russian ones were out by half against the regulator's own decrees. Every one
-of those countries is to be moved to per-city collection, one at a time. Do not add a country to that
-pipeline and do not refresh a country by editing its numbers there.
+There used to be a third, config-declared pipeline: countries entered by a model that wrote
+plausible-looking numbers into config rather than building a collector, and those numbers were wrong —
+the Russian ones were out by half against the regulator's own decrees. Every country has since been
+moved to per-city collection and the pipeline was deleted. Do not bring it back: a country with no
+readable source is retired (`"retired": true` in `config/countries.json`), not typed in.
 
 ## Read before starting a task
 

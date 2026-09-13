@@ -56,23 +56,23 @@
         "city_code": "astana",
         "city_name": "Астана",
         "supplier": "ГКП \"Астана Су Арнасы\"",
-        "water_supply": 58.14,
-        "sewage": 48.28,
-        "total_rate": 106.42,
+        "water_supply": 119.36,
+        "sewage": 127.41,
+        "total_rate": 246.77,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Астана"
+        "effective_date": "2026-07-01",
+        "decree_info": "Приказы Департамента Комитета по регулированию естественных монополий по городу Астана №105-ОД от 25.11.2025 и №21-ОД от 25.06.2026"
       },
       {
         "city_code": "almaty",
         "city_name": "Алматы",
         "supplier": "ГКП \"Алматы Су\"",
-        "water_supply": 75.2,
-        "sewage": 55.6,
-        "total_rate": 130.8,
+        "water_supply": 76.56,
+        "sewage": 47.5,
+        "total_rate": 124.06,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Алматы"
+        "effective_date": "2026-01-01",
+        "decree_info": "Тарифы ГКП «Алматы Су» на период с 1 января по 31 марта 2026 года"
       },
       {
         "city_code": "shymkent",
@@ -89,23 +89,23 @@
         "city_code": "karaganda",
         "city_name": "Караганда",
         "supplier": "ТОО \"Караганды Су\"",
-        "water_supply": 88.0,
-        "sewage": 57.0,
-        "total_rate": 145.0,
+        "water_supply": 178.73,
+        "sewage": 243.18,
+        "total_rate": 421.91,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по Карагандинской обл."
+        "effective_date": "2026-07-23",
+        "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий по Карагандинской области от 13.07.2026 № 76-ОД"
       },
       {
         "city_code": "aktobe",
         "city_name": "Актобе",
         "supplier": "АО \"Aqtobe su-energy group\"",
-        "water_supply": 68.0,
-        "sewage": 52.0,
-        "total_rate": 120.0,
+        "water_supply": 154.164,
+        "sewage": 148.2132,
+        "total_rate": 302.3772,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по Актюбинской обл."
+        "effective_date": "2026-04-01",
+        "decree_info": "Приказы Департамента Комитета по регулированию естественных монополий по Актюбинской области №35-ОД и №34-ОД"
       }
     ]
   },
@@ -153,22 +153,22 @@
         "city_name": "Алматы",
         "supplier": "ТОО \"Алматинские тепловые сети\"",
         "tariff_type": "one_rate",
-        "rate_gcal": 4500.0,
+        "rate_gcal": 9139.0716,
         "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Алматы"
+        "effective_date": "2026-05-01",
+        "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий по г. Алматы от 22.04.2026 № 65-ОД"
       },
       {
         "city_code": "shymkent",
         "city_name": "Шымкент",
         "supplier": "ГКП \"Куатжылуорталык-3\"",
         "tariff_type": "one_rate",
-        "rate_gcal": 2800.0,
+        "rate_gcal": 7456.61,
         "rate_gcal_hour": 0.0,
         "unit": "Gcal",
-        "effective_date": "2024-01-01",
-        "decree_info": "Приказ ДКРЕМ МНЭ РК по г. Шымкент"
+        "effective_date": "2026-01-01",
+        "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий по городу Шымкент от 28 ноября 2025 года №97"
       },
       {
         "city_code": "karaganda",

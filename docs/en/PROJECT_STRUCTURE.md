@@ -74,9 +74,9 @@ kommeter_scripts/
 │       ├── md/fetcher.py         # Moldova: per-city, uses common/ai_pipeline.py
 │       ├── uz/fetcher.py         # Uzbekistan: config-driven, uses common/manual_pipeline.py
 │       ├── kz/fetcher.py         # Kazakhstan: config-driven, uses common/manual_pipeline.py
-│       ├── by/fetcher.py         # Belarus: config-driven, uses common/manual_pipeline.py
+│       ├── by/fetcher.py         # Belarus: per-city, uses common/ai_pipeline.py
 │       ├── ge/fetcher.py         # Georgia: per-city, uses common/ai_pipeline.py
-│       ├── kg/fetcher.py         # Kyrgyzstan: config-driven, uses common/manual_pipeline.py
+│       ├── kg/fetcher.py         # Kyrgyzstan: per-city, uses common/ai_pipeline.py
 │       ├── tj/fetcher.py         # Tajikistan: per-city, uses common/ai_pipeline.py
 │       ├── tm/fetcher.py         # Turkmenistan: retired, not collected (see ARCHITECTURE 8b)
 │       └── ru/fetcher.py         # Russia: per-city, uses common/ai_pipeline.py
@@ -131,7 +131,6 @@ kommeter_scripts/
 |---|---|---|
 | `countries.json` | Maintainer | The registry of published countries: code, `country_names`, currency, `enabled`, `min_app_version`, the pipeline module, and the publication layout of each host. Both copies of `tariffs_index.json` are rendered from it, and every pipeline takes its root fields from it. A country not listed here is not published. |
 | `<cc>/sources.json` | Maintainer | Every URL that country's pipeline touches. **No URL may be hardcoded in Python.** Also holds `settings` (Gemini model choice, HTTP timeout), `electricity.zones` (zone schedule and coefficients for config-driven countries), and `manual_override` (values forced on top of whatever the pipeline produced). |
-| `certs/*.pem` | Maintainer | Intermediate certificates a source site fails to send, each downloaded from the issuer address in that site's certificate. Trusted in addition to the standard roots, never instead of them. |
 | `<cc>/city_registry.json` | Pipeline + maintainer | Maps a supplier name, exactly as printed on the source site, to a permanent `city_code`. New suppliers are appended automatically; **an existing `city_code` is never rewritten**, because the Android app stores it as the user's saved choice. Section `suppliers` = water utilities, section `heat_suppliers` = heat suppliers (shared by hot water and heating). |
 
 ### `src/` — the pipelines

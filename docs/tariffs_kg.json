@@ -49,19 +49,19 @@
     }
   },
   "water": {
-    "source_url": "http://bishkekvodokanal.kg/",
+    "source_url": "https://www.gorkenesh.kg/ru/the-rulings-of-the-bgk/29-sozyv.html?limit=0",
     "update_date": "2026-09-02",
     "cities": [
       {
         "city_code": "bishkek",
         "city_name": "Бишкек",
         "supplier": "ПЭУ \"Бишкекводоканал\"",
-        "water_supply": 10.45,
-        "sewage": 3.45,
-        "total_rate": 13.9,
+        "water_supply": 15.73,
+        "sewage": 6.8,
+        "total_rate": 22.53,
         "unit": "m3",
-        "effective_date": "2024-01-01",
-        "decree_info": "Постановление Бишкекского городского кенеша"
+        "effective_date": "2026-07-01",
+        "decree_info": "Постановление Бишкекского городского кенеша от 30 июня 2026 года № 101"
       }
     ]
   },
@@ -73,10 +73,10 @@
         "city_code": "bishkek",
         "city_name": "Бишкек",
         "supplier": "ОАО \"Бишкектеплосеть\"",
-        "rate": 85.0,
+        "rate": 141.89,
         "unit": "m3",
-        "effective_date": "2024-06-01",
-        "decree_info": "Приказ ДРТЭК при Минэнерго КР для населения"
+        "effective_date": "2026-03-01",
+        "decree_info": "Приказ Департамента по регулированию топливно-энергетического комплекса при Министерстве энергетики Кыргызской Республики №42 от 10 марта 2026 года"
       }
     ]
   },

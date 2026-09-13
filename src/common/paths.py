@@ -13,8 +13,6 @@ DOCS_DIR = os.path.join(REPO_ROOT, "docs")
 ASSETS_DIR = os.path.join(REPO_ROOT, "assets")
 DIST_DIR = os.path.join(REPO_ROOT, "dist")
 
-# Intermediate certificates some source sites fail to send; see common/fetching.py.
-CERTS_DIR = os.path.join(CONFIG_DIR, "certs")
 
 # Registry of every published country, shared by all pipelines and by the index builder.
 COUNTRIES_PATH = os.path.join(CONFIG_DIR, "countries.json")

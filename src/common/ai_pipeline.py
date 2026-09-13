@@ -115,12 +115,6 @@ def _aliases_of(city: dict, block: str) -> list:
     return []
 
 
-def _insecure_of(city: dict, block: str) -> bool:
-    """Whether this source's certificate is not to be verified. See fetching.fetch."""
-    block_config = (city.get("sources") or {}).get(block) or {}
-    return bool(block_config.get("insecure"))
-
-
 def _read_images_of(city: dict, block: str) -> bool:
     """Whether the pages of this source carry their tariff as an image.
 
@@ -131,6 +125,21 @@ def _read_images_of(city: dict, block: str) -> bool:
     """
     block_config = (city.get("sources") or {}).get(block) or {}
     return bool(block_config.get("read_images"))
+
+
+def _unit_of(city: dict, block: str) -> str:
+    """The unit a source prices this service in. Hot water is sold by the cubic metre almost
+    everywhere, but Belarus bills it as the heat used to warm it, per Gcal, and publishes no
+    price per cubic metre at all — so a source may say so instead of forcing a conversion."""
+    block_config = (city.get("sources") or {}).get(block) or {}
+    return str(block_config.get("unit") or BLOCK_UNITS[block])
+
+
+def _read_documents_of(city: dict, block: str):
+    """Whether the pages of this source attach their tariff as a linked PDF: True for every PDF,
+    or text the link must contain. See fetching.fetch_all."""
+    block_config = (city.get("sources") or {}).get(block) or {}
+    return block_config.get("read_documents") or False
 
 
 def _vat_of(city: dict, block: str) -> float:
@@ -165,7 +174,7 @@ PUBLISHED_FIELDS = {
 MAIN_FIELD = {"water": "total_rate", "hot_water": "rate", "heating": "rate_gcal"}
 
 
-def _publish(record: dict, code: str, block: str, today: date, previous: dict) -> dict:
+def _publish(record: dict, code: str, block: str, unit: str, today: date, previous: dict) -> dict:
     """Flattens a validated record to the single set of values published today.
 
     When the tariff is the one already published — same period, same number — the published
@@ -177,7 +186,7 @@ def _publish(record: dict, code: str, block: str, today: date, previous: dict) -
     if stale:
         logger.warning(stale)
     published = {"city_code": code, "city_name": resolved["city_name"],
-                 "supplier": resolved["supplier"], "unit": BLOCK_UNITS[block]}
+                 "supplier": resolved["supplier"], "unit": unit}
     for field in PUBLISHED_FIELDS[block]:
         if field in resolved:
             published[field] = resolved[field]
@@ -244,14 +253,14 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
             continue
 
         documents = fetch_all(urls, timeout, _read_images_of(city, block),
-                              _insecure_of(city, block))
+                              _read_documents_of(city, block))
         if not documents:
             failed(f"{label}: ни один источник не открылся ({', '.join(urls)})")
             continue
 
         instruction = prompts.city_prompt(
             block, city.get("city_name", code), _supplier_of(city, block),
-            country.currency, BLOCK_UNITS[block], _hint_of(city, block),
+            country.currency, _unit_of(city, block), _hint_of(city, block),
             aliases=_aliases_of(city, block),
         )
         extracted = extractor.extract([d.as_llm_part() for d in documents], instruction,
@@ -278,7 +287,8 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
                 failed(reason)
             continue
 
-        published[code] = _publish(record, code, block, today, _previous_city(previous_block, code))
+        published[code] = _publish(record, code, block, _unit_of(city, block), today,
+                                 _previous_city(previous_block, code))
         records[code] = record
         refreshed.append(code)
         logger.info(f"{country.code} {block}: {label} refreshed from source")
@@ -352,8 +362,8 @@ def collect_electricity(country: Country, config: dict, previous: dict, extracto
     timeout = int((config.get("settings", {}) or {}).get("timeout_seconds") or 30)
     urls = [source] if isinstance(source, str) else list(source.get("urls") or [source.get("url")])
     read_images = bool(source.get("read_images")) if isinstance(source, dict) else False
-    insecure = bool(source.get("insecure")) if isinstance(source, dict) else False
-    documents = fetch_all([u for u in urls if u], timeout, read_images, insecure)
+    read_documents = (source.get("read_documents") or False) if isinstance(source, dict) else False
+    documents = fetch_all([u for u in urls if u], timeout, read_images, read_documents)
     if not documents:
         return previous, ["электроэнергия: источник не открылся"], 0
 

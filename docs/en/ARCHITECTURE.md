@@ -208,12 +208,12 @@ Three workflows share the repository:
 
 ## 8. Countries without a scrapable source
 
-Five countries are still here — BY, KG, KZ, TM, UZ — and none of them should stay.
+Two countries are still here — KZ and UZ — and neither should stay.
 For them `config/<cc>/sources.json` → `manual_override` **is** the source, and
-`src/common/manual_pipeline.py` is the whole pipeline. `src/countries/by/fetcher.py` and
-`src/countries/ge/fetcher.py` only name the country and delegate to it.
+`src/common/manual_pipeline.py` is the whole pipeline. `src/countries/kz/fetcher.py` and
+`src/countries/uz/fetcher.py` only name the country and delegate to it.
 
-Russia, Armenia, Azerbaijan, Moldova, Georgia and Tajikistan have left this pipeline for per-city collection (section 8a), and
+Russia, Armenia, Azerbaijan, Moldova, Georgia, Tajikistan, Belarus and Kyrgyzstan have left this pipeline for per-city collection (section 8a), and
 that is the direction for the rest: a country is moved by finding its sources, not by refreshing
 its numbers here. Armenia shows how little it takes — the regulator's tariff decision and the
 utility's own FAQ page were enough, even though its fetcher had claimed for a year that no readable
@@ -391,12 +391,12 @@ Judging the result by how much Cyrillic it contains — the earlier rule — is 
 and Armenian pages, which carry none: a correct decode looked like a failure and the page reached
 the model as "tariflЙ™r".
 
-Some sites send their certificate without the intermediate one that links it to a trusted root. A
-browser fetches the missing link by itself, Python does not, and the site fails with "unable to get
-local issuer certificate". `config/certs/` keeps such intermediates, each downloaded from the
-address the site's own certificate names for its issuer, and `common/fetching.py` trusts them in
-addition to the standard roots. Verification is not weakened: every chain still has to end at a
-standard root. The Kazan водоканал is read this way.
+Certificates are not checked, for any source — the owner's decision. What is read is a public
+tariff page, and utility sites fail certificate checks in every possible way: expired, signed with a
+key OpenSSL 3 refuses, missing an intermediate, issued for another name. Each of those used to cost a
+country its data or put a certificate file into the repository that went stale within weeks. So
+`common/fetching.py` verifies neither the chain nor the hostname and lowers the cipher security level;
+a site that fails now fails for a real reason — it is down, blocks the request, or is gone.
 
 ### Captions and the report
 
@@ -427,18 +427,27 @@ Both exist because of mistakes that were made and caught, not as decoration.
   the company goes by. Without it a name the model was not told about reads as "the tariff is not
   here": the Novosibirsk heat company is published as АО «СИБЭКО» and printed as НТСК, and two
   models in turn returned an empty answer.
-* **A site whose certificate cannot be checked (`insecure`).** Set per source, never globally:
-  the request then skips chain and hostname verification and lowers the cipher security level,
-  because the sites that need it fail all three ways at once. It buys a public tariff page at the
-  cost of the guarantee that nobody tampered with it, which is the owner's call to make and is why
-  it is off unless config says otherwise. `src/check_sources.py` reads the same flag, so a source
-  is checked the way the pipeline actually reads it.
 * **A tariff published as a scan (`read_images`).** Tajikistan's ministry of energy posts the
   government's tariff decision as a photograph of its pages, so the page itself has nothing to read.
   With this set, the large images of every page fetched are downloaded too and handed to the vision
   model; the small ones — logos, banners, a magazine cover — are left alone, which is what the size
   threshold in `fetching.py` is for. Config keeps the stable page address, so next year's decision
   arrives on its own instead of the link rotting with the file name of this year's scan.
+* **A tariff attached to a list page (`read_documents`).** Kyrgyzstan's fuel and energy regulator
+  lists its tariff orders on one page and attaches each as a PDF; Belarus's energy association and
+  the Gomel водоканал do the same, and Bishkek's city council gives every resolution a page of its
+  own in one list. With this set, the documents every fetched page links to are downloaded too and
+  handed to the model, which picks the decision in force by its date — which end of a list
+  is the newest differs from site to site, so no position is trusted. `true` takes every PDF; a
+  string takes only the links whose address or caption contains it — PDFs or pages alike — because a utility's tariff
+  page also links application forms and decrees from 2009, and each PDF sent is paid for. A page
+  linking more PDFs than the cap in `fetching.py` is logged, not cut silently. As with
+  `read_images`, config keeps the stable page and the file name of this year's decision never
+  enters it. `read_images` also understands a table pasted into the page as a `data:` image, as
+  Bishkekteploset's is: such an image has no width or height to judge, so its decoded size is used.
+* **The unit of a source (`unit`).** Hot water is priced per m³ almost everywhere, and that is the
+  default. Belarus bills it as the heat used to warm the water, per Gcal, and publishes no price per
+  cubic metre at all, so its sources say `"unit": "Gcal"` instead of making anyone convert.
 * **The block's `source_url`.** It is filled from config on every run: the single page, when every
   city of the block reads the same one, and an empty string otherwise. Nothing used to write it, so
   the published file went on naming pages that had been dropped from config — Russia still claimed

@@ -7,19 +7,16 @@ or raw bytes and the caller never has to know which it was.
 No URL and no timeout is written here: both come from config/<cc>/sources.json.
 """
 
-import glob
+import base64
 import html as html_module
 import logging
-import os
 import re
 import ssl
 
-import certifi
 import requests
+import urllib3
 from requests.adapters import HTTPAdapter
-from urllib.parse import urljoin
-
-from common.paths import CERTS_DIR
+from urllib.parse import quote, unquote, urljoin
 
 logger = logging.getLogger(__name__)
 
@@ -36,36 +33,16 @@ BINARY_TYPES = ("application/pdf", "image/png", "image/jpeg", "image/webp")
 MAX_TEXT_CHARS = 200_000
 
 
-def _ssl_context() -> ssl.SSLContext:
-    """The usual trusted roots, plus the intermediate certificates kept in config/certs.
-
-    Some utility sites send their own certificate without the intermediate one that links it
-    to a trusted root. A browser fetches the missing link by itself; Python does not, and the
-    site fails with "unable to get local issuer certificate" — the Kazan водоканал does exactly
-    that. Each file in config/certs is such an intermediate, downloaded from the address the
-    site's own certificate names for its issuer. Nothing here weakens verification: every chain
-    still has to end at a standard root.
-    """
-    context = ssl.create_default_context(cafile=certifi.where())
-    for path in sorted(glob.glob(os.path.join(CERTS_DIR, "*.pem"))):
-        context.load_verify_locations(path)
-    return context
-
-
-class _TrustAdapter(HTTPAdapter):
-    def init_poolmanager(self, *args, **kwargs):
-        kwargs["ssl_context"] = _SSL_CONTEXT
-        return super().init_poolmanager(*args, **kwargs)
-
-
 class _UncheckedAdapter(HTTPAdapter):
-    """Talks to a site whose certificate cannot be validated at all — see fetch(insecure=True).
+    """Certificates are not checked, for any source.
 
-    Three things have to be given up together, because the sites that need this fail all three
-    ways at once: the chain is not verified, the hostname is not checked, and the cipher
-    security level is lowered, since OpenSSL 3 refuses a certificate signed with a key as weak
-    as Dushanbe's water utility uses. It is a separate adapter so that no other request in the
-    process can end up on it.
+    The owner's decision: what is read is a public tariff page, and the figures on it matter,
+    not whether the site keeps its certificate in order. Utility sites fail in every way there
+    is — expired certificates, keys too weak for OpenSSL 3, missing intermediates, names that do
+    not match — and each one used to cost a country its data or a certificate file in the
+    repository that went stale in weeks. So the chain is not verified, the hostname is not
+    checked, and the cipher security level is lowered, which is what Dushanbe's water utility
+    needs.
     """
 
     def init_poolmanager(self, *args, **kwargs):
@@ -77,10 +54,11 @@ class _UncheckedAdapter(HTTPAdapter):
         return super().init_poolmanager(*args, **kwargs)
 
 
-_SSL_CONTEXT = _ssl_context()
-_INSECURE_SESSION = None
+# urllib3 would otherwise print a warning for every page of every run.
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 _SESSION = requests.Session()
-_SESSION.mount("https://", _TrustAdapter())
+_SESSION.mount("https://", _UncheckedAdapter())
+_SESSION.verify = False
 _SESSION.headers["User-Agent"] = USER_AGENT
 
 # A tariff as a Russian-language page prints it: "3 800,68". Counting them is a cheap sign of
@@ -162,42 +140,14 @@ def _decode(raw: bytes, declared: str) -> str:
     return raw.decode("utf-8", "replace")
 
 
-# Certificate checking is switched off for one source at a time, never globally. Some utility
-# sites serve a certificate that expired years ago or was signed with a key modern OpenSSL
-# refuses — Dushanbe's water utility does both — and no certificate store can fix that. What
-# is being read is a public tariff page, so the owner decided the page is worth more than the
-# guarantee that nobody is tampering with it. It stays a deliberate, per-source exception:
-# turned on for everything, it would quietly accept a forged page anywhere.
-def _insecure_session() -> requests.Session:
-    """The session for unverified sources, built once and used by nothing else."""
-    global _INSECURE_SESSION
-    if _INSECURE_SESSION is None:
-        import urllib3
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        session = requests.Session()
-        session.headers.update({"User-Agent": USER_AGENT})
-        session.mount("https://", _UncheckedAdapter())
-        _INSECURE_SESSION = session
-    return _INSECURE_SESSION
-
-
-def _get(url: str, timeout: int, insecure: bool = False):
-    """One request. With `insecure`, the certificate is not checked at all; the warning urllib3
-    would print on every page of every run is silenced once, and this line takes its place."""
-    if not insecure:
-        return _SESSION.get(url, timeout=timeout)
-    logger.warning(f"{url}: certificate not verified (source declared insecure)")
-    return _insecure_session().get(url, timeout=timeout, verify=False)
-
-
-def fetch(url: str, timeout: int, insecure: bool = False) -> Document:
+def fetch(url: str, timeout: int) -> Document:
     """Fetches one document. Returns an empty Document on any failure — never raises.
 
     A source that is down must not abort the run: the city keeps its previous tariff and
     the caller reports the miss.
     """
     try:
-        response = _get(url, timeout, insecure)
+        response = _SESSION.get(url, timeout=timeout)
     except Exception as e:
         logger.warning(f"Could not fetch {url}: {e}")
         return Document(url)
@@ -226,23 +176,84 @@ def fetch(url: str, timeout: int, insecure: bool = False) -> Document:
 # size is what separates them. Tajikistan's ministry publishes one 2560x1804 image per decision.
 MIN_IMAGE_SIDE = 800
 MAX_PAGE_IMAGES = 4
+# An image embedded in the page as a data: URI carries no width or height to judge it by, so
+# its decoded size is used instead. Icons embedded that way are a few hundred bytes; the
+# tariff table Bishkek's heat utility pastes into its page is about 40 kB.
+MIN_INLINE_IMAGE_BYTES = 20_000
 
 IMG_TAG = re.compile(r"<img[^>]+>", re.I)
 IMG_ATTR = re.compile(r"""(src|width|height)\s*=\s*["']([^"']+)["']""", re.I)
+INLINE_IMAGE = re.compile(r"^data:(image/(?:png|jpeg|webp));base64,(.+)$", re.S)
+
+# A regulator that lists its decisions on one page and attaches each one: the page stays at the
+# same address while the address of every decision changes.
+LINK_ANCHOR = re.compile(r"""<a\s[^>]*href\s*=\s*["']([^"'#]+)["'][^>]*>(.*?)</a>""", re.I | re.S)
+MAX_PAGE_DOCUMENTS = 6
 
 
 def _large_images(markup: str, page_url: str) -> list:
-    """Absolute URLs of the images on a page that are big enough to be documents."""
+    """The images on a page that are big enough to be documents: URLs to download, or
+    Documents already decoded from an inline data: URI."""
     found = []
     for tag in IMG_TAG.findall(markup):
         attrs = {name.lower(): value for name, value in IMG_ATTR.findall(tag)}
+        src = attrs.get("src", "").strip()
+        inline = INLINE_IMAGE.match(src)
+        if inline:
+            image = _inline_image(page_url, inline.group(1), inline.group(2))
+            if image:
+                found.append(image)
+            continue
         width, height = as_pixels(attrs.get("width")), as_pixels(attrs.get("height"))
         if max(width, height) < MIN_IMAGE_SIDE:
             continue
-        url = urljoin(page_url, attrs.get("src", "").strip())
+        url = urljoin(page_url, src)
         if url.startswith(("http://", "https://")) and url not in found:
             found.append(url)
     return found[:MAX_PAGE_IMAGES]
+
+
+def _inline_image(page_url: str, mime: str, payload: str):
+    """A data: URI image as a Document, or None when it is too small to be a document."""
+    try:
+        data = base64.b64decode(payload, validate=False)
+    except ValueError:
+        return None
+    if len(data) < MIN_INLINE_IMAGE_BYTES:
+        return None
+    logger.info(f"Found an inline {mime} image on {page_url}: {len(data)} bytes")
+    return Document(page_url, data=data, mime=mime)
+
+
+def _linked_documents(markup: str, page_url: str, match) -> list:
+    """Absolute URLs of the documents a page links to, in page order, capped.
+
+    `match` is True for every PDF on the page, or a piece of text the link's address or caption
+    must contain — and then the link may lead to a page as well as to a PDF, because Bishkek's
+    city council publishes each resolution as a page of its own in a list of all of them. A
+    filter is what keeps the application forms, the 2009 decrees and the menu out, since every
+    document sent is paid for. The ones kept all go to the model, which picks the decision in
+    force by its date: which end of a list is the newest differs from site to site. A page
+    linking more than the cap is logged rather than cut silently, since the newest decision may
+    be the one left out.
+    """
+    wanted = match.lower() if isinstance(match, str) else ""
+    found = []
+    for href, caption in LINK_ANCHOR.findall(markup):
+        href = html_module.unescape(href.strip())
+        address = unquote(href)
+        if wanted:
+            if wanted not in (address + " " + html_to_text(caption)).lower():
+                continue
+        elif not address.lower().endswith(".pdf"):
+            continue
+        url = urljoin(page_url, quote(href, safe="/:%?=&"))
+        if url.startswith(("http://", "https://")) and url != page_url and url not in found:
+            found.append(url)
+    if len(found) > MAX_PAGE_DOCUMENTS:
+        logger.warning(f"{page_url}: links {len(found)} matching documents, only the first "
+                       f"{MAX_PAGE_DOCUMENTS} are read")
+    return found[:MAX_PAGE_DOCUMENTS]
 
 
 def as_pixels(value) -> int:
@@ -253,30 +264,41 @@ def as_pixels(value) -> int:
 
 
 def fetch_all(urls: list, timeout: int, read_images: bool = False,
-              insecure: bool = False) -> list:
+              read_documents=False) -> list:
     """Fetches several documents for one city, dropping the ones that failed.
 
-    With `read_images`, the large images of every page fetched are downloaded as well and
-    handed to the model alongside it. Some regulators publish a decision as a photograph of
-    its pages — Tajikistan's ministry of energy does — and the page itself then carries no
-    text to read. Following the images keeps the stable page in config instead of the file
-    name of this year's scan, which is what makes next year's decision arrive on its own.
+    With `read_images`, the large images of every page fetched are handed to the model
+    alongside it. Some regulators publish a decision as a photograph of its pages —
+    Tajikistan's ministry of energy does — and the page itself then carries no text to read.
+    With `read_documents` (True for every PDF, or text a link must contain), the documents a
+    page links to are fetched as well: Kyrgyzstan's energy regulator and Belarus's energy
+    association attach their decisions as PDFs, Bishkek's city council gives each resolution a
+    page of its own. Either way config keeps the stable page instead of the file name of this year's
+    decision, which is what makes next year's decision arrive on its own.
     """
     documents = []
     for url in urls:
-        document = fetch(url, timeout, insecure)
+        document = fetch(url, timeout)
         if not document:
             continue
         documents.append(document)
-        if read_images and document.text:
-            for image_url in _large_images(document.markup, url):
-                image = fetch(image_url, timeout, insecure)
+        if not document.text:
+            continue
+        if read_images:
+            for image in _large_images(document.markup, url):
+                if isinstance(image, str):
+                    image = fetch(image, timeout)
                 if image and image.is_binary:
                     documents.append(image)
+        if read_documents:
+            for link in _linked_documents(document.markup, url, read_documents):
+                attachment = fetch(link, timeout)
+                if attachment:
+                    documents.append(attachment)
     return documents
 
 
-def probe(url: str, timeout: int, insecure: bool = False) -> dict:
+def probe(url: str, timeout: int) -> dict:
     """Whether a source can be read from this machine, and whether it looks like a tariff.
 
     Downloads the document but calls no model, so it costs nothing. Returns the status, the type,
@@ -286,7 +308,7 @@ def probe(url: str, timeout: int, insecure: bool = False) -> dict:
     from common import pdf  # local: common.pdf imports this module
 
     try:
-        response = _get(url, timeout, insecure)
+        response = _SESSION.get(url, timeout=timeout)
     except Exception as e:
         return {"ok": False, "error": f"{e.__class__.__name__}: {str(e)[:160]}"}
     result = {"ok": response.status_code == 200, "status": response.status_code,

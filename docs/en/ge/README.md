@@ -33,9 +33,7 @@ which sets electricity, gas and water tariffs alike.
 - **Hot water and heating** do not exist for Georgian households — there is no district heating — so
   both blocks stay empty by design.
 
-GNERC's own site sends its certificate without the intermediate that links it to a trusted root, so
-`config/certs/` carries that intermediate; without it the whole country fails to download. The water
-utility's own site, `gwp.ge`, does not answer from outside Georgia at all, which is why the
+The water utility's own site, `gwp.ge`, does not answer from outside Georgia at all, which is why the
 regulator's copy is used for water as well.
 
 ---

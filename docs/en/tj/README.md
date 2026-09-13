@@ -28,9 +28,7 @@ Only electricity is collected so far, and only Dushanbe is in the file.
   figure is final.
 - **Water, hot water and heating** have no readable source. Their tariffs are approved by the
   Antimonopoly Service and reported in the state press, which is not a source (a dated article; see
-  ARCHITECTURE.md, section 8a). The water utility's own site serves a certificate that is expired
-  and too weak for Python to accept — not something `config/certs/` can fix, because the problem is
-  the site's own certificate rather than a missing intermediate. The city hall publishes a tariff
+  ARCHITECTURE.md, section 8a). The water utility's own site is closed for maintenance. The city hall publishes a tariff
   page, but it covers housing-fund maintenance and waste removal, priced per square metre and per
   resident, which is not what these blocks hold. All three keep their previous values and every run
   reports them as not refreshed.

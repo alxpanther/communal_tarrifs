@@ -16,13 +16,27 @@ This pipeline fetches and publishes utility tariffs for Belarus (`country: "BY"`
 
 ## Sources & Regulations
 
-1. **Electricity (`electricity`)**: Regulated by the Council of Ministers of RB / MART.
-   - Base rate (subsidized rate for homes with electric stoves): ~0.2541 BYN/kWh.
-   - Two-zone tariff: Day (17:00 - 22:00) 0.3557 BYN/kWh, Night (22:00 - 17:00) 0.1779 BYN/kWh.
-2. **Water Supply & Sewage (`water`)**: Regulated by Minsk City Executive Committee / MART.
-   - Minsk (*UP "Minskvodokanal"*): Water supply 1.5553 BYN/m³, Sewage 1.3095 BYN/m³, Total 2.8648 BYN/m³.
-3. **Hot Water & Heating (`hot_water`, `heating`)**: Subsidized state rate per Gcal.
-   - Minsk (*UP "Minskkommun teploset"* / *RUP "Minskenergo"*): ~24.7187 BYN/Gcal.
+Belarus is collected by `src/common/ai_pipeline.py`; the sources are `config/by/sources.json`.
+Six cities: Minsk and the five oblast centres.
+
+- **Water** tariffs for households are fixed by each oblast executive committee (Minsk by the city
+  one) and read from the city's own водоканал page. Every водоканал prints them there as a table,
+  except Gomel, which attaches a PDF — that source uses `read_documents` with a filter, since the
+  same page links two dozen unrelated PDFs. The subsidised column is the one households pay; the
+  "full cost recovery" column is not.
+- **Heating and hot water** share one tariff per Gcal set by the Council of Ministers for the whole
+  republic, with a second period from 1 June. It is read from the page for individuals of Belenergo,
+  the national energy association, which attaches the decision as a PDF (`read_documents`). That
+  document names no supplier, so each city's heat supplier is the name declared in config. Hot water
+  is billed as the heat used to warm it, so its unit is `Gcal` (see ARCHITECTURE.md, section 8a).
+- **Electricity** comes from the same Belenergo page: the subsidised single-rate tariff for an
+  ordinary flat (item 5, a gas stove), not the electric-stove tariff and not the full-cost one. The
+  two- and three-period tariffs are the official 0.7 / 2.0 and 0.6 / 0.7 / 1.8 multiples of it.
+- Household utilities in Belarus are VAT-exempt, so every printed figure is final.
+
+The "other cities (republic tariff)" entry was retired: water tariffs differ by oblast, so a single
+republic figure never existed. Four heat suppliers entered by hand were invented or mangled names
+and were replaced in the registry by the real companies, with every `city_code` kept.
 
 ---
 

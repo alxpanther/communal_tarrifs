@@ -6,7 +6,7 @@ government's tariff decision as a scan of its pages, so the source is the stable
 `read_images` hands the scan to the vision model.
 
 Water, hot water and heating for Dushanbe have no readable source yet — the utility's own
-site serves an expired certificate with a weak key, and the city hall publishes only
+site is closed for maintenance, and the city hall publishes only
 housing-fund and waste tariffs. Those blocks keep their previous values and every run
 reports them as not refreshed.
 """

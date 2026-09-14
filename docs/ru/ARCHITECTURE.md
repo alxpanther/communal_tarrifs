@@ -277,7 +277,7 @@
 | `openai_compatible` | `common/llm/openai_compatible.py` | текстовый слой через `common/pdf.py`, таблицы — построчно, каждая ячейка, накрытая объединением по горизонтали или по вертикали, получает текст накрывающей ячейки; скан отрисовывается в картинки страниц и уходит в `vision_model` | нет |
 
 `openai_compatible` — это любой API в формате OpenAI chat-completions: Qwen на Alibaba Cloud Model
-Studio (сейчас Россия), OpenRouter, GLM, локальный сервер.
+Studio (сейчас Россия, Беларусь и Казахстан), OpenRouter, GLM, локальный сервер.
 
 | Поле | Что это |
 |---|---|

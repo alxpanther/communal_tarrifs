@@ -191,7 +191,7 @@ index, this section a single city or service leaving a country file.
   wartime moratorium and are genuinely current. Show `decree_info` instead — it now carries the real
   decree number for every collected country.
 * **The country-wide electricity block is a fallback, not the tariff of every city.** Russia's
-  country block is Moscow's price; Novosibirsk, Kazan, Chelyabinsk and Krasnodar are in
+  country block is Moscow's price; Saint Petersburg, Novosibirsk, Kazan, Chelyabinsk and Krasnodar are in
   `electricity_cities` (section 2c). A city in neither has no electricity tariff of its own in the
   file yet.
 * **A city may appear in `water` and not in `heating`**, or the other way round. Already handled —

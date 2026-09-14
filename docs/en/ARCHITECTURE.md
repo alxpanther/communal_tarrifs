@@ -364,7 +364,8 @@ day and never learns the next tariff. The file needs only the tariff in force; a
 change in advance is welcome, but chasing announced future values is not a reason to add a URL.
 The same goes for hints: a hint that names this year's decree or dates stops matching the page once
 it is updated. When removing dated sources leaves a service with none, the service — or the whole
-city — goes to `retired_cities`; that is how Moscow and Saint Petersburg left the Russian file.
+city — goes to `retired_cities`; that is how Moscow and Saint Petersburg left the Russian file until
+pages updated in place were found for them.
 
 Text is decoded before anything else looks at it. UTF-8 wins whenever the bytes decode as UTF-8,
 and the encoding the response declares is used only when they do not: a single-byte decoder accepts

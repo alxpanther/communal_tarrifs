@@ -32,9 +32,15 @@ published JSON is the only place to look them up.
   Nizhny Novgorod and Samara have no electricity source yet: EnergosbyT Plus and TNS energo do not
   answer outside Russia, and Samaraenergo's decree is a scan behind a page per year.
 - **A source is a page that is updated in place**: a supplier's or settlement centre's tariff page
-  that will carry next year's figures at the same address. Moscow and Saint Petersburg are retired
-  because the only sources that could be read from GitHub for them were documents fixed to a year
-  (a 2026 tariff menu, a 2026 PDF) and a dated article.
+  that will carry next year's figures at the same address. Moscow and Saint Petersburg were retired
+  while their only readable sources were documents fixed to a year, and came back in September 2026
+  on pages updated in place. The Moscow utilities' own sites (Mosvodokanal, MOEK, Mosenergosbyt,
+  mos.ru) do not answer outside Russia, so Moscow's water, hot water and heating are read from the
+  GARANT reference page "Prices, rates and tariffs for housing and utility services in Moscow",
+  which names no decree numbers. Saint Petersburg is read from the household tariffs list of the
+  city's Tariff Committee, which links this year's summary table first: water and sewerage (one
+  price each), two-component hot water, heating, and electricity for the first consumption band of
+  two plans, published in `electricity_cities`.
 
 ---
 

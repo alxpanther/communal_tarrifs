@@ -22,11 +22,22 @@ Verified in the app source, so that nothing below is implemented twice:
 | A separate saved supplier per service — `hotWaterCityCode`, `heatingCityCode` | `lib/domain/entities/house.dart` |
 | Services related by `city_name`, not by `city_code` | `CityTariffs.named()` |
 | Supplier picker with search, and the "my city is not in the list" path | `lib/presentation/widgets/city_picker_dialog.dart` |
-| A new edition is rejected if a block loses too many charging cities | `TariffCatalog.acceptsAsSuccessor()` |
+| A new edition is rejected only when it carries no rate at all; lost cities or services, electricity included, are no reason | `TariffCatalog.acceptsAsSuccessor()` |
 | Meter types `hotWater`, `heating`, and — already — `waterHeating` | `lib/domain/enums/meter_type.dart` |
+| `plans`, `electricity_cities`, hot water components and `heat_norms` are read | `lib/domain/tariffs/electricity_plans.dart`, `tariff_catalog.dart` |
+| An address picks its electricity supplier, plan and hot water system (schema v14) | `house_edit_screen.dart`, `ElectricitySelection` |
+| A plan becomes the tariff of a meter with seasons and limits, and the user is told | `PlanGridBuilder`, `plan_notes_dialog.dart` |
+| Notices about a lost country, city, service, plan or norm and about a city's own tariff | `TariffNotice`, `TariffNoticeStore`, `TariffNoticeBanner` |
 
 The multi-supplier city case is handled too: a city with two heat companies offers both, and the
 plain city code belongs to neither.
+
+**Sections 2, 2a, 2b and 2c were done in the app on 14.09.2026.** Where the file says too little:
+`tier_basis` = `null` with limited bands — "only the part above the limit costs more", with a note
+to check it against the bill; months no season covers (May for Ukrainian electric heating, as the
+source page prints it) are charged by the season before and named to the user; bands without
+limits and bands on a multi-zone meter — the first band; `monthly_charge` — a separate service with
+a constant sum; a plan with no rows for a meter with that many zones puts in no rates.
 
 ---
 

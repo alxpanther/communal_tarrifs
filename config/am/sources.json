@@ -2,10 +2,17 @@
   "settings": {
     "timeout_seconds": 30,
     "llm": {
-      "provider": "gemini",
-      "model": "gemini-3.6-flash",
-      "auto_select_latest_model": true,
-      "api_key_env": "GEMINI_API_KEY"
+      "provider": "openai_compatible",
+      "model": "qwen-plus",
+      "vision_model": "qwen3-vl-plus",
+      "api_key_env": "QWEN_API_KEY",
+      "base_url_env": "QWEN_OPENAI_ENDPOINT",
+      "base_url": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+      "json_mode": true,
+      "timeout_seconds": 300,
+      "extra_params": {
+        "enable_thinking": false
+      }
     }
   },
   "validation": {

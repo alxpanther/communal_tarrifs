@@ -274,7 +274,7 @@ to another provider is a config edit.
 | `openai_compatible` | `common/llm/openai_compatible.py` | the text layer via `common/pdf.py`, tables written out row by row, every cell covered by a merge — across or down — given the text of the cell covering it; a scan is rendered to page images and sent to `vision_model` | no |
 
 `openai_compatible` covers every API speaking the OpenAI chat-completions format: Qwen on Alibaba
-Cloud Model Studio (Russia, Belarus and Kazakhstan, today), OpenRouter, GLM, a local server.
+Cloud Model Studio (Russia, Belarus, Kazakhstan, Armenia and Uzbekistan, today), OpenRouter, GLM, a local server.
 
 | Field | Meaning |
 |---|---|

@@ -108,6 +108,10 @@
     "ООО \"Уралэнергосбыт\"": {
       "city_code": "chelyabinsk",
       "city_name": "Челябинск"
+    },
+    "АО \"Петроэлектросбыт\"": {
+      "city_code": "saint_petersburg",
+      "city_name": "Санкт-Петербург"
     }
   }
 }

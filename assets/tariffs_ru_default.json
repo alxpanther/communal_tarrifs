@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T12:00:43.151480",
+  "last_updated_at": "2026-09-14T15:19:05.101776",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -2867,6 +2867,136 @@
             ]
           }
         ]
+      },
+      {
+        "city_code": "saint_petersburg",
+        "city_name": "Санкт-Петербург",
+        "supplier": "АО \"Петроэлектросбыт\"",
+        "unit": "kWh",
+        "base_rate": 7.08,
+        "effective_date": "2026-01-01",
+        "decree_info": "Распоряжение от 24.12.2025 № 334-р",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (День/Ночь)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.1441,
+              "rate": 8.1
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.6243,
+              "rate": 4.42
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (не применяется, ставка одна)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 7.08
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 7.08
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 7.08
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Городское население в домах с газовыми плитами",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.08
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.1
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.42
+              }
+            ]
+          },
+          {
+            "plan_code": "electric_stove",
+            "name": "Городское население в домах с электроплитами",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.31
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.08
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.31
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -2939,6 +3069,28 @@
         "total_rate": 67.07,
         "effective_date": "2026-01-01",
         "decree_info": "Постановление Министерства тарифного регулирования и энергетики Челябинской области от 12.12.2025 № 87/266 тарифы на питьевую воду и водоотведение для МУП «ПОВВ»."
+      },
+      {
+        "city_code": "moscow",
+        "city_name": "Москва",
+        "supplier": "АО \"Мосводоканал\"",
+        "unit": "m3",
+        "water_supply": 66.87,
+        "sewage": 52.48,
+        "total_rate": 119.35,
+        "effective_date": "2026-01-01",
+        "decree_info": "Справка ГАРАНТ «Цены, ставки и тарифы на ЖКУ в г. Москве»"
+      },
+      {
+        "city_code": "saint_petersburg",
+        "city_name": "Санкт-Петербург",
+        "supplier": "ГУП \"Водоканал Санкт-Петербурга\"",
+        "unit": "m3",
+        "water_supply": 43.13,
+        "sewage": 43.13,
+        "total_rate": 86.26,
+        "effective_date": "2026-01-01",
+        "decree_info": "Распоряжение от 19.12.2025 № 260-р"
       }
     ]
   },
@@ -3052,6 +3204,27 @@
         "heat_norm": 0.06779,
         "effective_date": "2026-01-01",
         "decree_info": "Приказ №628-В/НПА от 19.12.2025год."
+      },
+      {
+        "city_code": "moscow",
+        "city_name": "Москва",
+        "supplier": "ПАО \"МОЭК\"",
+        "unit": "m3",
+        "rate": 317.71,
+        "effective_date": "2026-01-01",
+        "decree_info": "Справка ГАРАНТ «Цены, ставки и тарифы на ЖКУ в г. Москве»"
+      },
+      {
+        "city_code": "saint_petersburg",
+        "city_name": "Санкт-Петербург",
+        "supplier": "ГУП \"ТЭК СПб\"",
+        "unit": "m3",
+        "rate": 191.1,
+        "component_water": 43.13,
+        "component_energy": 2466.22,
+        "heat_norm": 0.06,
+        "effective_date": "2026-01-01",
+        "decree_info": "Информационное письмо от 30.12.2025 № 01-13-1138/25-0-0 распоряжения теплоснабжающих орг-ций, распоряжение от 15.12.2017 № 201-р"
       }
     ]
   },
@@ -3135,6 +3308,28 @@
         "rate_gcal_hour": 0.0,
         "effective_date": "2026-01-01",
         "decree_info": "Постановление РЭК Свердловской области от 06.12.2023 № 209-ПК \"Об установлении тарифов на тепловую энергию (услуги по передаче тепловой энергии) на территории муниципального образования \"город Екатеринбург\" и о внесении изменений в отдельные постановления Региональной энергетической комиссии Свердловской области об установлении тарифов на тепловую энергию (услуги по передаче тепловой энергии) на территории муниципального образования \"город Екатеринбург\""
+      },
+      {
+        "city_code": "moscow",
+        "city_name": "Москва",
+        "supplier": "ПАО \"МОЭК\"",
+        "unit": "Gcal",
+        "tariff_type": "one_rate",
+        "rate_gcal": 3800.68,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Справка ГАРАНТ «Цены, ставки и тарифы на ЖКУ в г. Москве»"
+      },
+      {
+        "city_code": "saint_petersburg",
+        "city_name": "Санкт-Петербург",
+        "supplier": "ГУП \"ТЭК СПб\"",
+        "unit": "Gcal",
+        "tariff_type": "one_rate",
+        "rate_gcal": 2466.22,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Распоряжения теплоснабжающих организаций"
       }
     ]
   }

@@ -200,6 +200,27 @@ COUNTRIES=ua docker compose run --rm tariffs-deploy
 Пустая переменная или `all` — все включённые страны. Аргументы у `docker compose run` важнее
 переменной.
 
+Отдельные города страны — сервис `tariffs-city` (тот же образ, внутри `src/run_city.py`). Без
+`--write` это пробный прогон: результат печатается, файлы не меняются.
+
+```bash
+# Пробный прогон: что прочитается для Москвы и Петербурга
+docker compose run --rm tariffs-city ru moscow saint_petersburg
+
+# Одна услуга
+docker compose run --rm tariffs-city ru moscow --block water
+
+# Опубликовать эти города в docs/tariffs_ru.json и assets/tariffs_ru_default.json
+docker compose run --rm tariffs-city ru moscow saint_petersburg --write
+
+# Справка по всем параметрам
+docker compose run --rm tariffs-city
+```
+
+Код скрипта запекается в образ, а `config/`, `docs/`, `assets/` и `dist/` подключаются с диска.
+После изменения файлов в `src/` добавьте `--build`: `docker compose run --build --rm tariffs-city …`.
+Сервис не запускается от `docker compose up` — только явно через `run`.
+
 ---
 
 ### Вариант 2. Локальный запуск на Python

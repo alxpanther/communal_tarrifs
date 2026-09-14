@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: kommeter-tariffs
     container_name: kommeter_tariffs_fetcher
     env_file:
       - .env
@@ -16,6 +17,28 @@ services:
     # Countries to collect: COUNTRIES="ua am" in the shell or in .env, or arguments to
     # `docker compose run --rm tariffs-fetcher ua am`. Empty means every enabled country.
     command: ${COUNTRIES:-all}
+
+  # Part of a country: `docker compose run --rm tariffs-city ru moscow saint_petersburg`, a dry run
+  # that writes nothing; add `--write` to publish those cities, `--block water` for one service.
+  # The same image as tariffs-fetcher; the profile keeps `docker compose up` from starting it.
+  tariffs-city:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kommeter-tariffs
+    env_file:
+      - .env
+    volumes:
+      - ./assets:/app/assets
+      - ./docs:/app/docs
+      - ./config:/app/config
+      - ./dist:/app/dist
+    networks:
+      - deploy
+    profiles:
+      - tools
+    entrypoint: ["python", "src/run_city.py"]
+    command: ["--help"]
 
   tariffs-deploy:
     build:

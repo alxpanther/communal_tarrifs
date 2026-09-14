@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-13T11:52:59.239658",
+  "last_updated_at": "2026-09-14T14:44:38.347587",
   "country": "TJ",
   "country_names": {
     "ru": "Таджикистан",
@@ -12,41 +12,69 @@
     "base_rate": 0.4137,
     "unit": "kWh",
     "effective_date": "2025-12-29",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "decree_info": "Постановление Правительства Республики Таджикистан от 29 декабря 2025 года, № 709",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
-          "hours": "07:00 - 23:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.4137
         },
         "night": {
-          "hours": "23:00 - 07:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.4137
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
+        "description": "Трехзонный тариф (не применяется, ставка одна)",
         "peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.4137
         },
         "half_peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.4137
         },
         "night": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.4137
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Население",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.4137
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": []
   },
   "water": {
     "source_url": "",

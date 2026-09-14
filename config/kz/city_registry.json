@@ -38,5 +38,16 @@
       "city_code": "karaganda",
       "city_name": "Караганда"
     }
+  },
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
+  "electricity_suppliers": {
+    "Филиал АО \"Алатау Жарық Компаниясы\" - \"Энергосбыт\"": {
+      "city_code": "almaty",
+      "city_name": "Алматы"
+    },
+    "ТОО \"Энергосистема\"": {
+      "city_code": "aktobe",
+      "city_name": "Актобе"
+    }
   }
 }

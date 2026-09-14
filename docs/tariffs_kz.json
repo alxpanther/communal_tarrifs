@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-13T11:52:26.497217",
+  "last_updated_at": "2026-09-14T14:50:22.840376",
   "country": "KZ",
   "country_names": {
     "ru": "Казахстан",
@@ -12,45 +12,356 @@
     "base_rate": 24.81,
     "unit": "kWh",
     "effective_date": "2026-07-01",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "decree_info": "Тарифы АО «Астана-РЭК» для физических лиц с 01.07.2026г",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
-          "hours": "07:00 - 23:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 24.81
         },
         "night": {
-          "hours": "23:00 - 07:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 24.81
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
+        "description": "Трехзонный тариф (не применяется, ставка одна)",
         "peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 24.81
         },
         "half_peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 24.81
         },
         "night": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 24.81
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Квартиры без электроплит",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 1,
+            "above_kwh": null,
+            "up_to_kwh": 70,
+            "season_from": null,
+            "season_to": null,
+            "rate": 24.81
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 2,
+            "above_kwh": 70,
+            "up_to_kwh": 140,
+            "season_from": null,
+            "season_to": null,
+            "rate": 33.74
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 3,
+            "above_kwh": 140,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 42.18
+          }
+        ]
+      },
+      {
+        "plan_code": "electric_stove",
+        "name": "Квартиры с электроплитами",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 1,
+            "above_kwh": null,
+            "up_to_kwh": 90,
+            "season_from": null,
+            "season_to": null,
+            "rate": 23.44
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 2,
+            "above_kwh": 90,
+            "up_to_kwh": 180,
+            "season_from": null,
+            "season_to": null,
+            "rate": 33.74
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 3,
+            "above_kwh": 180,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 42.18
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": [
+      {
+        "city_code": "almaty",
+        "city_name": "Алматы",
+        "supplier": "Филиал АО \"Алатау Жарық Компаниясы\" - \"Энергосбыт\"",
+        "unit": "kWh",
+        "base_rate": 34.28,
+        "effective_date": "2026-09-12",
+        "decree_info": "Тарифы Филиала АО «Алатау Жарық Компаниясы» - «Энергосбыт» с 12 сентября 2026 года",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (не применяется, ставка одна)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 34.28
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 34.28
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (не применяется, ставка одна)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 34.28
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 34.28
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 34.28
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": true,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 34.28
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 45.51
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 56.89
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "city_code": "aktobe",
+        "city_name": "Актобе",
+        "supplier": "ТОО \"Энергосистема\"",
+        "unit": "kWh",
+        "base_rate": 20.73,
+        "effective_date": "2026-05-01",
+        "decree_info": "Отпускные цены ТОО «Энергосистема» с 01.05.2026",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (не применяется, ставка одна)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 20.73
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 20.73
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (не применяется, ставка одна)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 20.73
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 20.73
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 20.73
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители без электроплит",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": true,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 70,
+                "season_from": null,
+                "season_to": null,
+                "rate": 20.73
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 70,
+                "up_to_kwh": 120,
+                "season_from": null,
+                "season_to": null,
+                "rate": 27.76
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 120,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 34.71
+              }
+            ]
+          },
+          {
+            "plan_code": "electric_stove",
+            "name": "Бытовые потребители с электроплитами",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": true,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 90,
+                "season_from": null,
+                "season_to": null,
+                "rate": 20.62
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 90,
+                "up_to_kwh": 140,
+                "season_from": null,
+                "season_to": null,
+                "rate": 27.76
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 140,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 34.71
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "astana",
@@ -101,17 +412,17 @@
         "city_name": "Актобе",
         "supplier": "АО \"Aqtobe su-energy group\"",
         "unit": "m3",
-        "water_supply": 154.164,
-        "sewage": 148.2132,
-        "total_rate": 302.3772,
-        "effective_date": "2026-04-01",
-        "decree_info": "Приказы Департамента Комитета по регулированию естественных монополий по Актюбинской области №35-ОД и №34-ОД"
+        "water_supply": 132.9,
+        "sewage": 127.77,
+        "total_rate": 260.67,
+        "effective_date": "2026-07-01",
+        "decree_info": "РГУ «Департамент Комитета по регулированию естественных монополий Министерства национальной экономики Республики Казахстан по Актюбинской области» от 24 июня 2026 года №58-ОД, №59-ОД"
       }
     ]
   },
   "hot_water": {
     "source_url": "https://alts.kz/tarify/",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "almaty",
@@ -126,7 +437,7 @@
   },
   "heating": {
     "source_url": "",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "almaty",
@@ -143,10 +454,10 @@
         "city_code": "shymkent",
         "city_name": "Шымкент",
         "supplier": "ГКП \"Куатжылуорталык-3\"",
+        "unit": "Gcal",
         "tariff_type": "one_rate",
         "rate_gcal": 7456.61,
         "rate_gcal_hour": 0.0,
-        "unit": "Gcal",
         "effective_date": "2026-01-01",
         "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий по городу Шымкент от 28 ноября 2025 года №97"
       },

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-13T11:52:49.446201",
+  "last_updated_at": "2026-09-14T14:36:49.578391",
   "country": "UZ",
   "country_names": {
     "ru": "Узбекистан",
@@ -12,45 +12,128 @@
     "base_rate": 650.0,
     "unit": "kWh",
     "effective_date": "2026-06-01",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "decree_info": "Тарифы АО «Региональные электрические сети» для бытовых потребителей с 1 июня 2026 года",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
-          "hours": "08:00 - 22:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 650.0
         },
         "night": {
-          "hours": "22:00 - 08:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 650.0
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
+        "description": "Трехзонный тариф (не применяется, ставка одна)",
         "peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 650.0
         },
         "half_peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 650.0
         },
         "night": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 650.0
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Бытовые потребители",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 1,
+            "above_kwh": null,
+            "up_to_kwh": 200,
+            "season_from": null,
+            "season_to": null,
+            "rate": 650.0
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 2,
+            "above_kwh": 200,
+            "up_to_kwh": 500,
+            "season_from": null,
+            "season_to": null,
+            "rate": 900.0
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 3,
+            "above_kwh": 500,
+            "up_to_kwh": 1000,
+            "season_from": null,
+            "season_to": null,
+            "rate": 1100.0
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 4,
+            "above_kwh": 1000,
+            "up_to_kwh": 5000,
+            "season_from": null,
+            "season_to": null,
+            "rate": 1600.0
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 5,
+            "above_kwh": 5000,
+            "up_to_kwh": 10000,
+            "season_from": null,
+            "season_to": null,
+            "rate": 1900.0
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 6,
+            "above_kwh": 10000,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 2200.0
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": []
   },
   "water": {
     "source_url": "https://api.uzsuv.uz/api/v1/r/service/tariff/",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "tashkent",
@@ -127,7 +210,7 @@
   },
   "heating": {
     "source_url": "https://feeds.tildacdn.com/api/getfeed/?feeduid=954914528491&size=30&slice=1&sort%5Bdate%5D=desc",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "tashkent",

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-13T11:53:28.882280",
+  "last_updated_at": "2026-09-14T14:51:09.918391",
   "country": "MD",
   "country_names": {
     "ru": "Молдова",
@@ -12,45 +12,183 @@
     "base_rate": 3.56,
     "unit": "kWh",
     "effective_date": "2026-03-31",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "decree_info": "Hot. ANRE nr. 222 din 31.03.2026",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (День/Ночь)",
         "day": {
           "hours": "07:00 - 23:00",
-          "coefficient": 1.053371,
+          "coefficient": 1.0534,
           "rate": 3.75
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.825843,
+          "coefficient": 0.8258,
           "rate": 2.94
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
+        "description": "Трехзонный тариф (не применяется, ставка одна)",
         "peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 3.56
         },
         "half_peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 3.56
         },
         "night": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 3.56
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Бытовые потребители, низкое напряжение",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 3.56
+          },
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "07:00 - 23:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 3.75
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "23:00 - 07:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 2.94
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "https://anre.md/energie-electrica-3-290",
+    "update_date": "2026-09-14",
+    "cities": [
+      {
+        "city_code": "balti",
+        "city_name": "Бельцы",
+        "supplier": "S.A. \"Furnizarea Energiei Electrice Nord\"",
+        "unit": "kWh",
+        "base_rate": 3.95,
+        "effective_date": "2026-03-31",
+        "decree_info": "Hot. ANRE nr. 224 din 31.03.2026",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (День/Ночь)",
+            "day": {
+              "hours": "07:00 - 23:00",
+              "coefficient": 1.0405,
+              "rate": 4.11
+            },
+            "night": {
+              "hours": "23:00 - 07:00",
+              "coefficient": 0.8684,
+              "rate": 3.43
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (не применяется, ставка одна)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 3.95
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 3.95
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 3.95
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители, низкое напряжение",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.95
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "07:00 - 23:00",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.11
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.43
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "chisinau",
@@ -94,7 +232,7 @@
   },
   "heating": {
     "source_url": "https://anre.md/energie-termica-3-247",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "chisinau",

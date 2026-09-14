@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-13T10:54:35.801037",
+  "last_updated_at": "2026-09-14T14:48:31.608397",
   "country": "KG",
   "country_names": {
     "ru": "Кыргызстан",
@@ -11,46 +11,159 @@
     "source_url": "https://regultek.gov.kg/ru/activities/3/3",
     "base_rate": 1.64,
     "unit": "kWh",
-    "effective_date": "2026-05-01",
-    "update_date": "2026-09-13",
-    "decree_info": "Приказ Департамента по регулированию топливно-энергетического комплекса при Министерстве энергетики Кыргызской Республики № 103 от 24.04.2026 г.",
+    "effective_date": "2026-09-07",
+    "update_date": "2026-09-14",
+    "decree_info": "Приказ Департамента по регулированию топливно-энергетического комплекса при Министерстве энергетики Кыргызской Республики от 8 сентября 2026 года № 154",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
-          "hours": "07:00 - 23:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 1.64
         },
         "night": {
-          "hours": "23:00 - 07:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 1.64
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
+        "description": "Трехзонный тариф (не применяется, ставка одна)",
         "peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 1.64
         },
         "half_peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 1.64
         },
         "night": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 1.64
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Население",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 1,
+            "above_kwh": null,
+            "up_to_kwh": 700,
+            "season_from": null,
+            "season_to": null,
+            "rate": 1.64
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 2,
+            "above_kwh": 700,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 2.94
+          }
+        ]
+      },
+      {
+        "plan_code": "highland",
+        "name": "Население высокогорных и отдалённых труднодоступных зон",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 1.64
+          }
+        ]
+      },
+      {
+        "plan_code": "low_income",
+        "name": "Малообеспеченные семьи («үй-бүлөгө көмөк»)",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 1,
+            "above_kwh": null,
+            "up_to_kwh": 700,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.5
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 2,
+            "above_kwh": 700,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 2.94
+          }
+        ]
+      },
+      {
+        "plan_code": "unlimited",
+        "name": "Население без ограничения потребления и мощности",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 4.17
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": []
   },
   "water": {
     "source_url": "https://www.gorkenesh.kg/ru/the-rulings-of-the-bgk/29-sozyv.html?limit=0",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "bishkek",
@@ -67,7 +180,7 @@
   },
   "hot_water": {
     "source_url": "https://teploseti.kg/content/article/60-tarify",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "bishkek",
@@ -82,7 +195,7 @@
   },
   "heating": {
     "source_url": "https://teploseti.kg/content/article/60-tarify",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "bishkek",

@@ -34,5 +34,12 @@
       "city_code": "balti",
       "city_name": "Бельцы"
     }
+  },
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
+  "electricity_suppliers": {
+    "S.A. \"Furnizarea Energiei Electrice Nord\"": {
+      "city_code": "balti",
+      "city_name": "Бельцы"
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-14T12:04:05.711893",
+  "generated_at": "2026-09-14T14:51:09.921621",
   "countries": [
     {
       "country": "UA",
@@ -21,7 +21,7 @@
         "uk": "Вірменія"
       },
       "currency": "AMD",
-      "last_updated_at": "2026-09-12T13:04:12.926721",
+      "last_updated_at": "2026-09-14T14:36:04.065552",
       "path": "am/tariffs_am.json",
       "enabled": true,
       "min_app_version": ""
@@ -33,7 +33,7 @@
         "uk": "Азербайджан"
       },
       "currency": "AZN",
-      "last_updated_at": "2026-09-12T13:03:40.936510",
+      "last_updated_at": "2026-09-14T14:47:18.393241",
       "path": "az/tariffs_az.json",
       "enabled": true,
       "min_app_version": ""
@@ -45,7 +45,7 @@
         "uk": "Молдова"
       },
       "currency": "MDL",
-      "last_updated_at": "2026-09-13T11:53:28.882280",
+      "last_updated_at": "2026-09-14T14:51:09.918391",
       "path": "md/tariffs_md.json",
       "enabled": true,
       "min_app_version": ""
@@ -57,7 +57,7 @@
         "uk": "Узбекистан"
       },
       "currency": "UZS",
-      "last_updated_at": "2026-09-13T11:52:49.446201",
+      "last_updated_at": "2026-09-14T14:36:49.578391",
       "path": "uz/tariffs_uz.json",
       "enabled": true,
       "min_app_version": ""
@@ -69,7 +69,7 @@
         "uk": "Казахстан"
       },
       "currency": "KZT",
-      "last_updated_at": "2026-09-13T11:52:26.497217",
+      "last_updated_at": "2026-09-14T14:50:22.840376",
       "path": "kz/tariffs_kz.json",
       "enabled": true,
       "min_app_version": ""
@@ -93,7 +93,7 @@
         "uk": "Грузія"
       },
       "currency": "GEL",
-      "last_updated_at": "2026-09-12T17:57:02.100815",
+      "last_updated_at": "2026-09-14T14:47:31.642881",
       "path": "ge/tariffs_ge.json",
       "enabled": true,
       "min_app_version": ""
@@ -105,7 +105,7 @@
         "uk": "Киргизстан"
       },
       "currency": "KGS",
-      "last_updated_at": "2026-09-13T10:54:35.801037",
+      "last_updated_at": "2026-09-14T14:48:31.608397",
       "path": "kg/tariffs_kg.json",
       "enabled": true,
       "min_app_version": ""
@@ -117,7 +117,7 @@
         "uk": "Таджикистан"
       },
       "currency": "TJS",
-      "last_updated_at": "2026-09-13T11:52:59.239658",
+      "last_updated_at": "2026-09-14T14:44:38.347587",
       "path": "tj/tariffs_tj.json",
       "enabled": true,
       "min_app_version": ""

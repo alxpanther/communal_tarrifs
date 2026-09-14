@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-12T13:03:40.936510",
+  "last_updated_at": "2026-09-14T14:47:18.393241",
   "country": "AZ",
   "country_names": {
     "ru": "Азербайджан",
@@ -12,62 +12,112 @@
     "base_rate": 0.084,
     "unit": "kWh",
     "effective_date": "2024-12-29",
-    "update_date": "2026-09-12",
+    "update_date": "2026-09-14",
     "decree_info": "Решение Тарифного совета Азербайджанской Республики от 29 декабря 2024 года № 19",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
         "day": {
-          "hours": "08:00 - 22:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.084
         },
         "night": {
-          "hours": "22:00 - 08:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.084
         }
       },
       "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
+        "description": "Трехзонный тариф (не применяется, ставка одна)",
         "peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.084
         },
         "half_peak": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.084
         },
         "night": {
-          "hours": "00:00 - 00:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 0.084
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Население",
+        "is_default": true,
+        "tier_basis": "part",
+        "tiers_per_resident": null,
+        "monthly_charge": 1.0,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 1,
+            "above_kwh": null,
+            "up_to_kwh": 200,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.084
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 2,
+            "above_kwh": 200,
+            "up_to_kwh": 300,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 3,
+            "above_kwh": 300,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.15
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": []
   },
   "water": {
-    "source_url": "https://azersu.az/az/page/44",
-    "update_date": "2026-08-26",
+    "source_url": "https://tariff.gov.az/tarifler/kommunal-odenisler?type=84",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "baku",
         "city_name": "Баку",
         "supplier": "ОАО \"Азерсу\"",
+        "unit": "m3",
         "water_supply": 0.7,
         "sewage": 0.3,
         "total_rate": 1.0,
-        "unit": "m3",
-        "effective_date": "2021-02-01",
-        "decree_info": "Решение Тарифного совета Азербайджанской Республики от 30.01.2021 № 5"
+        "effective_date": "2021-01-30",
+        "decree_info": "Решение Тарифного совета Азербайджанской Республики от 30 января 2021 года № 5"
       }
     ]
   },
   "hot_water": {
     "source_url": "https://azeristilik.gov.az/az/ictimai-melumat/istilik-ve-isti-su-tarifleri",
-    "update_date": "2026-09-12",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "baku",
@@ -82,7 +132,7 @@
   },
   "heating": {
     "source_url": "https://azeristilik.gov.az/az/ictimai-melumat/istilik-ve-isti-su-tarifleri",
-    "update_date": "2026-09-12",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "baku",

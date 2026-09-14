@@ -48,8 +48,11 @@ Three consequences reach the app:
    published rather than being wiped — correct for the file, but it means `effective_date` is the
    only honest signal of freshness.
 
-**The published schema has not changed.** No field was added, renamed or re-typed. Everything below
-is app-side work that a schema change would enable, not work the current file forces.
+**The published schema grew in September 2026, and only grew.** No field was renamed, removed or
+re-typed, so the released app reads the file as before. Added: `electricity.plans`, the root block
+`electricity_cities`, and on two-component hot water `component_water`, `component_energy`,
+`heat_norm` and `heat_norms` (see [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md), sections 2.2, 2.2a
+and 2.4). Sections 2 and 2c below are the app work those fields make possible.
 
 ---
 
@@ -74,12 +77,15 @@ app has no way to say so.
 ### What to build
 
 1. **Extend the DTO** — `CityHotWaterTariff` in `lib/domain/tariffs/tariff_catalog.dart`:
-   `componentWater`, `componentEnergy`, `heatNorm`, all nullable with a default of `null`. Nullable
+   `componentWater`, `componentEnergy`, `heatNorm`, all nullable with a default of `null`, and
+   `heatNorms`, a list defaulting to empty. Nullable
    is not a style choice: the user's cached file has no such keys, and a non-null field crashes the
    app when it reads its own cache after an update.
 2. **Leave `rate` alone.** It stays the published price and the fallback. `hasRates` keeps meaning
    `available && rate > 0`.
-3. **Ask the building's hot water system.** A new field on the house, next to the supplier pickers
+3. **Ask the building's hot water system.** The options are the combinations `heat_norms` can
+   hold — `system` × `insulated_risers` × `towel_rails`; a `null` flag in a norm means it does not
+   matter for that norm. A new field on the house, next to the supplier pickers
    in `lib/presentation/screens/houses/house_edit_screen.dart`, with a Drift migration
    (`lib/data/database/tables.dart`, schema is at v13). Four to eight options, worded for a resident
    rather than for a regulator: "is there a heated towel rail on the hot water riser?" is answerable,
@@ -92,9 +98,34 @@ app has no way to say so.
 Steps 1, 2 and 4 without step 3 change nothing: without the building's system there is no norm to
 use, and the result is the same number the pipeline already computed. Do them together or not at all.
 
-**This requires a schema change here first.** The three fields exist inside the pipeline and are
-deliberately withheld from the published file (`PUBLISHED_FIELDS` in `common/ai_pipeline.py`),
-because the field list is a contract with a released app. Ask before publishing them.
+The fields are published. `heat_norms` is present only where the source prints the region's table
+(Yekaterinburgenergo today); elsewhere the app has `heat_norm` alone and step 4 falls back to `rate`.
+
+## 2c. Electricity: every tariff the source prints
+
+Until September 2026 a country file carried one electricity price and derived zone prices from
+coefficients. Now each block carries `plans`: every group of consumers the source prices — gas or
+electric stove, rural, low-income, electric heating — with every printed price as a row (meter,
+zone, hours, consumption band, season), plus a fixed monthly charge where there is one. And a city
+whose region sets its own tariff — Russia's do — is published in `electricity_cities`.
+
+`base_rate` and `zones` still hold the default plan's first band, so nothing breaks. What to build:
+
+1. **DTOs for `plans`, `rates` and `electricity_cities`** — every new field nullable or defaulted,
+   for the same cached-file reason as in section 2.
+2. **Pick the tariff by the user's city.** Look the city up in `electricity_cities` first — by
+   `city_name`, as services are related today — and fall back to `electricity`.
+3. **Ask the user's group** when a block has more than one plan: a picker on the house next to the
+   supplier pickers, stored as `plan_code`, defaulting to the plan with `is_default`.
+4. **Bill by bands and seasons**, following section 4.1 of JSON_SPECIFICATION.md. Where
+   `tier_basis` or the band limits are `null`, the file does not say enough to split consumption:
+   ask the user, or bill by the first band and say so.
+5. **Add `monthly_charge`** to the month's electricity sum where it is set.
+
+A zone's `hours` may be empty — several sources print no hours for the half-peak or day zone — and
+must not be parsed. A meter kind a source does not price carries the base rate in every zone and a
+description ending in "(не применяется, ставка одна)"; the app may hide that meter kind for the
+country.
 
 ---
 
@@ -148,9 +179,10 @@ index, this section a single city or service leaving a country file.
 * **Do not label a tariff stale by its date.** Ukrainian heat tariffs are frozen since 2021 by a
   wartime moratorium and are genuinely current. Show `decree_info` instead — it now carries the real
   decree number for every collected country.
-* **Electricity is one rate per country**, which is wrong for Russia: the published figure is
-  Moscow's. Fixing it needs a schema change (regional electricity) and is not started. Do not build
-  UI that assumes a single national electricity price will stay meaningful.
+* **The country-wide electricity block is a fallback, not the tariff of every city.** Russia's
+  country block is Moscow's price; Novosibirsk, Kazan, Chelyabinsk and Krasnodar are in
+  `electricity_cities` (section 2c). A city in neither has no electricity tariff of its own in the
+  file yet.
 * **A city may appear in `water` and not in `heating`**, or the other way round. Already handled —
   keep it that way when touching those screens.
 

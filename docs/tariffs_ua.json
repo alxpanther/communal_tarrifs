@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-02T17:54:14.309115",
+  "last_updated_at": "2026-09-14T10:29:31.584857",
   "country": "UA",
   "country_names": {
     "ru": "Украина",
@@ -11,12 +11,12 @@
     "source_url": "https://tariffa.com.ua/ru/tarif-na-elektroenergiy",
     "base_rate": 4.32,
     "unit": "kWh",
-    "effective_date": "2024-06-01",
-    "update_date": "2026-09-02",
+    "effective_date": "2024-05-31",
+    "update_date": "2026-09-14",
     "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
-        "description": "Двозонний тариф (День/Ніч)",
+        "description": "Двухзонный тариф (День/Ночь)",
         "day": {
           "hours": "07:00 - 23:00",
           "coefficient": 1.0,
@@ -29,7 +29,7 @@
         }
       },
       "three_zone": {
-        "description": "Тризонний тариф (Пік/Напівпік/Ніч)",
+        "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
         "peak": {
           "hours": "08:00 - 11:00, 20:00 - 22:00",
           "coefficient": 1.5,
@@ -42,15 +42,141 @@
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.4,
-          "rate": 1.728
+          "coefficient": 0.4005,
+          "rate": 1.73
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Население",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 4.32
+          },
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "07:00 - 23:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 4.32
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "23:00 - 07:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 2.16
+          },
+          {
+            "meter": "three_zone",
+            "zone": "peak",
+            "hours": "08:00 - 11:00, 20:00 - 22:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 6.48
+          },
+          {
+            "meter": "three_zone",
+            "zone": "half_peak",
+            "hours": "07:00 - 08:00, 11:00 - 20:00, 22:00 - 23:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 4.32
+          },
+          {
+            "meter": "three_zone",
+            "zone": "night",
+            "hours": "23:00 - 07:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 1.73
+          }
+        ]
+      },
+      {
+        "plan_code": "electric_heating",
+        "name": "Население с электроотоплением",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": "06-01",
+            "season_to": "09-30",
+            "rate": 4.32
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 1,
+            "above_kwh": null,
+            "up_to_kwh": 2000,
+            "season_from": "10-01",
+            "season_to": "04-30",
+            "rate": 2.64
+          },
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": 2,
+            "above_kwh": 2000,
+            "up_to_kwh": null,
+            "season_from": "10-01",
+            "season_to": "04-30",
+            "rate": 4.32
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": []
   },
   "water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -606,7 +732,7 @@
   },
   "hot_water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/hotwater/",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -774,7 +900,7 @@
   },
   "heating": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/heating/",
-    "update_date": "2026-09-02",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "vinnytsia",

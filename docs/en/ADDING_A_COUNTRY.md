@@ -34,8 +34,8 @@ paths (`ua`, `am`, `az`, `pl`).
 config/
 ├── countries.json               # add your entry here — this is what publishes the country
 └── pl/                          # your country
-    ├── sources.json             # source URLs, zone schedule, manual_override
-    └── city_registry.json       # starts as {"suppliers": {}, "heat_suppliers": {}}
+    ├── sources.json             # source URLs, electricity plans, manual_override
+    └── city_registry.json       # starts as {"suppliers": {}, "heat_suppliers": {}, "electricity_suppliers": {}}
 
 src/
 ├── common/                      # shared, country-agnostic code — use it, do not copy it
@@ -110,10 +110,10 @@ Rules:
    language, `currency`, `pipeline` (the folder name under `src/countries/`), `enabled`,
    `min_app_version`. Nothing is published until this entry exists.
 2. **Create `config/<cc>/sources.json`.** Every URL you touch goes here, plus `settings` and a
-   `manual_override` skeleton. Also fill `electricity.zones` with the
-   zone schedule and coefficients — rates are always derived as `base_rate × coefficient`, never
-   written twice.
-3. **Create `config/<cc>/city_registry.json`** with the two empty sections.
+   `manual_override` skeleton. The electricity source lists its groups of consumers under
+   `electricity.source.plans` — names and hints only; zone prices, hours and band limits are read
+   from the document, never written into config.
+3. **Create `config/<cc>/city_registry.json`** with the three empty sections.
 4. **Write `src/countries/<cc>/fetcher.py`** exposing `main(notifier)`.
    * Per-city sources → call `common.ai_pipeline.run(country, notifier)` and stop. Armenia's and
      Russia's fetchers are the whole template; everything else is config.
@@ -129,8 +129,8 @@ Rules:
    unknown one is appended and reported to Telegram. For a scraping pipeline add deterministic
    transliteration for your language and the competition rule for cities with several suppliers.
 8. **Delivery needs no new wiring.** `src/run_country.py` picks the country up from
-   `config/countries.json`, and the CI workflow derives its R2 uploads from the generated index. Add
-   the country to `docker-compose.yml` only if you use the local deploy container.
+   `config/countries.json`, and both the CI workflow and the local deploy container derive their R2
+   uploads from the generated index.
 9. **Write the documentation** in `docs/en/` and `docs/ru/`, and update `docs/README.md` and
    `PROJECT_STRUCTURE.md`.
 10. **Run it end to end at least twice** — `python src/run_country.py <cc>` — and confirm the second
@@ -198,7 +198,9 @@ country and delegating, and everything else is `config/<cc>/sources.json`.
      sources (see ARCHITECTURE, section 8a);
    * `validation` — the ceilings and `max_change_ratio` for that country's currency. A rouble
      ceiling makes no sense for tenge; set them from what a real tariff there looks like;
-   * `electricity` — the zone schedule, coefficients, and a `source` if there is one;
+   * `electricity` — `region`, `unit` and a `source` with its `plans` (ARCHITECTURE, section 8a,
+     "Electricity"); a city whose region sets its own electricity tariff declares
+     `sources.electricity` of the same shape;
    * `cities` — for every city, its `city_name` and, per block, `urls`, `supplier`, optionally
      `supplier_aka` and `hint`;
    * `manual_override` — present but empty.

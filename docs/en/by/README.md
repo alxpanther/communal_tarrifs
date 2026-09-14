@@ -30,8 +30,10 @@ Six cities: Minsk and the five oblast centres.
   document names no supplier, so each city's heat supplier is the name declared in config. Hot water
   is billed as the heat used to warm it, so its unit is `Gcal` (see ARCHITECTURE.md, section 8a).
 - **Electricity** comes from the same Belenergo page: the subsidised single-rate tariff for an
-  ordinary flat (item 5, a gas stove), not the electric-stove tariff and not the full-cost one. The
-  two- and three-period tariffs are the official 0.7 / 2.0 and 0.6 / 0.7 / 1.8 multiples of it.
+  ordinary flat (item 5, a gas stove) is `base_rate`, not the full-cost one. `plans` carries every
+  subsidised price: item 5 and flats with electric stoves, each single-rate, two- and three-period,
+  and the three electric heating tariffs. The printed two- and three-period prices are read as they
+  are; the "rest of the day" period prints no hours.
 - Household utilities in Belarus are VAT-exempt, so every printed figure is final.
 
 The "other cities (republic tariff)" entry was retired: water tariffs differ by oblast, so a single

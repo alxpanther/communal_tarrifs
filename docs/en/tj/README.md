@@ -23,7 +23,7 @@ Only electricity is collected so far.
   of energy — as a photograph of the decision's pages, not as text. The source is therefore the
   ministry's stable tariff page with `read_images` set, so the scan itself goes to the vision model
   (see ARCHITECTURE.md, section 8a). The table lists a dozen consumer groups; the published rate is
-  the row "Для населения", in dirams per kWh, which the model converts to somoni. The decision's own
+  the row "Для населения", in dirams per kWh, which the code divides into somoni. The decision's own
   note says the tariffs are net of VAT for every group **except** households, so the household
   figure is final.
 - **Water, hot water and heating** of Dushanbe are retired (`retired_cities`). Their tariffs are

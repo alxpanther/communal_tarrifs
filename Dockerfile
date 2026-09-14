@@ -18,5 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code and default configs
 COPY . .
 
-# Command to execute tariff generation
-CMD ["python", "src/run_country.py"]
+# Arguments after the image name are country codes: `docker run <image> ua am`.
+# Without them every enabled country is collected.
+ENTRYPOINT ["python", "src/run_country.py"]
+CMD ["all"]

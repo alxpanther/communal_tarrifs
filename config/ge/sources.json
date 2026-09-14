@@ -26,33 +26,12 @@
       "urls": [
         "https://gnerc.org/en/tariffs/tariffs2"
       ],
-      "hint": "нужна таблица поставщика «TELMICO LTD» — это поставщик электроэнергии Тбилиси. В ней блок «Tariffs for Consumers of Universal Service Provider (including VAT)», строка «0–101 kWh, and with a shared consumption meter (household)»: это первая ступень бытового тарифа. Значение указано в ТЕТРИ за кВт·ч — переведи в лари, разделив на 100 (20.261 тетри = 0.20261 лари). Не подходят: ступени «101–301 kWh» и «Above 301 kWh», строки «3,3-6-10 kV (household)» и «220/380 V (small enterprises)», блок «Public Service Provider», другие поставщики (EP Georgia Supply и прочие) и таблицы природного газа. Дату начала действия возьми из строки «Period» той же таблицы. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»"
-    },
-    "zones": {
-      "two_zone": {
-        "description": "Двухзонный тариф (не применяется, ставка одна)",
-        "day": {
-          "hours": "07:00 - 23:00",
-          "coefficient": 1.0
-        },
-        "night": {
-          "hours": "23:00 - 07:00",
-          "coefficient": 1.0
-        }
-      },
-      "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
-        "peak": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0
-        },
-        "half_peak": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0
-        },
-        "night": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0
+      "hint": "нужна таблица поставщика «TELMICO LTD» — поставщик электроэнергии Тбилиси, блок «Tariffs for Consumers of Universal Service Provider (including VAT)». Цены в тетри за кВт·ч — prices_in_subunits true. Не подходят: строки «3,3-6-10 kV (household)» и «220/380 V (small enterprises)», блок «Public Service Provider», другие поставщики (EP Georgia Supply и прочие) и таблицы природного газа. Дату начала действия возьми из строки «Period» той же таблицы. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+      "plans": {
+        "standard": {
+          "name": "Бытовые потребители",
+          "default": true,
+          "hint": "три бытовые ступени: «0–101 kWh, and with a shared consumption meter (household)» — up_to_kwh 101; «101–301 kWh (household)» — above_kwh 101, up_to_kwh 301; «Above 301 kWh (household)» — above_kwh 301"
         }
       }
     }

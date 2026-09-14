@@ -25,10 +25,9 @@ no tax is added anywhere in the pipeline.
 
 - **Electricity** comes from ANRE's "tariffs in force" table: the universal service price of
   Î.C.S. „Premier Energy” S.R.L. at low voltage, which is what a flat is connected to. The table
-  prints bani per kWh, so the model converts to lei. Since April 2026 Moldova also has prices
-  differentiated by hour, and the same table carries them; the published zone rates still come from
-  the coefficients in config, which is a known compromise — the day and night prices are separate
-  regulated numbers, not ratios of the single one.
+  prints bani per kWh, divided by the code. The single-rate price and the day (07–23) and night
+  (23–07) prices are all read from the same row. Bălți is supplied by FEE Nord at its own prices,
+  so it is published in `electricity_cities` from the same table.
 - **Heating** comes from the same kind of ANRE table, one row per licence holder: Termoelectrica for
   Chișinău, CET-Nord for Bălți, both per gigacalorie.
 - **Water and sewage** come from each utility's own page, not from ANRE's consolidated water table:

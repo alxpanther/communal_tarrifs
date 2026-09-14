@@ -21,7 +21,8 @@ Only Bishkek is in the file.
 
 - **Electricity** is set by orders of the Department for Regulation of the Fuel and Energy Complex,
   listed on its page for end-consumer tariffs, each attached as a PDF (`read_documents`); the model
-  picks the order in force. The published rate is households consuming up to 700 kWh a month.
+  picks the order in force. `base_rate` is households consuming up to 700 kWh a month; `plans` also
+  carries the band above 700 kWh, highland areas, low-income families and unlimited consumption.
 - **Heating and hot water** come from Bishkekteploset's tariff page. Its newest entry holds the
   table as an image pasted into the page (`read_images`). Heating is the household rate within the
   80 m² social norm, per Gcal; hot water is the metered price per m³.

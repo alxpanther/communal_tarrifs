@@ -152,8 +152,8 @@ def fold_hot_water(period: dict, reasons: list, label: str):
     by the regional norm for heating one m3. The arithmetic is done here rather than by the
     model: a number the code computed can be checked, a number the model computed cannot.
 
-    The published schema carries a single `rate`, so the components stay in the record for
-    the decree caption and for the day the app learns to bill them properly.
+    The folded `rate` is what the released app bills by. The components are published next to
+    it, so an app that knows the user's building can bill by that building's norm instead.
     """
     water = as_number(period.get("component_water"))
     energy = as_number(period.get("component_energy"))
@@ -171,6 +171,42 @@ def fold_hot_water(period: dict, reasons: list, label: str):
         reasons.append(f"{label}: заявленный тариф {stated} не сходится с расчётным {folded}")
         return None
     return folded
+
+
+HEAT_SYSTEMS = ("open", "closed", "decentralized")
+
+
+def check_heat_norms(raw, label: str, reasons: list):
+    """The regional norms for heating one m3 of hot water, one per kind of building.
+
+    The norm a household is billed by depends on its building — open or closed system, insulated
+    risers, heated towel rails — and a region publishes one for each kind. The file carries all
+    of them so the app can ask which building the user lives in. Returns the clean list, an
+    empty list when the source prints none, or None when what it printed cannot be trusted.
+    """
+    if not raw:
+        return []
+    if not isinstance(raw, list):
+        reasons.append(f"{label}: heat_norms не является списком")
+        return None
+    norms, seen = [], set()
+    for item in raw:
+        item = item if isinstance(item, dict) else {}
+        value = as_number(item.get("value"))
+        system = item.get("system")
+        risers, rails = item.get("insulated_risers"), item.get("towel_rails")
+        if system not in HEAT_SYSTEMS or risers not in (True, False, None) \
+                or rails not in (True, False, None) or value is None or not 0 < value < 1:
+            reasons.append(f"{label}: норматив подогрева {item!r} не разбирается")
+            return None
+        key = (system, risers, rails)
+        if key in seen:
+            reasons.append(f"{label}: норматив подогрева для {key} встречается дважды")
+            return None
+        seen.add(key)
+        norms.append({"system": system, "insulated_risers": risers, "towel_rails": rails,
+                      "value": value})
+    return norms
 
 
 def _check_period(block: str, period: dict, limits: dict, label: str, reasons: list,
@@ -215,8 +251,16 @@ def _check_period(block: str, period: dict, limits: dict, label: str, reasons: l
         if folded is not None:
             values["rate"] = folded
         for key in ("component_water", "component_energy", "heat_norm"):
-            if as_number(period.get(key)) is not None:
-                clean[key] = as_number(period.get(key))
+            number = as_number(period.get(key))
+            if number is not None:
+                # The folded rate gets the tax below; its components are prices too.
+                taxed = vat and key != "heat_norm"
+                clean[key] = round(number * (1 + vat / 100), 4) if taxed else number
+        norms = check_heat_norms(period.get("heat_norms"), label, reasons)
+        if norms is None:
+            return None
+        if norms:
+            clean["heat_norms"] = norms
 
     if block == "water":
         # The total is arithmetic, so the code does it. Asking the model to add two numbers

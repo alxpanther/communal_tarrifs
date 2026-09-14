@@ -33,33 +33,12 @@
       "urls": [
         "https://anre.md/energie-electrica-3-290"
       ],
-      "hint": "нужен блок «Furnizarea energiei electrice în contextul obligației de serviciu public privind prestarea serviciului universal», поставщик «Î.C.S. „Premier Energy” S.R.L.», строка «tensiune joasă» (низкое напряжение — к нему подключены квартиры), колонка «Tarif/Preț reglementat bani/kWh (fără TVA)». Значение указано в БАНЯХ за кВт·ч — переведи в леи, разделив на 100 (356 бань = 3,56 лея). Это конечная цена: коммунальные услуги для жилья в Молдове освобождены от НДС. Не подходят: блок «furnizarea de ultimă opțiune», поставщик «Furnizarea Energiei Electrice Nord», строки «ieșire RT», «tensiune înaltă» и «tensiune medie», тарифы распределения «Premier Energy Distribution» и «RED Nord», а также «Moldelectrica», «Energocom» и «Operatorul Pieței de Energie». Колонки «Preț diferențiat în funcție de orele de consum» не нужны. Дату начала действия и реквизиты возьми из колонки «Hotărârea ANRE» той же строки"
-    },
-    "zones": {
-      "two_zone": {
-        "description": "Двухзонный тариф (День/Ночь)",
-        "day": {
-          "hours": "07:00 - 23:00",
-          "coefficient": 1.053371
-        },
-        "night": {
-          "hours": "23:00 - 07:00",
-          "coefficient": 0.825843
-        }
-      },
-      "three_zone": {
-        "description": "Трехзонный тариф (не применяется)",
-        "peak": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0
-        },
-        "half_peak": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0
-        },
-        "night": {
-          "hours": "00:00 - 00:00",
-          "coefficient": 1.0
+      "hint": "в таблице нужен блок «Furnizarea energiei electrice în contextul obligației de serviciu public privind prestarea serviciului universal». Цены в банях за кВт·ч — prices_in_subunits true. Колонка «Tarif/Preț reglementat bani/kWh (fără TVA)» — однотарифный счётчик (single/all); колонки «Preț diferențiat în funcție de orele de consum»: «Orele 7:00 – 23:00» — two_zone day, «Orele 23:00 – 7:00» — two_zone night, часы бери из заголовков колонок. Цены напечатаны без НДС, но это конечная цена: коммунальные услуги для жилья в Молдове освобождены от НДС — верни как есть. Не подходят: блок «furnizarea de ultimă opțiune», строки «ieșire RT», «tensiune înaltă» и «tensiune medie», тарифы распределения «Premier Energy Distribution» и «RED Nord», «Moldelectrica», «Energocom» и «Operatorul Pieței de Energie». Дату начала действия и реквизиты возьми из колонки «Hotărârea ANRE» той же строки",
+      "plans": {
+        "standard": {
+          "name": "Бытовые потребители, низкое напряжение",
+          "default": true,
+          "hint": "поставщик «Î.C.S. „Premier Energy” S.R.L.», строка «tensiune joasă»"
         }
       }
     }
@@ -121,6 +100,20 @@
             "CET-Nord",
             "S.A. „CET-Nord”"
           ]
+        },
+        "electricity": {
+          "supplier": "S.A. \"Furnizarea Energiei Electrice Nord\"",
+          "urls": [
+            "https://anre.md/energie-electrica-3-290"
+          ],
+          "hint": "в таблице нужен блок «Furnizarea energiei electrice în contextul obligației de serviciu public privind prestarea serviciului universal». Цены в банях за кВт·ч — prices_in_subunits true. Колонка «Tarif/Preț reglementat bani/kWh (fără TVA)» — однотарифный счётчик (single/all); колонки «Preț diferențiat în funcție de orele de consum»: «Orele 7:00 – 23:00» — two_zone day, «Orele 23:00 – 7:00» — two_zone night, часы бери из заголовков колонок. Цены напечатаны без НДС, но это конечная цена: коммунальные услуги для жилья в Молдове освобождены от НДС — верни как есть. Не подходят: блок «furnizarea de ultimă opțiune», строки «ieșire RT», «tensiune înaltă» и «tensiune medie», тарифы распределения «Premier Energy Distribution» и «RED Nord», «Moldelectrica», «Energocom» и «Operatorul Pieței de Energie». Дату начала действия и реквизиты возьми из колонки «Hotărârea ANRE» той же строки",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители, низкое напряжение",
+              "default": true,
+              "hint": "поставщик «S.A. ,,Furnizarea Energiei Electrice Nord”» — он снабжает север Молдовы, строка «tensiune joasă». Строки поставщика «Î.C.S. „Premier Energy” S.R.L.» не подходят"
+            }
+          }
         }
       }
     },

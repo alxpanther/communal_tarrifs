@@ -252,12 +252,15 @@ def _linked_documents(markup: str, page_url: str, option) -> list:
     Which end of a list is the newest differs from site to site, so when more links match than
     the cap allows the cap needs a direction: `{"match": ..., "from_end": true}` keeps the last
     ones — Aktobe's water utility has listed every decision since 2022 oldest first. Without it
-    the first ones are kept, and the cut is logged rather than silent.
+    the first ones are kept, and the cut is logged rather than silent. `"count"` lowers the cap
+    for a page that keeps every past year in the list, newest first: the Chelyabinsk supplier
+    links each year's decree, and only this year's is worth paying for.
     """
     if isinstance(option, dict):
         match, from_end = option.get("match", True), bool(option.get("from_end"))
+        cap = int(option.get("count") or MAX_PAGE_DOCUMENTS)
     else:
-        match, from_end = option, False
+        match, from_end, cap = option, False, MAX_PAGE_DOCUMENTS
     wanted = match.lower() if isinstance(match, str) else ""
     found = []
     for href, caption in _links_of(markup):
@@ -271,11 +274,12 @@ def _linked_documents(markup: str, page_url: str, option) -> list:
         url = urljoin(page_url, quote(href, safe="/:%?=&"))
         if url.startswith(("http://", "https://")) and url != page_url and url not in found:
             found.append(url)
-    if len(found) > MAX_PAGE_DOCUMENTS:
+    cap = min(cap, MAX_PAGE_DOCUMENTS)
+    if len(found) > cap and cap == MAX_PAGE_DOCUMENTS:
         kept = "last" if from_end else "first"
         logger.warning(f"{page_url}: links {len(found)} matching documents, only the {kept} "
-                       f"{MAX_PAGE_DOCUMENTS} are read")
-    return found[-MAX_PAGE_DOCUMENTS:] if from_end else found[:MAX_PAGE_DOCUMENTS]
+                       f"{cap} are read")
+    return found[-cap:] if from_end else found[:cap]
 
 
 def as_pixels(value) -> int:

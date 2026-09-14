@@ -67,10 +67,10 @@ the base to patch. That is what makes the per-block fallback work.
 
 ### `electricity`
 
-Free-form page → the first 15 000 characters of HTML go to `call_gemini_extract()`, which returns
-`base_rate`, `effective_date`, `decree_info`. Only `base_rate` is stored directly;
-`apply_base_rate_to_zones()` recomputes every zone rate as `base_rate × coefficient`, so the
-two-zone and three-zone tariffs are always internally consistent and are never taken from the model.
+Read by the shared electricity module, `common/electricity.py`, exactly as for every other country
+(section 8a, "Electricity"): `extract_electricity()` hands it `electricity.source` from
+`config/ua/sources.json` and keeps the previous block when the reading is rejected. Ukraine prints
+its zone prices next to the zone coefficients of the Cabinet decree, and electric heating by season.
 
 ### `water`
 
@@ -223,9 +223,9 @@ Two traps met while entering Russian tariffs, both of them general:
 * **Russian hot water is a two-component tariff** — roubles per m³ of carrier plus roubles per Gcal
   of heat — while `hot_water.cities[].rate` is a single price per m³. It is folded into one number
   as `carrier + energy × the regional norm for heating one m³` (Sverdlovsk oblast: 0.05131 Gcal/m³
-  for a closed system), and the arithmetic is spelled out in `decree_info` so the published number
-  can be traced back. The alternative — three new fields — is a change to the contract with the
-  released app and has not been made.
+  for a closed system). Since September 2026 the three numbers are published next to `rate`
+  (`component_water`, `component_energy`, `heat_norm`), and a source marked `read_heat_norms` also
+  publishes the region's norm for every kind of building (`heat_norms`).
 
 ---
 
@@ -244,6 +244,7 @@ and the pipeline is `src/common/ai_pipeline.py`. Russia runs on it.
 | `common/llm/` | The extraction model behind one interface, `Extractor`: `base.py`, plus one module per provider — `gemini.py`, `openai_compatible.py`. Which provider and model a country uses is `settings.llm` in its config; no model name or endpoint is written in the code. |
 | `common/pdf.py` | A PDF for a provider that cannot read one: its text layer, or rendered page images when it is a scan. |
 | `common/prompts.py` | What the model is asked. One template per block, filled from config. |
+| `common/electricity.py` | Electricity: every household tariff a source prints, validated and published as `plans`, with the older `base_rate` and `zones` taken from the default plan. Serves the country-wide tariff and a city's own. |
 | `common/validation.py` | Whether the answer may be published. |
 | `common/ai_pipeline.py` | The run: previous file → fetch → extract → validate → merge what passed → save. |
 
@@ -314,8 +315,14 @@ month's credits disappear in a day. `src/run_city.py` runs part of a country:
 python src/run_city.py ru yekaterinburg                  # every service of one city
 python src/run_city.py ru yekaterinburg --block water    # one service
 python src/run_city.py ru --block electricity            # the country-wide tariff
+python src/run_city.py ru kazan --block electricity      # a city's own electricity tariff
 python src/run_city.py ru yekaterinburg --write          # publish just this city
+python src/run_city.py am --block electricity --llm-from ru   # read with Russia's provider
 ```
+
+`--llm-from` borrows `settings.llm` of another country for the run. Debugging a source on a cheap
+provider and leaving the country on the one it runs in production on is the reason it exists; the
+country's config is not touched.
 
 By default it is a dry run: it fetches, extracts and validates, prints what would be published and
 every reason something would not, and writes nothing — no file, no registry entry, no Telegram
@@ -418,7 +425,8 @@ Both exist because of mistakes that were made and caught, not as decoration.
   page also links application forms and decrees from 2009, and each PDF sent is paid for. When more
   links match than the cap in `fetching.py`, the cut is logged, and
   `{"match": ..., "from_end": true}` keeps the last ones instead of the first — Aktobe's water
-  utility lists its decisions oldest first. A source with no `<a>` tags at all, such as a JSON feed
+  utility lists its decisions oldest first. `"count"` lowers the cap: the Chelyabinsk electricity
+  supplier links a decree for every year since 2019, newest first, and only the first is read. A source with no `<a>` tags at all, such as a JSON feed
   (Veolia Energy Tashkent's news, Uzsuvtaminot's tariff API), yields its bare addresses as links. As with
   `read_images`, config keeps the stable page and the file name of this year's decision never
   enters it. `read_images` also understands a table pasted into the page as a `data:` image, as
@@ -426,6 +434,10 @@ Both exist because of mistakes that were made and caught, not as decoration.
 * **The unit of a source (`unit`).** Hot water is priced per m³ almost everywhere, and that is the
   default. Belarus bills it as the heat used to warm the water, per Gcal, and publishes no price per
   cubic metre at all, so its sources say `"unit": "Gcal"` instead of making anyone convert.
+* **Heat norms (`read_heat_norms`).** A region prints its norm for heating one m³ of hot water for
+  every kind of building. Only a source marked with this option is asked for that table: few pages
+  carry it, and every extra field asked of a page that has no answer is one more chance for the
+  model to fill something from the wrong table.
 * **The block's `source_url`.** It is filled from config on every run: the single page, when every
   city of the block reads the same one, and an empty string otherwise. Nothing used to write it, so
   the published file went on naming pages that had been dropped from config — Russia still claimed
@@ -445,6 +457,46 @@ Both exist because of mistakes that were made and caught, not as decoration.
   household in this city pays is knowledge about the city, so it sits in config next to the URL.
   Without it the Moscow heating tariff came back as the "before the substation" figure — a genuine
   number from a genuine document, and the wrong one for a flat.
+
+### Electricity
+
+A source rarely prints one electricity price. Armenia prices a flat by its monthly consumption and by
+day and night; Belarus prices a flat with an electric stove apart from one with a gas stove, each for
+one-, two- and three-zone meters; Azerbaijan adds a fixed monthly charge; Kazakhstan sets the bands
+per resident; Ukraine prices electric heating by season. `common/electricity.py` reads all of it:
+
+* **Config names the groups, the document gives the numbers.** `electricity.source.plans` (or
+  `cities.<code>.sources.electricity.plans`) lists the groups of consumers to read, each with a
+  stable code, a Russian name, a hint saying which rows of the document are its, and one of them
+  marked `"default": true`. Config holds no coefficient, no zone schedule and no band limit: an
+  earlier version kept zone coefficients there and derived zone prices from them, which is a
+  typed-in tariff under another name.
+* **The model returns every printed price as a row** — meter, zone, hours, band number and limits,
+  season, price — and only what the page states: `tier_basis` and `tiers_per_resident` stay `null`
+  unless the document says in so many words how bands apply.
+* **The code does the arithmetic.** Prices printed in subunits (tetri, bani, qəpik, dirams, tyiyn)
+  are flagged by the model as `prices_in_subunits` and divided by the code; `vat_percent` is added
+  by the code. A monthly charge is printed in whole units and only gets the tax.
+* **The older fields follow the default plan.** `base_rate` and `zones` are that plan's first band,
+  in today's season; a meter kind the source does not price gets the base rate. When the plans of
+  one source change on different dates the periods are split at every date, so the date published
+  next to `base_rate` is walked back to the day that price actually started.
+* **A city's own tariff.** A city whose electricity is priced by its region declares
+  `sources.electricity` like any other service and is published in `electricity_cities`; its
+  registry section is `electricity_suppliers`. Retiring it is `"<code>.electricity"` in
+  `retired_cities`.
+
+The electricity reading is rejected whole when a row has a meter and zone that do not go together,
+a non-positive price or one above `validation.electricity.max_rate`, band limits that do not make
+sense, a band without a number, a malformed season, a group not declared in config, the same price
+twice, no prices of the default group, or no single-rate or day price to take `base_rate` from. The
+guards every city block has apply to `base_rate` too: a change above `max_change_ratio`, and a new
+number for a period already published.
+
+A band's limits are the easiest number to misread without any check noticing: Krasnodar's decree
+sets them per building type and per heating season, and the model returned two different sets on
+two runs. Where that is so, the hint tells the model to leave the limits empty and fill only the
+band number.
 
 ### What the validator refuses
 

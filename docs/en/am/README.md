@@ -21,11 +21,12 @@ There are no tariff figures in this file on purpose — every number is read fro
 run that publishes it.
 
 - **Electricity** is set by the Public Services Regulatory Commission (PSRC) and published as a
-  table by Electric Networks of Armenia. The table is tiered by monthly consumption; the published
-  rate is the one an ordinary flat pays — up to 200 kWh a month, daytime, VAT included. The night
-  rate of a two-zone meter is currently derived from a coefficient in config, which is a known
-  compromise: in Armenia the night tariff is a separate regulated number, 10 dram below the day one,
-  not a ratio of it. It goes away when electricity is reworked (see ANDROID_MIGRATION.md).
+  table by Electric Networks of Armenia. Every price is published in `plans`: residents on 0.38 kV
+  in three bands of monthly consumption (up to 200, 201–400, above 400 kWh), each with a day and a
+  night price, and socially vulnerable families. The table prints no single-rate price, so
+  `base_rate` is the day price of the first band, and the night price is read, not derived. The
+  page does not say whether a band applies to the whole month or to its part, so `tier_basis` is
+  `null`, and it prints no zone hours.
 - **Water and sewage** are one tariff for the whole country, provided by Veolia Jur, so every city
   of the registry reads the same document: the PSRC decision that sets the tariff, published by the
   ARLIS legal database. The utility's own FAQ page carries the same figures and was meant to be the

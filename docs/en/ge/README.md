@@ -22,8 +22,9 @@ which sets electricity, gas and water tariffs alike.
 
 - **Electricity** comes from GNERC's end user tariff table, from the rows of TELMICO, the supplier
   serving Tbilisi. Household tariffs are tiered by monthly consumption, and the published rate is the
-  first tier — up to 101 kWh. The table prints tetri per kWh and says "including VAT", so the model
-  only converts to lari. Households have no day/night tariff, hence the zone coefficients of 1.0.
+  first tier — up to 101 kWh; all three bands are in `plans`. The table prints tetri per kWh and says
+  "including VAT"; the code divides by 100. It does not say how bands apply, so `tier_basis` is `null`.
+  Households have no day/night tariff, so both zone meters carry the base rate.
 - **Water and sewage** come from GNERC's water supply page, from the metered household tariffs of
   Georgian Water and Power, which serves Tbilisi. Two details matter there: the row named
   "Water supply" is the sum of the other two, so the drinking water and wastewater rows are the ones

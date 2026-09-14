@@ -29,7 +29,10 @@ prints only the net figure (Almaty Heat Networks) `vat_percent` adds the tax.
   general household tariff per Gcal, not the metered or unmetered sub-tariffs.
 - **Hot water:** Almaty Heat Networks, the metered price per m³ for the open system in the heating
   season.
-- **Electricity:** Astana-REC, the first consumption tier for a flat without an electric stove.
+- **Electricity:** Astana-REC for the country block — three consumption bands for a flat without and
+  with an electric stove; `base_rate` is the first band without one. Almaty (AZhK Energosbyt: three
+  levels per resident, bounds not printed) and Aktobe (Energosistema: three bands per resident with
+  limits) are published in `electricity_cities`. Shymkent and Karaganda have no readable source yet.
 
 Retired (`retired_cities`): **Astana heating and hot water**. There is no source — the tariff section of
 Astana-Teplotranzit's site leads to a 404, and Astanaenergosbyt last updated its tariffs in January

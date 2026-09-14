@@ -36,8 +36,8 @@
 config/
 ├── countries.json               # добавьте сюда запись — именно она публикует страну
 └── pl/                          # ваша страна
-    ├── sources.json             # URL источников, расписание зон, manual_override
-    └── city_registry.json       # начинается как {"suppliers": {}, "heat_suppliers": {}}
+    ├── sources.json             # URL источников, группы тарифов электроэнергии, manual_override
+    └── city_registry.json       # начинается как {"suppliers": {}, "heat_suppliers": {}, "electricity_suppliers": {}}
 
 src/
 ├── common/                      # общий код, не зависящий от страны — используйте, не копируйте
@@ -113,10 +113,10 @@ docs/
    приложения, `currency`, `pipeline` (имя папки в `src/countries/`), `enabled`, `min_app_version`.
    Пока этой записи нет, ничего не публикуется.
 2. **Создайте `config/<cc>/sources.json`.** Все URL, к которым вы обращаетесь, — сюда, плюс
-   `settings` и каркас `manual_override`. Заполните ещё `electricity.zones`
-   расписанием зон и коэффициентами: ставки всегда выводятся как `base_rate × coefficient` и никогда
-   не записываются дважды.
-3. **Создайте `config/<cc>/city_registry.json`** с двумя пустыми секциями.
+   `settings` и каркас `manual_override`. Источник электроэнергии перечисляет группы потребителей в
+   `electricity.source.plans` — только названия и подсказки; цены зон, часы и границы ступеней
+   читаются из документа и в конфиг не пишутся.
+3. **Создайте `config/<cc>/city_registry.json`** с тремя пустыми секциями.
 4. **Напишите `src/countries/<cc>/fetcher.py`** с функцией `main(notifier)`.
    * Источники по городам → вызовите `common.ai_pipeline.run(country, notifier)` и всё. Fetcher'ы
      Армении и России целиком являются шаблоном, остальное — конфиг.
@@ -134,8 +134,8 @@ docs/
    детерминированную транслитерацию для своего языка и правило конкуренции для городов с несколькими
    поставщиками.
 8. **Доставку настраивать не нужно.** `src/run_country.py` подхватывает страну из
-   `config/countries.json`, а CI-workflow выводит список загрузок в R2 из сгенерированного индекса.
-   `docker-compose.yml` правьте только если пользуетесь локальным контейнером деплоя.
+   `config/countries.json`, а и CI-workflow, и локальный контейнер деплоя выводят список загрузок в R2
+   из сгенерированного индекса.
 9. **Напишите документацию** в `docs/en/` и `docs/ru/` и обновите `docs/README.md` и
    `PROJECT_STRUCTURE.md`.
 10. **Прогоните всё от начала до конца минимум дважды** — `python src/run_country.py <cc>` — и
@@ -203,7 +203,9 @@ docs/
      источники (см. ARCHITECTURE, раздел 8a);
    * `validation` — потолки и `max_change_ratio` для валюты этой страны. Рублёвый потолок бессмыслен
      для тенге; ставьте их по тому, как выглядит настоящий тариф;
-   * `electricity` — расписание зон, коэффициенты и `source`, если он есть;
+   * `electricity` — `region`, `unit` и `source` с его `plans` (ARCHITECTURE, раздел 8a,
+     «Электроэнергия»); город, чей регион сам устанавливает тариф на электроэнергию, объявляет
+     `sources.electricity` того же вида;
    * `cities` — у каждого города `city_name` и по каждому блоку `urls`, `supplier`, при
      необходимости `supplier_aka` и `hint`;
    * `manual_override` — присутствует, но пустой.

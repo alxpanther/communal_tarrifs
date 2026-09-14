@@ -7,7 +7,9 @@ country to check a fix in one city is how a month's credits disappear in a day.
     python src/run_city.py ru yekaterinburg --block water      # one service
     python src/run_city.py ru moscow saint_petersburg --block heating
     python src/run_city.py ru --block electricity              # the country-wide tariff
+    python src/run_city.py ru kazan --block electricity        # a city's own electricity tariff
     python src/run_city.py ru yekaterinburg --write            # publish just this city
+    python src/run_city.py am --block electricity --llm-from ru   # test on Russia's provider
 
 A dry run, the default, fetches, extracts and validates, then prints what would be published
 and every reason something would not. It writes no file, sends nothing to Telegram and leaves
@@ -32,7 +34,7 @@ from dotenv import load_dotenv
 import build_index
 from common import ai_pipeline, llm
 from common.countries import load_countries
-from common.jsonio import load_previous
+from common.jsonio import ELECTRICITY_CITIES, load_previous
 from common.overrides import CITY_BLOCKS
 from common.telegram_notifier import TelegramNotifier
 
@@ -55,6 +57,9 @@ def parse_args(argv):
     parser.add_argument("--accept-period-changes", action="store_true",
                         help="accept a new number for an already published period — only after "
                              "checking by hand that the regulator really corrected it")
+    parser.add_argument("--llm-from", metavar="COUNTRY",
+                        help="read with settings.llm of another country's config — to debug a "
+                             "source on a cheaper provider than the one the country runs on")
     return parser.parse_args(argv)
 
 
@@ -75,15 +80,45 @@ def check_selection(args, config: dict) -> str:
 RAW_PREVIEW_CHARS = 1500
 
 
+def print_electricity(label: str, power: dict):
+    print(f"  ✅ {label}base_rate {power.get('base_rate')} с {power.get('effective_date')} "
+          f"| {power.get('decree_info')}")
+    for meter, zones in (power.get("zones") or {}).items():
+        rates = ", ".join(f"{name} {zone.get('rate')}" for name, zone in zones.items()
+                          if isinstance(zone, dict))
+        print(f"       {meter}: {rates}")
+    for plan in power.get("plans") or []:
+        extras = [f"ступени: {plan['tier_basis']}" if plan.get("tier_basis") else "",
+                  "на человека" if plan.get("tiers_per_resident") else "",
+                  f"абонплата {plan['monthly_charge']}" if plan.get("monthly_charge") else ""]
+        print(f"       [{plan['plan_code']}{' *' if plan.get('is_default') else ''}] "
+              f"{plan['name']} {' '.join(e for e in extras if e)}")
+        for row in plan["rates"]:
+            band = f" ступень {row['tier']}" if row["tier"] else ""
+            if row["above_kwh"] is not None or row["up_to_kwh"] is not None:
+                band += f" {row['above_kwh'] or 0}–{row['up_to_kwh'] or '∞'} кВт·ч"
+            season = f" {row['season_from']}..{row['season_to']}" if row["season_from"] else ""
+            hours = f" ({row['hours']})" if row["hours"] else ""
+            print(f"         {row['meter']}/{row['zone']}{hours}{band}{season}: {row['rate']}")
+
+
 def print_dry_run(args, data: dict, refreshed: dict, failures: dict, results: dict):
-    blocks = [args.block] if args.block else list(CITY_BLOCKS)
+    blocks = [args.block] if args.block else list(CITY_BLOCKS) + [ELECTRICITY]
     for block in blocks:
         print(f"\n=== {block} ===")
         if block == ELECTRICITY:
             if refreshed.get(ELECTRICITY):
-                power = data[ELECTRICITY]
-                print(f"  ✅ base_rate {power.get('base_rate')} с {power.get('effective_date')} "
-                      f"| {power.get('decree_info')}")
+                print_electricity("", data[ELECTRICITY])
+            result = results.get(ELECTRICITY_CITIES)
+            by_code = {c.get("city_code"): c for c in data[ELECTRICITY_CITIES].get("cities", [])}
+            for code in args.cities:
+                if result and code in result.records:
+                    print_electricity(f"{code}: ", by_code[code])
+                elif result and result.raw.get(code):
+                    answer = json.dumps(result.raw[code], ensure_ascii=False)
+                    print(f"  ❔ {code}: ответ модели — {answer[:RAW_PREVIEW_CHARS]}")
+            for reason in failures.get(ELECTRICITY_CITIES, []):
+                print(f"  ❌ {reason}")
         else:
             by_code = {c.get("city_code"): c for c in data[block].get("cities", [])}
             result = results.get(block)
@@ -118,6 +153,9 @@ def main(argv=None) -> int:
 
     blocks = [args.block] if args.block else None
     cities = args.cities or None
+    if args.llm_from:
+        donor = ai_pipeline.load_config(load_countries().get(args.llm_from))
+        config.setdefault("settings", {})["llm"] = donor["settings"]["llm"]
     if args.accept_period_changes:
         config.setdefault("validation", {})["same_period_tolerance"] = None
 

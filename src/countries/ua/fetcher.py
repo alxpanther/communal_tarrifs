@@ -8,10 +8,10 @@ from datetime import datetime
 import requests
 from dotenv import load_dotenv
 
-from common import llm
+from common import electricity, llm
 from common.countries import load_country
 from common.jsonio import build_root, empty_city_block, save_country_json
-from common.overrides import apply_base_rate_to_zones, apply_manual_overrides
+from common.overrides import apply_manual_overrides
 from common.paths import assets_output_path, docs_output_path, registry_path, sources_path
 from common.telegram_notifier import TelegramNotifier
 
@@ -52,8 +52,8 @@ def load_config() -> dict:
         config = json.load(f)
 
     ref = config.get("reference_sources", {})
-    if not ref.get("electricity") or not ref.get("water"):
-        raise ConfigError("Missing required reference_sources in config/sources.json")
+    if not (config.get("electricity") or {}).get("source") or not ref.get("water"):
+        raise ConfigError("config/ua/sources.json needs electricity.source and reference_sources.water")
 
     # hot_water and heating stay optional: an older config without them keeps working,
     # the corresponding blocks are simply carried over from the previous JSON.
@@ -107,27 +107,7 @@ def load_base_schema() -> dict:
         "last_updated_at": datetime.now().isoformat(),
         "country": "UA",
         "currency": "UAH",
-        "electricity": {
-            "source_url": "https://tariffa.com.ua/ru/tarif-na-elektroenergiy",
-            "base_rate": 4.32,
-            "unit": "kWh",
-            "effective_date": "2024-06-01",
-            "update_date": datetime.now().strftime("%Y-%m-%d"),
-            "decree_info": "Постанова Кабінету Міністрів України № 632 від 31 травня 2024 р.",
-            "zones": {
-                "two_zone": {
-                    "description": "Двозонний тариф (День/Ніч)",
-                    "day": {"hours": "07:00 - 23:00", "coefficient": 1.0, "rate": 4.32},
-                    "night": {"hours": "23:00 - 07:00", "coefficient": 0.5, "rate": 2.16}
-                },
-                "three_zone": {
-                    "description": "Тризонний тариф (Пік/Напівпік/Ніч)",
-                    "peak": {"hours": "08:00 - 11:00, 20:00 - 22:00", "coefficient": 1.5, "rate": 6.48},
-                    "half_peak": {"hours": "07:00 - 08:00, 11:00 - 20:00, 22:00 - 23:00", "coefficient": 1.0, "rate": 4.32},
-                    "night": {"hours": "23:00 - 07:00", "coefficient": 0.4, "rate": 1.728}
-                }
-            }
-        },
+        "electricity": {},
         "water": empty_city_block("https://index.minfin.com.ua/ua/tariff/water/"),
         "hot_water": empty_city_block("https://index.minfin.com.ua/ua/tariff/hotwater/"),
         "heating": empty_city_block("https://index.minfin.com.ua/ua/tariff/heating/")
@@ -1016,51 +996,36 @@ def extract_heat_blocks(base_data: dict, ref_sources: dict, timeout: int,
 
     return {"hot_water": hot_data, "heating": heat_data}
 
+def extract_electricity(config: dict, previous: dict, notifier: TelegramNotifier) -> dict:
+    """The electricity block, read by the shared electricity module like every other country's.
+    On any failure the previous block stays and the reason is reported."""
+    section = config["electricity"]
+    unit = section.get("unit", "kWh")
+    extractor = llm.from_config(config, notifier)
+    published, reasons, _ = electricity.read(
+        section["source"], section.get("region") or COUNTRY_CODE,
+        load_country(COUNTRY_CODE).currency, unit, previous, config,
+        extractor, "электроэнергия")
+    if not published:
+        for reason in reasons:
+            logger.warning(f"Keeping previous electricity: {reason}")
+        if reasons and notifier:
+            notifier.send_message("⚠️ <b>UA: электроэнергия не обновлена</b>\n"
+                                  + "\n".join(f"• <code>{r}</code>" for r in reasons),
+                                  parse_mode="HTML")
+        return previous
+    return electricity.merge(previous, published, unit)
+
 def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramNotifier) -> dict:
     base_data = load_base_schema()
     ref_sources = config["reference_sources"]
-    electricity_url = ref_sources["electricity"]
     water_url = ref_sources["water"]
     timeout = config.get("settings", {}).get("timeout_seconds", 15)
 
-    logger.info(f"Fetching electricity reference from {electricity_url}...")
-    elec_html = fetch_html(electricity_url, timeout=timeout)
-    
     logger.info(f"Fetching water reference from {water_url}...")
     water_html = fetch_html(water_url, timeout=timeout)
 
-    elec_prompt = """
-    Извлеки из текста HTML информацию о тарифах на электроэнергию в Украине для населения.
-    Верни JSON с ключами:
-    {
-      "base_rate": 4.32,
-      "effective_date": "2024-06-01",
-      "decree_info": "Постанова КМУ № 632 від 31.05.2024"
-    }
-    """
-    elec_extracted = call_gemini_extract(elec_html[:15000], elec_prompt, model_name, notifier) if elec_html else {}
-    
-    elec_data = base_data.get("electricity", {})
-    elec_data["source_url"] = electricity_url
-    elec_data["update_date"] = datetime.now().strftime("%Y-%m-%d")
-
-    if elec_extracted.get("base_rate") is not None:
-        try:
-            base_rate = float(elec_extracted["base_rate"])
-            elec_data["base_rate"] = base_rate
-            apply_base_rate_to_zones(elec_data, base_rate)
-        except Exception as e:
-            logger.warning(f"Error updating zone rates from base_rate: {e}")
-
-    if elec_extracted.get("effective_date"):
-        dt = parse_date(elec_extracted["effective_date"])
-        if dt and dt.month == 5 and (dt.day == 31 or dt.day == 30):
-            elec_data["effective_date"] = "2024-06-01"
-        else:
-            elec_data["effective_date"] = str(elec_extracted["effective_date"])
-
-    if elec_extracted.get("decree_info"):
-        elec_data["decree_info"] = str(elec_extracted["decree_info"])
+    elec_data = extract_electricity(config, base_data.get("electricity", {}), notifier)
 
     water_data = base_data.get("water", {})
     water_data["source_url"] = water_url

@@ -4,8 +4,14 @@
     "gemini_model": "gemini-3.6-flash",
     "timeout_seconds": 15
   },
+  "validation": {
+    "max_change_ratio": 0.6,
+    "same_period_tolerance": 0.005,
+    "electricity": {
+      "max_rate": 20.0
+    }
+  },
   "reference_sources": {
-    "electricity": "https://tariffa.com.ua/ru/tarif-na-elektroenergiy",
     "water": "https://index.minfin.com.ua/ua/tariff/water/",
     "hot_water": "https://index.minfin.com.ua/ua/tariff/hotwater/",
     "heating": "https://index.minfin.com.ua/ua/tariff/heating/",
@@ -15,6 +21,27 @@
       "city_name": "Київ",
       "effective_date": "2022-10-01",
       "decree_info": "Розпорядження КМВА № 673 від 30.09.2022, тариф для населення на період воєнного стану"
+    }
+  },
+  "electricity": {
+    "region": "Украина",
+    "unit": "kWh",
+    "source": {
+      "urls": [
+        "https://tariffa.com.ua/ru/tarif-na-elektroenergiy"
+      ],
+      "hint": "страница «Тариф на свет»: цены в гривнах за кВт·ч для населения. Двухзонный счётчик: «с 7 до 23 часов» — day, «с 23 до 7 часов» — night. Трёхзонный: строка с коэффициентом 1,5 — peak, 1 — half_peak, 0,4 — night; цена напечатана в скобках рядом с коэффициентом — бери её, а не коэффициент. Часы переводи в вид «08:00 - 11:00, 20:00 - 22:00». Дата начала действия — дата вступления постановления Кабинета Министров в силу, если она напечатана, иначе дата постановления; реквизиты — номер и дата постановления",
+      "plans": {
+        "standard": {
+          "name": "Население",
+          "default": true,
+          "hint": "стандартный тариф для многоквартирных и частных домов: однотарифная цена, двухзонный и трёхзонный счётчики"
+        },
+        "electric_heating": {
+          "name": "Население с электроотоплением",
+          "hint": "таблица «Тариф на свет для потребителей с электроотоплением»: сезон «с 1 июня по 30 сентября» — season_from 06-01, season_to 09-30; сезон «с 1 октября по 30 апреля» — season_from 10-01, season_to 04-30, со ступенями «до 2000 кВт∙ч/мес» и «более 2000 кВт∙ч/мес». Все цены этой группы — однотарифный счётчик"
+        }
+      }
     }
   },
   "manual_override": {

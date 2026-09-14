@@ -21,9 +21,11 @@ There are no tariff figures in this file on purpose. Every tariff is set central
 (Price) Council, so Baku is the only entry and its numbers hold country-wide.
 
 - **Electricity** comes from the tariff tables of the energy regulator (AERA), which republishes the
-  Council's decision as a table. It is tiered by monthly consumption; the published rate is the
-  first tier — up to 200 kWh a month, VAT included — and the table prints it in qəpik, so the model
-  converts to manat. Households have no day/night tariff, hence the zone coefficients of 1.0.
+  Council's decision as a table. Households pay by three bands of monthly consumption, and the table
+  says each price is "for the part" of the month's consumption, so `tier_basis` is `"part"`; there is
+  also a fixed 1 manat a month (`monthly_charge`). Prices are printed in qəpik and divided by the
+  code. `base_rate` is the first band, up to 200 kWh. Households have no day/night tariff, so both
+  zone meters carry the base rate.
 - **Heating and hot water** come from Azeristiliktechizat's own tariff page, which carries two
   tables: central heating by the gigacalorie and by the square metre, and hot water by the cubic
   metre per operating district and boiler house. Only the per-gigacalorie heating rate fits the

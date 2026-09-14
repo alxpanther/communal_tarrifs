@@ -13,14 +13,15 @@
 
 ## 📋 1. Общая структура JSON
 
-Файл `tariffs_ua.json` состоит из пяти основных блоков:
+Файл `tariffs_ua.json` состоит из шести основных блоков:
 1. **Метаданные (Root)** — общая информация о файле, валюте, версии и времени обновления.
-2. **`electricity`** — тарифы на электроэнергию (базовый тариф и зонные тарифы: 1/2/3 зоны).
-3. **`water`** — тарифы на централизованное водоснабжение и водоотведение по городам Украины.
-4. **`hot_water`** — тарифы на централизованное постачання гарячої води (грн/м³).
-5. **`heating`** — тарифы на централизованное опалення (грн/Гкал).
+2. **`electricity`** — тариф на электроэнергию для всей страны: базовый тариф, счётчики на 1/2/3 зоны и все тарифы для населения, которые печатает источник (`plans`).
+3. **`electricity_cities`** — тарифы на электроэнергию городов, у которых тариф отличается от общего по стране, в том же виде, по городам.
+4. **`water`** — тарифы на централизованное водоснабжение и водоотведение по городам.
+5. **`hot_water`** — тарифы на централизованное горячее водоснабжение (за м³).
+6. **`heating`** — тарифы на централизованное отопление (за Гкал).
 
-> ⚠️ **Совместимость.** Блоки `hot_water` и `heating` были добавлены позже `electricity` и `water`. Формат первых двух при этом не менялся, поэтому старый код продолжает читать их как раньше. Единственное требование — парсер должен игнорировать неизвестные корневые ключи: `Json { ignoreUnknownKeys = true }` для `kotlinx.serialization` (Moshi и Gson делают это по умолчанию).
+> ⚠️ **Совместимость.** Блоки `hot_water` и `heating` были добавлены позже `electricity` и `water`; `electricity_cities`, `electricity.plans` и компоненты горячей воды добавлены в сентябре 2026 года. Ни одно существующее поле не переименовано, не удалено и не поменяло тип, поэтому старый код продолжает читать файл как раньше. Единственное требование — парсер должен игнорировать неизвестные ключи: `Json { ignoreUnknownKeys = true }` для `kotlinx.serialization` (Moshi и Gson делают это по умолчанию).
 
 ### Разное покрытие городов
 
@@ -58,6 +59,7 @@
 | `country_names` | `Object` | Название страны для интерфейса: ключ — код языка приложения, значение — название на этом языке. Поле обязательное: по нему приложение показывает страну в списке при выборе адреса. Если ключа для текущего языка нет — берётся `ru`, если нет и его — показывается код из `country`. | `{ "ru": "Армения", "uk": "Вірменія" }` |
 | `currency` | `String` | Код валюты тарифов по стандарту ISO 4217. | `"UAH"` |
 | `electricity` | `Object` | Блок тарифов на электроэнергию (см. раздел 2.2). | `{ ... }` |
+| `electricity_cities` | `Object` | Тарифы на электроэнергию отдельных городов (см. раздел 2.2a). Есть всегда; `cities` пуст, если везде действует общий тариф страны. | `{ ... }` |
 | `water` | `Object` | Блок тарифов на водоснабжение и водоотведение (см. раздел 2.3). | `{ ... }` |
 | `hot_water` | `Object` | Блок тарифов на горячую воду (см. раздел 2.4). | `{ ... }` |
 | `heating` | `Object` | Блок тарифов на отопление (см. раздел 2.5). | `{ ... }` |
@@ -74,25 +76,67 @@
 | `effective_date` | `String` | Дата вступления тарифа в силу в формате `YYYY-MM-DD`. | `"2024-06-01"` |
 | `update_date` | `String` | Дата последней проверки/актуализации тарифа (`YYYY-MM-DD`). | `"2026-08-02"` |
 | `decree_info` | `String` | Название/номер нормативно-правового акта (постановление Кабмина/НКРЕКП). | `"постановлением КМУ № 632..."` |
-| `zones` | `Object` | Объект с коэффициентами для многозонных счетчиков. | `{ ... }` |
+| `zones` | `Object` | Объект с ценами для многозонных счетчиков. | `{ ... }` |
+| `plans` | `Array<Object>` | Все тарифы для населения, которые печатает источник, как напечатано (раздел 2.2, `electricity.plans[]`). | `[ ... ]` |
 
 #### Блок `electricity.zones`
 * **`two_zone`** (`Object`): Двухзонный тариф (День / Ночь).
-  * `description` (`String`): Описание ("Двозонний тариф (День/Ніч)").
+  * `description` (`String`): Описание ("Двухзонный тариф (День/Ночь)").
   * `day` (`Object`): Дневная зона.
-    * `hours` (`String`): Интервал времени действия (например, `"07:00 - 23:00"`).
-    * `coefficient` (`Double`): Коэффициент оплаты (например, `1.0`).
-    * `rate` (`Double`): Итоговый тариф за 1 кВт⋅ч в грн (например, `4.32`).
-  * `night` (`Object`): Ночная зона.
-    * `hours` (`String`): Интервал времени (например, `"23:00 - 07:00"`).
-    * `coefficient` (`Double`): Коэффициент оплаты (например, `0.5` — скидка 50%).
-    * `rate` (`Double`): Итоговый тариф за 1 кВт⋅ч в грн (например, `2.16`).
+    * `hours` (`String`): Интервал времени, как его печатает источник (например, `"07:00 - 23:00"`); пустая строка, если не напечатан.
+    * `coefficient` (`Double`): `rate / base_rate`, округлённое до четырёх знаков. Справочное поле.
+    * `rate` (`Double`): Цена 1 кВт⋅ч (например, `4.32`).
+  * `night` (`Object`): Ночная зона, те же поля (`"23:00 - 07:00"`, `0.5`, `2.16`).
 
 * **`three_zone`** (`Object`): Трехзонный тариф (Пик / Полупик / Ночь).
-  * `description` (`String`): Описание ("Тризонний тариф (Пік/Напівпік/Ніч)").
+  * `description` (`String`): Описание ("Трехзонный тариф (Пик/Полупик/Ночь)").
   * `peak` (`Object`): Пиковая зона (`hours`: `"08:00 - 11:00, 20:00 - 22:00"`, `coefficient`: `1.5`, `rate`: `6.48`).
   * `half_peak` (`Object`): Полупиковая зона (`hours`: `"07:00 - 08:00, 11:00 - 20:00, 22:00 - 23:00"`, `coefficient`: `1.0`, `rate`: `4.32`).
-  * `night` (`Object`): Ночная зона (`hours`: `"23:00 - 07:00"`, `coefficient`: `0.4`, `rate`: `1.728`).
+  * `night` (`Object`): Ночная зона (`hours`: `"23:00 - 07:00"`, `coefficient`: `0.4`, `rate`: `1.73`).
+
+> `base_rate` и `zones` повторяют цены группы по умолчанию (`is_default: true` в `plans`), первой ступени потребления, в сезоне дня, когда собран файл. Они нужны приложению, которое не читает `plans`. Если источник не печатает однотарифную цену — Армения печатает только день и ночь, — `base_rate` равен дневной цене. Для вида счётчика, который источник не тарифицирует вовсе, во всех зонах стоит `base_rate`, `coefficient` `1.0`, пустые `hours` и описание, оканчивающееся на «(не применяется, ставка одна)». Ни одна цена не вычисляется из коэффициента.
+
+#### `electricity.plans[]`
+
+Один элемент на группу потребителей, которую источник тарифицирует отдельно: квартира с газовой плитой, квартира с электроплитой, сельское население, малообеспеченная семья, электроотопление. Какие группы читать, задаёт конфиг; группы, которую источник в этот раз не напечатал, в файле нет.
+
+| Поле | Тип | Описание | Пример |
+|---|---|---|---|
+| `plan_code` | `String` | Постоянный латинский ключ группы внутри страны. | `"standard"`, `"electric_stove"`, `"rural"` |
+| `name` | `String` | Название группы по-русски для интерфейса. | `"Квартиры с электроплитами"` |
+| `is_default` | `Boolean` | Группа, из которой взяты `base_rate` и `zones`. Ровно одна на блок. | `true` |
+| `tier_basis` | `String?` | Как применяются ступени потребления: `"part"` — каждая часть месячного потребления оплачивается по цене своей ступени; `"whole"` — всё потребление месяца по цене ступени, в которую оно попало; `null` — ступеней нет или источник об этом не говорит. | `"part"` |
+| `tiers_per_resident` | `Boolean?` | `true`, если границы ступеней установлены на одного проживающего, `false` — на квартиру, `null` — ступеней нет или источник не говорит. | `true` |
+| `monthly_charge` | `Double?` | Фиксированная плата в месяц, не зависящая от потребления; `null`, если её нет. | `1.0` |
+| `rates` | `Array<Object>` | Один элемент на каждую напечатанную цену. | `[ ... ]` |
+
+Элемент `rates[]`:
+
+| Поле | Тип | Описание | Пример |
+|---|---|---|---|
+| `meter` | `String` | `"single"`, `"two_zone"` или `"three_zone"`. | `"two_zone"` |
+| `zone` | `String` | `"all"` для `single`; `"day"`/`"night"` для `two_zone`; `"peak"`/`"half_peak"`/`"night"` для `three_zone`. | `"night"` |
+| `hours` | `String` | Часы зоны, как напечатаны; пусто, если не напечатаны. | `"23:00 - 07:00"` |
+| `tier` | `Int?` | Номер ступени потребления, с 1; `null`, если цена не зависит от потребления. | `2` |
+| `above_kwh` | `Double?` | Ступень действует для месячного потребления свыше этого числа; `null` — с нуля или не напечатано. | `200` |
+| `up_to_kwh` | `Double?` | Ступень действует до этого числа включительно; `null` — без верхней границы или не напечатано. | `400` |
+| `season_from` | `String?` | `MM-DD`: первый день сезона, повторяющегося каждый год; `null` — весь год. | `"10-01"` |
+| `season_to` | `String?` | `MM-DD`: последний день сезона включительно. Сезон может переходить через Новый год. | `"04-30"` |
+| `rate` | `Double` | Цена 1 кВт⋅ч с НДС. | `36.48` |
+
+У ступени может быть `tier` без границ: Алматы печатает цену каждого уровня, но не его пределы. Тогда по файлу нельзя вычислить, в какой ступени семья, и приложению придётся спросить пользователя или считать по первой ступени.
+
+### 2.2a. Блок `electricity_cities`
+
+Если тариф города отличается от общего по стране — в России тарифы устанавливает каждый регион, — город перечислен здесь. Для города, которого в этом блоке нет, действует общий блок `electricity`.
+
+| Поле | Тип | Описание |
+|---|---|---|
+| `source_url` | `String` | Единственная страница, с которой читаются все города, или пустая строка. |
+| `update_date` | `String` | Дата последнего обновления блока, `YYYY-MM-DD`. |
+| `cities` | `Array<Object>` | Один элемент на город. |
+
+Элемент `electricity_cities.cities[]`: `city_code`, `city_name`, `supplier` и `unit`, как в `water.cities[]`, плюс `base_rate`, `effective_date`, `decree_info`, `zones` и `plans` ровно как в разделе 2.2. `city_code` — код города в стране, тот же, что в блоке воды, если у города один водоканал.
 
 ---
 
@@ -136,9 +180,17 @@
 | `city_name` | `String` | Название города на украинском для UI. | `"Київ"` |
 | `supplier` | `String` | Наименование теплоснабжающего предприятия. | `"КП \"КИЇВТЕПЛОЕНЕРГО\""` |
 | `rate` | `Double` | Тариф за 1 м³ горячей воды в UAH с НДС. | `97.89` |
+| `component_water` | `Double?` | Только у двухкомпонентного тарифа: компонент на теплоноситель, за м³. Иначе поля нет. | `52.63` |
+| `component_energy` | `Double?` | Только у двухкомпонентного тарифа: компонент на тепловую энергию, за Гкал. | `2706.23` |
+| `heat_norm` | `Double?` | Только у двухкомпонентного тарифа: норматив, по которому свёрнут `rate`, Гкал на м³. | `0.05131` |
+| `heat_norms` | `Array<Object>?` | Нормативы региона для всех типов домов, если источник их печатает. Иначе поля нет. | `[ ... ]` |
 | `unit` | `String` | Единица измерения объёма. | `"m3"` |
 | `effective_date` | `String` | Дата вступления тарифа в силу (`YYYY-MM-DD`). | `"2022-10-01"` |
 | `decree_info` | `String` | Реквизиты действующего тарифа. | `"Розпорядження КМВА № 673 від 30.09.2022..."` |
+
+Элемент `heat_norms[]`: `system` (`String`: `"open"`, `"closed"` или `"decentralized"`), `insulated_risers` (`Boolean?`), `towel_rails` (`Boolean?`), `value` (`Double`, Гкал на м³). `null` у признака означает, что норматив от него не зависит.
+
+У двухкомпонентного тарифа `rate = component_water + component_energy × heat_norm`, округлённое до копеек; `heat_norm` — норматив самого распространённого типа дома, указанного в конфиге.
 
 > 💡 В `rate` лежит тариф, который **реально платит население**. Для большинства предприятий он заморожен мораторием на весь период военного положения и шесть месяцев после него, поэтому `effective_date` часто указывает на 2021–2022 год — это не признак устаревших данных. Економічно обґрунтовані тарифи, которые публикуются рядом на сайтах компаний, в JSON не попадают.
 
@@ -194,6 +246,7 @@ data class TariffResponse(
     @SerialName("country_names") val countryNames: Map<String, String> = emptyMap(),
     @SerialName("currency") val currency: String,
     @SerialName("electricity") val electricity: ElectricityTariff,
+    @SerialName("electricity_cities") val electricityCities: ElectricityCities? = null,
     @SerialName("water") val water: WaterTariff,
     @SerialName("hot_water") val hotWater: HotWaterTariff? = null,
     @SerialName("heating") val heating: HeatingTariff? = null
@@ -207,7 +260,52 @@ data class ElectricityTariff(
     @SerialName("effective_date") val effectiveDate: String,
     @SerialName("update_date") val updateDate: String,
     @SerialName("decree_info") val decreeInfo: String,
-    @SerialName("zones") val zones: ElectricityZones
+    @SerialName("zones") val zones: ElectricityZones,
+    @SerialName("plans") val plans: List<ElectricityPlan> = emptyList()
+)
+
+@Serializable
+data class ElectricityPlan(
+    @SerialName("plan_code") val planCode: String,
+    @SerialName("name") val name: String,
+    @SerialName("is_default") val isDefault: Boolean = false,
+    @SerialName("tier_basis") val tierBasis: String? = null,
+    @SerialName("tiers_per_resident") val tiersPerResident: Boolean? = null,
+    @SerialName("monthly_charge") val monthlyCharge: Double? = null,
+    @SerialName("rates") val rates: List<ElectricityRate> = emptyList()
+)
+
+@Serializable
+data class ElectricityRate(
+    @SerialName("meter") val meter: String,
+    @SerialName("zone") val zone: String,
+    @SerialName("hours") val hours: String = "",
+    @SerialName("tier") val tier: Int? = null,
+    @SerialName("above_kwh") val aboveKwh: Double? = null,
+    @SerialName("up_to_kwh") val upToKwh: Double? = null,
+    @SerialName("season_from") val seasonFrom: String? = null,
+    @SerialName("season_to") val seasonTo: String? = null,
+    @SerialName("rate") val rate: Double
+)
+
+@Serializable
+data class ElectricityCities(
+    @SerialName("source_url") val sourceUrl: String? = null,
+    @SerialName("update_date") val updateDate: String? = null,
+    @SerialName("cities") val cities: List<CityElectricityTariff> = emptyList()
+)
+
+@Serializable
+data class CityElectricityTariff(
+    @SerialName("city_code") val cityCode: String,
+    @SerialName("city_name") val cityName: String,
+    @SerialName("supplier") val supplier: String,
+    @SerialName("unit") val unit: String,
+    @SerialName("base_rate") val baseRate: Double,
+    @SerialName("effective_date") val effectiveDate: String,
+    @SerialName("decree_info") val decreeInfo: String,
+    @SerialName("zones") val zones: ElectricityZones,
+    @SerialName("plans") val plans: List<ElectricityPlan> = emptyList()
 )
 
 @Serializable
@@ -271,9 +369,21 @@ data class CityHotWaterTariff(
     @SerialName("city_name") val cityName: String,
     @SerialName("supplier") val supplier: String,
     @SerialName("rate") val rate: Double,
+    @SerialName("component_water") val componentWater: Double? = null,
+    @SerialName("component_energy") val componentEnergy: Double? = null,
+    @SerialName("heat_norm") val heatNorm: Double? = null,
+    @SerialName("heat_norms") val heatNorms: List<HeatNorm> = emptyList(),
     @SerialName("unit") val unit: String,
     @SerialName("effective_date") val effectiveDate: String,
     @SerialName("decree_info") val decreeInfo: String
+)
+
+@Serializable
+data class HeatNorm(
+    @SerialName("system") val system: String,
+    @SerialName("insulated_risers") val insulatedRisers: Boolean? = null,
+    @SerialName("towel_rails") val towelRails: Boolean? = null,
+    @SerialName("value") val value: Double
 )
 
 @Serializable
@@ -314,6 +424,14 @@ data class CityHeatingTariff(
 3. **Трехзонный счетчик (Пик / Полупик / Ночь):**
    $$\text{Сумма грн} = (\Delta \text{кВт⋅ч}_{\text{пик}} \times \text{rate}_{\text{peak}}) + (\Delta \text{кВт⋅ч}_{\text{полупик}} \times \text{rate}_{\text{half\_peak}}) + (\Delta \text{кВт⋅ч}_{\text{ночь}} \times \text{rate}_{\text{night}})$$
 
+Три формулы выше используют старые поля и точны только для семьи из группы по умолчанию, чьё потребление не выходит за первую ступень. С `plans`:
+
+1. Взять тариф города пользователя из `electricity_cities`, а если города там нет — `electricity`; затем группу, выбранную пользователем (`plan_code`), или ту, у которой `is_default`.
+2. Оставить строки `meter` пользователя, сезон которых покрывает расчётный месяц (`season_from` равен `null` или месяц лежит между `season_from` и `season_to`, с переходом через Новый год, если `season_from` > `season_to`).
+3. Без ступеней (`tier` равен `null`) у каждой зоны одна строка: считать по формулам выше.
+4. Со ступенями, по каждой зоне: при `tier_basis` = `"part"` потребление до первой `up_to_kwh` оплачивается по цене первой ступени, следующая часть — по второй и так далее; при `"whole"` всё потребление оплачивается по цене ступени, в которую попало месячное потребление. Для многозонного счётчика файл не говорит, определяется ли ступень по каждой зоне или по сумме всех зон за месяц; пока источник этого не скажет, брать сумму. При `tiers_per_resident` = `true` границы умножаются на число проживающих. Если `tier_basis` равен `null` или границы равны `null`, по файлу разделить потребление нельзя — спросить пользователя или считать по первой ступени.
+5. Если задан `monthly_charge`, прибавить его один раз за месяц.
+
 ---
 
 ### 4.2. Расчет стоимости Водоснабжения и Водоотведения
@@ -336,6 +454,12 @@ data class CityHeatingTariff(
 Пользователь выбирает поставщика из `hot_water.cities` (сохраняется `city_code`). Показания снимаются со счётчика горячей воды в м³.
 
 $$\text{Сумма грн} = \Delta \text{м}^3 \times \text{city.rate}$$
+
+Для двухкомпонентного тарифа (задан `component_energy`), если пользователь указал в приложении свой тип дома, берётся норматив этого дома из `heat_norms`, а не свёрнутый в `rate`:
+
+$$\text{цена за м}^3 = \text{component\_water} + \text{component\_energy} \times \text{норматив}$$
+
+Без `heat_norms` или для дома, которого в нём нет, считать по `rate`.
 
 ---
 

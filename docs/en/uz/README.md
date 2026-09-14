@@ -27,7 +27,7 @@ Uzbekistan is collected by `src/common/ai_pipeline.py`; the sources are `config/
   `read_documents`, which follows the tariff announcements in it; the household rate per Gcal is net
   of VAT, which the code adds.
 - **Electricity:** the tariff calculator of Regional Electric Networks, which prints the current
-  household scale; the first tier, up to 200 kWh, is published.
+  household scale; all six bands are in `plans`, and `base_rate` is the first, up to 200 kWh.
 
 Retired (`retired_cities`), because the published figures were invented and no source exists: Tashkent
 hot water (Veolia publishes the price per m³ only in a Google Drive table whose text has no row

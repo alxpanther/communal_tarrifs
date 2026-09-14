@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-11T13:54:59.834942",
+  "last_updated_at": "2026-09-14T12:00:43.151480",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -8,49 +8,2871 @@
   },
   "currency": "RUB",
   "electricity": {
-    "source_url": "https://mosenergosbyt.ru/",
+    "source_url": "https://energosbyt.net/tarify/",
     "base_rate": 8.0,
     "unit": "kWh",
     "effective_date": "2026-01-01",
-    "update_date": "2026-09-11",
+    "update_date": "2026-09-14",
     "decree_info": "Приказ ДЭПиР г.Москвы № ДПР-407/25 от 24.12.2025г.",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (День/Ночь)",
         "day": {
-          "hours": "07:00 - 23:00",
-          "coefficient": 1.2005,
-          "rate": 9.604
+          "hours": "",
+          "coefficient": 1.2012,
+          "rate": 9.61
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.5179,
-          "rate": 4.1432
+          "coefficient": 0.5188,
+          "rate": 4.15
         }
       },
       "three_zone": {
         "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
         "peak": {
           "hours": "07:00 - 10:00, 17:00 - 21:00",
-          "coefficient": 1.4286,
-          "rate": 11.4288
+          "coefficient": 1.4287,
+          "rate": 11.43
         },
         "half_peak": {
-          "hours": "10:00 - 17:00, 21:00 - 23:00",
+          "hours": "",
           "coefficient": 1.0,
           "rate": 8.0
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.5179,
-          "rate": 4.1432
+          "coefficient": 0.5188,
+          "rate": 4.15
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Городское население в домах с газовыми плитами",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 8.0
+          },
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 9.61
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "23:00 - 07:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 4.15
+          },
+          {
+            "meter": "three_zone",
+            "zone": "peak",
+            "hours": "07:00 - 10:00, 17:00 - 21:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 11.43
+          },
+          {
+            "meter": "three_zone",
+            "zone": "half_peak",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 8.0
+          },
+          {
+            "meter": "three_zone",
+            "zone": "night",
+            "hours": "23:00 - 07:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 4.15
+          }
+        ]
+      },
+      {
+        "plan_code": "electric_stove",
+        "name": "Городское население в домах с электроплитами",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 7.28
+          },
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 8.74
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "23:00 - 07:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 3.77
+          },
+          {
+            "meter": "three_zone",
+            "zone": "peak",
+            "hours": "07:00 - 10:00, 17:00 - 21:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 10.4
+          },
+          {
+            "meter": "three_zone",
+            "zone": "half_peak",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 7.28
+          },
+          {
+            "meter": "three_zone",
+            "zone": "night",
+            "hours": "23:00 - 07:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 3.77
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": [
+      {
+        "city_code": "novosibirsk",
+        "city_name": "Новосибирск",
+        "supplier": "АО \"Новосибирскэнергосбыт\"",
+        "unit": "kWh",
+        "base_rate": 4.18,
+        "effective_date": "2026-01-01",
+        "decree_info": "Тарифы АО «Новосибирскэнергосбыт» для населения на 2026 год",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (День/Ночь)",
+            "day": {
+              "hours": "07:00 - 23:00",
+              "coefficient": 1.1531,
+              "rate": 4.82
+            },
+            "night": {
+              "hours": "23:00 - 07:00",
+              "coefficient": 0.7703,
+              "rate": 3.22
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
+            "peak": {
+              "hours": "07:00 - 10:00, 17:00 - 21:00",
+              "coefficient": 1.2321,
+              "rate": 5.15
+            },
+            "half_peak": {
+              "hours": "10:00 - 17:00, 21:00 - 23:00",
+              "coefficient": 1.0,
+              "rate": 4.18
+            },
+            "night": {
+              "hours": "23:00 - 07:00",
+              "coefficient": 0.7703,
+              "rate": 3.22
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Городское население в домах с газовыми плитами",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.18
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.01
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.48
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "07:00 - 23:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.82
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "07:00 - 23:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.23
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "07:00 - 23:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.61
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.22
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.84
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.75
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "07:00 - 10:00, 17:00 - 21:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.15
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "07:00 - 10:00, 17:00 - 21:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.73
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "07:00 - 10:00, 17:00 - 21:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.21
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "10:00 - 17:00, 21:00 - 23:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.18
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "10:00 - 17:00, 21:00 - 23:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.01
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "10:00 - 17:00, 21:00 - 23:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.48
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.22
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.84
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.75
+              }
+            ]
+          },
+          {
+            "plan_code": "rural",
+            "name": "Сельское население",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.34
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.81
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.99
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "07:00 - 23:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.85
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "07:00 - 23:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.78
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "07:00 - 23:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.89
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.58
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.87
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.6
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "07:00 - 10:00, 17:00 - 21:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.12
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "07:00 - 10:00, 17:00 - 21:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.18
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "07:00 - 10:00, 17:00 - 21:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.37
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "10:00 - 17:00, 21:00 - 23:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.34
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "10:00 - 17:00, 21:00 - 23:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.81
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "10:00 - 17:00, 21:00 - 23:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.99
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.58
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.87
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "23:00 - 07:00",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.6
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "city_code": "kazan",
+        "city_name": "Казань",
+        "supplier": "АО \"Татэнергосбыт\"",
+        "unit": "kWh",
+        "base_rate": 5.82,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановлением Государственного Комитета Республики Татарстан по тарифам от 19.12.2025г №666-17/э-2025 «Об установлении цен (тарифов) на электрическую энергию для населения и приравненных к нему категорий потребителей Республики Татарстан на 2026 год»",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (День/Ночь)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.1512,
+              "rate": 6.7
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.701,
+              "rate": 4.08
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.2216,
+              "rate": 7.11
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 5.82
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.701,
+              "rate": 4.08
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Городское население в домах с газовыми плитами",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.82
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.06
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.88
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.7
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.08
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 12.49
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.08
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.94
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.62
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.11
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.57
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 13.24
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.82
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.06
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.88
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.08
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.94
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.62
+              }
+            ]
+          },
+          {
+            "plan_code": "electric_stove",
+            "name": "Городское население в домах с электроплитами",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.96
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.02
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.27
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.71
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.88
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.64
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.48
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.21
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.49
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.06
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.3
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 11.28
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.96
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.02
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.27
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.48
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.21
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.49
+              }
+            ]
+          },
+          {
+            "plan_code": "rural",
+            "name": "Сельское население",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.26
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.17
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.9
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.91
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.14
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.99
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.62
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.58
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.2
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.27
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.69
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.26
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.17
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 3900,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.99
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 3900,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.62
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.58
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "city_code": "krasnodar",
+        "city_name": "Краснодар",
+        "supplier": "ПАО \"ТНС энерго Кубань\"",
+        "unit": "kWh",
+        "base_rate": 7.47,
+        "effective_date": "2026-01-01",
+        "decree_info": "Приказ департамента государственного регулирования тарифов Краснодарского края от 2025-12-17 № 18/2025-э",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (День/Ночь)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.1232,
+              "rate": 8.39
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.6011,
+              "rate": 4.49
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.1245,
+              "rate": 8.4
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 7.47
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.6011,
+              "rate": 4.49
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Городское население в домах с газовыми плитами",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.47
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.17
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.88
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.39
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 11.41
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 16.7
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.49
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.12
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.93
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.4
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 11.43
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 16.71
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.47
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.17
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.88
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.49
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.12
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.93
+              }
+            ]
+          },
+          {
+            "plan_code": "electric_stove",
+            "name": "Городское население в домах с электроплитами",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.24
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.12
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.88
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.88
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.99
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 16.7
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.16
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.3
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.93
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.89
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.0
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 16.71
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.24
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.12
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.88
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.16
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.3
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.93
+              }
+            ]
+          },
+          {
+            "plan_code": "rural",
+            "name": "Сельское население",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.24
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.12
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.88
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.88
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.99
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 16.7
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.16
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.3
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.93
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.89
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.0
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 16.71
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.24
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.12
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.88
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.16
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.3
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.93
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "city_code": "chelyabinsk",
+        "city_name": "Челябинск",
+        "supplier": "ООО \"Уралэнергосбыт\"",
+        "unit": "kWh",
+        "base_rate": 4.84,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановление Министерства тарифного регулирования и энергетики Челябинской области №96/1 от 30.12.2025",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (День/Ночь)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.1529,
+              "rate": 5.58
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.5992,
+              "rate": 2.9
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.3017,
+              "rate": 6.3
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 4.84
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.5992,
+              "rate": 2.9
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Городское население в домах с газовыми плитами",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.84
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.32
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.7
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.58
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.41
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 12.3
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.9
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.39
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.42
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.3
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.5
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 13.9
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.84
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.32
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.7
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.9
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.39
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.42
+              }
+            ]
+          },
+          {
+            "plan_code": "electric_stove",
+            "name": "Городское население в домах с электроплитами",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 3.39
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 5.12
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 10.7
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 7020,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 3.39
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 7020,
+                "up_to_kwh": 10800,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 5.12
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 10800,
+                "up_to_kwh": null,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 10.7
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 3.9
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 5.89
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 12.3
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 7020,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 3.9
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 7020,
+                "up_to_kwh": 10800,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 5.89
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 10800,
+                "up_to_kwh": null,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 12.3
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 2.03
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 3.07
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 6.42
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 7020,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 2.03
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 7020,
+                "up_to_kwh": 10800,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 3.07
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 10800,
+                "up_to_kwh": null,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 6.42
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 4.41
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 6.65
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 13.9
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 7020,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 4.41
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 7020,
+                "up_to_kwh": 10800,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 6.65
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 10800,
+                "up_to_kwh": null,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 13.9
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 3.39
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 5.12
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 10.7
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 7020,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 3.39
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 7020,
+                "up_to_kwh": 10800,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 5.12
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 10800,
+                "up_to_kwh": null,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 10.7
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 2.03
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 3.07
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": "06-01",
+                "season_to": "09-30",
+                "rate": 6.42
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 7020,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 2.03
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 7020,
+                "up_to_kwh": 10800,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 3.07
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 10800,
+                "up_to_kwh": null,
+                "season_from": "10-01",
+                "season_to": "05-31",
+                "rate": 6.42
+              }
+            ]
+          },
+          {
+            "plan_code": "rural",
+            "name": "Сельское население",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.39
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.12
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.7
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.9
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.89
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 12.3
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.03
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.07
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.42
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.41
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.65
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 13.9
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.39
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.12
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 10.7
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 1200,
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.03
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 1200,
+                "up_to_kwh": 6000,
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.07
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 6000,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.42
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "water": {
-    "source_url": "https://mosvodokanal.ru/",
-    "update_date": "2026-09-11",
+    "source_url": "",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "novosibirsk",
@@ -121,8 +2943,8 @@
     ]
   },
   "hot_water": {
-    "source_url": "https://moek.ru/",
-    "update_date": "2026-09-11",
+    "source_url": "",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "yekaterinburg_tplus",
@@ -139,6 +2961,83 @@
         "supplier": "МУП \"Екатеринбургэнерго\"",
         "unit": "m3",
         "rate": 191.49,
+        "component_water": 52.63,
+        "component_energy": 2706.23,
+        "heat_norm": 0.05131,
+        "heat_norms": [
+          {
+            "system": "closed",
+            "insulated_risers": true,
+            "towel_rails": true,
+            "value": 0.05131
+          },
+          {
+            "system": "closed",
+            "insulated_risers": true,
+            "towel_rails": false,
+            "value": 0.04912
+          },
+          {
+            "system": "closed",
+            "insulated_risers": false,
+            "towel_rails": true,
+            "value": 0.05349
+          },
+          {
+            "system": "closed",
+            "insulated_risers": false,
+            "towel_rails": false,
+            "value": 0.05138
+          },
+          {
+            "system": "open",
+            "insulated_risers": true,
+            "towel_rails": true,
+            "value": 0.05885
+          },
+          {
+            "system": "open",
+            "insulated_risers": true,
+            "towel_rails": false,
+            "value": 0.05563
+          },
+          {
+            "system": "open",
+            "insulated_risers": false,
+            "towel_rails": true,
+            "value": 0.06506
+          },
+          {
+            "system": "open",
+            "insulated_risers": false,
+            "towel_rails": false,
+            "value": 0.05876
+          },
+          {
+            "system": "decentralized",
+            "insulated_risers": true,
+            "towel_rails": true,
+            "value": 0.06047
+          },
+          {
+            "system": "decentralized",
+            "insulated_risers": true,
+            "towel_rails": false,
+            "value": 0.05543
+          },
+          {
+            "system": "decentralized",
+            "insulated_risers": false,
+            "towel_rails": true,
+            "value": 0.06551
+          },
+          {
+            "system": "decentralized",
+            "insulated_risers": false,
+            "towel_rails": false,
+            "value": 0.06047
+          }
+        ],
         "effective_date": "2026-01-01",
         "decree_info": "Постановление РЭК Свердловской области от 13.12.2023 N 232-ПК \"Об установлении тарифов на горячую воду в закрытых системах горячего водоснабжения, поставляемую организациями Свердловской области, с использованием метода индексации на основе долгосрочных параметров регулирования тарифов\""
       },
@@ -148,14 +3047,17 @@
         "supplier": "АО \"СИБЭКО\"",
         "unit": "m3",
         "rate": 187.35,
+        "component_water": 28.61,
+        "component_energy": 2341.58,
+        "heat_norm": 0.06779,
         "effective_date": "2026-01-01",
         "decree_info": "Приказ №628-В/НПА от 19.12.2025год."
       }
     ]
   },
   "heating": {
-    "source_url": "https://moek.ru/",
-    "update_date": "2026-09-11",
+    "source_url": "",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "novosibirsk",

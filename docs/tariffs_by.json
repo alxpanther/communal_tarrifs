@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-13T10:54:09.681310",
+  "last_updated_at": "2026-09-14T12:04:05.709652",
   "country": "BY",
   "country_names": {
     "ru": "Беларусь",
@@ -12,11 +12,11 @@
     "base_rate": 0.3037,
     "unit": "kWh",
     "effective_date": "2026-03-01",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "decree_info": "Постановление Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93",
     "zones": {
       "two_zone": {
-        "description": "Дифференцированный тариф по двум периодам: минимальных нагрузок (day) и максимальных нагрузок (night)",
+        "description": "Двухзонный тариф (День/Ночь)",
         "day": {
           "hours": "22:00 - 17:00",
           "coefficient": 0.7,
@@ -29,28 +29,283 @@
         }
       },
       "three_zone": {
-        "description": "Дифференцированный тариф по трём периодам",
+        "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
         "peak": {
           "hours": "17:00 - 23:00",
-          "coefficient": 1.8,
+          "coefficient": 1.8001,
           "rate": 0.5467
         },
         "half_peak": {
-          "hours": "06:00 - 17:00",
+          "hours": "",
           "coefficient": 0.7,
           "rate": 0.2126
         },
         "night": {
           "hours": "23:00 - 06:00",
-          "coefficient": 0.6,
+          "coefficient": 0.5999,
           "rate": 0.1822
         }
       }
-    }
+    },
+    "plans": [
+      {
+        "plan_code": "standard",
+        "name": "Квартиры без электроплит",
+        "is_default": true,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.3037
+          },
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "22:00 - 17:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.2126
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "17:00 - 22:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.6074
+          },
+          {
+            "meter": "three_zone",
+            "zone": "peak",
+            "hours": "17:00 - 23:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.5467
+          },
+          {
+            "meter": "three_zone",
+            "zone": "half_peak",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.2126
+          },
+          {
+            "meter": "three_zone",
+            "zone": "night",
+            "hours": "23:00 - 06:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1822
+          }
+        ]
+      },
+      {
+        "plan_code": "electric_stove",
+        "name": "Квартиры с электроплитами",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.2581
+          },
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "22:00 - 17:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1807
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "17:00 - 22:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.5162
+          },
+          {
+            "meter": "three_zone",
+            "zone": "peak",
+            "hours": "17:00 - 23:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.4646
+          },
+          {
+            "meter": "three_zone",
+            "zone": "half_peak",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1807
+          },
+          {
+            "meter": "three_zone",
+            "zone": "night",
+            "hours": "23:00 - 06:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1549
+          }
+        ]
+      },
+      {
+        "plan_code": "electric_heating_over_5kw",
+        "name": "Электроотопление и горячая вода мощностью более 5 кВт",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.329
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "23:00 - 06:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1772
+          }
+        ]
+      },
+      {
+        "plan_code": "electric_heating_shared_meter",
+        "name": "Электроотопление без отдельного счётчика",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1263
+          },
+          {
+            "meter": "two_zone",
+            "zone": "day",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.1642
+          },
+          {
+            "meter": "two_zone",
+            "zone": "night",
+            "hours": "23:00 - 06:00",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.0884
+          }
+        ]
+      },
+      {
+        "plan_code": "electric_heating_own_meter",
+        "name": "Электроотопление по отдельному счётчику",
+        "is_default": false,
+        "tier_basis": null,
+        "tiers_per_resident": null,
+        "monthly_charge": null,
+        "rates": [
+          {
+            "meter": "single",
+            "zone": "all",
+            "hours": "",
+            "tier": null,
+            "above_kwh": null,
+            "up_to_kwh": null,
+            "season_from": null,
+            "season_to": null,
+            "rate": 0.0487
+          }
+        ]
+      }
+    ]
+  },
+  "electricity_cities": {
+    "source_url": "",
+    "update_date": "2026-09-14",
+    "cities": []
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "minsk",
@@ -122,7 +377,7 @@
   },
   "hot_water": {
     "source_url": "https://www.belenergo.by/content/klientam-fizicheskim-litsam-i-predprinimatelyam/tarify/",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "minsk",
@@ -182,7 +437,7 @@
   },
   "heating": {
     "source_url": "https://www.belenergo.by/content/klientam-fizicheskim-litsam-i-predprinimatelyam/tarify/",
-    "update_date": "2026-09-13",
+    "update_date": "2026-09-14",
     "cities": [
       {
         "city_code": "minsk",

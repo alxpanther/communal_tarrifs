@@ -91,5 +91,23 @@
       "city_name": "Екатеринбург"
     }
   },
-  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection."
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
+  "electricity_suppliers": {
+    "АО \"Новосибирскэнергосбыт\"": {
+      "city_code": "novosibirsk",
+      "city_name": "Новосибирск"
+    },
+    "АО \"Татэнергосбыт\"": {
+      "city_code": "kazan",
+      "city_name": "Казань"
+    },
+    "ПАО \"ТНС энерго Кубань\"": {
+      "city_code": "krasnodar",
+      "city_name": "Краснодар"
+    },
+    "ООО \"Уралэнергосбыт\"": {
+      "city_code": "chelyabinsk",
+      "city_name": "Челябинск"
+    }
+  }
 }

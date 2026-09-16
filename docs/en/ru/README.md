@@ -41,6 +41,13 @@ published JSON is the only place to look them up.
   city's Tariff Committee, which links this year's summary table first: water and sewerage (one
   price each), two-component hot water, heating, and electricity for the first consumption band of
   two plans, published in `electricity_cities`.
+- **Astrakhan** (September 2026) is read from the city summary of the "MoyZhKKh" portal
+  (my-gkh.ru), which reprints the decrees of the Astrakhan Region Tariff Service with their numbers:
+  water and sewerage, heating, and electricity for the gas-stove and electric-stove plans without
+  consumption bands, published in `electricity_cities`. The page is a reprint, not the regulator,
+  so a typo there reaches the file: its three-zone peak price falls from 14.23 to 8.50 from
+  1 October, which is worth checking once that period starts. Hot water is not collected: the page
+  prints the two components but no heating norm, so no price per m³ can be computed.
 
 ---
 

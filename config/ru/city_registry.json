@@ -39,6 +39,10 @@
     "АО \"Ростовводоканал\"": {
       "city_code": "rostov_on_don",
       "city_name": "Ростов-на-Дону"
+    },
+    "МУП г. Астрахани \"Астрводоканал\"": {
+      "city_code": "astrakhan",
+      "city_name": "Астрахань"
     }
   },
   "heat_suppliers": {
@@ -89,6 +93,10 @@
     "МУП \"Екатеринбургэнерго\"": {
       "city_code": "yekaterinburg_ekaterinburgenergo",
       "city_name": "Екатеринбург"
+    },
+    "ООО \"Астраханские тепловые сети\"": {
+      "city_code": "astrakhan",
+      "city_name": "Астрахань"
     }
   },
   "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
@@ -112,6 +120,10 @@
     "АО \"Петроэлектросбыт\"": {
       "city_code": "saint_petersburg",
       "city_name": "Санкт-Петербург"
+    },
+    "ПАО \"Астраханская энергосбытовая компания\"": {
+      "city_code": "astrakhan",
+      "city_name": "Астрахань"
     }
   }
 }

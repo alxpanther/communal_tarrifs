@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T15:19:05.101776",
+  "last_updated_at": "2026-09-16T08:18:45.910903",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -204,7 +204,7 @@
   },
   "electricity_cities": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "cities": [
       {
         "city_code": "novosibirsk",
@@ -2997,12 +2997,208 @@
             ]
           }
         ]
+      },
+      {
+        "city_code": "astrakhan",
+        "city_name": "Астрахань",
+        "supplier": "ПАО \"Астраханская энергосбытовая компания\"",
+        "unit": "kWh",
+        "base_rate": 7.38,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановление Службы по тарифам Астраханской области от 26.12.2025 № 196.",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (День/Ночь)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.084,
+              "rate": 8.0
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.8008,
+              "rate": 5.91
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.9282,
+              "rate": 14.23
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 7.38
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 0.8008,
+              "rate": 5.91
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Городское население в домах с газовыми плитами",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.38
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.0
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.91
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.23
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.38
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.91
+              }
+            ]
+          },
+          {
+            "plan_code": "electric_stove",
+            "name": "Городское население в домах с электроплитами",
+            "is_default": false,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.17
+              },
+              {
+                "meter": "two_zone",
+                "zone": "day",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.6
+              },
+              {
+                "meter": "two_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.14
+              },
+              {
+                "meter": "three_zone",
+                "zone": "peak",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.96
+              },
+              {
+                "meter": "three_zone",
+                "zone": "half_peak",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 5.17
+              },
+              {
+                "meter": "three_zone",
+                "zone": "night",
+                "hours": "",
+                "tier": null,
+                "above_kwh": null,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.14
+              }
+            ]
+          }
+        ]
       }
     ]
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "cities": [
       {
         "city_code": "novosibirsk",
@@ -3091,6 +3287,17 @@
         "total_rate": 86.26,
         "effective_date": "2026-01-01",
         "decree_info": "Распоряжение от 19.12.2025 № 260-р"
+      },
+      {
+        "city_code": "astrakhan",
+        "city_name": "Астрахань",
+        "supplier": "МУП г. Астрахани \"Астрводоканал\"",
+        "unit": "m3",
+        "water_supply": 35.65,
+        "sewage": 44.24,
+        "total_rate": 79.89,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановление Службы по тарифам Астраханской области от 15.12.2025 № 110."
       }
     ]
   },
@@ -3230,7 +3437,7 @@
   },
   "heating": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "cities": [
       {
         "city_code": "novosibirsk",
@@ -3330,6 +3537,17 @@
         "rate_gcal_hour": 0.0,
         "effective_date": "2026-01-01",
         "decree_info": "Распоряжения теплоснабжающих организаций"
+      },
+      {
+        "city_code": "astrakhan",
+        "city_name": "Астрахань",
+        "supplier": "ООО \"Астраханские тепловые сети\"",
+        "unit": "Gcal",
+        "tariff_type": "one_rate",
+        "rate_gcal": 2544.7,
+        "rate_gcal_hour": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановление Службы по тарифам Астраханской области от 18.12.2025 № 159."
       }
     ]
   }

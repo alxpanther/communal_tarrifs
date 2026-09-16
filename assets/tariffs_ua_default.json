@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T10:29:31.584857",
+  "last_updated_at": "2026-09-16T14:39:49.318421",
   "country": "UA",
   "country_names": {
     "ru": "Украина",
@@ -12,7 +12,7 @@
     "base_rate": 4.32,
     "unit": "kWh",
     "effective_date": "2024-05-31",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
@@ -171,56 +171,56 @@
   },
   "electricity_cities": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "cities": []
   },
   "water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "cities": [
       {
         "city_code": "vinnytsia",
         "city_name": "Вінниця",
         "supplier": "КП \"Вінницяоблводоканал\"",
-        "water_supply": 15.744,
-        "sewage": 9.876,
-        "total_rate": 25.62,
+        "water_supply": 45.528,
+        "sewage": 35.484,
+        "total_rate": 81.012,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "lutsk",
         "city_name": "Луцьк",
         "supplier": "КП \"Луцькводоканал\"",
-        "water_supply": 12.204,
-        "sewage": 16.212,
-        "total_rate": 28.416,
+        "water_supply": 29.868,
+        "sewage": 37.56,
+        "total_rate": 67.428,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-06-18",
+        "decree_info": "Тариф НКРЕКП, чинний з 18.06.2026"
       },
       {
         "city_code": "auly",
         "city_name": "Аули",
         "supplier": "КП \"Аульський водовід\"",
-        "water_supply": 13.416,
-        "sewage": 12.696,
-        "total_rate": 26.112,
+        "water_supply": 37.728,
+        "sewage": 39.192,
+        "total_rate": 76.92,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-08-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.08.2026"
       },
       {
         "city_code": "dnipro",
         "city_name": "Дніпро",
         "supplier": "КП \"Дніпроводоканал\"",
-        "water_supply": 18.156,
-        "sewage": 13.2,
-        "total_rate": 31.356,
+        "water_supply": 47.1,
+        "sewage": 34.824,
+        "total_rate": 81.924,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "kamianske",
@@ -237,12 +237,12 @@
         "city_code": "kryvyi_rih",
         "city_name": "Кривий Ріг",
         "supplier": "КП \"Кривбасводоканал\"",
-        "water_supply": 15.972,
-        "sewage": 15.396,
-        "total_rate": 31.368,
+        "water_supply": 45.66,
+        "sewage": 32.808,
+        "total_rate": 78.468,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-06-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.06.2026"
       },
       {
         "city_code": "nikopol",
@@ -270,12 +270,12 @@
         "city_code": "pavlohrad",
         "city_name": "Павлоград",
         "supplier": "КП \"Павлоградське ВУВКГ\"",
-        "water_supply": 39.42,
-        "sewage": 14.244,
-        "total_rate": 53.664,
+        "water_supply": 84.012,
+        "sewage": 29.46,
+        "total_rate": 113.472,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "dnipropetrovska_obl_enerhoresursy",
@@ -314,12 +314,12 @@
         "city_code": "kramatorsk",
         "city_name": "Краматорськ",
         "supplier": "КВП \"Краматорський водоканал\"",
-        "water_supply": 19.548,
-        "sewage": 13.908,
-        "total_rate": 33.456,
+        "water_supply": 47.748,
+        "sewage": 48.348,
+        "total_rate": 96.096,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-01-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2026"
       },
       {
         "city_code": "mariupol",
@@ -347,23 +347,23 @@
         "city_code": "zhytomyr",
         "city_name": "Житомир",
         "supplier": "КП \"Житомирводоканал\"",
-        "water_supply": 18.264,
-        "sewage": 19.272,
-        "total_rate": 37.536,
+        "water_supply": 44.316,
+        "sewage": 54.36,
+        "total_rate": 98.676,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-08-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.08.2026"
       },
       {
         "city_code": "uzhhorod",
         "city_name": "Ужгород",
         "supplier": "КП \"ВУВКГ Ужгорода\"",
-        "water_supply": 26.52,
-        "sewage": 16.344,
-        "total_rate": 42.864,
+        "water_supply": 55.548,
+        "sewage": 35.688,
+        "total_rate": 91.236,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "berdiansk",
@@ -380,12 +380,12 @@
         "city_code": "zaporizhzhia",
         "city_name": "Запоріжжя",
         "supplier": "КП \"Водоканал\" Запоріжжя",
-        "water_supply": 17.808,
-        "sewage": 10.56,
-        "total_rate": 28.368,
+        "water_supply": 41.688,
+        "sewage": 27.684,
+        "total_rate": 69.372,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-06-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.06.2026"
       },
       {
         "city_code": "zaporizka_obl",
@@ -413,56 +413,56 @@
         "city_code": "ivano_frankivsk",
         "city_name": "Івано-Франківськ",
         "supplier": "КП \"Івано-Франківськводоекотехпром\"",
-        "water_supply": 12.948,
-        "sewage": 15.288,
-        "total_rate": 28.236,
+        "water_supply": 35.448,
+        "sewage": 30.06,
+        "total_rate": 65.508,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-09",
+        "decree_info": "Тариф НКРЕКП, чинний з 09.07.2026"
       },
       {
         "city_code": "bila_tserkva",
         "city_name": "Біла Церква",
         "supplier": "ТОВ \"Білоцерківвода\"",
-        "water_supply": 15.48,
-        "sewage": 21.72,
-        "total_rate": 37.2,
+        "water_supply": 36.9,
+        "sewage": 58.2,
+        "total_rate": 95.1,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-09-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.09.2026"
       },
       {
         "city_code": "brovary",
         "city_name": "Бровари",
         "supplier": "КП \"Броваритепловодоенергія\"",
-        "water_supply": 15.408,
-        "sewage": 14.856,
-        "total_rate": 30.264,
+        "water_supply": 31.692,
+        "sewage": 33.516,
+        "total_rate": 65.208,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "irpin",
         "city_name": "Ірпінь",
         "supplier": "КП \"Ірпіньводоканал\"",
-        "water_supply": 12.408,
-        "sewage": 19.704,
-        "total_rate": 32.112,
+        "water_supply": 35.556,
+        "sewage": 46.86,
+        "total_rate": 82.416,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-08-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.08.2026"
       },
       {
         "city_code": "kyiv",
         "city_name": "Київ",
         "supplier": "ПАТ АК \"Київводоканал\"",
+        "unit": "m3",
         "water_supply": 16.164,
         "sewage": 14.22,
         "total_rate": 30.384,
-        "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2022-02-24",
+        "decree_info": "Постанова НКРЕКП від 30.12.2025 №2302"
       },
       {
         "city_code": "kirovohradska_obl",
@@ -512,23 +512,23 @@
         "city_code": "drohobych",
         "city_name": "Дрогобич",
         "supplier": "КП \"Дрогобичводоканал\"",
-        "water_supply": 28.62,
-        "sewage": 14.736,
-        "total_rate": 43.356,
+        "water_supply": 62.16,
+        "sewage": 25.14,
+        "total_rate": 87.3,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-06-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.06.2026"
       },
       {
         "city_code": "lviv",
         "city_name": "Львів",
         "supplier": "КП \"Львівводоканал\"",
-        "water_supply": 17.292,
-        "sewage": 8.592,
-        "total_rate": 25.884,
+        "water_supply": 36.036,
+        "sewage": 20.34,
+        "total_rate": 56.376,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-08-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.08.2026"
       },
       {
         "city_code": "mykolaiv",
@@ -545,34 +545,34 @@
         "city_code": "odesa",
         "city_name": "Одеса",
         "supplier": "ТОВ \"Інфокс\" (\"Інфоксводоканал\")",
-        "water_supply": 17.916,
-        "sewage": 17.244,
-        "total_rate": 35.16,
+        "water_supply": 36.708,
+        "sewage": 28.836,
+        "total_rate": 65.544,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-08-15",
+        "decree_info": "Тариф НКРЕКП, чинний з 15.08.2026"
       },
       {
         "city_code": "kremenchuk",
         "city_name": "Кременчук",
         "supplier": "КП \"Кременчукводоканал\"",
-        "water_supply": 14.304,
-        "sewage": 17.496,
-        "total_rate": 31.8,
+        "water_supply": 29.928,
+        "sewage": 34.14,
+        "total_rate": 64.068,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "poltava",
         "city_name": "Полтава",
         "supplier": "КП \"Полтававодоканал\"",
-        "water_supply": 16.488,
-        "sewage": 17.28,
-        "total_rate": 33.768,
+        "water_supply": 46.8,
+        "sewage": 36.912,
+        "total_rate": 83.712,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-08-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.08.2026"
       },
       {
         "city_code": "rivne_rivneazot",
@@ -589,12 +589,12 @@
         "city_code": "rivne",
         "city_name": "Рівне",
         "supplier": "ВКП ВКГ \"Рівнеоблводоканал\"",
-        "water_supply": 16.68,
-        "sewage": 15.912,
-        "total_rate": 32.592,
+        "water_supply": 40.392,
+        "sewage": 28.056,
+        "total_rate": 68.448,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "sumy",
@@ -604,30 +604,30 @@
         "sewage": 16.668,
         "total_rate": 32.652,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "ternopil",
         "city_name": "Тернопіль",
         "supplier": "КП \"Тернопільводоканал\"",
-        "water_supply": 17.58,
-        "sewage": 19.116,
-        "total_rate": 36.696,
+        "water_supply": 46.152,
+        "sewage": 41.184,
+        "total_rate": 87.336,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
       },
       {
         "city_code": "kharkiv",
         "city_name": "Харків",
         "supplier": "КП \"Харківводоканал\"",
+        "unit": "m3",
         "water_supply": 16.032,
         "sewage": 8.484,
         "total_rate": 24.516,
-        "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2022-02-24",
+        "decree_info": "Постанова Національної комісії, що здійснює державне регулювання у сфері енергетики та комунальних послуг від 24 грудня 2024 року № 2335"
       },
       {
         "city_code": "kherson",
@@ -644,34 +644,34 @@
         "city_code": "kamianets_podilskyi",
         "city_name": "Кам'янець-Подільський",
         "supplier": "КП \"Міськтепловоденергія\" (Кам'янець-Подільський)",
-        "water_supply": 17.892,
-        "sewage": 14.904,
-        "total_rate": 32.796,
+        "water_supply": 29.028,
+        "sewage": 26.184,
+        "total_rate": 55.212,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-15",
+        "decree_info": "Тариф НКРЕКП, чинний з 15.07.2026"
       },
       {
         "city_code": "khmelnytskyi",
         "city_name": "Хмельницький",
         "supplier": "КП \"Хмельницькводоканал\"",
-        "water_supply": 14.172,
-        "sewage": 13.224,
-        "total_rate": 27.396,
+        "water_supply": 28.872,
+        "sewage": 28.992,
+        "total_rate": 57.864,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-07-15",
+        "decree_info": "Тариф НКРЕКП, чинний з 15.07.2026"
       },
       {
         "city_code": "uman",
         "city_name": "Умань",
         "supplier": "КП \"Уманьводоканал\"",
-        "water_supply": 34.164,
-        "sewage": 23.34,
-        "total_rate": 57.504,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "water_supply": 79.488,
+        "sewage": 78.84,
+        "total_rate": 158.328,
+        "effective_date": "2026-07-01",
+        "decree_info": "Рішення виконавчого комітету Уманської міської ради про встановлення тарифів КП «Уманьводоканал»"
       },
       {
         "city_code": "cherkasy_azot",
@@ -688,34 +688,34 @@
         "city_code": "cherkasy",
         "city_name": "Черкаси",
         "supplier": "КП \"Черкасиводоканал\"",
-        "water_supply": 13.848,
-        "sewage": 13.8,
-        "total_rate": 27.648,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "water_supply": 28.572,
+        "sewage": 28.14,
+        "total_rate": 56.712,
+        "effective_date": "2026-06-16",
+        "decree_info": "Рішення про встановлення тарифів на послуги з централізованого водопостачання та централізованого водовідведення комунальному підприємству «Черкасиводоканал» Черкаської міської ради від 16.06.2026 № 815"
       },
       {
         "city_code": "chernivtsi",
         "city_name": "Чернівці",
         "supplier": "КП \"Чернівціводоканал\"",
-        "water_supply": 17.916,
-        "sewage": 9.996,
-        "total_rate": 27.912,
+        "water_supply": 41.904,
+        "sewage": 21.66,
+        "total_rate": 63.564,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-06-01",
+        "decree_info": "Тариф НКРЕКП, чинний з 01.06.2026"
       },
       {
         "city_code": "chernihiv",
         "city_name": "Чернігів",
         "supplier": "КП \"Чернігівводоканал\"",
-        "water_supply": 15.564,
-        "sewage": 15.348,
-        "total_rate": 30.912,
+        "water_supply": 40.5,
+        "sewage": 37.212,
+        "total_rate": 77.712,
         "unit": "m3",
-        "effective_date": "2022-01-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.01.2022"
+        "effective_date": "2026-08-21",
+        "decree_info": "Тариф НКРЕКП, чинний з 21.08.2026"
       },
       {
         "city_code": "ukraina",
@@ -732,7 +732,7 @@
   },
   "hot_water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/hotwater/",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -900,7 +900,7 @@
   },
   "heating": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/heating/",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-16",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -1209,6 +1209,2277 @@
         "unit": "Gcal",
         "effective_date": "2022-10-01",
         "decree_info": "Розпорядження КМВА № 673 від 30.09.2022, тариф для населення на період воєнного стану"
+      }
+    ]
+  },
+  "gas": {
+    "source_url": "https://index.minfin.com.ua/ua/tariff/gas/",
+    "update_date": "2026-09-16",
+    "cities": [
+      {
+        "city_code": "vinnytsia",
+        "city_name": "Вінниця",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Вінницька філія",
+        "distribution_rate": 2.112,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "hadiach",
+        "city_name": "Гадяч",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Гадячгаз\"",
+        "distribution_rate": 2.388,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "dnipro",
+        "city_name": "Дніпро",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Дніпровська філія",
+        "distribution_rate": 1.08,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          },
+          {
+            "plan_code": "dniprovski_enerhetychni_posluhy_annual",
+            "name": "Дніпровські енергетичні послуги, годовой тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Дніпровські енергетичні послуги\" (Yasno)",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.46
+              }
+            ]
+          },
+          {
+            "plan_code": "dniprovski_enerhetychni_posluhy_monthly",
+            "name": "Дніпровські енергетичні послуги, месячный тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Дніпровські енергетичні послуги\" (Yasno)",
+            "contract": "monthly",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.46
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "zhytomyr",
+        "city_name": "Житомир",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Житомирська філія",
+        "distribution_rate": 2.04,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "zaporizhzhia",
+        "city_name": "Запоріжжя",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Запорізька філія",
+        "distribution_rate": 1.104,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "ivano_frankivsk",
+        "city_name": "Івано-Франківськ",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Івано-Франківська філія",
+        "distribution_rate": 2.232,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          },
+          {
+            "plan_code": "prykarpatenerhotreid_annual",
+            "name": "Прикарпатенерготрейд, годовой тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Прикарпатенерготрейд\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.98
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kyiv",
+        "city_name": "Київ",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Київгаз\"",
+        "distribution_rate": 0.384,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          },
+          {
+            "plan_code": "askaniia_enerdzhy_annual",
+            "name": "Асканія Енерджи, годовой тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Асканія Енерджи\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.95
+              }
+            ]
+          },
+          {
+            "plan_code": "askaniia_enerdzhy_monthly",
+            "name": "Асканія Енерджи, месячный тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Асканія Енерджи\"",
+            "contract": "monthly",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 15.5
+              }
+            ]
+          },
+          {
+            "plan_code": "halnaftohaz_annual",
+            "name": "Галнафтогаз, годовой тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Галнафтогаз\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.99
+              }
+            ]
+          },
+          {
+            "plan_code": "kyivski_enerhetychni_posluhy_annual",
+            "name": "Київські енергетичні послуги, годовой тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Київські енергетичні послуги\" (Yasno)",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.46
+              }
+            ]
+          },
+          {
+            "plan_code": "kyivski_enerhetychni_posluhy_monthly",
+            "name": "Київські енергетичні послуги, месячный тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Київські енергетичні послуги\" (Yasno)",
+            "contract": "monthly",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.46
+              }
+            ]
+          },
+          {
+            "plan_code": "riteil_servis_annual",
+            "name": "Рітейл Сервіс, годовой тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Рітейл Сервіс\" (СвітлоГаз)",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 9.99
+              }
+            ]
+          },
+          {
+            "plan_code": "riteil_servis_monthly",
+            "name": "Рітейл Сервіс, месячный тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Рітейл Сервіс\" (СвітлоГаз)",
+            "contract": "monthly",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 26.99
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kramatorsk",
+        "city_name": "Краматорськ",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Донецькоблгаз\"",
+        "distribution_rate": 1.416,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kremenets",
+        "city_name": "Кременець",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "Кременецьке УПРГ",
+        "distribution_rate": 1.632,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kremenchuk",
+        "city_name": "Кременчук",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Кременчукгаз\"",
+        "distribution_rate": 0.552,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kryvyi_rih",
+        "city_name": "Кривий Ріг",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Криворізька філія",
+        "distribution_rate": 0.636,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kropyvnytskyi",
+        "city_name": "Кропивницький",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Кропивницька філія",
+        "distribution_rate": 1.788,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "lubny",
+        "city_name": "Лубни",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Лубнигаз\"",
+        "distribution_rate": 2.388,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "lutsk",
+        "city_name": "Луцьк",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Волинська філія",
+        "distribution_rate": 1.884,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "lviv",
+        "city_name": "Львів",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Львівська філія",
+        "distribution_rate": 2.028,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          },
+          {
+            "plan_code": "lvivenerhozbut_annual",
+            "name": "Львівенергозбут, годовой тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Львівенергозбут\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.2
+              }
+            ]
+          },
+          {
+            "plan_code": "lvivenerhozbut_monthly",
+            "name": "Львівенергозбут, месячный тариф",
+            "is_default": false,
+            "supplier": "ТОВ \"Львівенергозбут\"",
+            "contract": "monthly",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 26.0
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "mariupol",
+        "city_name": "Маріуполь",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Маріупольгаз\"",
+        "distribution_rate": 1.74,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "melitopol",
+        "city_name": "Мелітополь",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Мелітопольгаз\"",
+        "distribution_rate": 2.208,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "mykolaiv",
+        "city_name": "Миколаїв",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Миколаївська філія",
+        "distribution_rate": 2.388,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "odesa",
+        "city_name": "Одеса",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Одесагаз\"",
+        "distribution_rate": 1.308,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "poltava",
+        "city_name": "Полтава",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Полтавагаз\"",
+        "distribution_rate": 2.112,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "rivne",
+        "city_name": "Рівне",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Рівненська філія",
+        "distribution_rate": 1.848,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "sumy",
+        "city_name": "Суми",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Сумська філія",
+        "distribution_rate": 1.608,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "ternopil_hazmerezhi",
+        "city_name": "Тернопіль",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Тернопільська філія",
+        "distribution_rate": 2.1,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "ternopil",
+        "city_name": "Тернопіль",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Тернопільміськгаз\"",
+        "distribution_rate": 0.96,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "uzhhorod",
+        "city_name": "Ужгород",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Закарпатська філія",
+        "distribution_rate": 2.388,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "uman",
+        "city_name": "Умань",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Уманьгаз\"",
+        "distribution_rate": 2.34,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kharkiv",
+        "city_name": "Харків",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Харківська міська філія",
+        "distribution_rate": 0.516,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "kherson",
+        "city_name": "Херсон",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Херсонгаз\"",
+        "distribution_rate": 1.944,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "khmelnytskyi",
+        "city_name": "Хмельницький",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Хмельницька філія",
+        "distribution_rate": 1.848,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "cherkasy",
+        "city_name": "Черкаси",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Черкаська філія",
+        "distribution_rate": 0.684,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "chernivtsi",
+        "city_name": "Чернівці",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Чернівецька філія",
+        "distribution_rate": 2.388,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "chernihiv",
+        "city_name": "Чернігів",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "\"Газмережі\", Чернігівська філія",
+        "distribution_rate": 2.052,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
+      },
+      {
+        "city_code": "shepetivka",
+        "city_name": "Шепетівка",
+        "supplier": "ТОВ ГК \"Нафтогаз України\"",
+        "unit": "m3",
+        "rate": 7.96,
+        "distributor": "ПАТ \"Шепетівкагаз\"",
+        "distribution_rate": 1.284,
+        "effective_date": "2026-09-01",
+        "decree_info": "Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026",
+        "plans": [
+          {
+            "plan_code": "naftohaz_ukrainy_annual",
+            "name": "Нафтогаз України, годовой тариф",
+            "is_default": true,
+            "supplier": "ТОВ ГК \"Нафтогаз України\"",
+            "contract": "annual",
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 3.28,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 5.39,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 10.49,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 11.0,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постанова КМ України № 143 від 27.02.2019"
       }
     ]
   }

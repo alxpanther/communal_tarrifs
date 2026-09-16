@@ -10,9 +10,10 @@ from urllib.parse import urljoin
 import requests
 from dotenv import load_dotenv
 
-from common import electricity, gas, llm
+from common import ai_pipeline, electricity, gas, llm
 from common.countries import load_country
 from common.jsonio import GAS, build_root, empty_city_block, save_country_json
+from common.fetching import html_to_text
 from common.overrides import apply_manual_overrides
 from common.paths import assets_output_path, docs_output_path, registry_path, sources_path
 from common.registry import GAS_SECTION
@@ -354,10 +355,13 @@ def save_registry(suppliers: dict, section: str = WATER_REGISTRY_SECTION):
 
 def resolve_city_identity(cities: list, notifier: TelegramNotifier,
                           section: str = WATER_REGISTRY_SECTION,
-                          is_plain_owner=is_waterworks, label: str = "воды") -> list:
+                          is_plain_owner=is_waterworks, label: str = "воды",
+                          kept_when_missing: bool = False) -> list:
     """
     Replaces model-provided identifiers with registry-backed ones so city_code and
     city_name stay byte-identical across runs. Returns the cities with final identity.
+    `kept_when_missing` says a supplier gone from the source keeps its published record, which
+    changes what the maintainer is told about it.
     """
     registry = load_registry(section)
     lookup = {normalize_name(name): entry for name, entry in registry.items()}
@@ -406,10 +410,14 @@ def resolve_city_identity(cities: list, notifier: TelegramNotifier,
 
     if disappeared:
         logger.warning(f"{len(disappeared)} known suppliers are missing from the '{section}' source")
-        notifier.send_message(
-            f"⚠️ <b>Поставщики {label} пропали с сайта-источника</b>\n"
+        consequence = (
+            "Их города остаются в JSON с последним опубликованным тарифом — проверьте, не нужен ли им "
+            "собственный источник в <code>cities</code>:" if kept_when_missing else
             "Их города исчезнут из JSON, у пользователей с этими <code>city_code</code> "
-            "выбор перестанет работать:\n"
+            "выбор перестанет работать:"
+        )
+        notifier.send_message(
+            f"⚠️ <b>Поставщики {label} пропали с сайта-источника</b>\n{consequence}\n"
             + "\n".join(f"• <code>{d}</code>" for d in disappeared),
             parse_mode="HTML"
         )
@@ -417,7 +425,7 @@ def resolve_city_identity(cities: list, notifier: TelegramNotifier,
     return cities
 
 WATER_PROMPT = """
-Ты извлекаешь данные из HTML-таблицы тарифов на воду с сайта index.minfin.com.ua.
+Ты извлекаешь данные из таблицы тарифов на воду с сайта index.minfin.com.ua (HTML-таблица или текст страницы).
 
 Извлеки КАЖДУЮ строку таблицы, относящуюся к предприятию-поставщику. Строки-подзаголовки
 с названием области (например "Вінницька обл.") — это не поставщики, они лишь задают
@@ -457,33 +465,50 @@ def table_row_cells(row_html: str) -> list:
     cells = re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row_html, flags=re.S | re.I)
     return [html_module.unescape(re.sub(r"<[^>]+>", "", c)).replace("­", "").strip() for c in cells]
 
-def count_supplier_rows(table_html: str) -> int:
-    """Counts rows that carry tariff values, used to verify LLM extraction completeness."""
-    count = 0
-    for row in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
-        cells = table_row_cells(row)
-        if len(cells) >= 4 and re.fullmatch(r"[\d,\s ]+|-", cells[1]):
-            count += 1
-    return count
+# A tariff cell as minfin prints it — "45,528", or a dash for a service not provided.
+WATER_NUMBER = re.compile(r"\d[\d\s\xa0]*,\d+|-")
+PERIOD_DATE = re.compile(r"\d{2}\.\d{2}\.\d{4}")
 
-def source_rows(table_html: str) -> dict:
+def water_source_row(cells: list) -> dict:
+    """One supplier row of the water table, read without trusting its layout: the first cell is
+    the supplier, the first three number cells are supply, sewage and total, whatever empty or
+    decorative cells minfin puts between them, and the period is the cell that carries a date.
+    Returns None for a row that is not a supplier row."""
+    if not cells or not cells[0] or WATER_NUMBER.fullmatch(cells[0]):
+        return None
+    values = [cell for cell in cells[1:] if WATER_NUMBER.fullmatch(cell)]
+    period = next((cell for cell in cells[1:] if PERIOD_DATE.search(cell)), "")
+    if len(values) < 3 or not period:
+        return None
+    triple = tuple(parse_rate(c) if c != "-" else 0.0 for c in values[:3])
+    if any(v is None for v in triple):
+        return None
+    return {"supplier": cells[0], "triple": triple, "period": period}
+
+def water_page_rows(page_html: str) -> list:
+    """Every supplier row of the page, read from its flattened text, where each table row is a
+    line and cells are split by '|'. The check does not depend on which tags minfin uses, so a
+    change of markup does not reject a correct reading — the numbers have to stand on one line of
+    the source in the right order, and that is all."""
+    # A line break inside a cell is not the end of a row: minfin breaks the total cell with one.
+    text = html_to_text(re.sub(r"<br\s*/?>", " ", page_html, flags=re.I)).replace("\xad", "")
+    rows = []
+    for line in text.split("\n"):
+        row = water_source_row([cell.strip() for cell in line.split("|")])
+        if row:
+            rows.append(row)
+    return rows
+
+def source_rows(page_html: str) -> dict:
     """
-    Maps each (water_supply, sewage, total_rate) triple of the source table to the supplier
-    and period printed on that row. The triple is the join key: it rejects hallucinated
-    digits and swapped columns, while supplier and period are taken from the source itself,
-    so the model rewording a name cannot reach the output.
+    Maps each (water_supply, sewage, total_rate) triple of the source to the supplier and period
+    printed on that row. The triple is the join key: it rejects hallucinated digits and swapped
+    columns, while supplier and period are taken from the source itself, so the model rewording
+    a name cannot reach the output.
     """
     rows = {}
-    for row_html in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
-        cells = table_row_cells(row_html)
-        if len(cells) < 4 or not re.fullmatch(r"[\d,\s ]+|-", cells[1]):
-            continue
-
-        triple = tuple(parse_rate(c) if c != "-" else 0.0 for c in cells[1:4])
-        if any(v is None for v in triple):
-            continue
-
-        rows.setdefault(triple, []).append({"supplier": cells[0], "period": cells[-1]})
+    for row in water_page_rows(page_html):
+        rows.setdefault(row["triple"], []).append({"supplier": row["supplier"], "period": row["period"]})
     return rows
 
 def pick_source_row(candidates: list, model_supplier: str) -> dict:
@@ -597,20 +622,20 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
     Extracts the water tariff table via LLM and validates the result against the source.
     Returns None when extraction cannot be trusted, so the caller keeps the previous data.
     """
-    table_html = extract_water_table_html(water_html)
-    if not table_html:
-        logger.error("Water tariff table not found in the fetched page")
+    expected_rows = len(water_page_rows(water_html))
+    if not expected_rows:
+        logger.error("No water supplier rows found in the fetched page")
         notifier.send_message(
-            "⚠️ <b>Тарифы на воду не обновлены:</b>\nтаблица не найдена на странице источника.",
+            "⚠️ <b>Тарифы на воду не обновлены:</b>\nна странице источника не найдено ни одной строки с тарифом.",
             parse_mode="HTML"
         )
         return None
+    # The model reads the table when there is one, the whole page text when minfin has dropped it.
+    content = extract_water_table_html(water_html) or html_to_text(water_html)
+    logger.info(f"Water source: {len(content)} chars, {expected_rows} supplier rows expected")
 
-    expected_rows = count_supplier_rows(table_html)
-    logger.info(f"Water table found: {len(table_html)} chars, {expected_rows} supplier rows expected")
-
-    extracted = call_gemini_extract(table_html, WATER_PROMPT, model_name, notifier)
-    cities, errors = validate_water_cities(extracted.get("cities"), expected_rows, source_rows(table_html))
+    extracted = call_gemini_extract(content, WATER_PROMPT, model_name, notifier)
+    cities, errors = validate_water_cities(extracted.get("cities"), expected_rows, source_rows(water_html))
 
     if errors:
         for err in errors:
@@ -624,7 +649,7 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
         )
         return None
 
-    cities = resolve_city_identity(cities, notifier)
+    cities = resolve_city_identity(cities, notifier, kept_when_missing=True)
     logger.info(f"Water tariffs extracted and validated for {len(cities)} suppliers")
     return cities
 
@@ -1205,6 +1230,40 @@ def extract_electricity(config: dict, previous: dict, notifier: TelegramNotifier
         return previous
     return electricity.merge(previous, published, unit)
 
+def collect_water_city_sources(config: dict, previous_block: dict, notifier: TelegramNotifier) -> list:
+    """Water of the cities config gives a source of their own (`cities.<code>.sources.water`).
+
+    Since 2026 water tariffs are set by local authorities, and minfin lists only the utilities
+    whose new tariff it has picked up; Kyiv's is on Kyivvodokanal's own page. Those pages are read
+    by the model through the shared per-city pipeline, exactly as another country's would be.
+    Returns the refreshed city records; a city that fails keeps what was published.
+    """
+    if not any("water" in (city.get("sources") or {}) for city in (config.get("cities") or {}).values()):
+        return []
+    country = load_country(COUNTRY_CODE)
+    result = ai_pipeline.collect_block(country, config, "water", previous_block,
+                                       llm.from_config(config, notifier))
+    if result.failures:
+        notifier.send_message("⚠️ <b>UA: вода городов с отдельным источником — не обновлено</b>\n"
+                              + "\n".join(f"• <code>{r}</code>" for r in result.failures[:20]),
+                              parse_mode="HTML")
+    by_code = {city.get("city_code"): city for city in result.cities}
+    return [by_code[code] for code in result.refreshed]
+
+def merge_water_cities(previous: list, aggregate: list, own_sources: list) -> list:
+    """The water block to publish: previous cities, overwritten by what minfin lists, overwritten
+    by what a city's own source says.
+
+    A utility that minfin stops listing keeps its last published tariff rather than dropping out
+    of the file: the maintainer's decision, because minfin has lagged behind the switch to local
+    tariffs and a city usually reappears there once its new tariff is set. Matching is by supplier,
+    the registry key, so the city keeps its city_code.
+    """
+    merged = {}
+    for city in list(previous) + list(aggregate) + list(own_sources):
+        merged[normalize_name(city.get("supplier", ""))] = city
+    return list(merged.values())
+
 def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramNotifier) -> dict:
     base_data = load_base_schema()
     ref_sources = config["reference_sources"]
@@ -1220,11 +1279,13 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
     water_data["source_url"] = water_url
 
     water_cities = extract_water_tariffs(water_html, model_name, notifier) if water_html else None
-    if water_cities:
-        water_data["cities"] = water_cities
-        water_data["update_date"] = datetime.now().strftime("%Y-%m-%d")
-    else:
+    if not water_cities:
         logger.warning("Keeping previous water cities: extraction failed or was rejected by validation")
+    city_sources = collect_water_city_sources(config, water_data, notifier)
+    water_data["cities"] = merge_water_cities(water_data.get("cities", []), water_cities or [],
+                                              city_sources)
+    if water_cities or city_sources:
+        water_data["update_date"] = datetime.now().strftime("%Y-%m-%d")
 
     heat_blocks = extract_heat_blocks(base_data, ref_sources, timeout, model_name, notifier)
     gas_block = extract_gas_block(base_data, config, timeout, notifier)

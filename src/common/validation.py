@@ -329,9 +329,10 @@ def _check_against_previous(block: str, periods: list, previous: dict, limits: d
 
     A regulated tariff moves by percents a year. A jump by a multiple means the model read
     another column, another year or another city — the one failure mode that passes every
-    other check, because the number itself is perfectly plausible.
+    other check, because the number itself is perfectly plausible. A block may set its own
+    ratio: Ukraine's water tariffs tripled in 2026 when local authorities took them over.
     """
-    ratio = as_number(limits.get("max_change_ratio"))
+    ratio = as_number((limits.get(block) or {}).get("max_change_ratio") or limits.get("max_change_ratio"))
     if not ratio or not previous:
         return
 

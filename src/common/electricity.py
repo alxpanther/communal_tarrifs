@@ -354,10 +354,11 @@ def read(source: dict, region: str, currency: str, unit: str, previous: dict, co
     """
     timeout = int((config.get("settings", {}) or {}).get("timeout_seconds") or 30)
     urls = [u for u in (source.get("urls") or [source.get("url")]) if u]
+    problems = []
     documents = fetch_all(urls, timeout, bool(source.get("read_images")),
-                          source.get("read_documents") or False)
+                          source.get("read_documents") or False, problems)
     if not documents:
-        return None, [f"{label}: источник не открылся ({', '.join(urls)})"], None
+        return None, [f"{label}: источник не открылся ({'; '.join(problems) or ', '.join(urls)})"], None
 
     instruction = prompts.electricity_prompt(region, currency, unit, plans_of(source),
                                              hint=source.get("hint", ""), supplier=supplier)

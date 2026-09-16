@@ -258,10 +258,11 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
             failed(f"{label}: для этой услуги не задан ни один источник")
             continue
 
+        problems = []
         documents = fetch_all(urls, timeout, _read_images_of(city, block),
-                              _read_documents_of(city, block))
+                              _read_documents_of(city, block), problems)
         if not documents:
-            failed(f"{label}: ни один источник не открылся ({', '.join(urls)})")
+            failed(f"{label}: ни один источник не открылся ({'; '.join(problems) or ', '.join(urls)})")
             continue
 
         instruction = prompts.city_prompt(

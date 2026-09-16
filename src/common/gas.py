@@ -199,7 +199,7 @@ def build_city(identity: dict, plans: list, default_code: str, distributor: str,
         raise Rejected([f"{label}: тариф доставки {distribution} вне диапазона 0..{ceiling}"])
 
     was = as_number((previous or {}).get("rate"))
-    ratio = as_number(limits.get("max_change_ratio"))
+    ratio = as_number((limits.get(BLOCK) or {}).get("max_change_ratio") or limits.get("max_change_ratio"))
     if was and ratio and abs(rate - was) / was > ratio:
         raise Rejected([f"{label}: цена газа изменилась с {was} на {rate}, "
                         f"больше порога {round(ratio * 100)}%"])
@@ -296,10 +296,11 @@ def read_city(source: dict, identity: dict, supplier: str, currency: str, previo
     """
     timeout = int((config.get("settings", {}) or {}).get("timeout_seconds") or 30)
     urls = [u for u in (source.get("urls") or [source.get("url")]) if u]
+    problems = []
     documents = fetch_all(urls, timeout, bool(source.get("read_images")),
-                          source.get("read_documents") or False)
+                          source.get("read_documents") or False, problems)
     if not documents:
-        return None, [f"{label}: источник не открылся ({', '.join(urls)})"], None
+        return None, [f"{label}: источник не открылся ({'; '.join(problems) or ', '.join(urls)})"], None
 
     instruction = prompts.gas_prompt(
         identity["city_name"], supplier, currency, source.get("plans") or {},

@@ -71,6 +71,9 @@ def check_selection(args, config: dict) -> str:
     if unknown:
         return (f"неизвестные города: {', '.join(unknown)}\n"
                 f"есть в конфиге: {', '.join(known)}")
+    if args.write and config.get("reference_sources"):
+        return ("страна собирается со сводных страниц целиком: публикуйте её через "
+                "src/run_country.py, а здесь — только пробный прогон")
     if not args.cities and args.block != ELECTRICITY:
         return ("назовите хотя бы один город: сбор всей страны — это src/run_country.py "
                 "и только с согласия владельца проекта")

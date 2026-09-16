@@ -47,6 +47,8 @@ def describe(result: dict) -> str:
         return f"FAIL  {result['error']}"
     if not result["ok"]:
         return f"FAIL  HTTP {result['status']}"
+    if result.get("bot_check"):
+        return f"FAIL  captcha instead of the page ({result['chars']} chars)"
     line = f"OK    {result['kind']}, {result['chars']} chars, {result['prices']} prices"
     if result["looks_like_404"]:
         line += "  ⚠ looks like a 'page not found'"

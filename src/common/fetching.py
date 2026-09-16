@@ -65,6 +65,15 @@ _SESSION.headers["User-Agent"] = USER_AGENT
 # whether a page carries tariffs at all or is a menu, an article, or a disguised 404.
 PRICE = re.compile(r"\d,\d{2}\b")
 
+# An anti-bot page served in place of the document, with a 200. It is short — a tariff page
+# is not — and says what it is; handing it to the model only buys an empty answer.
+BOT_CHECK = re.compile(r"captcha|капч|вы человек|не робот|just a moment", re.I)
+MAX_BOT_CHECK_CHARS = 3000
+
+
+def is_bot_check(text: str) -> bool:
+    return len(text) <= MAX_BOT_CHECK_CHARS and bool(BOT_CHECK.search(text))
+
 
 class Document:
     """One fetched source: text to read, or bytes to hand over as-is."""
@@ -140,21 +149,25 @@ def _decode(raw: bytes, declared: str) -> str:
     return raw.decode("utf-8", "replace")
 
 
-def fetch(url: str, timeout: int) -> Document:
+def fetch(url: str, timeout: int, problems: list = None) -> Document:
     """Fetches one document. Returns an empty Document on any failure — never raises.
 
     A source that is down must not abort the run: the city keeps its previous tariff and
-    the caller reports the miss.
+    the caller reports the miss. Why it missed is appended to `problems`, when given.
     """
+    def failed(reason: str) -> Document:
+        logger.warning(f"Could not fetch {url}: {reason}")
+        if problems is not None:
+            problems.append(f"{url} — {reason}")
+        return Document(url)
+
     try:
         response = _SESSION.get(url, timeout=timeout)
     except Exception as e:
-        logger.warning(f"Could not fetch {url}: {e}")
-        return Document(url)
+        return failed(str(e))
 
     if response.status_code != 200:
-        logger.warning(f"Could not fetch {url}: HTTP {response.status_code}")
-        return Document(url)
+        return failed(f"HTTP {response.status_code}")
 
     content_type = (response.headers.get("Content-Type") or "").lower()
     for mime in BINARY_TYPES:
@@ -164,6 +177,8 @@ def fetch(url: str, timeout: int) -> Document:
 
     markup = _decode(response.content, content_type)
     text = html_to_text(markup)
+    if is_bot_check(text):
+        return failed("сайт вернул капчу вместо страницы")
     if len(text) > MAX_TEXT_CHARS:
         logger.warning(f"{url}: text cut from {len(text)} to {MAX_TEXT_CHARS} chars")
         text = text[:MAX_TEXT_CHARS]
@@ -290,7 +305,7 @@ def as_pixels(value) -> int:
 
 
 def fetch_all(urls: list, timeout: int, read_images: bool = False,
-              read_documents=False) -> list:
+              read_documents=False, problems: list = None) -> list:
     """Fetches several documents for one city, dropping the ones that failed.
 
     With `read_images`, the large images of every page fetched are handed to the model
@@ -300,11 +315,12 @@ def fetch_all(urls: list, timeout: int, read_images: bool = False,
     page links to are fetched as well: Kyrgyzstan's energy regulator and Belarus's energy
     association attach their decisions as PDFs, Bishkek's city council gives each resolution a
     page of its own. Either way config keeps the stable page instead of the file name of this year's
-    decision, which is what makes next year's decision arrive on its own.
+    decision, which is what makes next year's decision arrive on its own. Why a source was
+    dropped is appended to `problems`, when given.
     """
     documents = []
     for url in urls:
-        document = fetch(url, timeout)
+        document = fetch(url, timeout, problems)
         if not document:
             continue
         documents.append(document)
@@ -350,6 +366,7 @@ def probe(url: str, timeout: int) -> dict:
         text, result["kind"] = "", "image"
     else:
         text, result["kind"] = html_to_text(_decode(response.content, content_type)), "html"
+    result["bot_check"] = is_bot_check(text)
     result["chars"] = len(text)
     result["prices"] = len(PRICE.findall(text))
     low = text.lower()

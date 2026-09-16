@@ -63,7 +63,8 @@ Three consequences reach the app:
 re-typed, so the released app reads the file as before. Added: `electricity.plans`, the root block
 `electricity_cities`, and on two-component hot water `component_water`, `component_energy`,
 `heat_norm` and `heat_norms` (see [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md), sections 2.2, 2.2a
-and 2.4). Sections 2 and 2c below are the app work those fields make possible.
+and 2.4). Later that month the root block `gas` was added (section 2.6). Sections 2, 2c and 2d below
+are the app work those fields make possible.
 
 ---
 
@@ -137,6 +138,30 @@ A zone's `hours` may be empty — several sources print no hours for the half-pe
 must not be parsed. A meter kind a source does not price carries the base rate in every zone and a
 description ending in "(не применяется, ставка одна)"; the app may hide that meter kind for the
 country.
+
+## 2d. Gas: a new service
+
+Not done in the app yet. The root block `gas` carries natural gas per city: the price of the gas, the
+price of delivering it, every offer the source prints, and the consumption norms of a household
+without a meter. Ukraine (33 cities, every supplier minfin lists, Naftogaz by default) and
+Astrakhan are collected; in every other country the block is present with no cities. The released
+app ignores the block. What to build:
+
+1. **DTOs for `gas`, its `plans`, `rates` and `norms`** — the Kotlin classes in JSON_SPECIFICATION.md,
+   section 3, every field nullable or defaulted, for the cached-file reason in section 2.
+2. **A gas meter type** in m³, and a gas supplier picker on the house next to the others, stored as
+   the gas `city_code`. Relate it to the house's city by `city_name`, as the other services are; a
+   city may have two entries — Ternopil has two network operators — and the user picks theirs.
+3. **The offer.** When a city has more than one plan, ask which one — in Ukraine that is the
+   supplier and the monthly or annual price — stored as `plan_code`, defaulting to `is_default`.
+4. **Without a meter.** Ukraine's flats mostly have no gas meter, so this path is the main one there,
+   not an edge case: ask what the gas is for (`norms[].usage`) and how many residents live there — or
+   the heated area for a `per_m2` norm — and bill by the norm. A norm with `heating_season_only` is
+   charged only during the heating season.
+5. **Bill** as in JSON_SPECIFICATION.md, section 4.5: the plan's price plus `distribution_rate`, times
+   the metered m³ or the norm. The user never enters the contracted capacity.
+6. **Losing gas.** A city or the whole block may disappear from a later file; handle it as section 2b
+   does.
 
 ---
 

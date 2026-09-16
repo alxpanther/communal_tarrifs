@@ -13,15 +13,16 @@
 
 ## 📋 1. Общая структура JSON
 
-Файл `tariffs_ua.json` состоит из шести основных блоков:
+Файл `tariffs_ua.json` состоит из семи основных блоков:
 1. **Метаданные (Root)** — общая информация о файле, валюте, версии и времени обновления.
 2. **`electricity`** — тариф на электроэнергию для всей страны: базовый тариф, счётчики на 1/2/3 зоны и все тарифы для населения, которые печатает источник (`plans`).
 3. **`electricity_cities`** — тарифы на электроэнергию городов, у которых тариф отличается от общего по стране, в том же виде, по городам.
 4. **`water`** — тарифы на централизованное водоснабжение и водоотведение по городам.
 5. **`hot_water`** — тарифы на централизованное горячее водоснабжение (за м³).
 6. **`heating`** — тарифы на централизованное отопление (за Гкал).
+7. **`gas`** — природный газ по городам: цена газа, цена его доставки, все предложения, которые печатает источник, и нормы потребления для дома без счётчика.
 
-> ⚠️ **Совместимость.** Блоки `hot_water` и `heating` были добавлены позже `electricity` и `water`; `electricity_cities`, `electricity.plans` и компоненты горячей воды добавлены в сентябре 2026 года. Ни одно существующее поле не переименовано, не удалено и не поменяло тип, поэтому старый код продолжает читать файл как раньше. Единственное требование — парсер должен игнорировать неизвестные ключи: `Json { ignoreUnknownKeys = true }` для `kotlinx.serialization` (Moshi и Gson делают это по умолчанию).
+> ⚠️ **Совместимость.** Блоки `hot_water` и `heating` были добавлены позже `electricity` и `water`; `electricity_cities`, `electricity.plans` и компоненты горячей воды добавлены в сентябре 2026 года, а новый корневой блок `gas` — в конце того же месяца. Ни одно существующее поле не переименовано, не удалено и не поменяло тип, поэтому старый код продолжает читать файл как раньше. Единственное требование — парсер должен игнорировать неизвестные ключи: `Json { ignoreUnknownKeys = true }` для `kotlinx.serialization` (Moshi и Gson делают это по умолчанию).
 
 ### Разное покрытие городов
 
@@ -32,6 +33,7 @@
 | `water` | НКРЕКП для всех водоканалов | ~50 |
 | `hot_water` | НКРЕКП + местные власти | ~18 |
 | `heating` | НКРЕКП + местные власти | ~28 |
+| `gas` | поставщики (цена газа) и НКРЕКП (доставка) | ~33 |
 
 Источник публикует только тарифы, установленные НКРЕКП, поэтому предприятия с «городским» тарифом попадают в JSON лишь если заведены отдельно (как КП «Київтеплоенерго»). Приложение обязано корректно переживать ситуацию «для выбранного города нет данных по отоплению».
 
@@ -222,6 +224,70 @@
 
 ---
 
+### 2.6. Блок `gas` (Природный газ)
+
+| Поле | Тип | Описание | Пример |
+|---|---|---|---|
+| `source_url` | `String` | Единственная страница, с которой читается блок, или пустая строка. | `"https://index.minfin.com.ua/ua/tariff/gas/"` |
+| `update_date` | `String` | Дата последнего обновления блока (`YYYY-MM-DD`). | `"2026-09-16"` |
+| `cities` | `Array<Object>` | Одна запись на город — на газораспределительную сеть, если в городе их две. | `[...]` |
+
+Блок есть в каждом файле; в стране, где газ ещё не собирается, `cities` пуст.
+
+#### Элемент массива `gas.cities[]`:
+
+| Поле | Тип | Описание | Пример |
+|---|---|---|---|
+| `city_code` | `String` | Постоянный ключ записи внутри блока, из раздела реестра `gas_suppliers`. | `"kyiv"`, `"ternopil_hazmerezhi"` |
+| `city_name` | `String` | Название города для UI. | `"Київ"` |
+| `supplier` | `String` | Поставщик плана по умолчанию. | `"ТОВ ГК \"Нафтогаз України\""` |
+| `unit` | `String` | Всегда `"m3"`: все цены блока — за кубометр, в чём бы их ни печатал источник. | `"m3"` |
+| `rate` | `Double` | Цена 1 м³ газа в плане по умолчанию: первая ступень, текущий сезон, с НДС. | `7.96` |
+| `distributor` | `String` | Оператор газораспределительной сети, если доставка оплачивается отдельно от газа; иначе пусто. | `"ПАТ \"Київгаз\""` |
+| `distribution_rate` | `Double` | Цена доставки за м³ с НДС; `0.0`, если доставка входит в цену газа. | `0.384` |
+| `effective_date` | `String` | Дата, с которой действует текущая цена (`YYYY-MM-DD`). | `"2026-09-01"` |
+| `decree_info` | `String` | Происхождение цен. | `"Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026"` |
+| `plans` | `Array<Object>` | Все предложения, которые печатает источник. Ровно у одного `is_default`. | `[ ... ]` |
+| `norms` | `Array<Object>` | Месячные нормы потребления для дома без счётчика; пусто, если источник их не печатает. | `[ ... ]` |
+| `norms_decree` | `String` | Акт, которым установлены нормы; пусто, если норм нет. | `"Постанова КМ України № 143 від 27.02.2019"` |
+
+Элемент `plans[]`:
+
+| Поле | Тип | Описание | Пример |
+|---|---|---|---|
+| `plan_code` | `String` | Постоянный латинский ключ предложения внутри города. | `"naftohaz_ukrainy_annual"` |
+| `name` | `String` | Название предложения на русском, для интерфейса. | `"Нафтогаз України, годовой тариф"` |
+| `is_default` | `Boolean` | Предложение, из которого берутся `supplier` и `rate`. | `true` |
+| `supplier` | `String` | Кто продаёт газ по этому предложению. | `"ТОВ \"Асканія Енерджи\""` |
+| `contract` | `String?` | `"annual"` — цена зафиксирована на год, `"monthly"` — меняется каждый месяц, `null` — источник так не делит. | `"annual"` |
+| `usage` | `String?` | `"cooking"` или `"heating"`, если цена зависит от назначения газа; иначе `null`. | `null` |
+| `metered` | `Boolean?` | `true` — цена для дома со счётчиком, `false` — без, `null` — одинаково для обоих. | `null` |
+| `monthly_charge` | `Double?` | Фиксированная плата в месяц, не зависящая от расхода; `null`, если её нет. | `null` |
+| `rates` | `Array<Object>` | По элементу на каждую напечатанную цену. | `[ ... ]` |
+
+Элемент `rates[]`:
+
+| Поле | Тип | Описание | Пример |
+|---|---|---|---|
+| `tier` | `Int?` | Номер ступени потребления, с 1; `null`, если цена не зависит от расхода. | `1` |
+| `above_m3` | `Double?` | Ступень действует для расхода свыше этого значения; `null` — с нуля или не напечатано. | `1200` |
+| `up_to_m3` | `Double?` | Ступень действует до этого значения включительно; `null` — без верхней границы или не напечатано. | `2500` |
+| `tier_period` | `String?` | `"month"` или `"year"` — за какой срок считаются границы ступеней; `null` без ступеней. | `"year"` |
+| `season_from` | `String?` | `MM-DD`: первый день сезона, повторяющегося каждый год; `null` — весь год. | `"10-01"` |
+| `season_to` | `String?` | `MM-DD`: последний день сезона включительно. | `"04-30"` |
+| `rate` | `Double` | Цена за м³ с НДС. | `9.95` |
+
+Элемент `norms[]`:
+
+| Поле | Тип | Описание | Пример |
+|---|---|---|---|
+| `usage` | `String` | `"stove_with_hot_water"` — газовая плита при централизованном ГВС; `"stove_without_hot_water"` — плита без централизованного ГВС и без водонагревателя; `"stove_and_water_heater"` — плита и газовый водонагреватель; `"water_heater"` — только водонагреватель; `"heating"` — индивидуальное отопление. | `"stove_with_hot_water"` |
+| `basis` | `String` | `"per_person"` — на жильца, `"per_m2"` — на м² отапливаемой площади. | `"per_person"` |
+| `value` | `Double` | м³ в месяц. | `3.28` |
+| `heating_season_only` | `Boolean` | Норма действует только в отопительный период. | `false` |
+
+---
+
 ## 📱 3. Готовые Kotlin Data Classes (`kotlinx.serialization`)
 
 Для парсинга файла тарифов в Android-приложении вы можете использовать следующие Data Classes.
@@ -249,7 +315,8 @@ data class TariffResponse(
     @SerialName("electricity_cities") val electricityCities: ElectricityCities? = null,
     @SerialName("water") val water: WaterTariff,
     @SerialName("hot_water") val hotWater: HotWaterTariff? = null,
-    @SerialName("heating") val heating: HeatingTariff? = null
+    @SerialName("heating") val heating: HeatingTariff? = null,
+    @SerialName("gas") val gas: GasTariff? = null
 )
 
 @Serializable
@@ -405,6 +472,61 @@ data class CityHeatingTariff(
     @SerialName("effective_date") val effectiveDate: String,
     @SerialName("decree_info") val decreeInfo: String
 )
+
+@Serializable
+data class GasTariff(
+    @SerialName("source_url") val sourceUrl: String? = null,
+    @SerialName("update_date") val updateDate: String,
+    @SerialName("cities") val cities: List<CityGasTariff> = emptyList()
+)
+
+@Serializable
+data class CityGasTariff(
+    @SerialName("city_code") val cityCode: String,
+    @SerialName("city_name") val cityName: String,
+    @SerialName("supplier") val supplier: String,
+    @SerialName("unit") val unit: String,
+    @SerialName("rate") val rate: Double,
+    @SerialName("distributor") val distributor: String = "",
+    @SerialName("distribution_rate") val distributionRate: Double = 0.0,
+    @SerialName("effective_date") val effectiveDate: String,
+    @SerialName("decree_info") val decreeInfo: String,
+    @SerialName("plans") val plans: List<GasPlan> = emptyList(),
+    @SerialName("norms") val norms: List<GasNorm> = emptyList(),
+    @SerialName("norms_decree") val normsDecree: String = ""
+)
+
+@Serializable
+data class GasPlan(
+    @SerialName("plan_code") val planCode: String,
+    @SerialName("name") val name: String,
+    @SerialName("is_default") val isDefault: Boolean,
+    @SerialName("supplier") val supplier: String,
+    @SerialName("contract") val contract: String? = null,
+    @SerialName("usage") val usage: String? = null,
+    @SerialName("metered") val metered: Boolean? = null,
+    @SerialName("monthly_charge") val monthlyCharge: Double? = null,
+    @SerialName("rates") val rates: List<GasRate> = emptyList()
+)
+
+@Serializable
+data class GasRate(
+    @SerialName("tier") val tier: Int? = null,
+    @SerialName("above_m3") val aboveM3: Double? = null,
+    @SerialName("up_to_m3") val upToM3: Double? = null,
+    @SerialName("tier_period") val tierPeriod: String? = null,
+    @SerialName("season_from") val seasonFrom: String? = null,
+    @SerialName("season_to") val seasonTo: String? = null,
+    @SerialName("rate") val rate: Double
+)
+
+@Serializable
+data class GasNorm(
+    @SerialName("usage") val usage: String,
+    @SerialName("basis") val basis: String,
+    @SerialName("value") val value: Double,
+    @SerialName("heating_season_only") val heatingSeasonOnly: Boolean
+)
 ```
 
 ---
@@ -474,6 +596,24 @@ $$\text{цена за м}^3 = \text{component\_water} + \text{component\_energy}
    $$\text{Сумма грн} = \Delta \text{Гкал} \times \text{city.rate\_gcal} + \frac{P \times \text{city.rate\_gcal\_hour}}{12}$$
 
 > ⚠️ Перед расчётом проверьте, что выбранный пользователем `city_code` вообще присутствует в блоке — покрытие городов у `water`, `hot_water` и `heating` разное (см. раздел 1).
+
+---
+
+### 4.5. Расчет стоимости Газа
+
+Пользователь выбирает город из `gas.cities`, а если предложений несколько — план (`plan_code`, по умолчанию тот, у которого `is_default`). Цена 1 м³ — цена плана плюс доставка:
+
+$$\text{цена за м}^3 = \text{цена плана} + \text{city.distribution\_rate}$$
+
+1. **Со счётчиком газа:**
+   $$\text{Сумма грн} = \Delta \text{м}^3 \times \text{цена за м}^3$$
+2. **Без счётчика:** пользователь указывает, на что расходуется газ (`norms[].usage`), и число жильцов, либо отапливаемую площадь для `per_m2`:
+   $$\text{Сумма грн} = \text{norm.value} \times \text{жильцы (или м}^2\text{)} \times \text{цена за м}^3$$
+   Норма с `heating_season_only` начисляется только в месяцы отопительного периода.
+
+Цена плана выбирается так же, как цена электроэнергии (раздел 4.1, шаги 2–5): строки, сезон которых покрывает месяц; при ступенях — ступень, до которой дошёл расход, считая за месяц или за год по `tier_period`; плюс `monthly_charge`, если он задан.
+
+В Украине доставка оплачивается по годовой заказанной мощности, которая для дома равна среднему месячному расходу (со счётчиком) или норме (без счётчика); `distribution_rate` — уже годовой тариф, поэтому его произведение на кубометры месяца и даёт сумму платёжки. Больше пользователю ничего вводить не нужно.
 
 ---
 

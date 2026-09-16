@@ -5,15 +5,19 @@ import re
 import difflib
 import html as html_module
 from datetime import datetime
+from urllib.parse import urljoin
+
 import requests
 from dotenv import load_dotenv
 
-from common import electricity, llm
+from common import electricity, gas, llm
 from common.countries import load_country
-from common.jsonio import build_root, empty_city_block, save_country_json
+from common.jsonio import GAS, build_root, empty_city_block, save_country_json
 from common.overrides import apply_manual_overrides
 from common.paths import assets_output_path, docs_output_path, registry_path, sources_path
+from common.registry import GAS_SECTION
 from common.telegram_notifier import TelegramNotifier
+from common.validation import Rejected
 
 load_dotenv()
 
@@ -57,7 +61,7 @@ def load_config() -> dict:
 
     # hot_water and heating stay optional: an older config without them keeps working,
     # the corresponding blocks are simply carried over from the previous JSON.
-    for optional in ("hot_water", "heating", "hot_water_kyiv"):
+    for optional in ("hot_water", "heating", "hot_water_kyiv", "gas"):
         if not ref.get(optional):
             logger.warning(f"reference_sources.{optional} is not configured, block will not be refreshed")
 
@@ -110,7 +114,8 @@ def load_base_schema() -> dict:
         "electricity": {},
         "water": empty_city_block("https://index.minfin.com.ua/ua/tariff/water/"),
         "hot_water": empty_city_block("https://index.minfin.com.ua/ua/tariff/hotwater/"),
-        "heating": empty_city_block("https://index.minfin.com.ua/ua/tariff/heating/")
+        "heating": empty_city_block("https://index.minfin.com.ua/ua/tariff/heating/"),
+        GAS: empty_city_block()
     }
 
 def resolve_latest_gemini_model(config: dict) -> str:
@@ -314,7 +319,8 @@ REGISTRY_COMMENT = (
     "Постоянный реестр city_code. Ключ — название поставщика с сайта-источника. "
     "Однажды назначенный city_code менять нельзя: Android-приложение хранит его "
     "как выбор пользователя. Новые поставщики дописываются автоматически. "
-    "Секция suppliers — водоканалы, heat_suppliers — поставщики тепла (горячая вода и отопление)."
+    "Секция suppliers — водоканалы, heat_suppliers — поставщики тепла (горячая вода и отопление), "
+    "gas_suppliers — операторы газораспределительных сетей."
 )
 
 def load_registry_file() -> dict:
@@ -333,7 +339,7 @@ def load_registry(section: str = WATER_REGISTRY_SECTION) -> dict:
     return load_registry_file().get(section, {})
 
 def save_registry(suppliers: dict, section: str = WATER_REGISTRY_SECTION):
-    """Rewrites one section, carrying the other section over untouched."""
+    """Rewrites one section, carrying every other section over untouched."""
     os.makedirs(os.path.dirname(REGISTRY_PATH), exist_ok=True)
     stored = load_registry_file()
     payload = {
@@ -341,6 +347,7 @@ def save_registry(suppliers: dict, section: str = WATER_REGISTRY_SECTION):
         WATER_REGISTRY_SECTION: stored.get(WATER_REGISTRY_SECTION, {}),
         HEAT_REGISTRY_SECTION: stored.get(HEAT_REGISTRY_SECTION, {})
     }
+    payload.update({key: value for key, value in stored.items() if key not in payload})
     payload[section] = dict(sorted(suppliers.items()))
     with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
@@ -996,6 +1003,188 @@ def extract_heat_blocks(base_data: dict, ref_sources: dict, timeout: int,
 
     return {"hot_water": hot_data, "heating": heat_data}
 
+# The consumption norms of a household without a gas meter, as minfin captions them, mapped to
+# the published usage codes. Matched against the row text lowercased, soft hyphens removed.
+GAS_NORM_USAGES = (
+    ("за наявності централізованого гарячого", "stove_with_hot_water"),
+    ("у разі відсутності централізованого гарячого", "stove_without_hot_water"),
+    ("плита газова та водонагрівач", "stove_and_water_heater"),
+    ("опалення", "heating"),
+)
+GAS_CONTRACT_NAMES = {"monthly": "месячный тариф", "annual": "годовой тариф"}
+
+def gas_city_links(index_html: str, index_url: str) -> list:
+    """(city name, page URL) for every city in the 'Ціни на газ по містах України' list."""
+    start = index_html.find("Ціни на газ по містах")
+    end = index_html.find("Див. також", start)
+    if start < 0:
+        return []
+    section = index_html[start:end if end > start else None]
+    return [(html_module.unescape(name).strip(), urljoin(index_url, href))
+            for href, name in re.findall(r"<a href='(/ua/tariff/gas/[^'/]+/)'>([^<]+)</a>", section)]
+
+def gas_table(page_html: str, div_id: str) -> str:
+    match = re.search(rf"<div id='{div_id}'>(.*?)</div>\s*</div>", page_html, flags=re.S)
+    return match.group(1) if match else ""
+
+def gas_supplier_rows(page_html: str) -> list:
+    """{supplier, monthly, annual} per row of the retail price table. A supplier offers either
+    contract or both; the one it does not offer is an empty cell."""
+    rows = []
+    for name, inner in re.findall(r"<tr><td>([^<]+)</td><td[^>]*colspan=2><table[^>]*>(.*?)</table>",
+                                  gas_table(page_html, "tariff-table1"), flags=re.S):
+        prices = [parse_rate(cell) for cell in table_row_cells(inner)]
+        if len(prices) == 2:
+            rows.append({"supplier": html_module.unescape(name).strip(),
+                         "monthly": prices[0], "annual": prices[1]})
+    return rows
+
+def gas_distributor_rows(page_html: str) -> list:
+    """{distributor, rate} per network operator of the city."""
+    rows = []
+    for row_html in re.findall(r"<tr>(.*?)</tr>", gas_table(page_html, "tariff-table2"), flags=re.S):
+        cells = table_row_cells(row_html)
+        if len(cells) == 2 and re.fullmatch(r"[\d,]+", cells[1]):
+            rows.append({"distributor": cells[0], "rate": parse_rate(cells[1])})
+    return rows
+
+def gas_norms(page_html: str) -> tuple:
+    """(norms, decree) from the first table of charges without a meter. The norms are set
+    nationally, so every supplier's table on the page repeats them."""
+    match = re.search(r"<caption[^>]*>Плата за користування природним газом у разі відсутності "
+                      r"газових лічильників.*?</table>\s*<ul>(.*?)</ul>", page_html, flags=re.S)
+    if not match:
+        return None, ""
+    norms = []
+    for row_html in re.findall(r"<tr>(.*?)</tr>", match.group(0), flags=re.S):
+        cells = table_row_cells(row_html)
+        if len(cells) != 5 or not cells[0].isdigit():
+            continue
+        text = cells[1].replace("\xad", "").lower()
+        usage = next((code for marker, code in GAS_NORM_USAGES if marker in text), None)
+        basis = "per_m2" if "м²" in cells[3] or "м2" in cells[3] else (
+            "per_person" if "особ" in cells[3] else None)
+        norms.append({"usage": usage, "basis": basis, "value": parse_rate(cells[2]),
+                      "heating_season_only": "опалювальний період" in text})
+    decree = html_module.unescape(re.sub(r"<[^>]+>", "", match.group(1)))
+    return norms, re.sub(r"\s+", " ", decree).strip()
+
+def gas_page_date(page_html: str):
+    """The 'з 1.09.2026' stamp of the retail price table."""
+    caption = re.search(r"<caption>(.*?)</caption>", gas_table(page_html, "tariff-table1"), flags=re.S)
+    text = html_module.unescape(caption.group(1)) if caption else ""
+    found = re.search(r"з\s*(\d{1,2})\.(\d{1,2})\.(\d{4})", text)
+    return datetime(int(found.group(3)), int(found.group(2)), int(found.group(1))) if found else None
+
+def gas_plans(rows: list, limits: dict, label: str, reasons: list) -> list:
+    """One plan per supplier and contract the table prices."""
+    plans = []
+    for row in rows:
+        for contract in ("annual", "monthly"):
+            if row[contract] is None:
+                continue
+            plan = gas.check_plan({
+                "plan_code": f"{supplier_suffix(row['supplier'])}_{contract}",
+                "name": f"{quoted_part(row['supplier'])}, {GAS_CONTRACT_NAMES[contract]}",
+                "supplier": row["supplier"], "contract": contract,
+                "rates": [{"rate": row[contract]}]}, 1.0, 1.0, limits, label, reasons)
+            if plan is None:
+                return None
+            plans.append(plan)
+    return plans
+
+def gas_cities_of_page(name: str, page_html: str, source: dict, limits: dict) -> tuple:
+    """Every city record one city page yields — one per network operator — or the reasons it
+    yields none. City identity is filled in later from the registry."""
+    effective = gas_page_date(page_html)
+    rows, distributors = gas_supplier_rows(page_html), gas_distributor_rows(page_html)
+    if not effective or not rows or not distributors:
+        return [], [f"{name}: на странице нет {'даты' if not effective else 'цен поставщиков' if not rows else 'оператора ГРМ'}"]
+
+    reasons = []
+    plans = gas_plans(rows, limits, name, reasons)
+    norms, decree = gas_norms(page_html)
+    norms = gas.check_norms(norms, name, reasons) if norms is not None else []
+    if plans is None or norms is None:
+        return [], reasons
+
+    default_supplier = source.get("default_supplier", "")
+    default = next((plan["plan_code"] for contract in ("annual", "monthly") for plan in plans
+                    if normalize_name(plan["supplier"]) == normalize_name(default_supplier)
+                    and plan["contract"] == contract), "")
+    stamp = effective.strftime("%d.%m.%Y")
+    cities = []
+    for row in distributors:
+        cities.append({"city_name": name, "distributor": row["distributor"],
+                       "distribution_rate": row["rate"], "plans": [dict(p) for p in plans],
+                       "default": default, "norms": norms, "norms_decree": decree,
+                       "effective_date": effective.strftime("%Y-%m-%d"),
+                       "decree_info": f"Ціни постачальників і тарифи операторів ГРМ станом на {stamp}"})
+    return cities, []
+
+def extract_gas_block(base_data: dict, config: dict, timeout: int, notifier: TelegramNotifier) -> dict:
+    """Builds the gas block from minfin's city pages; no model is involved.
+
+    A city whose page cannot be read keeps its previous record. A city whose page lists no
+    network operator is not published: delivery is part of what a household pays, and a price
+    without it would understate the bill.
+    """
+    source = config["reference_sources"].get("gas") or {}
+    block = base_data.get(GAS) or empty_city_block()
+    if not source.get("url"):
+        return block
+
+    index_html = fetch_html(source["url"], timeout=timeout)
+    links = gas_city_links(index_html, source["url"]) if index_html else []
+    if not links:
+        reject_block("Газ", [f"на странице {source['url']} не найден список городов"], notifier)
+        return block
+
+    limits = config.get("validation", {}) or {}
+    previous = {normalize_name(gas.registry_key(c)): c for c in block.get("cities", [])}
+    fresh, kept, failures = [], [], []
+    for name, url in links:
+        page_html = fetch_html(url, timeout=timeout)
+        if not page_html:
+            failures.append(f"{name}: страница не открылась ({url})")
+            kept.extend(c for c in previous.values() if c.get("city_name") == name)
+            continue
+        cities, reasons = gas_cities_of_page(name, page_html, source, limits)
+        failures.extend(reasons)
+        fresh.extend(cities)
+
+    identities = resolve_city_identity(
+        [{"supplier": c["distributor"], "city_name": c["city_name"]} for c in fresh],
+        notifier, section=GAS_SECTION, is_plain_owner=is_named_after_city, label="газа")
+
+    today = datetime.now().date()
+    published = list(kept)
+    for city, identity in zip(fresh, identities):
+        label = f"{city['city_name']} ({city['distributor']})"
+        try:
+            published.append(gas.build_city(
+                identity, city["plans"], city["default"], city["distributor"],
+                city["distribution_rate"], city["norms"], city["norms_decree"],
+                city["effective_date"], city["decree_info"],
+                previous.get(normalize_name(city["distributor"]), {}), limits, label, today))
+        except Rejected as rejection:
+            failures.extend(rejection.reasons)
+            old = previous.get(normalize_name(city["distributor"]))
+            if old:
+                published.append(old)
+
+    if failures:
+        for reason in failures:
+            logger.warning(f"gas: {reason}")
+        notifier.send_message("⚠️ <b>UA: газ — не обновлено</b>\n"
+                              + "\n".join(f"• <code>{r}</code>" for r in failures[:20]),
+                              parse_mode="HTML")
+    if not published:
+        return block
+    logger.info(f"gas: {len(published)} cities from {len(links)} city pages")
+    return {"source_url": source["url"], "update_date": today.strftime("%Y-%m-%d"),
+            "cities": published}
+
 def extract_electricity(config: dict, previous: dict, notifier: TelegramNotifier) -> dict:
     """The electricity block, read by the shared electricity module like every other country's.
     On any failure the previous block stays and the reason is reported."""
@@ -1038,8 +1227,9 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
         logger.warning("Keeping previous water cities: extraction failed or was rejected by validation")
 
     heat_blocks = extract_heat_blocks(base_data, ref_sources, timeout, model_name, notifier)
+    gas_block = extract_gas_block(base_data, config, timeout, notifier)
 
-    return {"electricity": elec_data, "water": water_data, **heat_blocks}
+    return {"electricity": elec_data, "water": water_data, **heat_blocks, GAS: gas_block}
 
 def search_alternative_tariffs(model_name: str, notifier: TelegramNotifier) -> dict:
     logger.info("Performing Search Grounding for alternative tariff updates...")

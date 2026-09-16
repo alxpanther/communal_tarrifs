@@ -8,6 +8,7 @@ country to check a fix in one city is how a month's credits disappear in a day.
     python src/run_city.py ru moscow saint_petersburg --block heating
     python src/run_city.py ru --block electricity              # the country-wide tariff
     python src/run_city.py ru kazan --block electricity        # a city's own electricity tariff
+    python src/run_city.py ru astrakhan --block gas            # a city's gas prices
     python src/run_city.py ru yekaterinburg --write            # publish just this city
     python src/run_city.py am --block electricity --llm-from ru   # test on Russia's provider
 
@@ -34,7 +35,7 @@ from dotenv import load_dotenv
 import build_index
 from common import ai_pipeline, llm
 from common.countries import load_countries
-from common.jsonio import ELECTRICITY_CITIES, load_previous
+from common.jsonio import ELECTRICITY_CITIES, GAS, load_previous
 from common.overrides import CITY_BLOCKS
 from common.telegram_notifier import TelegramNotifier
 
@@ -50,7 +51,7 @@ def parse_args(argv):
     parser = argparse.ArgumentParser(description="Collect tariffs for part of a country.")
     parser.add_argument("country", help="country code, e.g. ru")
     parser.add_argument("cities", nargs="*", default=[], help="city codes from config/<cc>/sources.json")
-    parser.add_argument("--block", choices=list(CITY_BLOCKS) + [ELECTRICITY],
+    parser.add_argument("--block", choices=list(CITY_BLOCKS) + [ELECTRICITY, GAS],
                         help="one service only (default: every service of the named cities)")
     parser.add_argument("--write", action="store_true",
                         help="publish the result instead of only printing it")
@@ -102,11 +103,40 @@ def print_electricity(label: str, power: dict):
             print(f"         {row['meter']}/{row['zone']}{hours}{band}{season}: {row['rate']}")
 
 
+def print_gas(code: str, city: dict):
+    delivery = (f" + доставка {city['distribution_rate']} ({city['distributor']})"
+                if city.get("distributor") else "")
+    print(f"  ✅ {code}: {city['supplier']} — {city['rate']} за м³{delivery} с "
+          f"{city['effective_date']} | {city['decree_info']}")
+    for plan in city["plans"]:
+        extras = [plan.get("contract") or "", plan.get("usage") or "",
+                  {True: "со счётчиком", False: "без счётчика"}.get(plan.get("metered"), ""),
+                  f"абонплата {plan['monthly_charge']}" if plan.get("monthly_charge") else ""]
+        print(f"       [{plan['plan_code']}{' *' if plan['is_default'] else ''}] {plan['name']} "
+              f"— {plan['supplier']} {' '.join(e for e in extras if e)}")
+        for row in plan["rates"]:
+            band = f" ступень {row['tier']} {row['above_m3'] or 0}–{row['up_to_m3'] or '∞'} м³/" \
+                   f"{row['tier_period']}" if row["tier"] else ""
+            season = f" {row['season_from']}..{row['season_to']}" if row["season_from"] else ""
+            print(f"         {row['rate']}{band}{season}")
+    for norm in city["norms"]:
+        print(f"       норма {norm['usage']}: {norm['value']} м³ {norm['basis']}"
+              f"{' (отопительный период)' if norm['heating_season_only'] else ''}")
+
+
 def print_dry_run(args, data: dict, refreshed: dict, failures: dict, results: dict):
-    blocks = [args.block] if args.block else list(CITY_BLOCKS) + [ELECTRICITY]
+    blocks = [args.block] if args.block else list(CITY_BLOCKS) + [ELECTRICITY, GAS]
     for block in blocks:
         print(f"\n=== {block} ===")
-        if block == ELECTRICITY:
+        if block == GAS:
+            result = results.get(GAS)
+            for code in args.cities:
+                if result and code in result.records:
+                    print_gas(code, result.records[code])
+                elif result and result.raw.get(code):
+                    answer = json.dumps(result.raw[code], ensure_ascii=False)
+                    print(f"  ❔ {code}: ответ модели — {answer[:RAW_PREVIEW_CHARS]}")
+        elif block == ELECTRICITY:
             if refreshed.get(ELECTRICITY):
                 print_electricity("", data[ELECTRICITY])
             result = results.get(ELECTRICITY_CITIES)

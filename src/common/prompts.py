@@ -189,6 +189,78 @@ ELECTRICITY_TEMPLATE = """Извлеки из приведённого доку�
    Если в документе нет ни одной цены группы, отмеченной как основная, верни {{"periods": []}}.
 """
 
+GAS_TEMPLATE = """Извлеки из приведённого документа действующие цены природного газа для населения —
+все цены, которые документ печатает для перечисленных ниже планов.
+
+Сегодня {today}.
+Населённый пункт: {city_name}.
+{supplier_line}Валюта: {currency}.
+{hint_line}
+Планы, которые нужны (код — описание):
+{plans}
+
+Верни СТРОГО такой JSON и ничего кроме него:
+{{
+  "periods": [
+    {{
+      "from": "YYYY-MM-DD",
+      "to": "YYYY-MM-DD или null, если период бессрочный",
+      "decree_info": "реквизиты документа, которым установлены цены, как напечатано",
+      "price_per": "m3", если цены напечатаны за 1 м³ (куб. м); "thousand_m3", если за 1000 м³ (тыс. куб. м),{distribution_fields}
+      "plans": [
+        {{
+          "plan": "код плана из списка выше",
+          "monthly_charge": число — фиксированная ежемесячная плата плана, как напечатана, если напечатана; иначе null,
+          "rates": [
+            {{
+              "tier": номер ступени потребления по порядку, начиная с 1; null, если цена не зависит от объёма,
+              "above_m3": число — цена действует для потребления СВЫШЕ этого объёма; null, если ступень начинается с нуля или ступеней нет,
+              "up_to_m3": число — верхняя граница ступени включительно; null, если ступень не ограничена сверху или ступеней нет,
+              "tier_period": "month", если границы ступеней заданы на месяц; "year", если на год; null, если ступеней нет,
+              "season_from": "MM-DD" — начало сезона, если цена действует каждый год в одни и те же месяцы; иначе null,
+              "season_to": "MM-DD" — конец сезона включительно; иначе null,
+              "rate": число — цена в единицах из price_per
+            }}
+          ]
+        }}
+      ]{norms_fields}
+    }}
+  ]
+}}
+
+Правила, обязательные к соблюдению:
+
+1. Бери ТОЛЬКО цены для населения и ТОЛЬКО с учётом НДС, если документ печатает оба варианта.
+   Цены для прочих потребителей и промышленности игнорируй.
+2. Верни периоды, действующие сегодня и в будущем. Периоды, закончившиеся до сегодняшнего дня,
+   не возвращай.
+3. Числа возвращай числами, десятичный разделитель — точка. Ничего не вычисляй и не
+   пересчитывай: ни цену за 1 м³ из цены за 1000 м³, ни цены с НДС из цен без НДС, ни плату
+   по нормам — возвращай напечатанное.
+4. Все планы одного периода делят его даты. Если цены меняются в разные даты, раздели год на
+   периоды по всем этим датам и в каждый период включи все планы.
+5. НИКОГДА не заполняй поле по памяти или по аналогии. Данных нет в документе — значит их нет.
+   Если в документе нет цены основного плана, верни {{"periods": []}}.
+"""
+
+GAS_DISTRIBUTION_FIELDS = (
+    '\n      "distributor": "название газораспределительной организации, как напечатано",\n'
+    '      "distribution_rate": число — тариф на доставку (распределение) газа за ту же единицу, '
+    'что и цены, или null, если он не напечатан,'
+)
+
+GAS_NORMS_FIELDS = (
+    ',\n      "norms": список норм потребления газа на месяц для потребителей без счётчика, если '
+    'документ их печатает, иначе null. Элемент: {"usage": "stove_with_hot_water" — газовая '
+    'плита при централизованном горячем водоснабжении, "stove_without_hot_water" — плита без '
+    'централизованного горячего водоснабжения и без водонагревателя, "stove_and_water_heater" — '
+    'плита и газовый водонагреватель, "water_heater" — только водонагреватель, "heating" — '
+    'отопление; "basis": "per_person" — на человека, "per_m2" — на 1 м² отапливаемой площади; '
+    '"value": норма в м³ на месяц; "heating_season_only": true, если норма действует только '
+    'в отопительный период, иначе false},\n'
+    '      "norms_decree": "реквизиты документа, которым установлены нормы, как напечатано"'
+)
+
 CROSS_CHECK_TEMPLATE = """Найди в открытых источниках действующий тариф на {block_name}
 для населения, {city_name}, поставщик {supplier}.
 
@@ -250,6 +322,25 @@ def electricity_prompt(region: str, currency: str, unit: str, plans: dict, today
         supplier_line=f"Ожидаемый поставщик: {supplier}.\n" if supplier else "",
         hint_line=f"\nВажное уточнение по этому источнику: {hint}\n" if hint else "",
         plans="\n".join(lines), region=region, currency=currency, unit=unit_name(unit))
+
+
+def gas_prompt(city_name: str, supplier: str, currency: str, plans: dict, today: str = "",
+               hint: str = "", distribution: bool = False, norms: bool = False) -> str:
+    """The instruction for one city's gas source. Delivery and norms are asked only of a source
+    config says prints them: a field the page has no answer for is a chance to fill it wrongly."""
+    lines = []
+    for code, plan in plans.items():
+        plan = plan or {}
+        main = " (основной)" if plan.get("default") else ""
+        detail = f" {plan['hint']}" if plan.get("hint") else ""
+        lines.append(f"- {code}{main} — {plan.get('name') or code}.{detail}")
+    return GAS_TEMPLATE.format(
+        today=today or date.today().strftime("%Y-%m-%d"),
+        city_name=city_name, currency=currency, plans="\n".join(lines),
+        supplier_line=f"Ожидаемый поставщик: {supplier}.\n" if supplier else "",
+        hint_line=f"\nВажное уточнение по этому источнику: {hint}\n" if hint else "",
+        distribution_fields=GAS_DISTRIBUTION_FIELDS if distribution else "",
+        norms_fields=GAS_NORMS_FIELDS if norms else "")
 
 
 def cross_check_prompt(block: str, city_name: str, supplier: str, unit: str) -> str:

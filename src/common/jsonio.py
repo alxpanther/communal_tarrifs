@@ -21,10 +21,13 @@ SCHEMA_VERSION = "1.0"
 # Order of the root keys in the written file. Purely cosmetic, but it keeps the git diff
 # of a regenerated file readable.
 ROOT_ORDER = ("version", "last_updated_at", "country", "country_names", "currency",
-              "electricity", "electricity_cities", "water", "hot_water", "heating")
+              "electricity", "electricity_cities", "water", "hot_water", "heating", "gas")
 
 # Root block of the electricity tariffs a city has apart from the country-wide one.
 ELECTRICITY_CITIES = "electricity_cities"
+
+# Root block of natural gas prices, per city.
+GAS = "gas"
 
 
 def empty_city_block(source_url: str = "") -> dict:
@@ -56,7 +59,7 @@ def load_previous(country: Country) -> dict:
 
 
 def build_root(country: Country, blocks: dict) -> dict:
-    """Assembles the root object from the four tariff blocks."""
+    """Assembles the root object from the tariff blocks."""
     return {
         "version": SCHEMA_VERSION,
         "last_updated_at": datetime.now().isoformat(),
@@ -67,7 +70,8 @@ def build_root(country: Country, blocks: dict) -> dict:
         ELECTRICITY_CITIES: blocks.get(ELECTRICITY_CITIES) or empty_city_block(),
         "water": blocks.get("water", empty_city_block()),
         "hot_water": blocks.get("hot_water", empty_city_block()),
-        "heating": blocks.get("heating", empty_city_block())
+        "heating": blocks.get("heating", empty_city_block()),
+        GAS: blocks.get(GAS) or empty_city_block()
     }
 
 

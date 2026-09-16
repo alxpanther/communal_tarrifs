@@ -19,14 +19,15 @@ import os
 from dataclasses import dataclass
 from datetime import date, datetime
 
-from common import electricity, llm, prompts
+from common import electricity, gas, llm, prompts
 from common.countries import Country
 from common.fetching import fetch_all
-from common.jsonio import (ELECTRICITY_CITIES, build_root, empty_city_block, load_previous,
+from common.jsonio import (ELECTRICITY_CITIES, GAS, build_root, empty_city_block, load_previous,
                            save_country_json)
 from common.overrides import CITY_BLOCKS, apply_manual_overrides, resolve_periods
 from common.paths import sources_path
-from common.registry import ELECTRICITY_SECTION, HEAT_SECTION, WATER_SECTION, reconcile_cities
+from common.registry import (ELECTRICITY_SECTION, GAS_SECTION, HEAT_SECTION, WATER_SECTION,
+                             reconcile_cities)
 from common.validation import Rejected, as_number, clean_decree, validate_city
 
 logger = logging.getLogger(__name__)
@@ -334,7 +335,7 @@ def drop_retired_cities(data: dict, config: dict) -> list:
         return []
 
     removed = []
-    for block in CITY_BLOCKS + (ELECTRICITY_CITIES,):
+    for block in CITY_BLOCKS + (ELECTRICITY_CITIES, GAS):
         cities = data.get(block, {}).get("cities", [])
         # A city's own electricity tariff is retired as "kazan.electricity".
         service = "electricity" if block == ELECTRICITY_CITIES else block
@@ -399,6 +400,41 @@ def collect_electricity_cities(country: Country, config: dict, previous_block: d
     return BlockResult(list(published.values()), refreshed, failures, records, raw)
 
 
+def collect_gas_cities(country: Country, config: dict, previous_block: dict, extractor,
+                       only: list = None) -> BlockResult:
+    """Reads the gas prices of every city that declares a gas source."""
+    published = {c.get("city_code"): dict(c) for c in (previous_block or {}).get("cities", [])}
+    refreshed, failures, records, raw = [], [], {}, {}
+    for code, city in (config.get("cities") or {}).items():
+        source = (city.get("sources") or {}).get(GAS)
+        if not source or (only and code not in only):
+            continue
+        label = _label_of(config, city, code, GAS)
+        identity = {"city_code": code, "city_name": city.get("city_name", code)}
+        fields, reasons, raw[code] = gas.read_city(
+            source, identity, _supplier_of(city, GAS), country.currency, published.get(code, {}),
+            config, extractor, label)
+        if not fields:
+            for reason in reasons:
+                logger.warning(f"{country.code} {GAS}: {reason}")
+            failures.extend(reasons)
+            continue
+        published[code] = fields
+        records[code] = fields
+        refreshed.append(code)
+        logger.info(f"{country.code} {GAS}: {label} refreshed from source")
+    return BlockResult(list(published.values()), refreshed, failures, records, raw)
+
+
+def reconcile_gas(code: str, cities: list, notifier=None):
+    """Registers gas cities under their network operator, or their supplier where there is none."""
+    keyed = [{"supplier": gas.registry_key(city), "city_code": city.get("city_code"),
+              "city_name": city.get("city_name")} for city in cities]
+    reconcile_cities(code, keyed, GAS_SECTION, notifier)
+    for city, entry in zip(cities, keyed):
+        city["city_code"], city["city_name"] = entry["city_code"], entry["city_name"]
+
+
 def _report(country: Country, refreshed: dict, failures: dict, notifier,
             scope: str = "", usage: str = ""):
     """One message per run: what was refreshed, what it cost, and every reason something
@@ -444,6 +480,7 @@ def collect(country: Country, config: dict, previous: dict, extractor,
     data = {block: previous.get(block, empty_city_block()) for block in CITY_BLOCKS}
     data["electricity"] = previous.get("electricity", {})
     data[ELECTRICITY_CITIES] = previous.get(ELECTRICITY_CITIES, empty_city_block())
+    data[GAS] = previous.get(GAS, empty_city_block())
     refreshed, failures, results = {}, {}, {}
 
     for block in CITY_BLOCKS:
@@ -475,6 +512,19 @@ def collect(country: Country, config: dict, previous: dict, extractor,
         results[ELECTRICITY_CITIES] = result
         if result.failures:
             failures[ELECTRICITY_CITIES] = result.failures
+
+    if not blocks or GAS in blocks:
+        result = collect_gas_cities(country, config, data[GAS], extractor, cities)
+        block = dict(data[GAS])
+        block["cities"] = result.cities
+        if result.refreshed:
+            block["update_date"] = today
+        block["source_url"] = _block_source_url(config, GAS)
+        data[GAS] = block
+        refreshed[GAS] = len(result.refreshed)
+        results[GAS] = result
+        if result.failures:
+            failures[GAS] = result.failures
 
     # The country-wide tariff belongs to no city, so a run narrowed to cities leaves it alone.
     if not cities and (not blocks or "electricity" in blocks):
@@ -525,6 +575,7 @@ def run(country: Country, notifier=None, cities: list = None, blocks: list = Non
         reconcile_cities(country.code, data[block].get("cities", []), HEAT_SECTION, notifier)
     reconcile_cities(country.code, data[ELECTRICITY_CITIES].get("cities", []), ELECTRICITY_SECTION,
                      notifier)
+    reconcile_gas(country.code, data[GAS].get("cities", []), notifier)
 
     _report(country, refreshed, failures, notifier, _scope(cities, blocks), extractor.usage_line())
 

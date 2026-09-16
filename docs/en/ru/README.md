@@ -47,7 +47,9 @@ published JSON is the only place to look them up.
   consumption bands, published in `electricity_cities`. The page is a reprint, not the regulator,
   so a typo there reaches the file: its three-zone peak price falls from 14.23 to 8.50 from
   1 October, which is worth checking once that period starts. Hot water is not collected: the page
-  prints the two components but no heating norm, so no price per m³ can be computed.
+  prints the two components but no heating norm, so no price per m³ can be computed. Gas is read
+  from the same page — ООО «Газпром межрегионгаз Астрахань», one price per thousand m³ with delivery
+  included, no consumption norms — and published in `gas`.
 
 ---
 

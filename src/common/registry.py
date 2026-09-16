@@ -20,6 +20,8 @@ WATER_SECTION = "suppliers"
 HEAT_SECTION = "heat_suppliers"
 # Electricity is sold by other companies again — a region's guaranteeing supplier.
 ELECTRICITY_SECTION = "electricity_suppliers"
+# Gas is keyed by the network operator where delivery is billed apart, by the supplier elsewhere.
+GAS_SECTION = "gas_suppliers"
 
 REGISTRY_COMMENT = (
     "PERMANENT registry of city_code values. Never edit or delete existing entries: "

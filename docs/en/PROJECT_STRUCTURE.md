@@ -62,6 +62,7 @@ kommeter_scripts/
 │   │   ├── llm/                  # The extraction model: one interface, a module per provider
 │   │   ├── pdf.py                # A PDF for a provider that cannot read one
 │   │   ├── prompts.py            # What the model is asked
+│   │   ├── gas.py                # Gas: offers, delivery, norms and their checks
 │   │   ├── validation.py         # Whether an extraction may be published
 │   │   ├── overrides.py          # manual_override semantics, identical for all countries
 │   │   ├── registry.py           # city_code registry: read, reconcile, append
@@ -129,7 +130,7 @@ kommeter_scripts/
 |---|---|---|
 | `countries.json` | Maintainer | The registry of published countries: code, `country_names`, currency, `enabled`, `min_app_version`, the pipeline module, and the publication layout of each host. Both copies of `tariffs_index.json` are rendered from it, and every pipeline takes its root fields from it. A country not listed here is not published. |
 | `<cc>/sources.json` | Maintainer | Every URL that country's pipeline touches. **No URL may be hardcoded in Python.** Also holds `settings` (model choice, HTTP timeout), `validation` (limits), `electricity` (the electricity source and its groups of consumers, `plans` — names and hints, no rates), and `manual_override` (values forced on top of whatever the pipeline produced). |
-| `<cc>/city_registry.json` | Pipeline + maintainer | Maps a supplier name, exactly as printed on the source site, to a permanent `city_code`. New suppliers are appended automatically; **an existing `city_code` is never rewritten**, because the Android app stores it as the user's saved choice. Section `suppliers` = water utilities, section `heat_suppliers` = heat suppliers (shared by hot water and heating), section `electricity_suppliers` = cities with an electricity tariff of their own. |
+| `<cc>/city_registry.json` | Pipeline + maintainer | Maps a supplier name, exactly as printed on the source site, to a permanent `city_code`. New suppliers are appended automatically; **an existing `city_code` is never rewritten**, because the Android app stores it as the user's saved choice. Section `suppliers` = water utilities, section `heat_suppliers` = heat suppliers (shared by hot water and heating), section `electricity_suppliers` = cities with an electricity tariff of their own, section `gas_suppliers` = gas, keyed by the network operator where delivery is billed apart. |
 
 ### `src/` — the pipelines
 
@@ -146,6 +147,7 @@ kommeter_scripts/
 | `common/pdf.py` | Text layer or page images of a PDF, for a provider that cannot read PDFs. |
 | `common/prompts.py` | What the model is asked, one template per tariff block. |
 | `common/electricity.py` | Electricity of a country or a city: every household tariff the source prints, published as `plans`, with `base_rate` and `zones` taken from the default plan. |
+| `common/gas.py` | Gas of a city: every offer the source prints as `plans`, delivery, consumption norms without a meter; the checks every country's gas goes through. |
 | `common/validation.py` | Whether an extracted tariff may be published. Rejects a city whole rather than publish a doubtful field. |
 | `common/overrides.py` | `manual_override` semantics, shared by every country so they cannot drift apart. |
 | `common/registry.py` | The permanent `city_code` registry: read, force registered codes onto the data, append new suppliers, notify. |

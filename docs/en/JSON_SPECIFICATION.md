@@ -14,7 +14,7 @@ actually published is a separate file, described in section 6 (`tariffs_index.js
 
 ## 1. Overall structure
 
-The file consists of six parts:
+The file consists of seven parts:
 
 1. **Root metadata** — file version, country, currency, update timestamp.
 2. **`electricity`** — the country-wide electricity tariff: a base rate, one/two/three-zone meters,
@@ -24,10 +24,12 @@ The file consists of six parts:
 4. **`water`** — centralised cold water supply and sewage, per city.
 5. **`hot_water`** — centralised hot water supply (per m³).
 6. **`heating`** — centralised heating (per Gcal).
+7. **`gas`** — natural gas, per city: the price of the gas, the price of delivering it, every offer
+   the source prints and the consumption norms of a household without a meter.
 
 > ⚠️ **Compatibility.** `hot_water` and `heating` were added after `electricity` and `water`;
 > `electricity_cities`, `electricity.plans` and the hot water components were added in September
-> 2026. No existing field was renamed, removed or re-typed, so existing code keeps reading the file
+> 2026, and `gas` — a new root block — later that month. No existing field was renamed, removed or re-typed, so existing code keeps reading the file
 > as before. The only requirement is that the parser ignores unknown keys:
 > `Json { ignoreUnknownKeys = true }` for `kotlinx.serialization` (Moshi and Gson do it by default).
 
@@ -40,6 +42,7 @@ The city lists in the three city-based blocks **do not match**, and are not expe
 | `water` | NKREKP, for every water utility | ~50 |
 | `hot_water` | NKREKP plus local authorities | ~18 |
 | `heating` | NKREKP plus local authorities | ~28 |
+| `gas` | suppliers (gas price) and NKREKP (delivery) | ~33 |
 
 The aggregate source publishes only tariffs set by NKREKP, so a supplier with a municipal tariff
 only reaches the JSON if it is configured separately (as KP "Kyivteploenergo" is). The app must
@@ -258,6 +261,70 @@ kopecks; `heat_norm` is the norm of the most common building, named in config.
 
 ---
 
+### 2.6. Block `gas` (natural gas)
+
+| Field | Type | Description | Example |
+|---|---|---|---|
+| `source_url` | `String` | The single page the block is read from, or an empty string. | `"https://index.minfin.com.ua/ua/tariff/gas/"` |
+| `update_date` | `String` | Date the block was last refreshed, `YYYY-MM-DD`. | `"2026-09-16"` |
+| `cities` | `Array<Object>` | One element per city — per distribution network, where a city has two. | `[...]` |
+
+Present in every file; its `cities` is empty in a country whose gas is not collected yet.
+
+#### Element of `gas.cities[]`
+
+| Field | Type | Description | Example |
+|---|---|---|---|
+| `city_code` | `String` | Stable key of the entry inside the block, from the registry section `gas_suppliers`. | `"kyiv"`, `"ternopil_hazmerezhi"` |
+| `city_name` | `String` | City name, for the UI. | `"Київ"` |
+| `supplier` | `String` | Supplier of the default plan. | `"ТОВ ГК \"Нафтогаз України\""` |
+| `unit` | `String` | Always `"m3"`: every price in the block is per cubic metre, whatever the source printed. | `"m3"` |
+| `rate` | `Double` | Price of 1 m³ of gas in the default plan: first band, today's season, VAT included. | `7.96` |
+| `distributor` | `String` | Distribution network operator, where delivery is billed apart from the gas; empty otherwise. | `"ПАТ \"Київгаз\""` |
+| `distribution_rate` | `Double` | Delivery price per m³, VAT included; `0.0` where delivery is part of the gas price. | `0.384` |
+| `effective_date` | `String` | Date the current price took effect, `YYYY-MM-DD`. | `"2026-09-01"` |
+| `decree_info` | `String` | Provenance of the prices. | `"Ціни постачальників і тарифи операторів ГРМ станом на 01.09.2026"` |
+| `plans` | `Array<Object>` | Every offer the source prints. Exactly one has `is_default`. | `[ ... ]` |
+| `norms` | `Array<Object>` | Monthly consumption norms of a household without a meter; empty when the source prints none. | `[ ... ]` |
+| `norms_decree` | `String` | The act that sets the norms; empty when there are none. | `"Постанова КМ України № 143 від 27.02.2019"` |
+
+Element of `plans[]`:
+
+| Field | Type | Description | Example |
+|---|---|---|---|
+| `plan_code` | `String` | Stable latin key of the offer inside the city. | `"naftohaz_ukrainy_annual"` |
+| `name` | `String` | Name of the offer, in Russian, for the interface. | `"Нафтогаз України, годовой тариф"` |
+| `is_default` | `Boolean` | The offer `supplier` and `rate` are taken from. | `true` |
+| `supplier` | `String` | Who sells the gas under this offer. | `"ТОВ \"Асканія Енерджи\""` |
+| `contract` | `String?` | `"annual"` — a price fixed for a year, `"monthly"` — a price that changes monthly, `null` — the source makes no such distinction. | `"annual"` |
+| `usage` | `String?` | `"cooking"` or `"heating"` when the price depends on what the gas is used for; `null` otherwise. | `null` |
+| `metered` | `Boolean?` | `true` — price for a household with a meter, `false` — without, `null` — the same for both. | `null` |
+| `monthly_charge` | `Double?` | Fixed charge per month, independent of consumption; `null` when there is none. | `null` |
+| `rates` | `Array<Object>` | One element per printed price. | `[ ... ]` |
+
+Element of `rates[]`:
+
+| Field | Type | Description | Example |
+|---|---|---|---|
+| `tier` | `Int?` | Number of the consumption band, from 1; `null` when the price does not depend on consumption. | `1` |
+| `above_m3` | `Double?` | The band applies to consumption above this; `null` from zero or when not printed. | `1200` |
+| `up_to_m3` | `Double?` | The band applies up to this, inclusive; `null` when open-ended or not printed. | `2500` |
+| `tier_period` | `String?` | `"month"` or `"year"` — what the band limits are counted over; `null` without bands. | `"year"` |
+| `season_from` | `String?` | `MM-DD`: first day of a season recurring every year; `null` for all year. | `"10-01"` |
+| `season_to` | `String?` | `MM-DD`: last day of that season, inclusive. | `"04-30"` |
+| `rate` | `Double` | Price per m³, VAT included. | `9.95` |
+
+Element of `norms[]`:
+
+| Field | Type | Description | Example |
+|---|---|---|---|
+| `usage` | `String` | `"stove_with_hot_water"` — gas stove with centralised hot water; `"stove_without_hot_water"` — stove, no centralised hot water and no water heater; `"stove_and_water_heater"` — stove and gas water heater; `"water_heater"` — water heater only; `"heating"` — individual heating. | `"stove_with_hot_water"` |
+| `basis` | `String` | `"per_person"` — per resident, `"per_m2"` — per m² of heated area. | `"per_person"` |
+| `value` | `Double` | m³ per month. | `3.28` |
+| `heating_season_only` | `Boolean` | The norm applies only during the heating season. | `false` |
+
+---
+
 ## 3. Ready-made Kotlin data classes (`kotlinx.serialization`)
 
 Always construct the parser with `ignoreUnknownKeys`, otherwise the next format extension crashes
@@ -285,7 +352,8 @@ data class TariffResponse(
     @SerialName("electricity_cities") val electricityCities: ElectricityCities? = null,
     @SerialName("water") val water: WaterTariff,
     @SerialName("hot_water") val hotWater: HotWaterTariff? = null,
-    @SerialName("heating") val heating: HeatingTariff? = null
+    @SerialName("heating") val heating: HeatingTariff? = null,
+    @SerialName("gas") val gas: GasTariff? = null
 )
 
 @Serializable
@@ -441,6 +509,61 @@ data class CityHeatingTariff(
     @SerialName("effective_date") val effectiveDate: String,
     @SerialName("decree_info") val decreeInfo: String
 )
+
+@Serializable
+data class GasTariff(
+    @SerialName("source_url") val sourceUrl: String? = null,
+    @SerialName("update_date") val updateDate: String,
+    @SerialName("cities") val cities: List<CityGasTariff> = emptyList()
+)
+
+@Serializable
+data class CityGasTariff(
+    @SerialName("city_code") val cityCode: String,
+    @SerialName("city_name") val cityName: String,
+    @SerialName("supplier") val supplier: String,
+    @SerialName("unit") val unit: String,
+    @SerialName("rate") val rate: Double,
+    @SerialName("distributor") val distributor: String = "",
+    @SerialName("distribution_rate") val distributionRate: Double = 0.0,
+    @SerialName("effective_date") val effectiveDate: String,
+    @SerialName("decree_info") val decreeInfo: String,
+    @SerialName("plans") val plans: List<GasPlan> = emptyList(),
+    @SerialName("norms") val norms: List<GasNorm> = emptyList(),
+    @SerialName("norms_decree") val normsDecree: String = ""
+)
+
+@Serializable
+data class GasPlan(
+    @SerialName("plan_code") val planCode: String,
+    @SerialName("name") val name: String,
+    @SerialName("is_default") val isDefault: Boolean,
+    @SerialName("supplier") val supplier: String,
+    @SerialName("contract") val contract: String? = null,
+    @SerialName("usage") val usage: String? = null,
+    @SerialName("metered") val metered: Boolean? = null,
+    @SerialName("monthly_charge") val monthlyCharge: Double? = null,
+    @SerialName("rates") val rates: List<GasRate> = emptyList()
+)
+
+@Serializable
+data class GasRate(
+    @SerialName("tier") val tier: Int? = null,
+    @SerialName("above_m3") val aboveM3: Double? = null,
+    @SerialName("up_to_m3") val upToM3: Double? = null,
+    @SerialName("tier_period") val tierPeriod: String? = null,
+    @SerialName("season_from") val seasonFrom: String? = null,
+    @SerialName("season_to") val seasonTo: String? = null,
+    @SerialName("rate") val rate: Double
+)
+
+@Serializable
+data class GasNorm(
+    @SerialName("usage") val usage: String,
+    @SerialName("basis") val basis: String,
+    @SerialName("value") val value: Double,
+    @SerialName("heating_season_only") val heatingSeasonOnly: Boolean
+)
 ```
 
 ---
@@ -528,6 +651,31 @@ meter in Gcal.
 
 > ⚠️ Before computing, check that the user's `city_code` exists in that block at all — coverage
 > differs between `water`, `hot_water` and `heating` (see section 1).
+
+---
+
+### 4.5. Gas
+
+The user picks a city from `gas.cities` and, where it has several, a plan (`plan_code`, defaulting to
+the one with `is_default`). The price of 1 m³ is the plan's rate plus delivery:
+
+$$\text{price per m}^3 = \text{plan rate} + \text{city.distribution\_rate}$$
+
+1. **With a gas meter:**
+   $$\text{UAH} = \Delta \text{m}^3 \times \text{price per m}^3$$
+2. **Without a meter:** the user says what the gas is used for (`norms[].usage`) and how many
+   residents there are, or the heated area for `per_m2`:
+   $$\text{UAH} = \text{norm.value} \times \text{residents (or m}^2\text{)} \times \text{price per m}^3$$
+   A norm with `heating_season_only` is charged only in the months of the heating season.
+
+The plan rate is picked like an electricity price (section 4.1, steps 2–5): the rows whose season
+covers the month; with bands, the band the consumption reaches — counted over the month or the year
+by `tier_period`; plus `monthly_charge` where it is set.
+
+Ukraine bills delivery by the annual contracted capacity, which for a household is its average
+monthly consumption (with a meter) or the norm (without one); `distribution_rate` is already the
+annual tariff, so multiplying it by the month's m³ gives the bill. The user needs to enter nothing
+more.
 
 ---
 

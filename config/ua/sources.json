@@ -9,6 +9,9 @@
     "same_period_tolerance": 0.005,
     "electricity": {
       "max_rate": 20.0
+    },
+    "gas": {
+      "max_rate": 100.0
     }
   },
   "reference_sources": {
@@ -21,6 +24,10 @@
       "city_name": "Київ",
       "effective_date": "2022-10-01",
       "decree_info": "Розпорядження КМВА № 673 від 30.09.2022, тариф для населення на період воєнного стану"
+    },
+    "gas": {
+      "url": "https://index.minfin.com.ua/ua/tariff/gas/",
+      "default_supplier": "ТОВ ГК \"Нафтогаз України\""
     }
   },
   "electricity": {

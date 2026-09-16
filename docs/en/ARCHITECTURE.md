@@ -112,6 +112,29 @@ The model is only asked for one thing here: the city name of a supplier that is 
 registry (`CITY_NAME_PROMPT` / `resolve_city_names()`). Once every supplier is registered, these
 blocks run without any model call.
 
+### `gas`
+
+`extract_gas_block()`, with no model call at all. `reference_sources.gas.url` is minfin's gas page;
+its list "Ціни на газ по містах України" links one page per city (`gas_city_links()`), and each city
+page carries three rigid tables:
+
+* retail prices per supplier, a monthly and an annual column (`gas_supplier_rows()`) — every
+  non-empty cell becomes a plan, `<supplier>_annual` or `<supplier>_monthly`;
+* the delivery tariff of the city's network operator (`gas_distributor_rows()`) — one city record
+  per operator, so Ternopil, with two, is published twice;
+* the national consumption norms without a meter, Cabinet Resolution No. 143
+  (`gas_norms()`), mapped to the published usage codes by `GAS_NORM_USAGES`.
+
+The table caption "з 1.09.2026" is the date (`gas_page_date()`); an unchanged price keeps the date
+and caption it was first published with, because minfin restamps the page every month.
+`reference_sources.gas.default_supplier` names the default plan — Naftogaz, annual price. The
+registry key is the network operator (section `gas_suppliers`): Naftogaz sells gas in every city,
+the operator is what tells the cities apart.
+
+A city page that does not open keeps its previous records. A page with no operator (occupied towns,
+where minfin prints a supplier and nothing else) yields no record: a price without delivery would
+understate the bill. The checks themselves live in `common/gas.py`, shared with every country.
+
 ---
 
 ## 4. The city registry
@@ -127,6 +150,8 @@ blocks run without any model call.
   the main one — for water, the one whose name carries a waterworks marker (`is_waterworks()`); for
   heat, the only one whose quoted name contains the city root (`is_named_after_city()`). If there is
   no single winner, nobody gets the plain code and everybody gets a suffix.
+* Gas is registered under the network operator where delivery is billed apart (section
+  `gas_suppliers`), under the supplier elsewhere.
 * A supplier that disappeared from the source keeps its registry entry but drops out of the JSON,
   and Telegram gets a warning, because users holding that `city_code` lose their selection.
 
@@ -246,6 +271,7 @@ and the pipeline is `src/common/ai_pipeline.py`. Russia runs on it.
 | `common/pdf.py` | A PDF for a provider that cannot read one: its text layer, or rendered page images when it is a scan. |
 | `common/prompts.py` | What the model is asked. One template per block, filled from config. |
 | `common/electricity.py` | Electricity: every household tariff a source prints, validated and published as `plans`, with the older `base_rate` and `zones` taken from the default plan. Serves the country-wide tariff and a city's own. |
+| `common/gas.py` | Gas: the checks and the published shape shared by every country, and the reading of a city's gas source by the model. |
 | `common/validation.py` | Whether the answer may be published. |
 | `common/ai_pipeline.py` | The run: previous file → fetch → extract → validate → merge what passed → save. |
 
@@ -499,6 +525,27 @@ A band's limits are the easiest number to misread without any check noticing: Kr
 sets them per building type and per heating season, and the model returned two different sets on
 two runs. Where that is so, the hint tells the model to leave the limits empty and fill only the
 band number.
+
+### Gas
+
+Gas prices take more shapes than any other service, so `common/gas.py` publishes them as plans with
+rates, the way electricity is, next to the plain `supplier` + `rate` + `distribution_rate` every city
+carries. A city declares `sources.gas` like any other service:
+
+* `plans` — code, Russian `name`, `hint`, one `"default": true`; optionally the plan's own
+  `supplier`, `contract`, `usage` and `metered`, which come from config and never from the model;
+* `separate_distribution: true` where delivery is priced apart — the model is then asked for the
+  operator and its tariff, and a missing one rejects the reading; otherwise `distribution_rate` is
+  `0.0`;
+* `read_norms: true` where the source prints consumption norms without a meter.
+
+The model returns every printed price with `price_per` — `"m3"` or `"thousand_m3"`; the code divides
+by a thousand and adds `vat_percent`. A reading is rejected whole for a non-positive price or one
+above `validation.gas.max_rate` per m³, nonsensical band limits, a band without a number, a
+malformed season, a plan not declared in config, the same price twice, a norm that does not parse,
+no price of the default plan, or a jump of the default price beyond `max_change_ratio`. The
+registry section is `gas_suppliers`; retiring is `"<code>.gas"` in `retired_cities`; testing one
+city is `src/run_city.py <cc> <city> --block gas`.
 
 ### What the validator refuses
 

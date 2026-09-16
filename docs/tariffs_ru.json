@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-16T14:17:43.927701",
+  "last_updated_at": "2026-09-16T14:46:46.739184",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -3552,8 +3552,70 @@
     ]
   },
   "gas": {
-    "source_url": "https://my-gkh.ru/getcitytariff/astrakhan",
+    "source_url": "https://www.astrg.ru/",
     "update_date": "2026-09-16",
-    "cities": []
+    "cities": [
+      {
+        "city_code": "astrakhan",
+        "city_name": "Астрахань",
+        "supplier": "ООО \"Газпром межрегионгаз Астрахань\"",
+        "unit": "m3",
+        "rate": 7.96758,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Постановление от 25.12.2025 г. № 190",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "ООО \"Газпром межрегионгаз Астрахань\"",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.96758
+              }
+            ]
+          }
+        ],
+        "norms": [
+          {
+            "usage": "stove_and_water_heater",
+            "basis": "per_person",
+            "value": 24.4,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_without_hot_water",
+            "basis": "per_person",
+            "value": 14.0,
+            "heating_season_only": false
+          },
+          {
+            "usage": "stove_with_hot_water",
+            "basis": "per_person",
+            "value": 10.0,
+            "heating_season_only": false
+          },
+          {
+            "usage": "heating",
+            "basis": "per_m2",
+            "value": 13.8,
+            "heating_season_only": true
+          }
+        ],
+        "norms_decree": "Постановление от 27.08.2012 №161-п, в редакции постановления министерства ЖКХ Астраханской области от 21.11.2012 №167-п"
+      }
+    ]
   }
 }

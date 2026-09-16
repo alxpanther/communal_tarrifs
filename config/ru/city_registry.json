@@ -125,5 +125,11 @@
       "city_code": "astrakhan",
       "city_name": "Астрахань"
     }
+  },
+  "gas_suppliers": {
+    "ООО \"Газпром межрегионгаз Астрахань\"": {
+      "city_code": "astrakhan",
+      "city_name": "Астрахань"
+    }
   }
 }

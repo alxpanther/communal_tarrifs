@@ -548,7 +548,8 @@ cache, its own check marks.
      * **Cloudflare CDN / R2:** `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json`
      * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json`, and the
        same file at `…/communal_tarrifs/<cc>/tariffs_<cc>.json`
-   * The `path` field of the index (section 6) overrides both layouts when a file lives elsewhere.
+   * The `path` field of the index (section 6) overrides the layout of the host that published that
+     index, and of no other host.
    * The app compares `last_updated_at` of the downloaded file with the cached one and rewrites the
      cache when the timestamp is newer.
    * An incomplete file is rejected: if the publisher lost the electricity block or more than half of
@@ -608,9 +609,12 @@ too. The generator writes both copies (`docs/tariffs_index.json` for Pages,
 `dist/cloudflare/tariffs_index.json` for R2) from the same country registry,
 [`config/countries.json`](../../config/countries.json).
 
-The app, however, keeps whichever index it read first — normally the Cloudflare one — and applies
-its `path` to every host it tries. That is why Pages carries each country file at the Cloudflare
-path as well: without that copy the mirror answers 404 exactly when the CDN is unreachable.
+The app reads each host through that host's own index: the index first, then the file at the
+`path` it names; a host whose index does not arrive or does not list the country is passed over as
+a whole. Builds up to 1.8.0 did otherwise — they kept whichever index they read first, normally the
+Cloudflare one, and applied its `path` to every host. That is why Pages carries each country file at
+the Cloudflare path as well: for those builds, without that copy the mirror answers 404 exactly
+when the CDN is unreachable.
 
 ### 6.4. Rules the app follows
 

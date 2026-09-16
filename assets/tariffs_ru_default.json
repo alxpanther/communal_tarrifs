@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-16T08:18:45.910903",
+  "last_updated_at": "2026-09-16T14:17:43.927701",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -3550,5 +3550,10 @@
         "decree_info": "Постановление Службы по тарифам Астраханской области от 18.12.2025 № 159."
       }
     ]
+  },
+  "gas": {
+    "source_url": "https://my-gkh.ru/getcitytariff/astrakhan",
+    "update_date": "2026-09-16",
+    "cities": []
   }
 }

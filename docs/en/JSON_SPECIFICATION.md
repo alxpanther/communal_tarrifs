@@ -546,7 +546,8 @@ cache, its own check marks.
 2. **Background sync (remote update):**
    * Hosts are tried in turn, and each has its own file layout:
      * **Cloudflare CDN / R2:** `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json`
-     * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json`
+     * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json`, and the
+       same file at `…/communal_tarrifs/<cc>/tariffs_<cc>.json`
    * The `path` field of the index (section 6) overrides both layouts when a file lives elsewhere.
    * The app compares `last_updated_at` of the downloaded file with the cached one and rewrites the
      cache when the timestamp is newer.
@@ -606,6 +607,10 @@ The layouts differ — flat on GitHub Pages, one folder per country on Cloudflar
 too. The generator writes both copies (`docs/tariffs_index.json` for Pages,
 `dist/cloudflare/tariffs_index.json` for R2) from the same country registry,
 [`config/countries.json`](../../config/countries.json).
+
+The app, however, keeps whichever index it read first — normally the Cloudflare one — and applies
+its `path` to every host it tries. That is why Pages carries each country file at the Cloudflare
+path as well: without that copy the mirror answers 404 exactly when the CDN is unreachable.
 
 ### 6.4. Rules the app follows
 

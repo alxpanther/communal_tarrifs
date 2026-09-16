@@ -191,7 +191,8 @@ dispatch, which accepts a list of country codes):
 3. uploads to the Cloudflare R2 bucket `kommeter`: the index at the bucket root and every country
    file under `<cc>/tariffs_<cc>.json`, with the list taken from the generated index rather than
    from the workflow file;
-4. publishes `docs/` to GitHub Pages.
+4. publishes `docs/` to GitHub Pages, with every country file also copied to its Cloudflare path
+   (`<cc>/tariffs_<cc>.json`), so the mirror answers at both addresses.
 
 One job does all countries, so two runs can never push to the same branch or deploy Pages at the
 same time.

@@ -57,12 +57,13 @@ docs/
 
 | | Cloudflare R2 | GitHub Pages |
 |---|---|---|
-| Файл страны | `pl/tariffs_pl.json` | `tariffs_pl.json` |
+| Файл страны | `pl/tariffs_pl.json` | `tariffs_pl.json` и `pl/tariffs_pl.json` |
 | Индекс стран | `tariffs_index.json` | `tariffs_index.json` |
 
 `docs/` — это корень GitHub Pages, поэтому каждый файл страны лежит в `docs/` **плоско**, включая
-`tariffs_ua.json`: выпущенные сборки Android ходят ровно по этим адресам. Папки по странам есть
-только на R2, и обе копии индекса несут соответствующие значения `path` (см.
+`tariffs_ua.json`: выпущенные сборки Android ходят ровно по этим адресам. Копия в папке страны на
+Pages не коммитится: её добавляет workflow публикации при сборке сайта, по индексу Cloudflare. Обе
+копии индекса несут соответствующие значения `path` (см.
 [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md), раздел 6).
 
 ---

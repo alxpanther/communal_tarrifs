@@ -165,7 +165,9 @@ This folder has a double role: it holds the documentation *and* it is the direct
 GitHub Pages and declared as the Cloudflare assets directory in `wrangler.toml`. Consequences:
 
 * `docs/tariffs_<cc>.json` and `docs/tariffs_index.json` must stay at the root of `docs/`, flat.
-  Their published URLs depend on it, and released Android builds fetch those exact URLs.
+  Their published URLs depend on it, and released Android builds fetch those exact URLs. The
+  per-country copies Pages also serves (`<cc>/tariffs_<cc>.json`) are added by the workflow at
+  publish time and never committed.
 * Markdown files inside `docs/` are published too. That is harmless, but do not put secrets or
   scratch files here.
 
@@ -195,7 +197,7 @@ Published URLs:
 
 | What | Cloudflare R2 | GitHub Pages |
 |---|---|---|
-| Country file | `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json` |
+| Country file | `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json` and `…/communal_tarrifs/<cc>/tariffs_<cc>.json` |
 | Country index | `https://tarrifs.foleks.com/tariffs_index.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_index.json` |
 
 ---

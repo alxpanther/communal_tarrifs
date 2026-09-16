@@ -55,12 +55,13 @@ The published layout is fixed by the Android app and differs per host:
 
 | | Cloudflare R2 | GitHub Pages |
 |---|---|---|
-| Country file | `pl/tariffs_pl.json` | `tariffs_pl.json` |
+| Country file | `pl/tariffs_pl.json` | `tariffs_pl.json` and `pl/tariffs_pl.json` |
 | Country index | `tariffs_index.json` | `tariffs_index.json` |
 
 `docs/` is the GitHub Pages root, so every country file stays **flat** in `docs/`, `tariffs_ua.json`
-included — released Android builds fetch those exact URLs. The per-country folders exist on R2 only,
-and the two copies of the index carry the matching `path` values (see
+included — released Android builds fetch those exact URLs. The per-country copy on Pages is not
+committed: the publishing workflow adds it while laying out the site, from the Cloudflare index.
+The two copies of the index carry the matching `path` values (see
 [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md), section 6).
 
 ---

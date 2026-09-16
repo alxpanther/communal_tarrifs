@@ -492,7 +492,8 @@ $$\text{цена за м}^3 = \text{component\_water} + \text{component\_energy}
 2. **Фоновая синхронизация (Remote Update):**
    * Хосты пробуются по очереди, раскладка файлов у каждого своя:
      * **Cloudflare CDN / R2:** `https://tarrifs.foleks.com/<код>/tariffs_<код>.json`
-     * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_<код>.json`
+     * **GitHub Pages:** `https://alxpanther.github.io/communal_tarrifs/tariffs_<код>.json`, и тот же
+       файл по адресу `…/communal_tarrifs/<код>/tariffs_<код>.json`
    * Поле `path` в индексе (раздел 6) отменяет обе раскладки, если файл лежит не там.
    * Приложение сравнивает `last_updated_at` полученного файла с тем, что в кэше, и при более свежем
      штампе переписывает кэш.
@@ -553,6 +554,10 @@ $$\text{цена за м}^3 = \text{component\_water} + \text{component\_energy}
 значения `path`. Генератор пишет обе копии (`docs/tariffs_index.json` для Pages и
 `dist/cloudflare/tariffs_index.json` для R2) из одного реестра стран,
 [`config/countries.json`](../../config/countries.json).
+
+Приложение же хранит тот индекс, который прочитало первым, — обычно с Cloudflare — и подставляет
+его `path` для каждого хоста, который пробует. Поэтому на Pages каждый файл страны лежит ещё и по
+пути Cloudflare: без этой копии зеркало отвечает 404 ровно тогда, когда CDN недоступен.
 
 ### 6.4. Правила, которые соблюдает приложение
 

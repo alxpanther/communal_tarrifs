@@ -130,10 +130,30 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
+      - name: Lay Out GitHub Pages
+        run: |
+          # Every country file is published twice on Pages: flat at the root, where builds before
+          # 1.4.0 fetch it, and at the Cloudflare path. The app reads the Cloudflare index and
+          # applies its `path` to every host it tries, so without the second copy the Pages mirror
+          # answers 404 exactly when the CDN is unreachable. Paths come from the index, never
+          # from here.
+          rm -rf _site
+          cp -r docs _site
+          python - <<'PY'
+          import json, os, shutil
+          index = json.load(open("dist/cloudflare/tariffs_index.json"))
+          for entry in index["countries"]:
+              code = entry["country"].lower()
+              target = os.path.join("_site", entry["path"])
+              os.makedirs(os.path.dirname(target), exist_ok=True)
+              shutil.copyfile(f"docs/tariffs_{code}.json", target)
+              print(f"Pages copy: docs/tariffs_{code}.json -> {entry['path']}")
+          PY
+
       - name: Upload Artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './docs'
+          path: './_site'
 
       - name: Deploy to GitHub Pages
         id: deployment

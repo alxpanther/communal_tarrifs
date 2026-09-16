@@ -166,7 +166,9 @@ kommeter_scripts/
 каталогом статики Cloudflare в `wrangler.toml`. Следствия:
 
 * `docs/tariffs_<cc>.json` и `docs/tariffs_index.json` обязаны лежать в корне `docs/`, плоско. От
-  этого зависят опубликованные адреса, и выпущенные сборки Android идут именно по ним.
+  этого зависят опубликованные адреса, и выпущенные сборки Android идут именно по ним. Копии по
+  папкам стран, которые Pages тоже раздаёт (`<cc>/tariffs_<cc>.json`), добавляет workflow при
+  публикации, в репозиторий они не коммитятся.
 * Markdown-файлы внутри `docs/` тоже публикуются. Само по себе это безвредно, но не кладите сюда
   секреты и черновики.
 
@@ -196,7 +198,7 @@ docs/tariffs_<cc>.json ──> src/build_index.py ──┬─> docs/tariffs_ind
 
 | Что | Cloudflare R2 | GitHub Pages |
 |---|---|---|
-| Файл страны | `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json` |
+| Файл страны | `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json` и `…/communal_tarrifs/<cc>/tariffs_<cc>.json` |
 | Индекс стран | `https://tarrifs.foleks.com/tariffs_index.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_index.json` |
 
 ---

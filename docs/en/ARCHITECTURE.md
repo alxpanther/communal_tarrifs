@@ -23,8 +23,10 @@ These are the rules the current code follows. Keep following them.
    a failed HTTP request or a rejected validation leaves the old numbers in place and sends a
    Telegram alert. An empty or half-filled block is never written.
 2. **Only use the model where a machine cannot cope.** Free-form pages (electricity) and irregular
-   multi-row tables (water) go through Gemini. Rigid 2–4 column tables (hot water, heating) are
-   parsed by regular expressions. In the steady state the heat blocks make zero model calls.
+   multi-row tables (water) go through Gemini. Simple tables (hot water, heating, gas) are read by
+   code from the rows of the page text — `page_rows()`, the flattened text with one table row per
+   line — never from HTML tags, so a change of markup does not break them. In the steady state
+   those blocks make zero model calls.
 3. **Numbers and text come from the source, not from the model.** For water, the model only returns
    the triple of numbers used as a key to find the row; `supplier` and the validity period are then
    read back from the HTML. Models routinely "fix" unusual Ukrainian company names, and only the
@@ -113,8 +115,10 @@ to three times those of 2022, so `validation.water.max_change_ratio` is 3.0 for 
 
 ### `hot_water` and `heating`
 
-`extract_heat_blocks()`. Both source tables are rigid, so `hot_water_rows()` and `heating_rows()`
-parse them with regular expressions, and `validate_hot_water_rows()` / `validate_heating_rows()`
+`extract_heat_blocks()`. Both tables are simple, so `hot_water_rows()` and `heating_rows()` read
+them from `page_rows()` by what the cells say, not where they stand — a supplier with one price per
+m³; a supplier with its tariff kind "одноставковий" / "двоставковий", followed for a two-rate tariff
+by its "умовно-змінна" and "умовно-постійна" rows — and `validate_hot_water_rows()` / `validate_heating_rows()`
 apply sanity limits (`MAX_HOT_WATER_RATE`, `MAX_HEAT_GCAL_RATE`, `MAX_HEAT_GCAL_HOUR_RATE`). The
 validity date comes from the table caption via `parse_caption_date()`.
 
@@ -134,10 +138,12 @@ blocks run without any model call.
 
 `extract_gas_block()`, with no model call at all. `reference_sources.gas.url` is minfin's gas page;
 its list "Ціни на газ по містах України" links one page per city (`gas_city_links()`), and each city
-page carries three rigid tables:
+page carries three tables, each found in `page_rows()` by its caption (`GAS_PRICES_CAPTION`,
+`GAS_DELIVERY_CAPTION`, `GAS_NORMS_CAPTION`) rather than by its markup:
 
-* retail prices per supplier, a monthly and an annual column (`gas_supplier_rows()`) — every
-  non-empty cell becomes a plan, `<supplier>_annual` or `<supplier>_monthly`;
+* retail prices per supplier, a monthly and an annual column (`gas_supplier_rows()`) — which is
+  which is read from the header, and every non-empty cell becomes a plan, `<supplier>_annual` or
+  `<supplier>_monthly`;
 * the delivery tariff of the city's network operator (`gas_distributor_rows()`) — one city record
   per operator, so Ternopil, with two, is published twice;
 * the national consumption norms without a meter, Cabinet Resolution No. 143
@@ -151,7 +157,9 @@ the operator is what tells the cities apart.
 
 A city page that does not open keeps its previous records. A page with no operator (occupied towns,
 where minfin prints a supplier and nothing else) yields no record: a price without delivery would
-understate the bill. The checks themselves live in `common/gas.py`, shared with every country.
+understate the bill. A page whose captions minfin has reworded yields nothing and is reported, so
+the words in those constants are the one thing to update. The checks themselves live in
+`common/gas.py`, shared with every country.
 
 ---
 

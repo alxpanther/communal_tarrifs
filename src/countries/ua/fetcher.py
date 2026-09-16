@@ -460,23 +460,46 @@ def extract_water_table_html(html: str) -> str:
     match = re.search(r"<table.*?</table>", html, flags=re.S | re.I)
     return match.group(0) if match else ""
 
-def table_row_cells(row_html: str) -> list:
-    """Strips tags from one <tr> and returns its cell texts."""
-    cells = re.findall(r"<t[dh][^>]*>(.*?)</t[dh]>", row_html, flags=re.S | re.I)
-    return [html_module.unescape(re.sub(r"<[^>]+>", "", c)).replace("­", "").strip() for c in cells]
+def page_rows(page_html: str) -> list:
+    """The page as rows of cells, read from its flattened text rather than from its tags.
+
+    Every table row is a line and its cells are split by '|', empty cells kept where they stand.
+    This is how every minfin block is read: minfin changes its markup — a spacer cell before the
+    water total in 2026, nested tables in the gas prices — and a parser that walks tags and counts
+    cells by position broke each time. Words and numbers on a line survive a change of markup.
+    """
+    # A line break inside a cell is not the end of a row: minfin breaks the total cell with one.
+    text = html_to_text(re.sub(r"<br\s*/?>", " ", page_html, flags=re.I)).replace("\xad", "")
+    rows = []
+    for line in text.split("\n"):
+        cells = [cell.strip() for cell in line.split("|")]
+        while cells and not cells[-1]:
+            cells.pop()
+        if cells:
+            rows.append(cells)
+    return rows
+
+def row_text(cells: list) -> str:
+    return " ".join(cells)
 
 # A tariff cell as minfin prints it — "45,528", or a dash for a service not provided.
-WATER_NUMBER = re.compile(r"\d[\d\s\xa0]*,\d+|-")
+TARIFF_NUMBER = re.compile(r"\d[\d\s\xa0]*,\d+|-")
 PERIOD_DATE = re.compile(r"\d{2}\.\d{2}\.\d{4}")
 
+def number_cells(cells: list) -> list:
+    """The tariff numbers of a row after its first cell, in order, empty cells skipped."""
+    return [cell for cell in cells[1:] if TARIFF_NUMBER.fullmatch(cell) and cell != "-"]
+
+def is_label(cell: str) -> bool:
+    return bool(cell) and not TARIFF_NUMBER.fullmatch(cell)
+
 def water_source_row(cells: list) -> dict:
-    """One supplier row of the water table, read without trusting its layout: the first cell is
-    the supplier, the first three number cells are supply, sewage and total, whatever empty or
-    decorative cells minfin puts between them, and the period is the cell that carries a date.
-    Returns None for a row that is not a supplier row."""
-    if not cells or not cells[0] or WATER_NUMBER.fullmatch(cells[0]):
+    """One supplier row of the water table: the first cell is the supplier, the first three number
+    cells are supply, sewage and total, whatever empty cells stand between them, and the period is
+    the cell that carries a date. Returns None for a row that is not a supplier row."""
+    if not is_label(cells[0]):
         return None
-    values = [cell for cell in cells[1:] if WATER_NUMBER.fullmatch(cell)]
+    values = [cell for cell in cells[1:] if TARIFF_NUMBER.fullmatch(cell)]
     period = next((cell for cell in cells[1:] if PERIOD_DATE.search(cell)), "")
     if len(values) < 3 or not period:
         return None
@@ -486,18 +509,9 @@ def water_source_row(cells: list) -> dict:
     return {"supplier": cells[0], "triple": triple, "period": period}
 
 def water_page_rows(page_html: str) -> list:
-    """Every supplier row of the page, read from its flattened text, where each table row is a
-    line and cells are split by '|'. The check does not depend on which tags minfin uses, so a
-    change of markup does not reject a correct reading — the numbers have to stand on one line of
-    the source in the right order, and that is all."""
-    # A line break inside a cell is not the end of a row: minfin breaks the total cell with one.
-    text = html_to_text(re.sub(r"<br\s*/?>", " ", page_html, flags=re.I)).replace("\xad", "")
-    rows = []
-    for line in text.split("\n"):
-        row = water_source_row([cell.strip() for cell in line.split("|")])
-        if row:
-            rows.append(row)
-    return rows
+    """Every supplier row of the water page. The model's reading is checked against these: the
+    numbers have to stand on one row of the source in the right order, and that is all."""
+    return [row for row in (water_source_row(cells) for cells in page_rows(page_html)) if row]
 
 def source_rows(page_html: str) -> dict:
     """
@@ -680,54 +694,43 @@ def parse_caption_date(page_html: str) -> tuple:
     day, year = int(match.group(1)), int(match.group(3))
     return f"{year}-{month:02d}-{day:02d}", f"Тариф НКРЕКП, чинний станом на {day:02d}.{month:02d}.{year}"
 
-def hot_water_rows(table_html: str) -> list:
+def hot_water_rows(page_html: str) -> list:
     """
-    Parses the two-column minfin hot water table (supplier, UAH per m3). Rows holding a
-    single cell are region captions and carry no tariff.
+    The minfin hot water table: a row with a supplier and a single price per m3. Region captions
+    carry no number and are skipped.
     """
     rows = []
-    for row_html in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
-        cells = table_row_cells(row_html)
-        if len(cells) != 2 or not re.fullmatch(r"[\d,\s ]+", cells[1]):
-            continue
-
-        rate = parse_rate(cells[1])
-        if rate is not None:
-            rows.append({"supplier": cells[0], "rate": rate})
+    for cells in page_rows(page_html):
+        values = number_cells(cells)
+        if is_label(cells[0]) and len(values) == 1 and parse_rate(values[0]) is not None:
+            rows.append({"supplier": cells[0], "rate": parse_rate(values[0])})
     return rows
 
-def heating_rows(table_html: str) -> list:
+def heating_rows(page_html: str) -> list:
     """
-    Parses the minfin heating table. A one-rate supplier occupies a single row, while a
-    two-rate one spans three: the supplier row plus the 'умовно-змінна' and 'умовно-постійна'
-    continuation rows that carry the two halves of the tariff.
+    The minfin heating table. A one-rate supplier is one row: supplier, tariff kind, the price per
+    Gcal. A two-rate one spans three: the supplier row with its kind, then the 'умовно-змінна' and
+    'умовно-постійна' rows that carry the two halves. The kind is found by its word, wherever the
+    cell stands.
     """
     rows = []
     current = None
-
-    for row_html in re.findall(r"<tr.*?</tr>", table_html, flags=re.S | re.I):
-        cells = table_row_cells(row_html)
-
-        if len(cells) >= 4 and cells[1] in HEAT_TARIFF_TYPES:
-            current = {
-                "supplier": cells[0],
-                "tariff_type": HEAT_TARIFF_TYPES[cells[1]],
-                "rate_gcal": parse_rate(cells[2]) or 0.0,
-                "rate_gcal_hour": parse_rate(cells[3]) or 0.0
-            }
+    for cells in page_rows(page_html):
+        kind = next((HEAT_TARIFF_TYPES[c.lower()] for c in cells[1:] if c.lower() in HEAT_TARIFF_TYPES), None)
+        values = [parse_rate(v) for v in number_cells(cells)]
+        first = cells[0].lower()
+        if kind and is_label(cells[0]):
+            current = {"supplier": cells[0], "tariff_type": kind,
+                       "rate_gcal": values[0] if kind == "one_rate" and values else 0.0,
+                       "rate_gcal_hour": values[1] if kind == "one_rate" and len(values) > 1 else 0.0}
             rows.append(current)
-        elif current and len(cells) == 3:
-            value = next((v for v in (parse_rate(cells[1]), parse_rate(cells[2])) if v is not None), None)
-            if value is None:
-                continue
-            if cells[0].startswith("умовно-змінна"):
-                current["rate_gcal"] = value
-            elif cells[0].startswith("умовно-постійна"):
-                current["rate_gcal_hour"] = value
-        elif len(cells) <= 1:
+        elif current and values and first.startswith("умовно-змінна"):
+            current["rate_gcal"] = values[0]
+        elif current and values and first.startswith("умовно-постійна"):
+            current["rate_gcal_hour"] = values[0]
+        elif not values:
             # A region caption ends the block of the supplier parsed so far
             current = None
-
     return rows
 
 def validate_hot_water_rows(rows: list, effective_date: str, decree_info: str) -> tuple:
@@ -805,17 +808,14 @@ def reject_block(kind: str, errors: list, notifier: TelegramNotifier):
 def extract_table_cities(page_html: str, kind: str, parse_rows, validate_rows,
                          notifier: TelegramNotifier) -> list:
     """
-    Shared pipeline for the hot water and heating tables: locate the table, parse it
-    deterministically and validate. Returns None when the result cannot be trusted, so the
-    caller keeps the previously published data.
+    Shared pipeline for the hot water and heating tables: read the page rows deterministically
+    and validate. Returns None when the result cannot be trusted, so the caller keeps the
+    previously published data.
     """
-    table_html = extract_water_table_html(page_html)
-    if not table_html:
-        logger.error(f"{kind} tariff table not found in the fetched page")
-        notifier.send_message(
-            f"⚠️ <b>Тарифы «{kind}» не обновлены:</b>\nтаблица не найдена на странице источника.",
-            parse_mode="HTML"
-        )
+    if not page_html:
+        logger.error(f"{kind}: the source page did not open")
+        notifier.send_message(f"⚠️ <b>Тарифы «{kind}» не обновлены:</b>\nстраница источника не открылась.",
+                              parse_mode="HTML")
         return None
 
     effective_date, decree_info = parse_caption_date(page_html)
@@ -827,7 +827,7 @@ def extract_table_cities(page_html: str, kind: str, parse_rows, validate_rows,
         )
         return None
 
-    cities, errors = validate_rows(parse_rows(table_html), effective_date, decree_info)
+    cities, errors = validate_rows(parse_rows(page_html), effective_date, decree_info)
     if errors:
         reject_block(kind, errors, notifier)
         return None
@@ -850,18 +850,12 @@ def extract_kyiv_hot_water(source: dict, timeout: int, notifier: TelegramNotifie
         return None
 
     values = []
-    for row_html in re.findall(r"<tr.*?</tr>", extract_water_table_html(page_html), flags=re.S | re.I):
-        cells = table_row_cells(row_html)
-        if len(cells) < 2:
-            continue
+    for cells in page_rows(page_html):
         # The label is bulleted with a dash and a non-breaking space
-        label = re.sub(r"^[\s –—-]+", "", cells[0]).lower()
-        if not label.startswith("тариф протягом дії"):
-            continue
-
-        rate = parse_rate(cells[1])
-        if rate is not None:
-            values.append(rate)
+        label = re.sub(r"^[\s –—-]+", "", cells[0]).lower()
+        numbers = number_cells(cells)
+        if label.startswith("тариф протягом дії") and numbers and parse_rate(numbers[0]) is not None:
+            values.append(parse_rate(numbers[0]))
 
     if not values:
         logger.warning("Kyiv hot water page carries no wartime tariff rows")
@@ -1038,67 +1032,91 @@ GAS_NORM_USAGES = (
 )
 GAS_CONTRACT_NAMES = {"monthly": "месячный тариф", "annual": "годовой тариф"}
 
+# The words minfin captions each part of a gas page with. A page whose captions no longer carry
+# them is reported and keeps its previous records; nothing else about the page is relied on.
+GAS_PRICES_CAPTION = "Роздрібні ціни на природний газ"
+GAS_DELIVERY_CAPTION = "Вартість доставки газу операторами"
+GAS_NORMS_CAPTION = "у разі відсутності газових лічильників"
+GAS_CITIES_CAPTION = "Ціни на газ по містах"
+
 def gas_city_links(index_html: str, index_url: str) -> list:
     """(city name, page URL) for every city in the 'Ціни на газ по містах України' list."""
-    start = index_html.find("Ціни на газ по містах")
-    end = index_html.find("Див. також", start)
+    start = index_html.find(GAS_CITIES_CAPTION)
     if start < 0:
         return []
+    end = index_html.find("Див. також", start)
     section = index_html[start:end if end > start else None]
-    return [(html_module.unescape(name).strip(), urljoin(index_url, href))
-            for href, name in re.findall(r"<a href='(/ua/tariff/gas/[^'/]+/)'>([^<]+)</a>", section)]
+    links = []
+    for href, caption in re.findall(r"""<a\s[^>]*href\s*=\s*["']([^"']+)["'][^>]*>(.*?)</a>""", section, flags=re.S | re.I):
+        name = html_module.unescape(re.sub(r"<[^>]+>", "", caption)).strip()
+        url = urljoin(index_url, href)
+        if name and re.search(r"/tariff/gas/[^/]+/?$", url) and url not in (u for _, u in links):
+            links.append((name, url))
+    return links
 
-def gas_table(page_html: str, div_id: str) -> str:
-    match = re.search(rf"<div id='{div_id}'>(.*?)</div>\s*</div>", page_html, flags=re.S)
-    return match.group(1) if match else ""
+def gas_section(rows: list, start: str, stops: tuple) -> list:
+    """The rows from the one whose text carries `start` up to the first that carries a stop word."""
+    for index, cells in enumerate(rows):
+        if start in row_text(cells):
+            section = [cells]
+            for following in rows[index + 1:]:
+                if any(stop in row_text(following) for stop in stops):
+                    break
+                section.append(following)
+            return section
+    return []
 
 def gas_supplier_rows(page_html: str) -> list:
     """{supplier, monthly, annual} per row of the retail price table. A supplier offers either
-    contract or both; the one it does not offer is an empty cell."""
+    contract or both. Which column is which is read from the header, and a supplier row keeps its
+    empty cell where the contract is not offered."""
+    section = gas_section(page_rows(page_html), GAS_PRICES_CAPTION, (GAS_DELIVERY_CAPTION,))
+    header = next((row_text(c) for c in section if "Місячн" in row_text(c) and "Річн" in row_text(c)), "")
+    if not header:
+        return []
+    order = sorted(("monthly", "annual"), key=lambda k: header.index("Місячн" if k == "monthly" else "Річн"))
     rows = []
-    for name, inner in re.findall(r"<tr><td>([^<]+)</td><td[^>]*colspan=2><table[^>]*>(.*?)</table>",
-                                  gas_table(page_html, "tariff-table1"), flags=re.S):
-        prices = [parse_rate(cell) for cell in table_row_cells(inner)]
-        if len(prices) == 2:
-            rows.append({"supplier": html_module.unescape(name).strip(),
-                         "monthly": prices[0], "annual": prices[1]})
+    for cells in section:
+        prices = cells[1:]
+        if not is_label(cells[0]) or not number_cells(cells) or len(prices) > len(order) \
+                or any(p and not TARIFF_NUMBER.fullmatch(p) for p in prices):
+            continue
+        prices += [""] * (len(order) - len(prices))
+        rows.append({"supplier": cells[0], **{k: parse_rate(v) for k, v in zip(order, prices)}})
     return rows
 
 def gas_distributor_rows(page_html: str) -> list:
     """{distributor, rate} per network operator of the city."""
-    rows = []
-    for row_html in re.findall(r"<tr>(.*?)</tr>", gas_table(page_html, "tariff-table2"), flags=re.S):
-        cells = table_row_cells(row_html)
-        if len(cells) == 2 and re.fullmatch(r"[\d,]+", cells[1]):
-            rows.append({"distributor": cells[0], "rate": parse_rate(cells[1])})
-    return rows
+    section = gas_section(page_rows(page_html), GAS_DELIVERY_CAPTION, ("Зазначені ціни", "Калькулятор"))
+    return [{"distributor": cells[0], "rate": parse_rate(number_cells(cells)[0])}
+            for cells in section[1:] if is_label(cells[0]) and len(number_cells(cells)) == 1]
 
 def gas_norms(page_html: str) -> tuple:
     """(norms, decree) from the first table of charges without a meter. The norms are set
     nationally, so every supplier's table on the page repeats them."""
-    match = re.search(r"<caption[^>]*>Плата за користування природним газом у разі відсутності "
-                      r"газових лічильників.*?</table>\s*<ul>(.*?)</ul>", page_html, flags=re.S)
-    if not match:
+    section = gas_section(page_rows(page_html), GAS_NORMS_CAPTION, ("Постанова", "Калькулятор"))
+    if not section:
         return None, ""
     norms = []
-    for row_html in re.findall(r"<tr>(.*?)</tr>", match.group(0), flags=re.S):
-        cells = table_row_cells(row_html)
-        if len(cells) != 5 or not cells[0].isdigit():
+    for cells in section:
+        if not cells[0].isdigit() or len(cells) < 4:
             continue
-        text = cells[1].replace("\xad", "").lower()
+        text = cells[1].lower()
+        value = next((parse_rate(c) for c in cells[2:] if TARIFF_NUMBER.fullmatch(c)), None)
+        unit = row_text(cells[2:])
+        basis = "per_m2" if "м²" in unit or "м2" in unit else ("per_person" if "особ" in unit else None)
         usage = next((code for marker, code in GAS_NORM_USAGES if marker in text), None)
-        basis = "per_m2" if "м²" in cells[3] or "м2" in cells[3] else (
-            "per_person" if "особ" in cells[3] else None)
-        norms.append({"usage": usage, "basis": basis, "value": parse_rate(cells[2]),
+        norms.append({"usage": usage, "basis": basis, "value": value,
                       "heating_season_only": "опалювальний період" in text})
-    decree = html_module.unescape(re.sub(r"<[^>]+>", "", match.group(1)))
+    rows = page_rows(page_html)
+    start = next(i for i, c in enumerate(rows) if GAS_NORMS_CAPTION in row_text(c))
+    decree = next((row_text(c) for c in rows[start:] if row_text(c).startswith("Постанова")), "")
     return norms, re.sub(r"\s+", " ", decree).strip()
 
 def gas_page_date(page_html: str):
-    """The 'з 1.09.2026' stamp of the retail price table."""
-    caption = re.search(r"<caption>(.*?)</caption>", gas_table(page_html, "tariff-table1"), flags=re.S)
-    text = html_module.unescape(caption.group(1)) if caption else ""
-    found = re.search(r"з\s*(\d{1,2})\.(\d{1,2})\.(\d{4})", text)
+    """The 'з 1.09.2026' stamp of the retail price caption."""
+    caption = next((row_text(c) for c in page_rows(page_html) if GAS_PRICES_CAPTION in row_text(c)), "")
+    found = re.search(r"з\s*(\d{1,2})\.(\d{1,2})\.(\d{4})", caption)
     return datetime(int(found.group(3)), int(found.group(2)), int(found.group(1))) if found else None
 
 def gas_plans(rows: list, limits: dict, label: str, reasons: list) -> list:

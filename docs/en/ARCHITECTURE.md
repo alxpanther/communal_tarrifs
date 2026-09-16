@@ -76,22 +76,40 @@ its zone prices next to the zone coefficients of the Cabinet decree, and electri
 
 The heaviest path, `extract_water_tariffs()`:
 
-1. `extract_water_table_html()` cuts out the table, `count_supplier_rows()` counts how many supplier
-   rows it really has, `source_rows()` indexes them by their numeric triple.
-2. The model receives the table and returns one record per city.
-3. `validate_water_cities()` rejects the whole block unless every condition holds:
-   * each `water_supply / sewage / total_rate` triple exists in the source **in that exact order**;
-   * the number of returned rows equals the number of rows in the table;
+1. `water_page_rows()` reads every supplier row off the flattened page text — one table row per
+   line, cells split by `|` — without trusting the layout: the first cell is the supplier, the first
+   three number cells are supply, sewage and total, whatever empty cells stand between them, and the
+   period is the cell with a date. minfin has changed its markup before (an empty spacer cell before
+   the total, in 2026), and a check that counted cells by position rejected a correct reading every
+   time it did. `source_rows()` indexes the rows by their numeric triple.
+2. The model receives the table — or the whole page text if minfin drops the table — and returns
+   one record per city.
+3. `validate_water_cities()` rejects the whole reading unless every condition holds:
+   * each `water_supply / sewage / total_rate` triple stands on one row of the source **in that
+     exact order**;
+   * the number of returned rows equals the number of supplier rows on the page;
    * no source row is claimed twice;
    * `water_supply + sewage == total_rate` within `RATE_SUM_TOLERANCE`;
    * every component is below `MAX_WATER_RATE`.
-4. `supplier` and the validity period are copied from the matched HTML row, overwriting whatever the
-   model wrote. `decree_info` is composed from the period, because the source does not publish
-   decree numbers per water utility.
+4. `supplier` and the validity period are copied from the matched source row, overwriting whatever
+   the model wrote. `decree_info` is composed from the period.
 5. `resolve_city_identity()` assigns final `city_code` / `city_name` from the registry.
 
-A single failed check rejects the block: the previous cities are kept and Telegram receives the list
-of complaints.
+Since 2026 water tariffs are set by local authorities instead of NKREKP (Cabinet Resolution No. 716),
+and minfin lists only the utilities whose new tariff it has picked up. So two more sources feed the
+block, merged by supplier in `merge_water_cities()`:
+
+* **A city's own page.** `cities.<code>.sources.water` in `config/ua/sources.json` — Kyiv, Kharkiv,
+  Cherkasy, Uman — is read by the model through the shared per-city pipeline
+  (`ai_pipeline.collect_block()`), with the same checks as any other country; it wins over minfin.
+  `src/run_city.py ua <city> --block water` tests one (a dry run only: Ukraine is published whole).
+* **What was published.** A utility minfin stops listing keeps its last published tariff instead of
+  dropping out of the file — the maintainer's decision, because a city usually reappears on minfin
+  once its new tariff is set.
+
+A rejected minfin reading keeps the previous minfin cities and Telegram receives the list of
+complaints; the cities with their own page are refreshed either way. The water tariffs of 2026 are two
+to three times those of 2022, so `validation.water.max_change_ratio` is 3.0 for Ukraine.
 
 ### `hot_water` and `heating`
 
@@ -222,13 +240,14 @@ dispatch, which accepts a list of country codes):
 One job does all countries, so two runs can never push to the same branch or deploy Pages at the
 same time.
 
-Three workflows share the repository:
+Four workflows share the repository:
 
 | Workflow | Runs | Does |
 |---|---|---|
 | Fetch and Update Tariffs | on the 1st and the 25th, or by hand with country codes | collects, commits the files with `[skip ci]`, publishes to R2 and Pages |
 | Publish Tariffs | on a push that changes a published file, or by hand | publishes the files already in the repository; no collection, no model call |
 | Check Sources | by hand | downloads sources from a GitHub runner and reports which answer; no model call, nothing written |
+| Collect Cities | by hand with a country, city codes, a service and "write" | runs `src/run_city.py` from a GitHub runner; a dry run by default, with "write" commits the named cities and starts Publish Tariffs. Countries read city by city only |
 
 ---
 
@@ -355,7 +374,9 @@ By default it is a dry run: it fetches, extracts and validates, prints what woul
 every reason something would not, and writes nothing — no file, no registry entry, no Telegram
 message. `--write` publishes the selected cities into the country file, keeps every other city as
 published, and rebuilds the index. It refuses to run without a city, except for the country-wide
-electricity block, so it cannot collect a whole country by accident.
+electricity block, so it cannot collect a whole country by accident. It also refuses `--write` for a
+country read from aggregate pages (`reference_sources` in config, i.e. Ukraine), which is published
+only whole.
 
 The order of work is fixed: make every fix first, then test the cities it touches, then — only with
 the maintainer's agreement — collect the whole country.
@@ -586,7 +607,10 @@ record is worse than a stale one: it looks current.
 * **a jump larger than `max_change_ratio` against what is already published.** This is the one that
   catches a confident, plausible, wrong extraction — the model read the industrial column, or
   another year, or another city. The number itself passes every other check; only its distance from
-  last month's number gives it away.
+  last month's number gives it away. A block may set its own ratio next to its limits —
+  `validation.water.max_change_ratio` — where a real change is larger: Ukraine's water tariffs grew
+  two- to threefold in 2026 when local authorities took them over from NKREKP, so Ukraine allows 3.0
+  for water.
 
 ### Retiring a city
 

@@ -29,7 +29,8 @@ kommeter_scripts/
 ├── .agents/rules/main_rules.md   # Always-on rules for every AI agent working in this repo
 │
 ├── .github/workflows/
-│   └── fetch_tariffs.yml         # Monthly cron: run every country, commit, deploy to R2 + Pages
+│   ├── fetch_tariffs.yml         # Monthly cron: run every country, commit, deploy to R2 + Pages
+│   └── collect_cities.yml        # By hand: named cities of one country, dry run or publish
 │
 ├── config/                       # Input configuration — the only files edited by hand
 │   ├── countries.json            # The country registry: codes, names, currency, publication layout

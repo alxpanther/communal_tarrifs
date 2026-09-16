@@ -443,6 +443,11 @@ python src/run_city.py ru yekaterinburg --write          # опубликова�
 python src/run_city.py am --block electricity --llm-from ru   # проверить на провайдере России
 ```
 
+То же самое с машины GitHub — **Actions → Collect Cities → Run workflow**: страна (`ru`), коды городов
+(`astrakhan`), услуга и флажок `write`. Без флажка это пробный прогон, результат только в логе; с
+флажком города публикуются, коммит уходит в репозиторий и сам запускается Publish Tariffs. Украина
+так не собирается — только всей страной через Fetch and Update Tariffs.
+
 `--llm-from <код>` берёт на этот прогон модель другой страны — например, чтобы отлаживать источник
 на Qwen, не переводя саму страну с Gemini.
 

@@ -1,0 +1,117 @@
+name: Collect Cities
+
+# Collects part of a country — the named cities, optionally one service — instead of the whole
+# country, which for Russia means a dozen cities and more than ten minutes of paid model calls.
+#
+# Without "write" it is a dry run: src/run_city.py prints what would be published and every reason
+# something would not, and nothing is committed or deployed. With "write" the named cities are
+# published into the country file, every other city keeps its published value, the result is
+# committed, and "Publish Tariffs" is started to deploy it.
+#
+# Only countries read city by city (config/<cc>/sources.json -> cities) can be collected this way.
+# Ukraine is read from aggregate pages as a whole and runs through "Fetch and Update Tariffs".
+
+on:
+  workflow_dispatch:
+    inputs:
+      country:
+        description: 'Country code (e.g. ru)'
+        required: true
+      cities:
+        description: 'City codes from config/<cc>/sources.json, space separated (e.g. astrakhan)'
+        required: false
+        default: ''
+      block:
+        description: 'One service only'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - water
+          - hot_water
+          - heating
+          - electricity
+          - gas
+      write:
+        description: 'Publish the result (otherwise a dry run that changes nothing)'
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+  actions: write
+
+# Shares the group with the workflows that push and deploy, so two runs never push at once.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Collect
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
+          QWEN_OPENAI_ENDPOINT: ${{ secrets.QWEN_OPENAI_ENDPOINT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # Passed through the environment, never interpolated into the command line.
+          COUNTRY: ${{ github.event.inputs.country }}
+          CITIES: ${{ github.event.inputs.cities }}
+          BLOCK: ${{ github.event.inputs.block }}
+          WRITE: ${{ github.event.inputs.write }}
+        run: |
+          set -f
+          ARGS="$COUNTRY $CITIES"
+          if [ "$BLOCK" != "all" ]; then ARGS="$ARGS --block $BLOCK"; fi
+          if [ "$WRITE" = "true" ]; then ARGS="$ARGS --write"; fi
+          python src/run_city.py $ARGS
+
+      - name: Commit and Push (write only)
+        if: github.event.inputs.write == 'true'
+        id: commit
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/tariffs_*.json assets/tariffs_*_default.json \
+                  config/*/city_registry.json dist/cloudflare/tariffs_index.json docs/tariffs_index.json
+          git status --short
+          if git diff --staged --quiet; then
+            echo "Nothing changed, skipping commit."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "chore: update tariffs of selected cities [skip ci]"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push; then
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "Push attempt $attempt failed, retrying..."
+            sleep 10
+          done
+          echo "Could not push the updated tariffs after 3 attempts." >&2
+          exit 1
+
+      # A commit pushed with the workflow token starts no workflow, so the deployment is started
+      # explicitly — the same one a hand-pushed fix goes through, instead of a copy of its steps.
+      - name: Start Publish Tariffs
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run publish_tariffs.yml --ref "${GITHUB_REF_NAME}"

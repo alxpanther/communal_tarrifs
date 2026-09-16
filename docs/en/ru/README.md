@@ -41,15 +41,18 @@ published JSON is the only place to look them up.
   city's Tariff Committee, which links this year's summary table first: water and sewerage (one
   price each), two-component hot water, heating, and electricity for the first consumption band of
   two plans, published in `electricity_cities`.
-- **Astrakhan** (September 2026) is read from the city summary of the "MoyZhKKh" portal
-  (my-gkh.ru), which reprints the decrees of the Astrakhan Region Tariff Service with their numbers:
-  water and sewerage, heating, and electricity for the gas-stove and electric-stove plans without
-  consumption bands, published in `electricity_cities`. The page is a reprint, not the regulator,
-  so a typo there reaches the file: its three-zone peak price falls from 14.23 to 8.50 from
-  1 October, which is worth checking once that period starts. Hot water is not collected: the page
-  prints the two components but no heating norm, so no price per m³ can be computed. Gas is read
-  from the same page — ООО «Газпром межрегионгаз Астрахань», one price per thousand m³ with delivery
-  included, no consumption norms — and published in `gas`.
+- **Astrakhan** (September 2026). Water and sewerage are read from the "Абонентам" page of
+  МУП «Астрводоканал», which links one page per tariff period ("Тарифы с 01.01.2026", "Тарифы с
+  01.10.2026"). Gas is read from the home page of ООО «Газпром межрегионгаз Астрахань», whose link
+  "Подробнее о тарифах и нормативах на газ" leads to the prices in force: one price per thousand m³
+  with delivery included, and the consumption norms of a flat without a meter in a building with
+  central heating, published in `gas`. Heating and electricity (gas-stove and electric-stove plans,
+  no consumption bands, in `electricity_cities`) are still read from the city summary of the
+  "MoyZhKKh" portal (my-gkh.ru), which since September 2026 answers robots with a captcha, so they
+  are not refreshed; the sites of the heat company (teploseti30.ru) and of the energy retailer
+  (astsbyt.ru) answer 403 outside Russia and are yet to be checked from GitHub. On my-gkh.ru the
+  three-zone peak price falls from 14.23 to 8.50 from 1 October — likely a typo of the reprint. Hot
+  water is not collected: no source prints the heating norm, so no price per m³ can be computed.
 
 ---
 

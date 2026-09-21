@@ -41,5 +41,19 @@
       "city_code": "balti",
       "city_name": "Бельцы"
     }
+  },
+  "gas_suppliers": {
+    "S.A. \"Energocom\" (Кишинёв)": {
+      "city_code": "chisinau",
+      "city_name": "Кишинёв"
+    },
+    "S.A. \"Energocom\" (Бельцы)": {
+      "city_code": "balti",
+      "city_name": "Бельцы"
+    },
+    "S.A. \"Energocom\" (Орхей)": {
+      "city_code": "orhei",
+      "city_name": "Орхей"
+    }
   }
 }

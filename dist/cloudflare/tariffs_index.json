@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-21T11:32:13.287542",
+  "generated_at": "2026-09-21T11:34:26.084755",
   "countries": [
     {
       "country": "UA",
@@ -45,7 +45,7 @@
         "uk": "Молдова"
       },
       "currency": "MDL",
-      "last_updated_at": "2026-09-21T11:32:13.286258",
+      "last_updated_at": "2026-09-21T11:34:26.083111",
       "path": "md/tariffs_md.json",
       "enabled": true,
       "min_app_version": ""

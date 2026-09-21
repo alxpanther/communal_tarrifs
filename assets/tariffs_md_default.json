@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-21T11:32:13.286258",
+  "last_updated_at": "2026-09-21T11:34:26.083111",
   "country": "MD",
   "country_names": {
     "ru": "Молдова",
@@ -259,8 +259,120 @@
     ]
   },
   "gas": {
-    "source_url": "",
+    "source_url": "https://anre.md/gaze-naturale-3-205",
     "update_date": "2026-09-21",
-    "cities": []
+    "cities": [
+      {
+        "city_code": "chisinau",
+        "city_name": "Кишинёв",
+        "supplier": "S.A. \"Energocom\" (Кишинёв)",
+        "unit": "m3",
+        "rate": 20.30184,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-08-21",
+        "decree_info": "Hot. ANRE nr. 512 din 21.08.2026",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "S.A. \"Energocom\" (Кишинёв)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 20.30184
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "balti",
+        "city_name": "Бельцы",
+        "supplier": "S.A. \"Energocom\" (Бельцы)",
+        "unit": "m3",
+        "rate": 20.30184,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-08-21",
+        "decree_info": "Hot. ANRE nr. 512 din 21.08.2026",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "S.A. \"Energocom\" (Бельцы)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 20.30184
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "orhei",
+        "city_name": "Орхей",
+        "supplier": "S.A. \"Energocom\" (Орхей)",
+        "unit": "m3",
+        "rate": 20.30184,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-08-21",
+        "decree_info": "Hot. ANRE nr. 512 din 21.08.2026",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "S.A. \"Energocom\" (Орхей)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 20.30184
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      }
+    ]
   }
 }

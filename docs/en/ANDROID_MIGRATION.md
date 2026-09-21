@@ -143,9 +143,10 @@ country.
 
 Not done in the app yet. The root block `gas` carries natural gas per city: the price of the gas, the
 price of delivering it, every offer the source prints, and the consumption norms of a household
-without a meter. Ukraine (33 cities, every supplier minfin lists, Naftogaz by default) and
-Astrakhan are collected; in every other country the block is present with no cities. The released
-app ignores the block. What to build:
+without a meter. Ukraine (33 cities, every supplier minfin lists, Naftogaz by default), Astrakhan
+and Armenia (one national price of Gazprom Armenia, delivery included, no norms) are collected; in
+every other country the block is present with no cities. The released app ignores the block. What
+to build:
 
 1. **DTOs for `gas`, its `plans`, `rates` and `norms`** — the Kotlin classes in JSON_SPECIFICATION.md,
    section 3, every field nullable or defaulted, for the cached-file reason in section 2.

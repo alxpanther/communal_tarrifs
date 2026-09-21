@@ -21,6 +21,7 @@ from datetime import date
 
 from common import prompts
 from common.fetching import fetch_all
+from common.llm.base import SOURCE_LLM_OPTIONS
 from common.overrides import resolve_periods
 from common.validation import DATE_FORMAT, Rejected, as_date, as_number, clean_decree
 
@@ -362,7 +363,7 @@ def read(source: dict, region: str, currency: str, unit: str, previous: dict, co
 
     instruction = prompts.electricity_prompt(region, currency, unit, plans_of(source),
                                              hint=source.get("hint", ""), supplier=supplier)
-    options = {key: source[key] for key in ("model", "json_mode", "extra_params") if key in source}
+    options = {key: source[key] for key in SOURCE_LLM_OPTIONS if key in source}
     extracted = extractor.extract([d.as_llm_part() for d in documents], instruction, options)
     limits = config.get("validation", {}) or {}
     try:

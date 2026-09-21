@@ -344,6 +344,13 @@ A source may override `model`, `json_mode` and `extra_params` of `settings.llm` 
 The country's settings are chosen for the price of reading every city; a source too dense for them
 gets a stronger setup of its own rather than moving the whole country to the expensive one.
 
+`pdf_as_images: true` on a source sends its PDFs to an `openai_compatible` provider as rendered pages
+for `vision_model`, even when they have a text layer. It is for a PDF whose text layer is incomplete:
+the Armenian gas price table (psrc.am) carries its numbers and row captions as text, but its title,
+the regulator's decision and the column captions saying which price includes VAT are drawn without
+text, and read from text the model took the price without VAT. Gemini reads a PDF as a document
+itself, so for it the option changes nothing.
+
 Moscow's tariff menu was the case in point while Moscow was collected: eighteen columns. `qwen3-max`
 read its hot water row correctly as it was. Its heat row came back wrong three times — from the text with the default model,
 from the text with `qwen3-max`, from page images with the vision model — and right only with

@@ -16,6 +16,12 @@ logger = logging.getLogger(__name__)
 # otherwise a re-run silently rewrites published tariffs.
 TEMPERATURE = 0.0
 
+# Keys of `settings.llm` a single source may override, next to its URLs. `pdf_as_images`
+# sends a PDF to a text-and-image API as rendered pages even though it has a text layer:
+# the one of the Armenian gas prices carries the numbers but not the title, the decision
+# or the column captions that say which price includes VAT.
+SOURCE_LLM_OPTIONS = ("model", "json_mode", "extra_params", "pdf_as_images")
+
 
 class LLMUnavailable(Exception):
     """No key, no model or no endpoint configured. The country keeps its previous file."""

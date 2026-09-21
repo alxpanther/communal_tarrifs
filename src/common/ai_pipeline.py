@@ -24,6 +24,7 @@ from common.countries import Country
 from common.fetching import fetch_all
 from common.jsonio import (ELECTRICITY_CITIES, GAS, build_root, empty_city_block, load_previous,
                            save_country_json)
+from common.llm.base import SOURCE_LLM_OPTIONS
 from common.overrides import CITY_BLOCKS, apply_manual_overrides, resolve_periods
 from common.paths import sources_path
 from common.registry import (ELECTRICITY_SECTION, GAS_SECTION, HEAT_SECTION, WATER_SECTION,
@@ -83,10 +84,6 @@ def _hint_of(city: dict, block: str) -> str:
     if isinstance(block_config, dict):
         return str(block_config.get("hint") or "")
     return ""
-
-
-# Keys of `settings.llm` a single source may override, next to its URLs.
-SOURCE_LLM_OPTIONS = ("model", "json_mode", "extra_params")
 
 
 def _llm_options_of(city: dict, block: str) -> dict:

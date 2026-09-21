@@ -4,7 +4,8 @@ Qwen on Alibaba Cloud Model Studio today; OpenRouter, GLM or a local server the 
 country is moved to one — only `settings.llm` in that country's config changes.
 
 These APIs take text and images, not PDFs. A PDF with a text layer is sent as its text; a
-scan is rendered to page images and sent to the vision model instead. HTTP is spoken
+scan, or a PDF whose source sets `pdf_as_images`, is rendered to page images and sent to the
+vision model instead. HTTP is spoken
 directly: one POST is all extraction needs, and `requests` is already a dependency.
 """
 
@@ -34,7 +35,7 @@ class OpenAICompatibleExtractor(Extractor):
         self.json_mode = json_mode
         self.extra_params = dict(extra_params or {})
 
-    def _content(self, parts: list, instruction: str) -> tuple:
+    def _content(self, parts: list, instruction: str, pdf_as_images: bool = False) -> tuple:
         """Flattens the documents into one message. Returns (content, has_images).
 
         Every document gets a numbered header, because a source hint in config may refer to
@@ -47,13 +48,13 @@ class OpenAICompatibleExtractor(Extractor):
                 continue
             mime, data = part
             if mime == "application/pdf":
-                text = pdf.text_of(data)
-                if not pdf.is_scan(text):
+                text = "" if pdf_as_images else pdf.text_of(data)
+                if text and not pdf.is_scan(text):
                     texts.append(f"=== Документ {number} ===\n{text}")
                     continue
                 pages = pdf.page_images(data)
-                texts.append(f"=== Документ {number}: скан без текстового слоя, "
-                             f"{len(pages)} стр. — изображения приложены ===")
+                texts.append(f"=== Документ {number}: PDF, {len(pages)} стр. — "
+                             f"изображения страниц приложены ===")
                 images.extend(("image/png", page) for page in pages)
             else:
                 texts.append(f"=== Документ {number}: изображение приложено ===")
@@ -70,7 +71,7 @@ class OpenAICompatibleExtractor(Extractor):
 
     def extract(self, parts: list, instruction: str, options: dict = None) -> dict:
         options = options or {}
-        content, has_images = self._content(parts, instruction)
+        content, has_images = self._content(parts, instruction, bool(options.get("pdf_as_images")))
         if has_images and not self.vision_model:
             self._report_failure("Источник — скан, а settings.llm.vision_model не задан",
                                  "документ не прочитан")

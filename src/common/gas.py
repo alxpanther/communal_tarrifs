@@ -19,6 +19,7 @@ from datetime import date
 
 from common import prompts
 from common.fetching import fetch_all
+from common.llm.base import SOURCE_LLM_OPTIONS
 from common.overrides import resolve_periods
 from common.validation import DATE_FORMAT, Rejected, as_date, as_number, clean_decree
 
@@ -306,7 +307,7 @@ def read_city(source: dict, identity: dict, supplier: str, currency: str, previo
         identity["city_name"], supplier, currency, source.get("plans") or {},
         hint=source.get("hint", ""), distribution=bool(source.get("separate_distribution")),
         norms=bool(source.get("read_norms")))
-    options = {key: source[key] for key in ("model", "json_mode", "extra_params") if key in source}
+    options = {key: source[key] for key in SOURCE_LLM_OPTIONS if key in source}
     extracted = extractor.extract([d.as_llm_part() for d in documents], instruction, options)
     if not isinstance(extracted, dict) or not isinstance(extracted.get("periods"), list) \
             or not extracted["periods"]:

@@ -58,5 +58,32 @@
       "city_code": "other_cities",
       "city_name": "Другие города (республиканский тариф)"
     }
+  },
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
+  "gas_suppliers": {
+    "УП \"МИНГАЗ\"": {
+      "city_code": "minsk",
+      "city_name": "Минск"
+    },
+    "РПУП \"Гомельоблгаз\"": {
+      "city_code": "gomel",
+      "city_name": "Гомель"
+    },
+    "РУП \"Могилевоблгаз\"": {
+      "city_code": "mogilev",
+      "city_name": "Могилёв"
+    },
+    "УП \"Витебскоблгаз\"": {
+      "city_code": "vitebsk",
+      "city_name": "Витебск"
+    },
+    "УП \"Гроднооблгаз\"": {
+      "city_code": "grodno",
+      "city_name": "Гродно"
+    },
+    "УП \"Брестоблгаз\"": {
+      "city_code": "brest",
+      "city_name": "Брест"
+    }
   }
 }

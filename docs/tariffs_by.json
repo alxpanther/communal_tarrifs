@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T12:04:05.709652",
+  "last_updated_at": "2026-09-21T11:58:08.063489",
   "country": "BY",
   "country_names": {
     "ru": "Беларусь",
@@ -504,6 +504,474 @@
         "rate_gcal_hour": 0.0,
         "effective_date": "2026-06-01",
         "decree_info": "Постановлением Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93"
+      }
+    ]
+  },
+  "gas": {
+    "source_url": "https://www.topgas.by/content/produktsiya/tseny-i-tarify-na-prirodnyy-i-szhizhennyy-gaz-dlya-naseleniya/",
+    "update_date": "2026-09-21",
+    "cities": [
+      {
+        "city_code": "minsk",
+        "city_name": "Минск",
+        "supplier": "УП \"МИНГАЗ\"",
+        "unit": "m3",
+        "rate": 0.586,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25.02.2026 №93",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Без газового отопления",
+            "is_default": true,
+            "supplier": "УП \"МИНГАЗ\"",
+            "contract": null,
+            "usage": "cooking",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.586
+              }
+            ]
+          },
+          {
+            "plan_code": "heating",
+            "name": "С газовым отоплением",
+            "is_default": false,
+            "supplier": "УП \"МИНГАЗ\"",
+            "contract": null,
+            "usage": "heating",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": 1,
+                "above_m3": 0,
+                "up_to_m3": 3000,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2275
+              },
+              {
+                "tier": 2,
+                "above_m3": 3000,
+                "up_to_m3": 5500,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2958
+              },
+              {
+                "tier": 3,
+                "above_m3": 5500,
+                "up_to_m3": null,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.6022
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "gomel",
+        "city_name": "Гомель",
+        "supplier": "РПУП \"Гомельоблгаз\"",
+        "unit": "m3",
+        "rate": 0.586,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25.02.2026 №93",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Без газового отопления",
+            "is_default": true,
+            "supplier": "РПУП \"Гомельоблгаз\"",
+            "contract": null,
+            "usage": "cooking",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.586
+              }
+            ]
+          },
+          {
+            "plan_code": "heating",
+            "name": "С газовым отоплением",
+            "is_default": false,
+            "supplier": "РПУП \"Гомельоблгаз\"",
+            "contract": null,
+            "usage": "heating",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": 1,
+                "above_m3": 0,
+                "up_to_m3": 3000,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2275
+              },
+              {
+                "tier": 2,
+                "above_m3": 3000,
+                "up_to_m3": 5500,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2958
+              },
+              {
+                "tier": 3,
+                "above_m3": 5500,
+                "up_to_m3": null,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.6022
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "mogilev",
+        "city_name": "Могилёв",
+        "supplier": "РУП \"Могилевоблгаз\"",
+        "unit": "m3",
+        "rate": 0.586,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25.02.2026 №93",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Без газового отопления",
+            "is_default": true,
+            "supplier": "РУП \"Могилевоблгаз\"",
+            "contract": null,
+            "usage": "cooking",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.586
+              }
+            ]
+          },
+          {
+            "plan_code": "heating",
+            "name": "С газовым отоплением",
+            "is_default": false,
+            "supplier": "РУП \"Могилевоблгаз\"",
+            "contract": null,
+            "usage": "heating",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": 1,
+                "above_m3": 0,
+                "up_to_m3": 3000,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2275
+              },
+              {
+                "tier": 2,
+                "above_m3": 3000,
+                "up_to_m3": 5500,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2958
+              },
+              {
+                "tier": 3,
+                "above_m3": 5500,
+                "up_to_m3": null,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.6022
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "vitebsk",
+        "city_name": "Витебск",
+        "supplier": "УП \"Витебскоблгаз\"",
+        "unit": "m3",
+        "rate": 0.586,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25.02.2026 №93",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Без газового отопления",
+            "is_default": true,
+            "supplier": "УП \"Витебскоблгаз\"",
+            "contract": null,
+            "usage": "cooking",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.586
+              }
+            ]
+          },
+          {
+            "plan_code": "heating",
+            "name": "С газовым отоплением",
+            "is_default": false,
+            "supplier": "УП \"Витебскоблгаз\"",
+            "contract": null,
+            "usage": "heating",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": 1,
+                "above_m3": 0,
+                "up_to_m3": 3000,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2275
+              },
+              {
+                "tier": 2,
+                "above_m3": 3000,
+                "up_to_m3": 5500,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2958
+              },
+              {
+                "tier": 3,
+                "above_m3": 5500,
+                "up_to_m3": null,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.6022
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "grodno",
+        "city_name": "Гродно",
+        "supplier": "УП \"Гроднооблгаз\"",
+        "unit": "m3",
+        "rate": 0.586,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25.02.2026 №93",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Без газового отопления",
+            "is_default": true,
+            "supplier": "УП \"Гроднооблгаз\"",
+            "contract": null,
+            "usage": "cooking",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.586
+              }
+            ]
+          },
+          {
+            "plan_code": "heating",
+            "name": "С газовым отоплением",
+            "is_default": false,
+            "supplier": "УП \"Гроднооблгаз\"",
+            "contract": null,
+            "usage": "heating",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": 1,
+                "above_m3": 0,
+                "up_to_m3": 3000,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2275
+              },
+              {
+                "tier": 2,
+                "above_m3": 3000,
+                "up_to_m3": 5500,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2958
+              },
+              {
+                "tier": 3,
+                "above_m3": 5500,
+                "up_to_m3": null,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.6022
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "brest",
+        "city_name": "Брест",
+        "supplier": "УП \"Брестоблгаз\"",
+        "unit": "m3",
+        "rate": 0.586,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-06-01",
+        "decree_info": "Постановление Совета Министров Республики Беларусь от 25.02.2026 №93",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Без газового отопления",
+            "is_default": true,
+            "supplier": "УП \"Брестоблгаз\"",
+            "contract": null,
+            "usage": "cooking",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.586
+              }
+            ]
+          },
+          {
+            "plan_code": "heating",
+            "name": "С газовым отоплением",
+            "is_default": false,
+            "supplier": "УП \"Брестоблгаз\"",
+            "contract": null,
+            "usage": "heating",
+            "metered": true,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": 1,
+                "above_m3": 0,
+                "up_to_m3": 3000,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2275
+              },
+              {
+                "tier": 2,
+                "above_m3": 3000,
+                "up_to_m3": 5500,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2958
+              },
+              {
+                "tier": 3,
+                "above_m3": 5500,
+                "up_to_m3": null,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.6022
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
       }
     ]
   }

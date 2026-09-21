@@ -144,8 +144,9 @@ country.
 Not done in the app yet. The root block `gas` carries natural gas per city: the price of the gas, the
 price of delivering it, every offer the source prints, and the consumption norms of a household
 without a meter. Ukraine (33 cities, every supplier minfin lists, Naftogaz by default), Astrakhan,
-Armenia (one national price of Gazprom Armenia, delivery included, no norms) and Baku (annual bands
-billed by part, a fixed monthly charge) are collected; in
+Armenia (one national price of Gazprom Armenia, delivery included, no norms), Baku (annual bands
+billed by part, a fixed monthly charge) and Moldova (one national price of Energocom, delivery
+included) are collected; in
 every other country the block is present with no cities. The released app ignores the block. What
 to build:
 

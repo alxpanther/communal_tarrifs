@@ -24,6 +24,9 @@
     },
     "electricity": {
       "max_rate": 20.0
+    },
+    "gas": {
+      "max_rate": 100.0
     }
   },
   "electricity": {
@@ -69,6 +72,21 @@
             "Termoelectrica",
             "S.A. „Termoelectrica”"
           ]
+        },
+        "gas": {
+          "supplier": "S.A. \"Energocom\" (Кишинёв)",
+          "urls": [
+            "https://anre.md/gaze-naturale-3-205"
+          ],
+          "vat_percent": 8,
+          "hint": "таблица «Prețurile reglementate pentru furnizarea gazelor naturale anumitor categorii de consumatori finali, în contextul obligației de serviciu public» — регулируемая цена газа, который S.A. «Energocom» продаёт населению. Цена единая для всей Молдовы и уже включает распределение. Нужна строка «S.A. „Energocom”», колонка «de ieșire din rețelele de distribuție a gazelor naturale de joasă presiune» (сети низкого давления — к ним подключены квартиры). Единица «lei /1000 m³» — price_per = thousand_m3. Цена напечатана «fără TVA» (без НДС) — верни её как напечатано, НДС прибавит код. Не подходят: колонки высокого и среднего давления и входа/выхода транспортной сети, строка «F.P.C. „Lăcătuș” S.R.L.», таблица «furnizarea de ultimă opțiune» (поставщик последней инстанции), тарифы распределения и транспорта. Дату начала действия и реквизиты возьми из колонки с решением той же строки («HCA nr. ... din ...»): дата — дата решения, реквизиты — как напечатано, в виде «Hot. ANRE nr. <номер> din <дата>»",
+          "plans": {
+            "standard": {
+              "name": "Население",
+              "default": true,
+              "hint": "цена S.A. «Energocom» в сетях низкого давления"
+            }
+          }
         }
       }
     },
@@ -114,6 +132,21 @@
               "hint": "поставщик «S.A. ,,Furnizarea Energiei Electrice Nord”» — он снабжает север Молдовы, строка «tensiune joasă». Строки поставщика «Î.C.S. „Premier Energy” S.R.L.» не подходят"
             }
           }
+        },
+        "gas": {
+          "supplier": "S.A. \"Energocom\" (Бельцы)",
+          "urls": [
+            "https://anre.md/gaze-naturale-3-205"
+          ],
+          "vat_percent": 8,
+          "hint": "таблица «Prețurile reglementate pentru furnizarea gazelor naturale anumitor categorii de consumatori finali, în contextul obligației de serviciu public» — регулируемая цена газа, который S.A. «Energocom» продаёт населению. Цена единая для всей Молдовы и уже включает распределение. Нужна строка «S.A. „Energocom”», колонка «de ieșire din rețelele de distribuție a gazelor naturale de joasă presiune» (сети низкого давления — к ним подключены квартиры). Единица «lei /1000 m³» — price_per = thousand_m3. Цена напечатана «fără TVA» (без НДС) — верни её как напечатано, НДС прибавит код. Не подходят: колонки высокого и среднего давления и входа/выхода транспортной сети, строка «F.P.C. „Lăcătuș” S.R.L.», таблица «furnizarea de ultimă opțiune» (поставщик последней инстанции), тарифы распределения и транспорта. Дату начала действия и реквизиты возьми из колонки с решением той же строки («HCA nr. ... din ...»): дата — дата решения, реквизиты — как напечатано, в виде «Hot. ANRE nr. <номер> din <дата>»",
+          "plans": {
+            "standard": {
+              "name": "Население",
+              "default": true,
+              "hint": "цена S.A. «Energocom» в сетях низкого давления"
+            }
+          }
         }
       }
     },
@@ -132,6 +165,21 @@
             "Regia Apă Canal - Orhei S.A.",
             "Apă-Canal Orhei"
           ]
+        },
+        "gas": {
+          "supplier": "S.A. \"Energocom\" (Орхей)",
+          "urls": [
+            "https://anre.md/gaze-naturale-3-205"
+          ],
+          "vat_percent": 8,
+          "hint": "таблица «Prețurile reglementate pentru furnizarea gazelor naturale anumitor categorii de consumatori finali, în contextul obligației de serviciu public» — регулируемая цена газа, который S.A. «Energocom» продаёт населению. Цена единая для всей Молдовы и уже включает распределение. Нужна строка «S.A. „Energocom”», колонка «de ieșire din rețelele de distribuție a gazelor naturale de joasă presiune» (сети низкого давления — к ним подключены квартиры). Единица «lei /1000 m³» — price_per = thousand_m3. Цена напечатана «fără TVA» (без НДС) — верни её как напечатано, НДС прибавит код. Не подходят: колонки высокого и среднего давления и входа/выхода транспортной сети, строка «F.P.C. „Lăcătuș” S.R.L.», таблица «furnizarea de ultimă opțiune» (поставщик последней инстанции), тарифы распределения и транспорта. Дату начала действия и реквизиты возьми из колонки с решением той же строки («HCA nr. ... din ...»): дата — дата решения, реквизиты — как напечатано, в виде «Hot. ANRE nr. <номер> din <дата>»",
+          "plans": {
+            "standard": {
+              "name": "Население",
+              "default": true,
+              "hint": "цена S.A. «Energocom» в сетях низкого давления"
+            }
+          }
         }
       }
     }

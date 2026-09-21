@@ -578,9 +578,10 @@ carries. A city declares `sources.gas` like any other service:
 The model returns every printed price with `price_per` — `"m3"` or `"thousand_m3"`; the code divides
 by a thousand and adds `vat_percent`. A reading is rejected whole for a non-positive price or one
 above `validation.gas.max_rate` per m³, nonsensical band limits, a band without a number, a
-`tier_basis` other than `part` or `whole`, a
+`tier_basis` other than `part` or `whole`, a band without `tier_period`, a
 malformed season, a plan not declared in config, the same price twice, a norm that does not parse,
-no price of the default plan, or a jump of the default price beyond `max_change_ratio`. The
+no price of the default plan, or a jump of the default price beyond `max_change_ratio`. A band with
+no limits at all is a single price a model numbered 1, and is published as one, without a band. The
 registry section is `gas_suppliers`; retiring is `"<code>.gas"` in `retired_cities`; testing one
 city is `src/run_city.py <cc> <city> --block gas`.
 

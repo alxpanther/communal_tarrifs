@@ -75,7 +75,10 @@ def check_rate(raw: dict, scale: float, limits: dict, label: str, reasons: list)
         reasons.append(f"{label}: у ступени {above}–{up_to} м³ нет номера")
         return None
     period = raw.get("tier_period") or None
-    if period not in (None,) + TIER_PERIODS or (tier is None and period):
+    # A band with no limits is not a band: models number a single price as band 1.
+    if tier is not None and above is None and up_to is None:
+        tier, period = None, None
+    if period not in (None,) + TIER_PERIODS or (tier is None) == (period is not None):
         reasons.append(f"{label}: tier_period {period!r} — ожидалось month или year у ступени")
         return None
 

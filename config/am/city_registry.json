@@ -17,5 +17,20 @@
       "city_name": "Другие города (единый тариф)"
     }
   },
-  "heat_suppliers": {}
+  "heat_suppliers": {},
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
+  "gas_suppliers": {
+    "ЗАО \"Газпром Армения\" (Ереван)": {
+      "city_code": "yerevan",
+      "city_name": "Ереван"
+    },
+    "ЗАО \"Газпром Армения\" (Гюмри)": {
+      "city_code": "gyumri",
+      "city_name": "Гюмри"
+    },
+    "ЗАО \"Газпром Армения\" (другие города)": {
+      "city_code": "other_cities",
+      "city_name": "Другие города (единый тариф)"
+    }
+  }
 }

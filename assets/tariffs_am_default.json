@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T14:36:04.065552",
+  "last_updated_at": "2026-09-21T11:16:22.387504",
   "country": "AM",
   "country_names": {
     "ru": "Армения",
@@ -222,5 +222,122 @@
     "source_url": "",
     "update_date": "2026-09-02",
     "cities": []
+  },
+  "gas": {
+    "source_url": "https://www.psrc.am/content/natural-gas-tariffs",
+    "update_date": "2026-09-21",
+    "cities": [
+      {
+        "city_code": "yerevan",
+        "city_name": "Ереван",
+        "supplier": "ЗАО \"Газпром Армения\" (Ереван)",
+        "unit": "m3",
+        "rate": 143.7,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2022-04-01",
+        "decree_info": "Решение КРОУ РА N 83-Н (в редакции решения N 174-Н)",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "ЗАО \"Газпром Армения\" (Ереван)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 143.7
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "gyumri",
+        "city_name": "Гюмри",
+        "supplier": "ЗАО \"Газпром Армения\" (Гюмри)",
+        "unit": "m3",
+        "rate": 143.7,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2022-04-01",
+        "decree_info": "Решение КРОУ РА N 83-Н (в редакции решения N 174-Н)",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "ЗАО \"Газпром Армения\" (Гюмри)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 143.7
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "other_cities",
+        "city_name": "Другие города (единый тариф)",
+        "supplier": "ЗАО \"Газпром Армения\" (другие города)",
+        "unit": "m3",
+        "rate": 143.7,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2022-04-01",
+        "decree_info": "Решение КРОУ РА N 83-Н (в редакции решения N 174-Н)",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "ЗАО \"Газпром Армения\" (другие города)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 143.7
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      }
+    ]
   }
 }

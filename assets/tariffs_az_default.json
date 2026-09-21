@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-21T11:18:42.222744",
+  "last_updated_at": "2026-09-21T11:21:36.236299",
   "country": "AZ",
   "country_names": {
     "ru": "Азербайджан",
@@ -150,6 +150,62 @@
   "gas": {
     "source_url": "https://regulator.gov.az/az/istehlakcilar/tarifler-qiymetler",
     "update_date": "2026-09-21",
-    "cities": []
+    "cities": [
+      {
+        "city_code": "baku",
+        "city_name": "Баку",
+        "supplier": "ПО \"Азеригаз\" ГНКАР",
+        "unit": "m3",
+        "rate": 0.125,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2024-12-29",
+        "decree_info": "Решение Тарифного совета Азербайджанской Республики от 29 декабря 2024 года № 18",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Население",
+            "is_default": true,
+            "supplier": "ПО \"Азеригаз\" ГНКАР",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": "part",
+            "monthly_charge": 1.0,
+            "rates": [
+              {
+                "tier": 1,
+                "above_m3": null,
+                "up_to_m3": 1200,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.125
+              },
+              {
+                "tier": 2,
+                "above_m3": 1200,
+                "up_to_m3": 2500,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.22
+              },
+              {
+                "tier": 3,
+                "above_m3": 2500,
+                "up_to_m3": null,
+                "tier_period": "year",
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.3
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      }
+    ]
   }
 }

@@ -10,5 +10,12 @@
       "city_code": "baku",
       "city_name": "Баку"
     }
+  },
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
+  "gas_suppliers": {
+    "ПО \"Азеригаз\" ГНКАР": {
+      "city_code": "baku",
+      "city_name": "Баку"
+    }
   }
 }

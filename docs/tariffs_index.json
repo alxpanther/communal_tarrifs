@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-09-21T11:16:22.388999",
+  "generated_at": "2026-09-21T11:18:42.250644",
   "countries": [
     {
       "country": "UA",
@@ -33,7 +33,7 @@
         "uk": "Азербайджан"
       },
       "currency": "AZN",
-      "last_updated_at": "2026-09-14T14:47:18.393241",
+      "last_updated_at": "2026-09-21T11:18:42.222744",
       "path": "tariffs_az.json",
       "enabled": true,
       "min_app_version": ""

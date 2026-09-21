@@ -18,6 +18,7 @@ import re
 from datetime import date
 
 from common import prompts
+from common.electricity import TIER_BASES
 from common.fetching import fetch_all
 from common.llm.base import SOURCE_LLM_OPTIONS
 from common.overrides import resolve_periods
@@ -125,6 +126,12 @@ def check_plan(raw: dict, scale: float, tax: float, limits: dict, label: str,
         reasons.append(f"{where}: одна и та же цена встречается дважды")
         return None
 
+    basis = raw.get("tier_basis") or None
+    if basis not in (None,) + TIER_BASES:
+        reasons.append(f"{where}: tier_basis {basis!r} — ожидалось {', '.join(TIER_BASES)} или null")
+        return None
+    tiered = any(row["tier"] is not None for row in rows)
+
     charge = as_number(raw.get("monthly_charge"))
     if charge is not None and charge < 0:
         reasons.append(f"{where}: отрицательная абонентская плата {charge}")
@@ -132,7 +139,8 @@ def check_plan(raw: dict, scale: float, tax: float, limits: dict, label: str,
 
     return {"plan_code": code, "name": str(raw.get("name") or code), "is_default": False,
             "supplier": str(raw["supplier"]).strip(), "contract": contract, "usage": usage,
-            "metered": metered, "monthly_charge": round(charge * tax, 4) if charge else None,
+            "metered": metered, "tier_basis": basis if tiered else None,
+            "monthly_charge": round(charge * tax, 4) if charge else None,
             "rates": sorted(rows, key=lambda r: (r["season_from"] or "", r["tier"] or 0))}
 
 

@@ -114,6 +114,7 @@ def print_gas(code: str, city: dict):
     for plan in city["plans"]:
         extras = [plan.get("contract") or "", plan.get("usage") or "",
                   {True: "со счётчиком", False: "без счётчика"}.get(plan.get("metered"), ""),
+                  f"ступени: {plan['tier_basis']}" if plan.get("tier_basis") else "",
                   f"абонплата {plan['monthly_charge']}" if plan.get("monthly_charge") else ""]
         print(f"       [{plan['plan_code']}{' *' if plan['is_default'] else ''}] {plan['name']} "
               f"— {plan['supplier']} {' '.join(e for e in extras if e)}")

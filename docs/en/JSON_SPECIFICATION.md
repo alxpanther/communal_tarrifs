@@ -299,6 +299,7 @@ Element of `plans[]`:
 | `contract` | `String?` | `"annual"` — a price fixed for a year, `"monthly"` — a price that changes monthly, `null` — the source makes no such distinction. | `"annual"` |
 | `usage` | `String?` | `"cooking"` or `"heating"` when the price depends on what the gas is used for; `null` otherwise. | `null` |
 | `metered` | `Boolean?` | `true` — price for a household with a meter, `false` — without, `null` — the same for both. | `null` |
+| `tier_basis` | `String?` | How consumption bands apply: `"part"` — each part of the consumption is billed at the price of its band; `"whole"` — all of it at the price of the band it reaches; `null` — no bands, or the source does not say. | `"part"` |
 | `monthly_charge` | `Double?` | Fixed charge per month, independent of consumption; `null` when there is none. | `null` |
 | `rates` | `Array<Object>` | One element per printed price. | `[ ... ]` |
 
@@ -542,6 +543,7 @@ data class GasPlan(
     @SerialName("contract") val contract: String? = null,
     @SerialName("usage") val usage: String? = null,
     @SerialName("metered") val metered: Boolean? = null,
+    @SerialName("tier_basis") val tierBasis: String? = null,
     @SerialName("monthly_charge") val monthlyCharge: Double? = null,
     @SerialName("rates") val rates: List<GasRate> = emptyList()
 )
@@ -670,7 +672,9 @@ $$\text{price per m}^3 = \text{plan rate} + \text{city.distribution\_rate}$$
 
 The plan rate is picked like an electricity price (section 4.1, steps 2–5): the rows whose season
 covers the month; with bands, the band the consumption reaches — counted over the month or the year
-by `tier_period`; plus `monthly_charge` where it is set.
+by `tier_period` and split by `tier_basis`, as `tier_basis` of electricity is (step 4); plus
+`monthly_charge` where it is set. Azerbaijan's bands are annual and `"part"`: the first 1200 m³ of a
+year at the first price, the next ones up to 2500 at the second, the rest at the third.
 
 Ukraine bills delivery by the annual contracted capacity, which for a household is its average
 monthly consumption (with a meter) or the norm (without one); `distribution_rate` is already the

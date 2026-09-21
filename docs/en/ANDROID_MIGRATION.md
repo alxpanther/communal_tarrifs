@@ -143,8 +143,9 @@ country.
 
 Not done in the app yet. The root block `gas` carries natural gas per city: the price of the gas, the
 price of delivering it, every offer the source prints, and the consumption norms of a household
-without a meter. Ukraine (33 cities, every supplier minfin lists, Naftogaz by default), Astrakhan
-and Armenia (one national price of Gazprom Armenia, delivery included, no norms) are collected; in
+without a meter. Ukraine (33 cities, every supplier minfin lists, Naftogaz by default), Astrakhan,
+Armenia (one national price of Gazprom Armenia, delivery included, no norms) and Baku (annual bands
+billed by part, a fixed monthly charge) are collected; in
 every other country the block is present with no cities. The released app ignores the block. What
 to build:
 
@@ -160,7 +161,9 @@ to build:
    the heated area for a `per_m2` norm — and bill by the norm. A norm with `heating_season_only` is
    charged only during the heating season.
 5. **Bill** as in JSON_SPECIFICATION.md, section 4.5: the plan's price plus `distribution_rate`, times
-   the metered m³ or the norm. The user never enters the contracted capacity.
+   the metered m³ or the norm. The user never enters the contracted capacity. Annual bands
+   (`tier_period` = `"year"`) need the m³ consumed since the start of the year, from the meter
+   readings the app already has.
 6. **Losing gas.** A city or the whole block may disappear from a later file; handle it as section 2b
    does.
 

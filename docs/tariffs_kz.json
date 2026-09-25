@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T14:50:22.840376",
+  "last_updated_at": "2026-09-25T15:43:49.754045",
   "country": "KZ",
   "country_names": {
     "ru": "Казахстан",
@@ -12,7 +12,7 @@
     "base_rate": 24.81,
     "unit": "kWh",
     "effective_date": "2026-07-01",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "decree_info": "Тарифы АО «Астана-РЭК» для физических лиц с 01.07.2026г",
     "zones": {
       "two_zone": {
@@ -138,7 +138,7 @@
   },
   "electricity_cities": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "almaty",
@@ -361,7 +361,7 @@
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "astana",
@@ -437,7 +437,7 @@
   },
   "heating": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "almaty",
@@ -473,5 +473,10 @@
         "decree_info": "Тарифы ТОО «Теплотранзит Караганда» с 15 августа 2026 года"
       }
     ]
+  },
+  "gas": {
+    "source_url": "",
+    "update_date": "2026-09-25",
+    "cities": []
   }
 }

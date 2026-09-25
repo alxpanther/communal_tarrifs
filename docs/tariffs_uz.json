@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T14:36:49.578391",
+  "last_updated_at": "2026-09-25T15:42:03.394775",
   "country": "UZ",
   "country_names": {
     "ru": "Узбекистан",
@@ -12,7 +12,7 @@
     "base_rate": 650.0,
     "unit": "kWh",
     "effective_date": "2026-06-01",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "decree_info": "Тарифы АО «Региональные электрические сети» для бытовых потребителей с 1 июня 2026 года",
     "zones": {
       "two_zone": {
@@ -133,7 +133,7 @@
   },
   "water": {
     "source_url": "https://api.uzsuv.uz/api/v1/r/service/tariff/",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "tashkent",
@@ -210,7 +210,7 @@
   },
   "heating": {
     "source_url": "https://feeds.tildacdn.com/api/getfeed/?feeduid=954914528491&size=30&slice=1&sort%5Bdate%5D=desc",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "tashkent",
@@ -224,5 +224,10 @@
         "decree_info": "Постановление хокима города Ташкента 767-14-0-Q/25 от 27 октября 2025 года"
       }
     ]
+  },
+  "gas": {
+    "source_url": "",
+    "update_date": "2026-09-25",
+    "cities": []
   }
 }

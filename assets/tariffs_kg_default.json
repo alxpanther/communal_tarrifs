@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T14:48:31.608397",
+  "last_updated_at": "2026-09-25T15:48:47.889388",
   "country": "KG",
   "country_names": {
     "ru": "Кыргызстан",
@@ -12,7 +12,7 @@
     "base_rate": 1.64,
     "unit": "kWh",
     "effective_date": "2026-09-07",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "decree_info": "Приказ Департамента по регулированию топливно-энергетического комплекса при Министерстве энергетики Кыргызской Республики от 8 сентября 2026 года № 154",
     "zones": {
       "two_zone": {
@@ -163,7 +163,7 @@
   },
   "water": {
     "source_url": "https://www.gorkenesh.kg/ru/the-rulings-of-the-bgk/29-sozyv.html?limit=0",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "bishkek",
@@ -180,7 +180,7 @@
   },
   "hot_water": {
     "source_url": "https://teploseti.kg/content/article/60-tarify",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "bishkek",
@@ -195,7 +195,7 @@
   },
   "heating": {
     "source_url": "https://teploseti.kg/content/article/60-tarify",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "bishkek",
@@ -209,5 +209,10 @@
         "decree_info": "Приказ Департамента по регулированию топливно-энергетического комплекса при Министерстве энергетики Кыргызской Республики №42 от 10 марта 2026 года"
       }
     ]
+  },
+  "gas": {
+    "source_url": "",
+    "update_date": "2026-09-25",
+    "cities": []
   }
 }

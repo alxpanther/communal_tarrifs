@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-21T11:58:08.063489",
+  "last_updated_at": "2026-09-25T15:48:02.697018",
   "country": "BY",
   "country_names": {
     "ru": "Беларусь",
@@ -12,7 +12,7 @@
     "base_rate": 0.3037,
     "unit": "kWh",
     "effective_date": "2026-03-01",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "decree_info": "Постановление Совета Министров Республики Беларусь от 25 февраля 2026 г. № 93",
     "zones": {
       "two_zone": {
@@ -305,7 +305,7 @@
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "minsk",
@@ -377,7 +377,7 @@
   },
   "hot_water": {
     "source_url": "https://www.belenergo.by/content/klientam-fizicheskim-litsam-i-predprinimatelyam/tarify/",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "minsk",
@@ -437,7 +437,7 @@
   },
   "heating": {
     "source_url": "https://www.belenergo.by/content/klientam-fizicheskim-litsam-i-predprinimatelyam/tarify/",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "minsk",
@@ -509,7 +509,7 @@
   },
   "gas": {
     "source_url": "https://www.topgas.by/content/produktsiya/tseny-i-tarify-na-prirodnyy-i-szhizhennyy-gaz-dlya-naseleniya/",
-    "update_date": "2026-09-21",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "minsk",

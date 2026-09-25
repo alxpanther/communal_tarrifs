@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-16T14:39:49.318421",
+  "last_updated_at": "2026-09-25T15:37:59.609403",
   "country": "UA",
   "country_names": {
     "ru": "Украина",
@@ -12,7 +12,7 @@
     "base_rate": 4.32,
     "unit": "kWh",
     "effective_date": "2024-05-31",
-    "update_date": "2026-09-16",
+    "update_date": "2026-09-25",
     "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
@@ -171,12 +171,12 @@
   },
   "electricity_cities": {
     "source_url": "",
-    "update_date": "2026-09-16",
+    "update_date": "2026-09-25",
     "cities": []
   },
   "water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
-    "update_date": "2026-09-16",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -193,9 +193,9 @@
         "city_code": "lutsk",
         "city_name": "Луцьк",
         "supplier": "КП \"Луцькводоканал\"",
-        "water_supply": 29.868,
+        "water_supply": 29.856,
         "sewage": 37.56,
-        "total_rate": 67.428,
+        "total_rate": 67.416,
         "unit": "m3",
         "effective_date": "2026-06-18",
         "decree_info": "Тариф НКРЕКП, чинний з 18.06.2026"
@@ -216,8 +216,8 @@
         "city_name": "Дніпро",
         "supplier": "КП \"Дніпроводоканал\"",
         "water_supply": 47.1,
-        "sewage": 34.824,
-        "total_rate": 81.924,
+        "sewage": 34.82,
+        "total_rate": 81.92,
         "unit": "m3",
         "effective_date": "2026-07-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
@@ -270,9 +270,9 @@
         "city_code": "pavlohrad",
         "city_name": "Павлоград",
         "supplier": "КП \"Павлоградське ВУВКГ\"",
-        "water_supply": 84.012,
+        "water_supply": 84.01,
         "sewage": 29.46,
-        "total_rate": 113.472,
+        "total_rate": 113.47,
         "unit": "m3",
         "effective_date": "2026-07-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
@@ -314,9 +314,9 @@
         "city_code": "kramatorsk",
         "city_name": "Краматорськ",
         "supplier": "КВП \"Краматорський водоканал\"",
-        "water_supply": 47.748,
-        "sewage": 48.348,
-        "total_rate": 96.096,
+        "water_supply": 19.548,
+        "sewage": 13.908,
+        "total_rate": 33.456,
         "unit": "m3",
         "effective_date": "2026-01-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.01.2026"
@@ -347,9 +347,9 @@
         "city_code": "zhytomyr",
         "city_name": "Житомир",
         "supplier": "КП \"Житомирводоканал\"",
-        "water_supply": 44.316,
-        "sewage": 54.36,
-        "total_rate": 98.676,
+        "water_supply": 36.93,
+        "sewage": 45.304,
+        "total_rate": 82.234,
         "unit": "m3",
         "effective_date": "2026-08-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.08.2026"
@@ -358,9 +358,9 @@
         "city_code": "uzhhorod",
         "city_name": "Ужгород",
         "supplier": "КП \"ВУВКГ Ужгорода\"",
-        "water_supply": 55.548,
-        "sewage": 35.688,
-        "total_rate": 91.236,
+        "water_supply": 55.55,
+        "sewage": 35.69,
+        "total_rate": 91.241,
         "unit": "m3",
         "effective_date": "2026-07-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
@@ -435,9 +435,9 @@
         "city_code": "brovary",
         "city_name": "Бровари",
         "supplier": "КП \"Броваритепловодоенергія\"",
-        "water_supply": 31.692,
-        "sewage": 33.516,
-        "total_rate": 65.208,
+        "water_supply": 31.69,
+        "sewage": 33.52,
+        "total_rate": 65.209,
         "unit": "m3",
         "effective_date": "2026-07-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
@@ -446,9 +446,9 @@
         "city_code": "irpin",
         "city_name": "Ірпінь",
         "supplier": "КП \"Ірпіньводоканал\"",
-        "water_supply": 35.556,
+        "water_supply": 35.56,
         "sewage": 46.86,
-        "total_rate": 82.416,
+        "total_rate": 82.42,
         "unit": "m3",
         "effective_date": "2026-08-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.08.2026"
@@ -556,9 +556,9 @@
         "city_code": "kremenchuk",
         "city_name": "Кременчук",
         "supplier": "КП \"Кременчукводоканал\"",
-        "water_supply": 29.928,
+        "water_supply": 29.93,
         "sewage": 34.14,
-        "total_rate": 64.068,
+        "total_rate": 64.07,
         "unit": "m3",
         "effective_date": "2026-07-01",
         "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
@@ -655,9 +655,9 @@
         "city_code": "khmelnytskyi",
         "city_name": "Хмельницький",
         "supplier": "КП \"Хмельницькводоканал\"",
-        "water_supply": 28.872,
-        "sewage": 28.992,
-        "total_rate": 57.864,
+        "water_supply": 28.87,
+        "sewage": 28.99,
+        "total_rate": 57.859,
         "unit": "m3",
         "effective_date": "2026-07-15",
         "decree_info": "Тариф НКРЕКП, чинний з 15.07.2026"
@@ -732,7 +732,7 @@
   },
   "hot_water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/hotwater/",
-    "update_date": "2026-09-16",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -900,7 +900,7 @@
   },
   "heating": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/heating/",
-    "update_date": "2026-09-16",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -1214,7 +1214,7 @@
   },
   "gas": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/gas/",
-    "update_date": "2026-09-16",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -1235,6 +1235,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1296,6 +1297,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1357,6 +1359,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1378,6 +1381,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1399,6 +1403,7 @@
             "contract": "monthly",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1460,6 +1465,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1521,6 +1527,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1582,6 +1589,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1603,6 +1611,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1664,6 +1673,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1685,6 +1695,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1706,6 +1717,7 @@
             "contract": "monthly",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1727,6 +1739,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1748,6 +1761,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1769,6 +1783,7 @@
             "contract": "monthly",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1790,6 +1805,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1811,6 +1827,7 @@
             "contract": "monthly",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1872,6 +1889,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1933,6 +1951,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -1994,6 +2013,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2055,6 +2075,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2116,6 +2137,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2177,6 +2199,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2238,6 +2261,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2299,6 +2323,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2320,6 +2345,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2341,6 +2367,7 @@
             "contract": "monthly",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2402,6 +2429,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2463,6 +2491,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2524,6 +2553,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2585,6 +2615,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2646,6 +2677,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2707,6 +2739,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2768,6 +2801,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2829,6 +2863,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2890,6 +2925,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -2951,6 +2987,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3012,6 +3049,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3073,6 +3111,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3134,6 +3173,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3195,6 +3235,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3256,6 +3297,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3317,6 +3359,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3378,6 +3421,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {
@@ -3439,6 +3483,7 @@
             "contract": "annual",
             "usage": null,
             "metered": null,
+            "tier_basis": null,
             "monthly_charge": null,
             "rates": [
               {

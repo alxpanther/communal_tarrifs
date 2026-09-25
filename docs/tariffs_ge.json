@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-14T14:47:31.642881",
+  "last_updated_at": "2026-09-25T15:48:11.012082",
   "country": "GE",
   "country_names": {
     "ru": "Грузия",
@@ -12,7 +12,7 @@
     "base_rate": 0.2026,
     "unit": "kWh",
     "effective_date": "2026-07-01",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "decree_info": "Тарифы GNERC на период 01.07.2026 - 01.01.2027",
     "zones": {
       "two_zone": {
@@ -100,7 +100,7 @@
   },
   "water": {
     "source_url": "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba",
-    "update_date": "2026-09-14",
+    "update_date": "2026-09-25",
     "cities": [
       {
         "city_code": "tbilisi",
@@ -123,6 +123,11 @@
   "heating": {
     "source_url": "",
     "update_date": "2026-09-02",
+    "cities": []
+  },
+  "gas": {
+    "source_url": "",
+    "update_date": "2026-09-25",
     "cities": []
   }
 }

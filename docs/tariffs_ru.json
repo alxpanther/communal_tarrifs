@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-25T16:00:24.108168",
+  "last_updated_at": "2026-10-01T17:36:04.391814",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -9,41 +9,41 @@
   "currency": "RUB",
   "electricity": {
     "source_url": "https://energosbyt.net/tarify/",
-    "base_rate": 8.0,
+    "base_rate": 8.9,
     "unit": "kWh",
-    "effective_date": "2026-01-01",
-    "update_date": "2026-09-25",
-    "decree_info": "Приказ ДЭПиР г.Москвы № ДПР-407/25 от 24.12.2025г.",
+    "effective_date": "2026-10-01",
+    "update_date": "2026-10-01",
+    "decree_info": "Тарифы распределены по зонам действующим с определенного часа",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (День/Ночь)",
         "day": {
           "hours": "",
-          "coefficient": 1.2012,
-          "rate": 9.61
+          "coefficient": 1.1955,
+          "rate": 10.64
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.5188,
-          "rate": 4.15
+          "coefficient": 0.5449,
+          "rate": 4.85
         }
       },
       "three_zone": {
         "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
         "peak": {
           "hours": "07:00 - 10:00, 17:00 - 21:00",
-          "coefficient": 1.4287,
-          "rate": 11.43
+          "coefficient": 1.3921,
+          "rate": 12.39
         },
         "half_peak": {
           "hours": "",
           "coefficient": 1.0,
-          "rate": 8.0
+          "rate": 8.9
         },
         "night": {
           "hours": "23:00 - 07:00",
-          "coefficient": 0.5188,
-          "rate": 4.15
+          "coefficient": 0.5449,
+          "rate": 4.85
         }
       }
     },
@@ -65,7 +65,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 8.0
+            "rate": 8.9
           },
           {
             "meter": "two_zone",
@@ -76,7 +76,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 9.61
+            "rate": 10.64
           },
           {
             "meter": "two_zone",
@@ -87,7 +87,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 4.15
+            "rate": 4.85
           },
           {
             "meter": "three_zone",
@@ -98,7 +98,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 11.43
+            "rate": 12.39
           },
           {
             "meter": "three_zone",
@@ -109,7 +109,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 8.0
+            "rate": 8.9
           },
           {
             "meter": "three_zone",
@@ -120,7 +120,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 4.15
+            "rate": 4.85
           }
         ]
       },
@@ -141,7 +141,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 7.28
+            "rate": 8.46
           },
           {
             "meter": "two_zone",
@@ -152,7 +152,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 8.74
+            "rate": 10.11
           },
           {
             "meter": "two_zone",
@@ -163,7 +163,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 3.77
+            "rate": 4.61
           },
           {
             "meter": "three_zone",
@@ -174,7 +174,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 10.4
+            "rate": 11.77
           },
           {
             "meter": "three_zone",
@@ -185,7 +185,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 7.28
+            "rate": 8.46
           },
           {
             "meter": "three_zone",
@@ -196,7 +196,7 @@
             "up_to_kwh": null,
             "season_from": null,
             "season_to": null,
-            "rate": 3.77
+            "rate": 4.61
           }
         ]
       }
@@ -204,46 +204,46 @@
   },
   "electricity_cities": {
     "source_url": "",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "novosibirsk",
         "city_name": "Новосибирск",
         "supplier": "АО \"Новосибирскэнергосбыт\"",
         "unit": "kWh",
-        "base_rate": 4.18,
-        "effective_date": "2026-01-01",
+        "base_rate": 4.64,
+        "effective_date": "2026-10-01",
         "decree_info": "Тарифы АО «Новосибирскэнергосбыт» для населения на 2026 год",
         "zones": {
           "two_zone": {
             "description": "Двухзонный тариф (День/Ночь)",
             "day": {
               "hours": "07:00 - 23:00",
-              "coefficient": 1.1531,
-              "rate": 4.82
+              "coefficient": 1.2004,
+              "rate": 5.57
             },
             "night": {
               "hours": "23:00 - 07:00",
-              "coefficient": 0.7703,
-              "rate": 3.22
+              "coefficient": 0.6013,
+              "rate": 2.79
             }
           },
           "three_zone": {
             "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
             "peak": {
               "hours": "07:00 - 10:00, 17:00 - 21:00",
-              "coefficient": 1.2321,
-              "rate": 5.15
+              "coefficient": 1.4073,
+              "rate": 6.53
             },
             "half_peak": {
               "hours": "10:00 - 17:00, 21:00 - 23:00",
               "coefficient": 1.0,
-              "rate": 4.18
+              "rate": 4.64
             },
             "night": {
               "hours": "23:00 - 07:00",
-              "coefficient": 0.7703,
-              "rate": 3.22
+              "coefficient": 0.6013,
+              "rate": 2.79
             }
           }
         },
@@ -265,7 +265,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.18
+                "rate": 4.64
               },
               {
                 "meter": "single",
@@ -276,7 +276,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.01
+                "rate": 7.07
               },
               {
                 "meter": "single",
@@ -287,7 +287,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.48
+                "rate": 9.48
               },
               {
                 "meter": "two_zone",
@@ -298,7 +298,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.82
+                "rate": 5.57
               },
               {
                 "meter": "two_zone",
@@ -309,7 +309,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.23
+                "rate": 8.48
               },
               {
                 "meter": "two_zone",
@@ -320,7 +320,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.61
+                "rate": 11.37
               },
               {
                 "meter": "two_zone",
@@ -331,7 +331,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.22
+                "rate": 2.79
               },
               {
                 "meter": "two_zone",
@@ -342,7 +342,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.84
+                "rate": 4.25
               },
               {
                 "meter": "two_zone",
@@ -353,7 +353,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.75
+                "rate": 5.7
               },
               {
                 "meter": "three_zone",
@@ -364,7 +364,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.15
+                "rate": 6.53
               },
               {
                 "meter": "three_zone",
@@ -375,7 +375,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.73
+                "rate": 9.89
               },
               {
                 "meter": "three_zone",
@@ -386,7 +386,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 9.21
+                "rate": 13.26
               },
               {
                 "meter": "three_zone",
@@ -397,7 +397,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.18
+                "rate": 4.64
               },
               {
                 "meter": "three_zone",
@@ -408,7 +408,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.01
+                "rate": 7.07
               },
               {
                 "meter": "three_zone",
@@ -419,7 +419,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.48
+                "rate": 9.48
               },
               {
                 "meter": "three_zone",
@@ -430,7 +430,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.22
+                "rate": 2.79
               },
               {
                 "meter": "three_zone",
@@ -441,7 +441,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.84
+                "rate": 4.25
               },
               {
                 "meter": "three_zone",
@@ -452,7 +452,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.75
+                "rate": 5.7
               }
             ]
           },
@@ -473,7 +473,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.34
+                "rate": 3.71
               },
               {
                 "meter": "single",
@@ -484,7 +484,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.81
+                "rate": 7.07
               },
               {
                 "meter": "single",
@@ -495,7 +495,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.99
+                "rate": 9.48
               },
               {
                 "meter": "two_zone",
@@ -506,7 +506,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.85
+                "rate": 4.46
               },
               {
                 "meter": "two_zone",
@@ -517,7 +517,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.78
+                "rate": 8.48
               },
               {
                 "meter": "two_zone",
@@ -528,7 +528,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.89
+                "rate": 11.37
               },
               {
                 "meter": "two_zone",
@@ -539,7 +539,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.58
+                "rate": 2.23
               },
               {
                 "meter": "two_zone",
@@ -550,7 +550,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.87
+                "rate": 4.25
               },
               {
                 "meter": "two_zone",
@@ -561,7 +561,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.6
+                "rate": 5.7
               },
               {
                 "meter": "three_zone",
@@ -572,7 +572,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.12
+                "rate": 5.22
               },
               {
                 "meter": "three_zone",
@@ -583,7 +583,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.18
+                "rate": 9.89
               },
               {
                 "meter": "three_zone",
@@ -594,7 +594,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.37
+                "rate": 13.26
               },
               {
                 "meter": "three_zone",
@@ -605,7 +605,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.34
+                "rate": 3.71
               },
               {
                 "meter": "three_zone",
@@ -616,7 +616,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.81
+                "rate": 7.07
               },
               {
                 "meter": "three_zone",
@@ -627,7 +627,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.99
+                "rate": 9.48
               },
               {
                 "meter": "three_zone",
@@ -638,7 +638,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.58
+                "rate": 2.23
               },
               {
                 "meter": "three_zone",
@@ -649,7 +649,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.87
+                "rate": 4.25
               },
               {
                 "meter": "three_zone",
@@ -660,7 +660,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.6
+                "rate": 5.7
               }
             ]
           }
@@ -671,39 +671,39 @@
         "city_name": "Казань",
         "supplier": "АО \"Татэнергосбыт\"",
         "unit": "kWh",
-        "base_rate": 5.82,
-        "effective_date": "2026-01-01",
-        "decree_info": "Постановлением Государственного Комитета Республики Татарстан по тарифам от 19.12.2025г №666-17/э-2025 «Об установлении цен (тарифов) на электрическую энергию для населения и приравненных к нему категорий потребителей Республики Татарстан на 2026 год»",
+        "base_rate": 6.47,
+        "effective_date": "2026-10-01",
+        "decree_info": "Действующие тарифы на электрическую энергию на 2026 г. для населения, утвержденные постановлением Государственного Комитета Республики Татарстан по тарифам от 19.12.2025г №666-17/э-2025 «Об установлении цен (тарифов) на электрическую энергию для населения и приравненных к нему категорий потребителей Республики Татарстан на 2026 год»",
         "zones": {
           "two_zone": {
             "description": "Двухзонный тариф (День/Ночь)",
             "day": {
               "hours": "",
-              "coefficient": 1.1512,
-              "rate": 6.7
+              "coefficient": 1.1484,
+              "rate": 7.43
             },
             "night": {
               "hours": "",
-              "coefficient": 0.701,
-              "rate": 4.08
+              "coefficient": 0.7002,
+              "rate": 4.53
             }
           },
           "three_zone": {
             "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
             "peak": {
               "hours": "",
-              "coefficient": 1.2216,
-              "rate": 7.11
+              "coefficient": 1.2195,
+              "rate": 7.89
             },
             "half_peak": {
               "hours": "",
               "coefficient": 1.0,
-              "rate": 5.82
+              "rate": 6.47
             },
             "night": {
               "hours": "",
-              "coefficient": 0.701,
-              "rate": 4.08
+              "coefficient": 0.7002,
+              "rate": 4.53
             }
           }
         },
@@ -725,7 +725,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.82
+                "rate": 6.47
               },
               {
                 "meter": "single",
@@ -736,7 +736,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.06
+                "rate": 8.54
               },
               {
                 "meter": "single",
@@ -747,7 +747,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.88
+                "rate": 12.41
               },
               {
                 "meter": "two_zone",
@@ -758,7 +758,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.7
+                "rate": 7.43
               },
               {
                 "meter": "two_zone",
@@ -769,7 +769,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.08
+                "rate": 9.8
               },
               {
                 "meter": "two_zone",
@@ -780,7 +780,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 12.49
+                "rate": 14.24
               },
               {
                 "meter": "two_zone",
@@ -791,7 +791,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.08
+                "rate": 4.53
               },
               {
                 "meter": "two_zone",
@@ -802,7 +802,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.94
+                "rate": 5.98
               },
               {
                 "meter": "two_zone",
@@ -813,7 +813,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.62
+                "rate": 8.69
               },
               {
                 "meter": "three_zone",
@@ -824,7 +824,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.11
+                "rate": 7.89
               },
               {
                 "meter": "three_zone",
@@ -835,7 +835,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.57
+                "rate": 10.37
               },
               {
                 "meter": "three_zone",
@@ -846,7 +846,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 13.24
+                "rate": 15.15
               },
               {
                 "meter": "three_zone",
@@ -857,7 +857,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.82
+                "rate": 6.47
               },
               {
                 "meter": "three_zone",
@@ -868,7 +868,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.06
+                "rate": 8.54
               },
               {
                 "meter": "three_zone",
@@ -879,7 +879,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.88
+                "rate": 12.41
               },
               {
                 "meter": "three_zone",
@@ -890,7 +890,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.08
+                "rate": 4.53
               },
               {
                 "meter": "three_zone",
@@ -901,7 +901,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.94
+                "rate": 5.98
               },
               {
                 "meter": "three_zone",
@@ -912,7 +912,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.62
+                "rate": 8.69
               }
             ]
           },
@@ -933,7 +933,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.96
+                "rate": 5.82
               },
               {
                 "meter": "single",
@@ -944,7 +944,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.02
+                "rate": 7.69
               },
               {
                 "meter": "single",
@@ -955,7 +955,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 9.27
+                "rate": 11.17
               },
               {
                 "meter": "two_zone",
@@ -966,7 +966,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.71
+                "rate": 6.69
               },
               {
                 "meter": "two_zone",
@@ -977,7 +977,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.88
+                "rate": 8.82
               },
               {
                 "meter": "two_zone",
@@ -988,7 +988,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.64
+                "rate": 12.82
               },
               {
                 "meter": "two_zone",
@@ -999,7 +999,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.48
+                "rate": 4.08
               },
               {
                 "meter": "two_zone",
@@ -1010,7 +1010,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.21
+                "rate": 5.38
               },
               {
                 "meter": "two_zone",
@@ -1021,7 +1021,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.49
+                "rate": 7.82
               },
               {
                 "meter": "three_zone",
@@ -1032,7 +1032,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.06
+                "rate": 7.1
               },
               {
                 "meter": "three_zone",
@@ -1043,7 +1043,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.3
+                "rate": 9.33
               },
               {
                 "meter": "three_zone",
@@ -1054,7 +1054,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 11.28
+                "rate": 13.64
               },
               {
                 "meter": "three_zone",
@@ -1065,7 +1065,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.96
+                "rate": 5.82
               },
               {
                 "meter": "three_zone",
@@ -1076,7 +1076,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.02
+                "rate": 7.69
               },
               {
                 "meter": "three_zone",
@@ -1087,7 +1087,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 9.27
+                "rate": 11.17
               },
               {
                 "meter": "three_zone",
@@ -1098,7 +1098,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.48
+                "rate": 4.08
               },
               {
                 "meter": "three_zone",
@@ -1109,7 +1109,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.21
+                "rate": 5.38
               },
               {
                 "meter": "three_zone",
@@ -1120,7 +1120,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.49
+                "rate": 7.82
               }
             ]
           },
@@ -1141,7 +1141,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.26
+                "rate": 4.85
               },
               {
                 "meter": "single",
@@ -1152,7 +1152,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.17
+                "rate": 6.41
               },
               {
                 "meter": "single",
@@ -1163,7 +1163,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.96
+                "rate": 9.31
               },
               {
                 "meter": "two_zone",
@@ -1174,7 +1174,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.9
+                "rate": 5.57
               },
               {
                 "meter": "two_zone",
@@ -1185,7 +1185,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.91
+                "rate": 7.35
               },
               {
                 "meter": "two_zone",
@@ -1196,7 +1196,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 9.14
+                "rate": 10.68
               },
               {
                 "meter": "two_zone",
@@ -1207,7 +1207,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.99
+                "rate": 3.4
               },
               {
                 "meter": "two_zone",
@@ -1218,7 +1218,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.62
+                "rate": 4.49
               },
               {
                 "meter": "two_zone",
@@ -1229,7 +1229,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.58
+                "rate": 6.52
               },
               {
                 "meter": "three_zone",
@@ -1240,7 +1240,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.2
+                "rate": 5.92
               },
               {
                 "meter": "three_zone",
@@ -1251,7 +1251,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.27
+                "rate": 7.78
               },
               {
                 "meter": "three_zone",
@@ -1262,7 +1262,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 9.69
+                "rate": 11.36
               },
               {
                 "meter": "three_zone",
@@ -1273,7 +1273,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.26
+                "rate": 4.85
               },
               {
                 "meter": "three_zone",
@@ -1284,7 +1284,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.17
+                "rate": 6.41
               },
               {
                 "meter": "three_zone",
@@ -1295,7 +1295,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.96
+                "rate": 9.31
               },
               {
                 "meter": "three_zone",
@@ -1306,7 +1306,7 @@
                 "up_to_kwh": 3900,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.99
+                "rate": 3.4
               },
               {
                 "meter": "three_zone",
@@ -1317,7 +1317,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.62
+                "rate": 4.49
               },
               {
                 "meter": "three_zone",
@@ -1328,7 +1328,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.58
+                "rate": 6.52
               }
             ]
           }
@@ -1339,39 +1339,39 @@
         "city_name": "Краснодар",
         "supplier": "ПАО \"ТНС энерго Кубань\"",
         "unit": "kWh",
-        "base_rate": 7.47,
-        "effective_date": "2026-01-01",
-        "decree_info": "Приказ департамента государственного регулирования тарифов Краснодарского края от 2025-12-17 № 18/2025-э",
+        "base_rate": 5.83,
+        "effective_date": "2026-10-01",
+        "decree_info": "Приказ департамента государственного регулирования тарифов Краснодарского края от 2026-01-01 № 1/2026-э «Об установлении цен (тарифов) на электрическую энергию для населения и приравненных к нему категорий потребителей по Краснодарскому краю, Республике Адыгея и федеральной территории «Сириус»»",
         "zones": {
           "two_zone": {
             "description": "Двухзонный тариф (День/Ночь)",
             "day": {
               "hours": "",
-              "coefficient": 1.1232,
-              "rate": 8.39
+              "coefficient": 1.1218,
+              "rate": 6.54
             },
             "night": {
               "hours": "",
-              "coefficient": 0.6011,
-              "rate": 4.49
+              "coefficient": 0.6038,
+              "rate": 3.52
             }
           },
           "three_zone": {
             "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
             "peak": {
               "hours": "",
-              "coefficient": 1.1245,
-              "rate": 8.4
+              "coefficient": 1.1235,
+              "rate": 6.55
             },
             "half_peak": {
               "hours": "",
               "coefficient": 1.0,
-              "rate": 7.47
+              "rate": 5.83
             },
             "night": {
               "hours": "",
-              "coefficient": 0.6011,
-              "rate": 4.49
+              "coefficient": 0.6038,
+              "rate": 3.52
             }
           }
         },
@@ -1393,7 +1393,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.47
+                "rate": 5.83
               },
               {
                 "meter": "single",
@@ -1404,7 +1404,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.17
+                "rate": 8.2
               },
               {
                 "meter": "single",
@@ -1415,7 +1415,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 14.88
+                "rate": 17.84
               },
               {
                 "meter": "two_zone",
@@ -1426,7 +1426,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.39
+                "rate": 6.54
               },
               {
                 "meter": "two_zone",
@@ -1437,7 +1437,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 11.41
+                "rate": 9.19
               },
               {
                 "meter": "two_zone",
@@ -1448,7 +1448,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 16.7
+                "rate": 20.02
               },
               {
                 "meter": "two_zone",
@@ -1459,7 +1459,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.49
+                "rate": 3.52
               },
               {
                 "meter": "two_zone",
@@ -1470,7 +1470,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.12
+                "rate": 4.95
               },
               {
                 "meter": "two_zone",
@@ -1481,7 +1481,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.93
+                "rate": 10.68
               },
               {
                 "meter": "three_zone",
@@ -1492,7 +1492,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.4
+                "rate": 6.55
               },
               {
                 "meter": "three_zone",
@@ -1503,7 +1503,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 11.43
+                "rate": 9.2
               },
               {
                 "meter": "three_zone",
@@ -1514,7 +1514,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 16.71
+                "rate": 20.03
               },
               {
                 "meter": "three_zone",
@@ -1525,7 +1525,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.47
+                "rate": 5.83
               },
               {
                 "meter": "three_zone",
@@ -1536,7 +1536,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.17
+                "rate": 8.2
               },
               {
                 "meter": "three_zone",
@@ -1547,7 +1547,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 14.88
+                "rate": 17.84
               },
               {
                 "meter": "three_zone",
@@ -1558,7 +1558,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.49
+                "rate": 3.52
               },
               {
                 "meter": "three_zone",
@@ -1569,7 +1569,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.12
+                "rate": 4.95
               },
               {
                 "meter": "three_zone",
@@ -1580,7 +1580,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.93
+                "rate": 10.68
               }
             ]
           },
@@ -1601,7 +1601,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.24
+                "rate": 5.83
               },
               {
                 "meter": "single",
@@ -1612,7 +1612,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.12
+                "rate": 8.2
               },
               {
                 "meter": "single",
@@ -1623,7 +1623,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 14.88
+                "rate": 17.84
               },
               {
                 "meter": "two_zone",
@@ -1634,7 +1634,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.88
+                "rate": 6.54
               },
               {
                 "meter": "two_zone",
@@ -1645,7 +1645,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.99
+                "rate": 9.19
               },
               {
                 "meter": "two_zone",
@@ -1656,7 +1656,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 16.7
+                "rate": 20.02
               },
               {
                 "meter": "two_zone",
@@ -1667,7 +1667,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.16
+                "rate": 3.52
               },
               {
                 "meter": "two_zone",
@@ -1678,7 +1678,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.3
+                "rate": 4.95
               },
               {
                 "meter": "two_zone",
@@ -1689,7 +1689,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.93
+                "rate": 10.68
               },
               {
                 "meter": "three_zone",
@@ -1700,7 +1700,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.89
+                "rate": 6.55
               },
               {
                 "meter": "three_zone",
@@ -1711,7 +1711,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.0
+                "rate": 9.2
               },
               {
                 "meter": "three_zone",
@@ -1722,7 +1722,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 16.71
+                "rate": 20.03
               },
               {
                 "meter": "three_zone",
@@ -1733,7 +1733,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.24
+                "rate": 5.83
               },
               {
                 "meter": "three_zone",
@@ -1744,7 +1744,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.12
+                "rate": 8.2
               },
               {
                 "meter": "three_zone",
@@ -1755,7 +1755,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 14.88
+                "rate": 17.84
               },
               {
                 "meter": "three_zone",
@@ -1766,7 +1766,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.16
+                "rate": 3.52
               },
               {
                 "meter": "three_zone",
@@ -1777,7 +1777,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.3
+                "rate": 4.95
               },
               {
                 "meter": "three_zone",
@@ -1788,7 +1788,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.93
+                "rate": 10.68
               }
             ]
           },
@@ -1809,7 +1809,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.24
+                "rate": 5.83
               },
               {
                 "meter": "single",
@@ -1820,7 +1820,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.12
+                "rate": 8.2
               },
               {
                 "meter": "single",
@@ -1831,7 +1831,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 14.88
+                "rate": 17.84
               },
               {
                 "meter": "two_zone",
@@ -1842,7 +1842,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.88
+                "rate": 6.54
               },
               {
                 "meter": "two_zone",
@@ -1853,7 +1853,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.99
+                "rate": 9.19
               },
               {
                 "meter": "two_zone",
@@ -1864,7 +1864,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 16.7
+                "rate": 20.02
               },
               {
                 "meter": "two_zone",
@@ -1875,7 +1875,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.16
+                "rate": 3.52
               },
               {
                 "meter": "two_zone",
@@ -1886,7 +1886,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.3
+                "rate": 4.95
               },
               {
                 "meter": "two_zone",
@@ -1897,7 +1897,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.93
+                "rate": 10.68
               },
               {
                 "meter": "three_zone",
@@ -1908,7 +1908,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.89
+                "rate": 6.55
               },
               {
                 "meter": "three_zone",
@@ -1919,7 +1919,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.0
+                "rate": 9.2
               },
               {
                 "meter": "three_zone",
@@ -1930,7 +1930,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 16.71
+                "rate": 20.03
               },
               {
                 "meter": "three_zone",
@@ -1941,7 +1941,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.24
+                "rate": 5.83
               },
               {
                 "meter": "three_zone",
@@ -1952,7 +1952,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.12
+                "rate": 8.2
               },
               {
                 "meter": "three_zone",
@@ -1963,7 +1963,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 14.88
+                "rate": 17.84
               },
               {
                 "meter": "three_zone",
@@ -1974,7 +1974,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.16
+                "rate": 3.52
               },
               {
                 "meter": "three_zone",
@@ -1985,7 +1985,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.3
+                "rate": 4.95
               },
               {
                 "meter": "three_zone",
@@ -1996,7 +1996,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.93
+                "rate": 10.68
               }
             ]
           }
@@ -2007,39 +2007,39 @@
         "city_name": "Челябинск",
         "supplier": "ООО \"Уралэнергосбыт\"",
         "unit": "kWh",
-        "base_rate": 4.84,
-        "effective_date": "2026-01-01",
-        "decree_info": "Постановление Министерства тарифного регулирования и энергетики Челябинской области №96/1 от 30.12.2025",
+        "base_rate": 5.38,
+        "effective_date": "2026-10-01",
+        "decree_info": "Постановление Министерства тарифного регулирования и энергетики Челябинской области № 96/1 от 30.12.2025",
         "zones": {
           "two_zone": {
             "description": "Двухзонный тариф (День/Ночь)",
             "day": {
               "hours": "",
-              "coefficient": 1.1529,
-              "rate": 5.58
+              "coefficient": 1.1506,
+              "rate": 6.19
             },
             "night": {
               "hours": "",
-              "coefficient": 0.5992,
-              "rate": 2.9
+              "coefficient": 0.6004,
+              "rate": 3.23
             }
           },
           "three_zone": {
             "description": "Трехзонный тариф (Пик/Полупик/Ночь)",
             "peak": {
               "hours": "",
-              "coefficient": 1.3017,
-              "rate": 6.3
+              "coefficient": 1.2993,
+              "rate": 6.99
             },
             "half_peak": {
               "hours": "",
               "coefficient": 1.0,
-              "rate": 4.84
+              "rate": 5.38
             },
             "night": {
               "hours": "",
-              "coefficient": 0.5992,
-              "rate": 2.9
+              "coefficient": 0.6004,
+              "rate": 3.23
             }
           }
         },
@@ -2061,7 +2061,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.84
+                "rate": 5.38
               },
               {
                 "meter": "single",
@@ -2072,7 +2072,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.32
+                "rate": 8.87
               },
               {
                 "meter": "single",
@@ -2083,7 +2083,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.7
+                "rate": 12.99
               },
               {
                 "meter": "two_zone",
@@ -2094,7 +2094,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.58
+                "rate": 6.19
               },
               {
                 "meter": "two_zone",
@@ -2105,7 +2105,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.41
+                "rate": 10.2
               },
               {
                 "meter": "two_zone",
@@ -2116,7 +2116,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 12.3
+                "rate": 14.94
               },
               {
                 "meter": "two_zone",
@@ -2127,7 +2127,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.9
+                "rate": 3.23
               },
               {
                 "meter": "two_zone",
@@ -2138,7 +2138,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.39
+                "rate": 5.32
               },
               {
                 "meter": "two_zone",
@@ -2149,7 +2149,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.42
+                "rate": 7.8
               },
               {
                 "meter": "three_zone",
@@ -2160,7 +2160,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.3
+                "rate": 6.99
               },
               {
                 "meter": "three_zone",
@@ -2171,7 +2171,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 9.5
+                "rate": 11.53
               },
               {
                 "meter": "three_zone",
@@ -2182,7 +2182,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 13.9
+                "rate": 16.88
               },
               {
                 "meter": "three_zone",
@@ -2193,7 +2193,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.84
+                "rate": 5.38
               },
               {
                 "meter": "three_zone",
@@ -2204,7 +2204,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.32
+                "rate": 8.87
               },
               {
                 "meter": "three_zone",
@@ -2215,7 +2215,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.7
+                "rate": 12.99
               },
               {
                 "meter": "three_zone",
@@ -2226,7 +2226,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.9
+                "rate": 3.23
               },
               {
                 "meter": "three_zone",
@@ -2237,7 +2237,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.39
+                "rate": 5.32
               },
               {
                 "meter": "three_zone",
@@ -2248,7 +2248,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.42
+                "rate": 7.8
               }
             ]
           },
@@ -2267,9 +2267,9 @@
                 "tier": 1,
                 "above_kwh": null,
                 "up_to_kwh": 1200,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 3.39
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.77
               },
               {
                 "meter": "single",
@@ -2278,9 +2278,9 @@
                 "tier": 2,
                 "above_kwh": 1200,
                 "up_to_kwh": 6000,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 5.12
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.21
               },
               {
                 "meter": "single",
@@ -2289,42 +2289,9 @@
                 "tier": 3,
                 "above_kwh": 6000,
                 "up_to_kwh": null,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 10.7
-              },
-              {
-                "meter": "single",
-                "zone": "all",
-                "hours": "",
-                "tier": 1,
-                "above_kwh": null,
-                "up_to_kwh": 7020,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 3.39
-              },
-              {
-                "meter": "single",
-                "zone": "all",
-                "hours": "",
-                "tier": 2,
-                "above_kwh": 7020,
-                "up_to_kwh": 10800,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 5.12
-              },
-              {
-                "meter": "single",
-                "zone": "all",
-                "hours": "",
-                "tier": 3,
-                "above_kwh": 10800,
-                "up_to_kwh": null,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 10.7
+                "season_from": null,
+                "season_to": null,
+                "rate": 12.99
               },
               {
                 "meter": "two_zone",
@@ -2333,9 +2300,9 @@
                 "tier": 1,
                 "above_kwh": null,
                 "up_to_kwh": 1200,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 3.9
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.33
               },
               {
                 "meter": "two_zone",
@@ -2344,9 +2311,9 @@
                 "tier": 2,
                 "above_kwh": 1200,
                 "up_to_kwh": 6000,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 5.89
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.14
               },
               {
                 "meter": "two_zone",
@@ -2355,42 +2322,9 @@
                 "tier": 3,
                 "above_kwh": 6000,
                 "up_to_kwh": null,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 12.3
-              },
-              {
-                "meter": "two_zone",
-                "zone": "day",
-                "hours": "",
-                "tier": 1,
-                "above_kwh": null,
-                "up_to_kwh": 7020,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 3.9
-              },
-              {
-                "meter": "two_zone",
-                "zone": "day",
-                "hours": "",
-                "tier": 2,
-                "above_kwh": 7020,
-                "up_to_kwh": 10800,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 5.89
-              },
-              {
-                "meter": "two_zone",
-                "zone": "day",
-                "hours": "",
-                "tier": 3,
-                "above_kwh": 10800,
-                "up_to_kwh": null,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 12.3
+                "season_from": null,
+                "season_to": null,
+                "rate": 14.94
               },
               {
                 "meter": "two_zone",
@@ -2399,9 +2333,9 @@
                 "tier": 1,
                 "above_kwh": null,
                 "up_to_kwh": 1200,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 2.03
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.26
               },
               {
                 "meter": "two_zone",
@@ -2410,9 +2344,9 @@
                 "tier": 2,
                 "above_kwh": 1200,
                 "up_to_kwh": 6000,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 3.07
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.72
               },
               {
                 "meter": "two_zone",
@@ -2421,42 +2355,9 @@
                 "tier": 3,
                 "above_kwh": 6000,
                 "up_to_kwh": null,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 6.42
-              },
-              {
-                "meter": "two_zone",
-                "zone": "night",
-                "hours": "",
-                "tier": 1,
-                "above_kwh": null,
-                "up_to_kwh": 7020,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 2.03
-              },
-              {
-                "meter": "two_zone",
-                "zone": "night",
-                "hours": "",
-                "tier": 2,
-                "above_kwh": 7020,
-                "up_to_kwh": 10800,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 3.07
-              },
-              {
-                "meter": "two_zone",
-                "zone": "night",
-                "hours": "",
-                "tier": 3,
-                "above_kwh": 10800,
-                "up_to_kwh": null,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 6.42
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.8
               },
               {
                 "meter": "three_zone",
@@ -2465,9 +2366,9 @@
                 "tier": 1,
                 "above_kwh": null,
                 "up_to_kwh": 1200,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 4.41
+                "season_from": null,
+                "season_to": null,
+                "rate": 4.89
               },
               {
                 "meter": "three_zone",
@@ -2476,9 +2377,9 @@
                 "tier": 2,
                 "above_kwh": 1200,
                 "up_to_kwh": 6000,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 6.65
+                "season_from": null,
+                "season_to": null,
+                "rate": 8.07
               },
               {
                 "meter": "three_zone",
@@ -2487,42 +2388,9 @@
                 "tier": 3,
                 "above_kwh": 6000,
                 "up_to_kwh": null,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 13.9
-              },
-              {
-                "meter": "three_zone",
-                "zone": "peak",
-                "hours": "",
-                "tier": 1,
-                "above_kwh": null,
-                "up_to_kwh": 7020,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 4.41
-              },
-              {
-                "meter": "three_zone",
-                "zone": "peak",
-                "hours": "",
-                "tier": 2,
-                "above_kwh": 7020,
-                "up_to_kwh": 10800,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 6.65
-              },
-              {
-                "meter": "three_zone",
-                "zone": "peak",
-                "hours": "",
-                "tier": 3,
-                "above_kwh": 10800,
-                "up_to_kwh": null,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 13.9
+                "season_from": null,
+                "season_to": null,
+                "rate": 16.88
               },
               {
                 "meter": "three_zone",
@@ -2531,9 +2399,9 @@
                 "tier": 1,
                 "above_kwh": null,
                 "up_to_kwh": 1200,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 3.39
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.77
               },
               {
                 "meter": "three_zone",
@@ -2542,9 +2410,9 @@
                 "tier": 2,
                 "above_kwh": 1200,
                 "up_to_kwh": 6000,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 5.12
+                "season_from": null,
+                "season_to": null,
+                "rate": 6.21
               },
               {
                 "meter": "three_zone",
@@ -2553,42 +2421,9 @@
                 "tier": 3,
                 "above_kwh": 6000,
                 "up_to_kwh": null,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 10.7
-              },
-              {
-                "meter": "three_zone",
-                "zone": "half_peak",
-                "hours": "",
-                "tier": 1,
-                "above_kwh": null,
-                "up_to_kwh": 7020,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 3.39
-              },
-              {
-                "meter": "three_zone",
-                "zone": "half_peak",
-                "hours": "",
-                "tier": 2,
-                "above_kwh": 7020,
-                "up_to_kwh": 10800,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 5.12
-              },
-              {
-                "meter": "three_zone",
-                "zone": "half_peak",
-                "hours": "",
-                "tier": 3,
-                "above_kwh": 10800,
-                "up_to_kwh": null,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 10.7
+                "season_from": null,
+                "season_to": null,
+                "rate": 12.99
               },
               {
                 "meter": "three_zone",
@@ -2597,9 +2432,9 @@
                 "tier": 1,
                 "above_kwh": null,
                 "up_to_kwh": 1200,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 2.03
+                "season_from": null,
+                "season_to": null,
+                "rate": 2.26
               },
               {
                 "meter": "three_zone",
@@ -2608,9 +2443,9 @@
                 "tier": 2,
                 "above_kwh": 1200,
                 "up_to_kwh": 6000,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 3.07
+                "season_from": null,
+                "season_to": null,
+                "rate": 3.72
               },
               {
                 "meter": "three_zone",
@@ -2619,42 +2454,9 @@
                 "tier": 3,
                 "above_kwh": 6000,
                 "up_to_kwh": null,
-                "season_from": "06-01",
-                "season_to": "09-30",
-                "rate": 6.42
-              },
-              {
-                "meter": "three_zone",
-                "zone": "night",
-                "hours": "",
-                "tier": 1,
-                "above_kwh": null,
-                "up_to_kwh": 7020,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 2.03
-              },
-              {
-                "meter": "three_zone",
-                "zone": "night",
-                "hours": "",
-                "tier": 2,
-                "above_kwh": 7020,
-                "up_to_kwh": 10800,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 3.07
-              },
-              {
-                "meter": "three_zone",
-                "zone": "night",
-                "hours": "",
-                "tier": 3,
-                "above_kwh": 10800,
-                "up_to_kwh": null,
-                "season_from": "10-01",
-                "season_to": "05-31",
-                "rate": 6.42
+                "season_from": null,
+                "season_to": null,
+                "rate": 7.8
               }
             ]
           },
@@ -2675,7 +2477,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.39
+                "rate": 3.77
               },
               {
                 "meter": "single",
@@ -2686,7 +2488,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.12
+                "rate": 6.21
               },
               {
                 "meter": "single",
@@ -2697,7 +2499,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.7
+                "rate": 12.99
               },
               {
                 "meter": "two_zone",
@@ -2708,7 +2510,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.9
+                "rate": 4.33
               },
               {
                 "meter": "two_zone",
@@ -2719,7 +2521,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.89
+                "rate": 7.14
               },
               {
                 "meter": "two_zone",
@@ -2730,7 +2532,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 12.3
+                "rate": 14.94
               },
               {
                 "meter": "two_zone",
@@ -2741,7 +2543,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.03
+                "rate": 2.26
               },
               {
                 "meter": "two_zone",
@@ -2752,7 +2554,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.07
+                "rate": 3.72
               },
               {
                 "meter": "two_zone",
@@ -2763,7 +2565,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.42
+                "rate": 7.8
               },
               {
                 "meter": "three_zone",
@@ -2774,7 +2576,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.41
+                "rate": 4.89
               },
               {
                 "meter": "three_zone",
@@ -2785,7 +2587,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.65
+                "rate": 8.07
               },
               {
                 "meter": "three_zone",
@@ -2796,7 +2598,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 13.9
+                "rate": 16.88
               },
               {
                 "meter": "three_zone",
@@ -2807,7 +2609,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.39
+                "rate": 3.77
               },
               {
                 "meter": "three_zone",
@@ -2818,7 +2620,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.12
+                "rate": 6.21
               },
               {
                 "meter": "three_zone",
@@ -2829,7 +2631,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 10.7
+                "rate": 12.99
               },
               {
                 "meter": "three_zone",
@@ -2840,7 +2642,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 2.03
+                "rate": 2.26
               },
               {
                 "meter": "three_zone",
@@ -2851,7 +2653,7 @@
                 "up_to_kwh": 6000,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.07
+                "rate": 3.72
               },
               {
                 "meter": "three_zone",
@@ -2862,7 +2664,7 @@
                 "up_to_kwh": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.42
+                "rate": 7.8
               }
             ]
           }
@@ -2873,21 +2675,21 @@
         "city_name": "Санкт-Петербург",
         "supplier": "АО \"Петроэлектросбыт\"",
         "unit": "kWh",
-        "base_rate": 7.08,
-        "effective_date": "2026-01-01",
+        "base_rate": 7.88,
+        "effective_date": "2026-10-01",
         "decree_info": "Распоряжение от 24.12.2025 № 334-р",
         "zones": {
           "two_zone": {
             "description": "Двухзонный тариф (День/Ночь)",
             "day": {
               "hours": "",
-              "coefficient": 1.1441,
-              "rate": 8.1
+              "coefficient": 1.1447,
+              "rate": 9.02
             },
             "night": {
               "hours": "",
-              "coefficient": 0.6243,
-              "rate": 4.42
+              "coefficient": 0.6244,
+              "rate": 4.92
             }
           },
           "three_zone": {
@@ -2895,17 +2697,17 @@
             "peak": {
               "hours": "",
               "coefficient": 1.0,
-              "rate": 7.08
+              "rate": 7.88
             },
             "half_peak": {
               "hours": "",
               "coefficient": 1.0,
-              "rate": 7.08
+              "rate": 7.88
             },
             "night": {
               "hours": "",
               "coefficient": 1.0,
-              "rate": 7.08
+              "rate": 7.88
             }
           }
         },
@@ -2927,7 +2729,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.08
+                "rate": 7.88
               },
               {
                 "meter": "two_zone",
@@ -2938,7 +2740,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 8.1
+                "rate": 9.02
               },
               {
                 "meter": "two_zone",
@@ -2949,7 +2751,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 4.42
+                "rate": 4.92
               }
             ]
           },
@@ -2970,7 +2772,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 5.31
+                "rate": 5.9
               },
               {
                 "meter": "two_zone",
@@ -2981,7 +2783,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 6.08
+                "rate": 6.76
               },
               {
                 "meter": "two_zone",
@@ -2992,7 +2794,7 @@
                 "up_to_kwh": 1200,
                 "season_from": null,
                 "season_to": null,
-                "rate": 3.31
+                "rate": 3.69
               }
             ]
           }
@@ -3198,17 +3000,17 @@
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "novosibirsk",
         "city_name": "Новосибирск",
         "supplier": "МУП \"Горводоканал г. Новосибирска\"",
         "unit": "m3",
-        "water_supply": 28.61,
-        "sewage": 24.14,
-        "total_rate": 52.75,
-        "effective_date": "2026-01-01",
+        "water_supply": 31.66,
+        "sewage": 28.96,
+        "total_rate": 60.62,
+        "effective_date": "2026-10-01",
         "decree_info": "Приказ ДПТ НСО № 525-В/НПА от 19.12.2025"
       },
       {
@@ -3216,21 +3018,21 @@
         "city_name": "Екатеринбург",
         "supplier": "МУП \"Водоканал г. Екатеринбурга\"",
         "unit": "m3",
-        "water_supply": 52.63,
-        "sewage": 34.65,
-        "total_rate": 87.28,
-        "effective_date": "2026-01-01",
-        "decree_info": "Постановление Региональной энергетической комиссии Свердловской области от 15.12.2025 №294-ПК «О внесении изменений в отдельные постановления Региональной энергетической комиссии Свердловской области об установлении ДОЛГОСРОЧНЫХ ПАРАМЕТРОВ РЕГУЛИРОВАНИЯ И тарифов в сфере водоснабжения и (или) водоотведения организациям водопроводно-канализационного хозяйства Свердловской области»."
+        "water_supply": 59.41,
+        "sewage": 36.83,
+        "total_rate": 96.24,
+        "effective_date": "2026-10-01",
+        "decree_info": "Постановление РЭК Свердловской области от 09.12.2021 № 208-ПК «Об установлении тарифов в сфере холодного водоснабжения и (или) водоотведения организациям водопроводно-канализационного хозяйства Свердловской области с использованием метода индексации на основе долгосрочных параметров регулирования на 2022 - 2026 годы»"
       },
       {
         "city_code": "kazan",
         "city_name": "Казань",
         "supplier": "МУП \"Водоканал г. Казани\"",
         "unit": "m3",
-        "water_supply": 35.14,
-        "sewage": 46.97,
-        "total_rate": 82.11,
-        "effective_date": "2026-01-01",
+        "water_supply": 42.18,
+        "sewage": 52.64,
+        "total_rate": 94.82,
+        "effective_date": "2026-10-01",
         "decree_info": "Постановление Государственного комитета РТ по тарифам от 16.12.2025 г. № 609-167/кс-2025"
       },
       {
@@ -3249,11 +3051,11 @@
         "city_name": "Самара",
         "supplier": "ООО \"Самарские коммунальные системы\"",
         "unit": "m3",
-        "water_supply": 51.65,
-        "sewage": 29.38,
-        "total_rate": 81.03,
-        "effective_date": "2026-01-01",
-        "decree_info": "Приказ 628 от 18.12.2025 Комитета ценового и тарифного регулирования Самарской области, тарифы на период с 01.01.2026 по 31.12.2026 года, установлены в следующих размерах:"
+        "water_supply": 58.56,
+        "sewage": 35.4,
+        "total_rate": 93.96,
+        "effective_date": "2026-10-01",
+        "decree_info": "Приказ 293 от 23,09,26_ г. Комитета ценового и тарифного регулирования Самарской области, тарифы на период с 01.01.2026 по 31.12.2026 года, установлены в следующих размерах:"
       },
       {
         "city_code": "chelyabinsk",
@@ -3282,10 +3084,10 @@
         "city_name": "Санкт-Петербург",
         "supplier": "ГУП \"Водоканал Санкт-Петербурга\"",
         "unit": "m3",
-        "water_supply": 43.13,
-        "sewage": 43.13,
-        "total_rate": 86.26,
-        "effective_date": "2026-01-01",
+        "water_supply": 50.5,
+        "sewage": 50.5,
+        "total_rate": 101.0,
+        "effective_date": "2026-10-01",
         "decree_info": "Распоряжение от 19.12.2025 № 260-р"
       },
       {
@@ -3293,28 +3095,28 @@
         "city_name": "Астрахань",
         "supplier": "МУП г. Астрахани \"Астрводоканал\"",
         "unit": "m3",
-        "water_supply": 35.65,
-        "sewage": 44.24,
-        "total_rate": 79.89,
-        "effective_date": "2026-01-01",
-        "decree_info": "Постановление Службы по тарифам Астраханской области от 15.12.2025 № 110."
+        "water_supply": 38.14,
+        "sewage": 47.99,
+        "total_rate": 86.13,
+        "effective_date": "2026-10-01",
+        "decree_info": "Постановление службы по тарифам Астраханской области от 15.12.2025 № 110"
       }
     ]
   },
   "hot_water": {
     "source_url": "",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "yekaterinburg_tplus",
         "city_name": "Екатеринбург",
         "supplier": "ПАО \"Т Плюс\" (Екатеринбург)",
         "unit": "m3",
-        "rate": 216.02,
-        "component_water": 52.63,
-        "component_energy": 3184.33,
+        "rate": 344.76,
+        "component_water": 59.41,
+        "component_energy": 5561.24,
         "heat_norm": 0.05131,
-        "effective_date": "2026-01-01",
+        "effective_date": "2026-10-01",
         "decree_info": "Постановление РЭК Свердловской области от 17.11.2022 N 215-ПК \"Об установлении тарифов на горячую воду в закрытых системах горячего водоснабжения, поставляемую организациями Свердловской области, с использованием метода индексации на основе долгосрочных параметров регулирования тарифов\""
       },
       {
@@ -3408,11 +3210,11 @@
         "city_name": "Новосибирск",
         "supplier": "АО \"СИБЭКО\"",
         "unit": "m3",
-        "rate": 187.35,
-        "component_water": 28.61,
-        "component_energy": 2341.58,
+        "rate": 222.14,
+        "component_water": 31.66,
+        "component_energy": 2809.9,
         "heat_norm": 0.06779,
-        "effective_date": "2026-01-01",
+        "effective_date": "2026-10-01",
         "decree_info": "Приказ №628-В/НПА от 19.12.2025год."
       },
       {
@@ -3429,18 +3231,18 @@
         "city_name": "Санкт-Петербург",
         "supplier": "ГУП \"ТЭК СПб\"",
         "unit": "m3",
-        "rate": 191.1,
+        "rate": 213.3,
         "component_water": 43.13,
-        "component_energy": 2466.22,
+        "component_energy": 2836.15,
         "heat_norm": 0.06,
-        "effective_date": "2026-01-01",
+        "effective_date": "2026-10-01",
         "decree_info": "Информационное письмо от 30.12.2025 № 01-13-1138/25-0-0 распоряжения теплоснабжающих орг-ций, распоряжение от 15.12.2017 № 201-р"
       }
     ]
   },
   "heating": {
     "source_url": "",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "novosibirsk",
@@ -3459,9 +3261,9 @@
         "supplier": "АО \"ЕТК\"",
         "unit": "Gcal",
         "tariff_type": "one_rate",
-        "rate_gcal": 2890.09,
+        "rate_gcal": 3302.26,
         "rate_gcal_hour": 0.0,
-        "effective_date": "2026-01-01",
+        "effective_date": "2026-10-01",
         "decree_info": "Постановление РЭК Свердловской области от 29.12.2025 № 334-ПК \"Об утверждении предельного уровня цены на тепловую энергию (мощность) в ценовой зоне теплоснабжения в городском округе муниципальном образовании \"город Екатеринбург\" на 2026 год\""
       },
       {
@@ -3470,9 +3272,9 @@
         "supplier": "АО \"ОКО\"",
         "unit": "Gcal",
         "tariff_type": "two_rate",
-        "rate_gcal": 1602.42,
-        "rate_gcal_hour": 420910.0,
-        "effective_date": "2026-01-01",
+        "rate_gcal": 1761.06,
+        "rate_gcal_hour": 462610.0,
+        "effective_date": "2026-10-01",
         "decree_info": "Решение РСТ Нижегородской области № 50/5 от 28.11.2022 (с изм. от 11.12.2025 №58/4)"
       },
       {
@@ -3492,9 +3294,9 @@
         "supplier": "ПАО \"Т Плюс\"",
         "unit": "Gcal",
         "tariff_type": "one_rate",
-        "rate_gcal": 2904.21,
+        "rate_gcal": 3249.81,
         "rate_gcal_hour": 0.0,
-        "effective_date": "2026-01-01",
+        "effective_date": "2026-10-01",
         "decree_info": "Соглашение от 02.10.2020 № 891, в ред. доп. соглашения от 18.04.2025 № 8"
       },
       {
@@ -3503,9 +3305,9 @@
         "supplier": "ПАО \"Т Плюс\" (Екатеринбург)",
         "unit": "Gcal",
         "tariff_type": "one_rate",
-        "rate_gcal": 3184.33,
+        "rate_gcal": 3551.41,
         "rate_gcal_hour": 0.0,
-        "effective_date": "2026-01-01",
+        "effective_date": "2026-10-01",
         "decree_info": "Постановление РЭК Свердловской области от 29.12.2025 № 334-ПК \"Об утверждении предельного уровня цены на тепловую энергию (мощность) в ценовой зоне теплоснабжения в городском округе муниципальном образовании \"город Екатеринбург\" на 2026 год\""
       },
       {
@@ -3514,10 +3316,10 @@
         "supplier": "МУП \"Екатеринбургэнерго\"",
         "unit": "Gcal",
         "tariff_type": "one_rate",
-        "rate_gcal": 2706.23,
+        "rate_gcal": 3055.26,
         "rate_gcal_hour": 0.0,
-        "effective_date": "2026-01-01",
-        "decree_info": "Постановление РЭК Свердловской области от 06.12.2023 № 209-ПК \"Об установлении тарифов на тепловую энергию (услуги по передаче тепловой энергии) на территории муниципального образования \"город Екатеринбург\" и о внесении изменений в отдельные постановления Региональной энергетической комиссии Свердловской области об установлении тарифов на тепловую энергию (услуги по передаче тепловой энергии) на территории муниципального образования \"город Екатеринбург\""
+        "effective_date": "2026-10-01",
+        "decree_info": "Постановление РЭК Свердловской области от 06.12.2023 № 209-ПК \"Об установлении тарифов на тепловую энергию (услуги по передаче тепловой энергии) на территории муниципального образования \"город Екатеринбург\" и о внесении изменений в отдельные постановления Региональной энергетической комиссии Свердловской области об установлении тарифов на тепловую энергию (услуги по передаче тепловой энергии) на территории муниципального образования \"город Екатеринбург\"\""
       },
       {
         "city_code": "moscow",
@@ -3536,9 +3338,9 @@
         "supplier": "ГУП \"ТЭК СПб\"",
         "unit": "Gcal",
         "tariff_type": "one_rate",
-        "rate_gcal": 2466.22,
+        "rate_gcal": 2836.15,
         "rate_gcal_hour": 0.0,
-        "effective_date": "2026-01-01",
+        "effective_date": "2026-10-01",
         "decree_info": "Распоряжения теплоснабжающих организаций"
       },
       {
@@ -3556,18 +3358,18 @@
   },
   "gas": {
     "source_url": "https://www.astrg.ru/",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "astrakhan",
         "city_name": "Астрахань",
         "supplier": "ООО \"Газпром межрегионгаз Астрахань\"",
         "unit": "m3",
-        "rate": 7.96758,
+        "rate": 8.73787,
         "distributor": "",
         "distribution_rate": 0.0,
-        "effective_date": "2026-01-01",
-        "decree_info": "Постановление от 25.12.2025 г. № 190",
+        "effective_date": "2026-10-01",
+        "decree_info": "Постановление от 22.09.2026 г. № 26",
         "plans": [
           {
             "plan_code": "standard",
@@ -3587,7 +3389,7 @@
                 "tier_period": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 7.96758
+                "rate": 8.73787
               }
             ]
           }

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-09-25T15:37:59.609403",
+  "last_updated_at": "2026-10-01T17:15:22.976747",
   "country": "UA",
   "country_names": {
     "ru": "Украина",
@@ -12,7 +12,7 @@
     "base_rate": 4.32,
     "unit": "kWh",
     "effective_date": "2024-05-31",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "decree_info": "Постановление Кабинета Министров Украины № 632 от 31 мая 2024 года",
     "zones": {
       "two_zone": {
@@ -171,12 +171,12 @@
   },
   "electricity_cities": {
     "source_url": "",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": []
   },
   "water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/water/",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -732,7 +732,7 @@
   },
   "hot_water": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/hotwater/",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -900,7 +900,7 @@
   },
   "heating": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/heating/",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -1214,7 +1214,7 @@
   },
   "gas": {
     "source_url": "https://index.minfin.com.ua/ua/tariff/gas/",
-    "update_date": "2026-09-25",
+    "update_date": "2026-10-01",
     "cities": [
       {
         "city_code": "vinnytsia",
@@ -2377,7 +2377,7 @@
                 "tier_period": null,
                 "season_from": null,
                 "season_to": null,
-                "rate": 26.0
+                "rate": 23.8
               }
             ]
           }

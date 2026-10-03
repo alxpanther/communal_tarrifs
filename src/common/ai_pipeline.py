@@ -433,10 +433,36 @@ def reconcile_gas(code: str, cities: list, notifier=None):
         city["city_code"], city["city_name"] = entry["city_code"], entry["city_name"]
 
 
-def _report(country: Country, refreshed: dict, failures: dict, notifier,
+# Bookkeeping that changes on every successful read, whether or not the tariff did.
+VOLATILE_FIELDS = ("update_date",)
+
+
+def _same_tariff(before: dict, after: dict) -> bool:
+    def strip(record):
+        return {k: v for k, v in (record or {}).items() if k not in VOLATILE_FIELDS}
+    return strip(before) == strip(after)
+
+
+def _changes(previous: dict, data: dict, refreshed: dict, results: dict) -> dict:
+    """Block -> names of the entries read on this run whose published tariff differs from the
+    one published before. A source read again usually confirms what is already there, and the
+    report has to tell that apart from a real change."""
+    changes = {}
+    for block, result in results.items():
+        before = {c.get("city_code"): c for c in (previous.get(block) or {}).get("cities", [])}
+        after = {c.get("city_code"): c for c in data[block].get("cities", [])}
+        changes[block] = [after.get(code, {}).get("city_name") or code for code in result.refreshed
+                          if not _same_tariff(before.get(code), after.get(code))]
+    if refreshed.get("electricity"):
+        same = _same_tariff(previous.get("electricity"), data["electricity"])
+        changes["electricity"] = [] if same else ["вся страна"]
+    return changes
+
+
+def _report(country: Country, refreshed: dict, changes: dict, failures: dict, notifier,
             scope: str = "", usage: str = ""):
-    """One message per run: what was refreshed, what it cost, and every reason something
-    was not refreshed."""
+    """One message per run: per block, how many tariffs read from their sources changed and how
+    many confirmed the published value; what it cost; and every reason something was not read."""
     if not notifier:
         return
     total_failures = sum(len(v) for v in failures.values())
@@ -445,7 +471,13 @@ def _report(country: Country, refreshed: dict, failures: dict, notifier,
         title += f"\nтолько: {scope}"
     lines = [title]
     for block, count in refreshed.items():
-        lines.append(f"• {block}: обновлено {count}")
+        changed = changes.get(block, [])
+        parts = []
+        if changed:
+            parts.append(f"<b>изменилось {len(changed)}</b> ({', '.join(changed)})")
+        if count > len(changed):
+            parts.append(f"прежние {count - len(changed)}")
+        lines.append(f"• {block}: {', '.join(parts) or '—'}")
     if usage:
         lines.append(f"• модель: <code>{usage}</code>")
     if total_failures:
@@ -556,7 +588,7 @@ def run(country: Country, notifier=None, cities: list = None, blocks: list = Non
             f"country is committed as a skeleton file; this one only refreshes."
         )
 
-    data, refreshed, failures, _ = collect(country, config, previous, extractor, cities, blocks)
+    data, refreshed, failures, results = collect(country, config, previous, extractor, cities, blocks)
     logger.info(f"{country.code}: {extractor.usage_line()}")
 
     data = apply_manual_overrides(data, config, notifier)
@@ -575,7 +607,8 @@ def run(country: Country, notifier=None, cities: list = None, blocks: list = Non
                      notifier)
     reconcile_gas(country.code, data[GAS].get("cities", []), notifier)
 
-    _report(country, refreshed, failures, notifier, _scope(cities, blocks), extractor.usage_line())
+    _report(country, refreshed, _changes(previous, data, refreshed, results), failures, notifier,
+            _scope(cities, blocks), extractor.usage_line())
 
     final = build_root(country, data)
     save_country_json(country, final)

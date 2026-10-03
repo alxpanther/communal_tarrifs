@@ -660,8 +660,12 @@ already saved. Until then the app simply shows no tariff for it, which it alread
 
 ### What a run reports
 
-One Telegram message per country: how many cities were refreshed in each block, and every reason
-something was not. A miss is a normal outcome — a regulator's site is down, a decree has not been
+One Telegram message per country: for each block, how many tariffs read from their sources
+**changed** — naming the cities — and how many only confirmed what was already published
+(«прежние»), and every reason something was not read. A source read again usually confirms the
+published value, and counting that as an update hid the rare run that changed a tariff. Changed means
+the published record differs in anything but `update_date` (`_changes()`); the decree caption of an
+unchanged tariff is kept as it was, so a model rewording it does not count. A miss is a normal outcome — a regulator's site is down, a decree has not been
 published yet — but it is never silent, and the file always keeps the previous value.
 
 ---

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-03T14:08:44.700431",
+  "last_updated_at": "2026-10-03T14:10:24.464728",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -3083,7 +3083,7 @@
   },
   "hot_water": {
     "source_url": "",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-03",
     "cities": [
       {
         "city_code": "yekaterinburg_tplus",
@@ -3102,86 +3102,12 @@
         "city_name": "Екатеринбург",
         "supplier": "МУП \"Екатеринбургэнерго\"",
         "unit": "m3",
-        "rate": 191.49,
-        "component_water": 52.63,
-        "component_energy": 2706.23,
+        "rate": 216.18,
+        "component_water": 59.41,
+        "component_energy": 3055.26,
         "heat_norm": 0.05131,
-        "heat_norms": [
-          {
-            "system": "closed",
-            "insulated_risers": true,
-            "towel_rails": true,
-            "value": 0.05131
-          },
-          {
-            "system": "closed",
-            "insulated_risers": true,
-            "towel_rails": false,
-            "value": 0.04912
-          },
-          {
-            "system": "closed",
-            "insulated_risers": false,
-            "towel_rails": true,
-            "value": 0.05349
-          },
-          {
-            "system": "closed",
-            "insulated_risers": false,
-            "towel_rails": false,
-            "value": 0.05138
-          },
-          {
-            "system": "open",
-            "insulated_risers": true,
-            "towel_rails": true,
-            "value": 0.05885
-          },
-          {
-            "system": "open",
-            "insulated_risers": true,
-            "towel_rails": false,
-            "value": 0.05563
-          },
-          {
-            "system": "open",
-            "insulated_risers": false,
-            "towel_rails": true,
-            "value": 0.06506
-          },
-          {
-            "system": "open",
-            "insulated_risers": false,
-            "towel_rails": false,
-            "value": 0.05876
-          },
-          {
-            "system": "decentralized",
-            "insulated_risers": true,
-            "towel_rails": true,
-            "value": 0.06047
-          },
-          {
-            "system": "decentralized",
-            "insulated_risers": true,
-            "towel_rails": false,
-            "value": 0.05543
-          },
-          {
-            "system": "decentralized",
-            "insulated_risers": false,
-            "towel_rails": true,
-            "value": 0.06551
-          },
-          {
-            "system": "decentralized",
-            "insulated_risers": false,
-            "towel_rails": false,
-            "value": 0.06047
-          }
-        ],
-        "effective_date": "2026-01-01",
-        "decree_info": "Постановление РЭК Свердловской области от 13.12.2023 N 232-ПК \"Об установлении тарифов на горячую воду в закрытых системах горячего водоснабжения, поставляемую организациями Свердловской области, с использованием метода индексации на основе долгосрочных параметров регулирования тарифов\""
+        "effective_date": "2026-10-01",
+        "decree_info": "Постановление РЭК Свердловской области от 14.12.2021 N 223-ПК \"Об установлении тарифов на горячую воду в закрытых системах горячего водоснабжения, поставляемую организациями Свердловской области, с использованием метода индексации на основе долгосрочных параметров регулирования тарифов на 2022 - 2026 годы\""
       },
       {
         "city_code": "novosibirsk",
@@ -3200,9 +3126,9 @@
         "city_name": "Москва",
         "supplier": "ПАО \"МОЭК\"",
         "unit": "m3",
-        "rate": 317.71,
-        "effective_date": "2026-01-01",
-        "decree_info": "Справка ГАРАНТ «Цены, ставки и тарифы на ЖКУ в г. Москве»"
+        "rate": 377.8,
+        "effective_date": "2026-10-01",
+        "decree_info": "Приказ ДЭПиР от 15.12.2025 № ДПР-ТР-316/25"
       },
       {
         "city_code": "saint_petersburg",

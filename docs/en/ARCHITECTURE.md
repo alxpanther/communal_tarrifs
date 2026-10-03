@@ -481,8 +481,8 @@ Both exist because of mistakes that were made and caught, not as decoration.
   the company goes by. Without it a name the model was not told about reads as "the tariff is not
   here": the Novosibirsk heat company is published as АО «СИБЭКО» and printed as НТСК, and two
   models in turn returned an empty answer.
-* **A tariff published as a scan (`read_images`).** Tajikistan's ministry of energy posts the
-  government's tariff decision as a photograph of its pages, so the page itself has nothing to read.
+* **A tariff published as a scan (`read_images`).** Tajikistan's ministry of energy used to post the
+  government's tariff decision as a photograph of its pages, so the page itself had nothing to read.
   With this set, the large images of every page fetched are downloaded too and handed to the vision
   model; the small ones — logos, banners, a magazine cover — are left alone, which is what the size
   threshold in `fetching.py` is for. Config keeps the stable page address, so next year's decision
@@ -498,7 +498,9 @@ Both exist because of mistakes that were made and caught, not as decoration.
   links match than the cap in `fetching.py`, the cut is logged, and
   `{"match": ..., "from_end": true}` keeps the last ones instead of the first — Aktobe's water
   utility lists its decisions oldest first. `"count"` lowers the cap: the Chelyabinsk electricity
-  supplier links a decree for every year since 2019, newest first, and only the first is read. A source with no `<a>` tags at all, such as a JSON feed
+  supplier links a decree for every year since 2019, newest first, and only the first is read. A
+  linked PDF need not have a text layer: Tajikistan's ministry now links its decision as a scan, and
+  Gemini reads the scanned pages itself. A source with no `<a>` tags at all, such as a JSON feed
   (Veolia Energy Tashkent's news, Uzsuvtaminot's tariff API), yields its bare addresses as links. As with
   `read_images`, config keeps the stable page and the file name of this year's decision never
   enters it. `read_images` also understands a table pasted into the page as a `data:` image, as

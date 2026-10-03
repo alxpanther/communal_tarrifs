@@ -20,9 +20,11 @@ Tajikistan is collected by `src/common/ai_pipeline.py`; the sources are `config/
 Only electricity is collected so far.
 
 - **Electricity** is set by a decision of the Government of Tajikistan and published by the ministry
-  of energy — as a photograph of the decision's pages, not as text. The source is therefore the
-  ministry's stable tariff page with `read_images` set, so the scan itself goes to the vision model
-  (see ARCHITECTURE.md, section 8a). The table lists a dozen consumer groups; the published rate is
+  of energy — as a scanned PDF with no text layer, linked from the ministry's stable tariff page.
+  The source is therefore that page with `read_documents` set to «О тарифах», so only the tariff
+  decision goes to the model, not the tariff methodology linked next to it (see ARCHITECTURE.md,
+  section 8a). Until October 2026 the page carried the scan as images and was read with
+  `read_images`. The table lists a dozen consumer groups; the published rate is
   the row "Для населения", in dirams per kWh, which the code divides into somoni. The decision's own
   note says the tariffs are net of VAT for every group **except** households, so the household
   figure is final.

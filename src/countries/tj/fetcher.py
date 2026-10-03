@@ -2,8 +2,8 @@
 
 Tariffs are collected by the shared per-city pipeline; the sources live in
 config/tj/sources.json. Only electricity is collected: the ministry of energy publishes the
-government's tariff decision as a scan of its pages, so the source is the stable page and
-`read_images` hands the scan to the vision model.
+government's tariff decision as a scanned PDF linked from its tariff page, so the source is the
+stable page and `read_documents` hands the linked scan to the model.
 
 Water, hot water and heating for Dushanbe are retired: no readable source exists — the
 utility's own site is closed for maintenance, and the city hall publishes only housing-fund

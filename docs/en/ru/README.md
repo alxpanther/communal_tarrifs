@@ -34,10 +34,16 @@ published JSON is the only place to look them up.
 - **A source is a page that is updated in place**: a supplier's or settlement centre's tariff page
   that will carry next year's figures at the same address. Moscow and Saint Petersburg were retired
   while their only readable sources were documents fixed to a year, and came back in September 2026
-  on pages updated in place. The Moscow utilities' own sites (Mosvodokanal, MOEK, Mosenergosbyt,
-  mos.ru) do not answer outside Russia, so Moscow's water, hot water and heating are read from the
-  GARANT reference page "Prices, rates and tariffs for housing and utility services in Moscow",
-  which names no decree numbers. Saint Petersburg is read from the household tariffs list of the
+  on pages updated in place. Mosvodokanal, Mosenergosbyt and mos.ru do not answer outside Russia.
+  Moscow's hot water and heating are read from MOEK's tariff page, which links the current
+  "Тарифное меню ПАО «МОЭК»" first: a table with five cells per year (two dates without VAT, the
+  decree, two dates for households with VAT), which the hints spell out cell by cell because both
+  models took the column without VAT. Hot water is read by `qwen3-max`: `qwen-plus` kept returning the
+  price without VAT for October, which no check can catch, as it is a real and plausible number.
+  Moscow's water came from the GARANT reference page "Prices, rates and tariffs for housing and
+  utility services in Moscow" until October 2026, when GARANT cut the page down to a list of old
+  decrees. **It is retired** (`moscow.water`): Mosvodokanal and mos.ru refuse connections from
+  abroad, and what is left are news articles and third-party pages without a start date. Saint Petersburg is read from the household tariffs list of the
   city's Tariff Committee, which links this year's summary table first: water and sewerage (one
   price each), two-component hot water, heating, and electricity for the first consumption band of
   two plans, published in `electricity_cities`.
@@ -49,10 +55,19 @@ published JSON is the only place to look them up.
   central heating, published in `gas`. Heating and electricity (gas-stove and electric-stove plans,
   no consumption bands, in `electricity_cities`) are still read from the city summary of the
   "MoyZhKKh" portal (my-gkh.ru), which since September 2026 answers robots with a captcha, so they
-  are not refreshed; the sites of the heat company (teploseti30.ru) and of the energy retailer
-  (astsbyt.ru) answer 403 outside Russia and are yet to be checked from GitHub. On my-gkh.ru the
+  are not refreshed. The sites of the heat company (teploseti30.ru) and of the energy retailer
+  (astsbyt.ru) answer 403 from GitHub too (checked in October 2026); the heat company's newer site
+  ats.vdkenergo.ru prints no tariffs, and astteplo.ru belongs to another supplier, МУП
+  «Коммунэнерго», and prices heating per m² of floor area in xlsx files rather than per Gcal. On my-gkh.ru the
   three-zone peak price falls from 14.23 to 8.50 from 1 October — likely a typo of the reprint. Hot
   water is not collected: no source prints the heating norm, so no price per m³ can be computed.
+- **Krasnodar heating** (October 2026) is read from АО «Краснодартеплосеть»'s list of tariff orders
+  (`read_documents` with the file-name fragment `na-te-i-gvs-na-20`, two newest), whose households
+  table gives every period with its dates. tkuk.ru, read before, prints the decree date and no start
+  date, so every reading was refused and the 2024 figure stayed published. The scan of the order
+  does not show its own number legibly, so the caption is its title as read. **Krasnodar's water is
+  retired** (`krasnodar.water`): tkuk.ru has the same problem, Rosvodokanal's own page answers 403
+  from GitHub, and the published figure was from 2024.
 
 ---
 

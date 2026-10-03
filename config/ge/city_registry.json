@@ -3,7 +3,52 @@
     "ООО \"Georgian Water and Power\"": {
       "city_code": "tbilisi",
       "city_name": "Тбилиси"
+    },
+    "ООО \"Batumi Water\"": {
+      "city_code": "batumi",
+      "city_name": "Батуми"
+    },
+    "ООО \"United Water Supply Company of Georgia\" (Кутаиси)": {
+      "city_code": "kutaisi",
+      "city_name": "Кутаиси"
+    },
+    "ООО \"Georgian Water and Power\" (Рустави)": {
+      "city_code": "rustavi",
+      "city_name": "Рустави"
     }
   },
-  "heat_suppliers": {}
+  "heat_suppliers": {},
+  "_comment": "PERMANENT registry of city_code values. Never edit or delete existing entries: the Android app stores city_code as the user's saved selection.",
+  "electricity_suppliers": {
+    "АО \"EP Georgia Supply\" (Батуми)": {
+      "city_code": "batumi",
+      "city_name": "Батуми"
+    },
+    "АО \"EP Georgia Supply\" (Кутаиси)": {
+      "city_code": "kutaisi",
+      "city_name": "Кутаиси"
+    },
+    "АО \"EP Georgia Supply\" (Рустави)": {
+      "city_code": "rustavi",
+      "city_name": "Рустави"
+    }
+  },
+  "gas_suppliers": {
+    "ООО \"Tbilisi Energy\"": {
+      "city_code": "tbilisi",
+      "city_name": "Тбилиси"
+    },
+    "ООО \"SOCAR Georgia Gas\" (Батуми)": {
+      "city_code": "batumi",
+      "city_name": "Батуми"
+    },
+    "ООО \"SOCAR Georgia Gas\" (Кутаиси)": {
+      "city_code": "kutaisi",
+      "city_name": "Кутаиси"
+    },
+    "ООО \"SOCAR Georgia Gas\" (Рустави)": {
+      "city_code": "rustavi",
+      "city_name": "Рустави"
+    }
+  }
 }

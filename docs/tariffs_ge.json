@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-01T17:24:37.667792",
+  "last_updated_at": "2026-10-03T14:34:45.329235",
   "country": "GE",
   "country_names": {
     "ru": "Грузия",
@@ -94,13 +94,275 @@
     ]
   },
   "electricity_cities": {
-    "source_url": "",
-    "update_date": "2026-09-14",
-    "cities": []
+    "source_url": "https://gnerc.org/en/tariffs/tariffs2",
+    "update_date": "2026-10-03",
+    "cities": [
+      {
+        "city_code": "batumi",
+        "city_name": "Батуми",
+        "supplier": "АО \"EP Georgia Supply\" (Батуми)",
+        "unit": "kWh",
+        "base_rate": 0.1973,
+        "effective_date": "2026-07-01",
+        "decree_info": "Тарифы GNERC на период 01.07.2026 - 01.01.2027",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (не применяется, ставка одна)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (не применяется, ставка одна)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 101,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.1973
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 101,
+                "up_to_kwh": 301,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2373
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 301,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2823
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "city_code": "kutaisi",
+        "city_name": "Кутаиси",
+        "supplier": "АО \"EP Georgia Supply\" (Кутаиси)",
+        "unit": "kWh",
+        "base_rate": 0.1973,
+        "effective_date": "2026-07-01",
+        "decree_info": "Тарифы GNERC на период 01.07.2026 - 01.01.2027",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (не применяется, ставка одна)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (не применяется, ставка одна)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 101,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.1973
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 101,
+                "up_to_kwh": 301,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2373
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 301,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2823
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "city_code": "rustavi",
+        "city_name": "Рустави",
+        "supplier": "АО \"EP Georgia Supply\" (Рустави)",
+        "unit": "kWh",
+        "base_rate": 0.1973,
+        "effective_date": "2026-07-01",
+        "decree_info": "Тарифы GNERC на период 01.07.2026 - 01.01.2027",
+        "zones": {
+          "two_zone": {
+            "description": "Двухзонный тариф (не применяется, ставка одна)",
+            "day": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            }
+          },
+          "three_zone": {
+            "description": "Трехзонный тариф (не применяется, ставка одна)",
+            "peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "half_peak": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            },
+            "night": {
+              "hours": "",
+              "coefficient": 1.0,
+              "rate": 0.1973
+            }
+          }
+        },
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "tier_basis": null,
+            "tiers_per_resident": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 1,
+                "above_kwh": null,
+                "up_to_kwh": 101,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.1973
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 2,
+                "above_kwh": 101,
+                "up_to_kwh": 301,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2373
+              },
+              {
+                "meter": "single",
+                "zone": "all",
+                "hours": "",
+                "tier": 3,
+                "above_kwh": 301,
+                "up_to_kwh": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.2823
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   "water": {
     "source_url": "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-03",
     "cities": [
       {
         "city_code": "tbilisi",
@@ -112,6 +374,39 @@
         "total_rate": 0.5003,
         "effective_date": "2024-01-01",
         "decree_info": "Тарифы GNERC на 2024–2026 годы, с НДС 18%"
+      },
+      {
+        "city_code": "batumi",
+        "city_name": "Батуми",
+        "supplier": "ООО \"Batumi Water\"",
+        "unit": "m3",
+        "water_supply": 0.2962,
+        "sewage": 0.2218,
+        "total_rate": 0.518,
+        "effective_date": "2024-01-01",
+        "decree_info": "Тарифы GNERC на 2024-2026"
+      },
+      {
+        "city_code": "kutaisi",
+        "city_name": "Кутаиси",
+        "supplier": "ООО \"United Water Supply Company of Georgia\" (Кутаиси)",
+        "unit": "m3",
+        "water_supply": 0.4189,
+        "sewage": 0.0802,
+        "total_rate": 0.4991,
+        "effective_date": "2011-11-01",
+        "decree_info": "Тарифы GNERC с 01.11.2011"
+      },
+      {
+        "city_code": "rustavi",
+        "city_name": "Рустави",
+        "supplier": "ООО \"Georgian Water and Power\" (Рустави)",
+        "unit": "m3",
+        "water_supply": 0.4449,
+        "sewage": 0.0555,
+        "total_rate": 0.5003,
+        "effective_date": "2024-01-01",
+        "decree_info": "Тарифы GNERC на 2024-2026"
       }
     ]
   },
@@ -126,8 +421,157 @@
     "cities": []
   },
   "gas": {
-    "source_url": "",
-    "update_date": "2026-09-25",
-    "cities": []
+    "source_url": "https://gnerc.org/en/tariffs/tariffs2",
+    "update_date": "2026-10-03",
+    "cities": [
+      {
+        "city_code": "tbilisi",
+        "city_name": "Тбилиси",
+        "supplier": "ООО \"Tbilisi Energy\"",
+        "unit": "m3",
+        "rate": 0.53971,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Тарифы GNERC на период 01.01.2026 - 31.12.2027",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "supplier": "ООО \"Tbilisi Energy\"",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.53971
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "batumi",
+        "city_name": "Батуми",
+        "supplier": "ООО \"SOCAR Georgia Gas\" (Батуми)",
+        "unit": "m3",
+        "rate": 0.56928,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Тарифы GNERC на период 01.01.2026 - 31.12.2027",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "supplier": "ООО \"SOCAR Georgia Gas\" (Батуми)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.56928
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "kutaisi",
+        "city_name": "Кутаиси",
+        "supplier": "ООО \"SOCAR Georgia Gas\" (Кутаиси)",
+        "unit": "m3",
+        "rate": 0.56928,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Тарифы GNERC на период 01.01.2026 - 31.12.2027",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "supplier": "ООО \"SOCAR Georgia Gas\" (Кутаиси)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.56928
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      },
+      {
+        "city_code": "rustavi",
+        "city_name": "Рустави",
+        "supplier": "ООО \"SOCAR Georgia Gas\" (Рустави)",
+        "unit": "m3",
+        "rate": 0.56928,
+        "distributor": "",
+        "distribution_rate": 0.0,
+        "effective_date": "2026-01-01",
+        "decree_info": "Тарифы GNERC на период 01.01.2026 - 31.12.2027",
+        "plans": [
+          {
+            "plan_code": "standard",
+            "name": "Бытовые потребители",
+            "is_default": true,
+            "supplier": "ООО \"SOCAR Georgia Gas\" (Рустави)",
+            "contract": null,
+            "usage": null,
+            "metered": null,
+            "tier_basis": null,
+            "monthly_charge": null,
+            "rates": [
+              {
+                "tier": null,
+                "above_m3": null,
+                "up_to_m3": null,
+                "tier_period": null,
+                "season_from": null,
+                "season_to": null,
+                "rate": 0.56928
+              }
+            ]
+          }
+        ],
+        "norms": [],
+        "norms_decree": ""
+      }
+    ]
   }
 }

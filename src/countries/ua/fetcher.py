@@ -356,12 +356,13 @@ def save_registry(suppliers: dict, section: str = WATER_REGISTRY_SECTION):
 def resolve_city_identity(cities: list, notifier: TelegramNotifier,
                           section: str = WATER_REGISTRY_SECTION,
                           is_plain_owner=is_waterworks, label: str = "воды",
-                          kept_when_missing: bool = False) -> list:
+                          kept_when_missing: bool = False, retired: set = frozenset()) -> list:
     """
     Replaces model-provided identifiers with registry-backed ones so city_code and
     city_name stay byte-identical across runs. Returns the cities with final identity.
     `kept_when_missing` says a supplier gone from the source keeps its published record, which
-    changes what the maintainer is told about it.
+    changes what the maintainer is told about it. A supplier whose code is `retired` is expected
+    to be gone and is not reported.
     """
     registry = load_registry(section)
     lookup = {normalize_name(name): entry for name, entry in registry.items()}
@@ -395,7 +396,7 @@ def resolve_city_identity(cities: list, notifier: TelegramNotifier,
     disappeared = [
         f"{name} ({entry['city_code']})"
         for name, entry in registry.items()
-        if normalize_name(name) not in present
+        if normalize_name(name) not in present and entry["city_code"] not in retired
     ]
 
     if added:
@@ -631,7 +632,8 @@ def validate_water_cities(raw_cities, expected_rows: int, table_rows: dict) -> t
 
     return cities, errors
 
-def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNotifier) -> list:
+def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNotifier,
+                          retired: set = frozenset()) -> list:
     """
     Extracts the water tariff table via LLM and validates the result against the source.
     Returns None when extraction cannot be trusted, so the caller keeps the previous data.
@@ -663,7 +665,7 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
         )
         return None
 
-    cities = resolve_city_identity(cities, notifier, kept_when_missing=True)
+    cities = resolve_city_identity(cities, notifier, kept_when_missing=True, retired=retired)
     logger.info(f"Water tariffs extracted and validated for {len(cities)} suppliers")
     return cities
 
@@ -1185,8 +1187,11 @@ def extract_gas_block(base_data: dict, config: dict, timeout: int, notifier: Tel
 
     limits = config.get("validation", {}) or {}
     previous = {normalize_name(gas.registry_key(c)): c for c in block.get("cities", [])}
+    skipped = set(source.get("retired_pages") or [])
     fresh, kept, failures = [], [], []
     for name, url in links:
+        if name in skipped:
+            continue
         page_html = fetch_html(url, timeout=timeout)
         if not page_html:
             failures.append(f"{name}: страница не открылась ({url})")
@@ -1198,7 +1203,8 @@ def extract_gas_block(base_data: dict, config: dict, timeout: int, notifier: Tel
 
     identities = resolve_city_identity(
         [{"supplier": c["distributor"], "city_name": c["city_name"]} for c in fresh],
-        notifier, section=GAS_SECTION, is_plain_owner=is_named_after_city, label="газа")
+        notifier, section=GAS_SECTION, is_plain_owner=is_named_after_city, label="газа",
+        retired=retired_codes(config, GAS))
 
     today = datetime.now().date()
     published = list(kept)
@@ -1282,6 +1288,12 @@ def merge_water_cities(previous: list, aggregate: list, own_sources: list) -> li
         merged[normalize_name(city.get("supplier", ""))] = city
     return list(merged.values())
 
+def retired_codes(config: dict, service: str) -> set:
+    """The city codes `retired_cities` takes out of one service, whole or for that service alone."""
+    entries = [str(entry) for entry in (config.get("retired_cities") or [])]
+    return {entry.split(".", 1)[0] for entry in entries
+            if "." not in entry or entry.endswith(f".{service}")}
+
 def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramNotifier) -> dict:
     base_data = load_base_schema()
     ref_sources = config["reference_sources"]
@@ -1296,7 +1308,8 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
     water_data = base_data.get("water", {})
     water_data["source_url"] = water_url
 
-    water_cities = extract_water_tariffs(water_html, model_name, notifier) if water_html else None
+    water_cities = (extract_water_tariffs(water_html, model_name, notifier,
+                                          retired_codes(config, "water")) if water_html else None)
     if not water_cities:
         logger.warning("Keeping previous water cities: extraction failed or was rejected by validation")
     city_sources = collect_water_city_sources(config, water_data, notifier)
@@ -1444,6 +1457,9 @@ def main(notifier: TelegramNotifier = None) -> dict:
 
     ref_data = extract_reference_tariffs(config, model_name, notifier)
     ref_data = apply_manual_overrides(ref_data, config, notifier)
+    removed = ai_pipeline.drop_retired_cities(ref_data, config)
+    if removed:
+        logger.info(f"{COUNTRY_CODE}: retired cities dropped — {', '.join(removed)}")
 
     search_data = search_alternative_tariffs(model_name, notifier)
     discrepancies = compare_and_validate(ref_data, search_data)

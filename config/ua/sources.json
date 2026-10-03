@@ -30,7 +30,13 @@
     },
     "gas": {
       "url": "https://index.minfin.com.ua/ua/tariff/gas/",
-      "default_supplier": "ТОВ ГК \"Нафтогаз України\""
+      "default_supplier": "ТОВ ГК \"Нафтогаз України\"",
+      "retired_pages": [
+        "Луганськ",
+        "Маріуполь",
+        "Мелітополь",
+        "Старобільськ"
+      ]
     }
   },
   "electricity": {
@@ -109,6 +115,15 @@
       }
     }
   },
+  "retired_cities": [
+    "ukraina",
+    "bakhmut",
+    "mariupol",
+    "melitopol",
+    "sievierodonetsk",
+    "lysychansk",
+    "luhanska_obl"
+  ],
   "manual_override": {
     "enabled": true,
     "electricity": {

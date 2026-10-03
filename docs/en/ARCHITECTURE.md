@@ -51,7 +51,7 @@ These are the rules the current code follows. Keep following them.
 | 1 | Load config | `load_config()` | Missing file or missing `electricity`/`water` source → the country is aborted by `run_country.py`, which alerts Telegram and moves on to the next one; nothing is written |
 | 2 | Resolve model | `resolve_latest_gemini_model()` | `GEMINI_MODEL` env → auto-selected newest Flash model via `client.models.list()` → `settings.gemini_model` as the last fallback |
 | 3 | Scrape and parse | `extract_reference_tariffs()` | Per-block fallback to the previous JSON, see section 3 |
-| 4 | Apply overrides | `apply_manual_overrides()` | Incomplete override records are skipped and reported to Telegram; a dated `periods` record is collapsed to the version in force today |
+| 4 | Apply overrides | `apply_manual_overrides()` | Incomplete override records are skipped and reported to Telegram; a dated `periods` record is collapsed to the version in force today; then `drop_retired_cities()` removes what `retired_cities` lists |
 | 5 | Cross-check | `search_alternative_tariffs()` + `compare_and_validate()` | Purely advisory, see section 5 |
 | 6 | Write output | `build_root()` + `save_country_json()` (both in `common/jsonio.py`) | Writes `docs/tariffs_ua.json` and `assets/tariffs_ua_default.json`; refuses to write at all if the electricity block came out empty |
 | 7 | Report | `TelegramNotifier.send_discrepancy_report()` | Only when discrepancies were found |
@@ -108,6 +108,10 @@ block, merged by supplier in `merge_water_cities()`:
 * **What was published.** A utility minfin stops listing keeps its last published tariff instead of
   dropping out of the file — the maintainer's decision, because a city usually reappears on minfin
   once its new tariff is set.
+* **Retired.** `retired_cities` in `config/ua/sources.json`, with the same meaning as in the per-city
+  pipeline (section 8a, "Retiring a city"), takes a city out of every block on every run, and its
+  supplier's disappearance from minfin is no longer reported. The towns under occupation are
+  retired this way — nobody keeps their tariffs — together with Ukrzaliznytsia's network.
 
 A rejected minfin reading keeps the previous minfin cities and Telegram receives the list of
 complaints; the cities with their own page are refreshed either way. The water tariffs of 2026 are two
@@ -158,7 +162,10 @@ the operator is what tells the cities apart.
 A city page that does not open keeps its previous records. A page with no operator (occupied towns,
 where minfin prints a supplier and nothing else) yields no record: a price without delivery would
 understate the bill. A page whose captions minfin has reworded yields nothing and is reported, so
-the words in those constants are the one thing to update. The checks themselves live in
+the words in those constants are the one thing to update. `reference_sources.gas.retired_pages` lists
+the city pages, by their name in minfin's list, that are not opened at all — occupied towns, whose
+pages would only be reported as unreadable every month; their codes, where they have one, are also
+in `retired_cities`. The checks themselves live in
 `common/gas.py`, shared with every country.
 
 ---
@@ -179,7 +186,8 @@ the words in those constants are the one thing to update. The checks themselves 
 * Gas is registered under the network operator where delivery is billed apart (section
   `gas_suppliers`), under the supplier elsewhere.
 * A supplier that disappeared from the source keeps its registry entry but drops out of the JSON,
-  and Telegram gets a warning, because users holding that `city_code` lose their selection.
+  and Telegram gets a warning, because users holding that `city_code` lose their selection — unless
+  its code is in `retired_cities`, where its absence is expected.
 
 The registry **must be committed**; the CI workflow commits it together with the tariff files.
 Starting from an empty registry would produce different codes and break existing installs.

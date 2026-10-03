@@ -18,7 +18,7 @@ import re
 from datetime import date
 
 from common import prompts
-from common.electricity import TIER_BASES
+from common.electricity import SUBUNITS_PER_UNIT, TIER_BASES
 from common.fetching import fetch_all
 from common.llm.base import SOURCE_LLM_OPTIONS
 from common.overrides import resolve_periods
@@ -252,7 +252,9 @@ def _period(raw: dict, source: dict, supplier: str, limits: dict, label: str, re
         reasons.append(f"{label}: единица цены {unit!r} — ожидалось {', '.join(PRICE_UNITS)}")
         return None
     tax = 1 + (as_number(source.get("vat_percent")) or 0.0) / 100
-    scale = tax / PRICE_UNITS[unit]
+    # Georgia's regulator prints gas prices in tetri, a hundredth of a lari.
+    subunits = SUBUNITS_PER_UNIT if raw.get("prices_in_subunits") is True else 1
+    scale = tax / PRICE_UNITS[unit] / subunits
 
     configured = source.get("plans") or {}
     plans = []

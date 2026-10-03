@@ -31,6 +31,20 @@ which sets electricity, gas and water tariffs alike.
   read; and the table prints its figures **excluding VAT**, unlike the electricity one next door.
   `vat_percent: 18` in config makes the pipeline add the tax, which keeps the arithmetic out of the
   model's hands.
+- **Gas** comes from the same end user tariff page as electricity, which prints it in tetri per m³
+  **including VAT** for multi-year periods; `prices_in_subunits` converts tetri to lari. The row
+  "Marginal consumer tariff for natural gas" is the end-user price, which already includes supply,
+  distribution and transportation, so no separate delivery tariff is published. Tbilisi is supplied
+  by Tbilisi Energy.
+- **Batumi, Kutaisi and Rustavi** (October 2026) are read from the same two GNERC pages. Electricity
+  outside Tbilisi is sold by EP Georgia Supply, and published per city in `electricity_cities`; gas in
+  all three is distributed by SOCAR Georgia Gas (not Sakorggazi, whose area is Samtskhe-Javakheti).
+  Water: Rustavi has its own column in the Georgian Water and Power table, Batumi has Batumi Water —
+  whose table prints its figures under the 2024-2026 column and leaves 2022-2024 empty, which a text
+  copy of the page loses, so the hint says so — and Kutaisi is served by the United Water Supply
+  Company of Georgia, whose tariff has not changed since 1 November 2011. One company serving several
+  cities is registered once per city, with the city in brackets after its name (`"ООО \"SOCAR Georgia
+  Gas\" (Батуми)"`), the way Moldova registers Energocom: the registry keys a city by its supplier.
 - **Hot water and heating** do not exist for Georgian households — there is no district heating — so
   both blocks stay empty by design.
 

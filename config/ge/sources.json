@@ -17,6 +17,9 @@
     },
     "electricity": {
       "max_rate": 5.0
+    },
+    "gas": {
+      "max_rate": 5.0
     }
   },
   "electricity": {
@@ -52,6 +55,183 @@
             "Georgian Water and Power",
             "GWP"
           ]
+        },
+        "gas": {
+          "supplier": "ООО \"Tbilisi Energy\"",
+          "supplier_aka": [
+            "Tbilisi Energy LLC",
+            "Tbilisi Energy"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariffs2"
+          ],
+          "hint": "страница регулятора GNERC «End User Tariffs». Нужна таблица «Tbilisi Energy LLC» в разделе природного газа, строка «Marginal consumer tariff for natural gas» — конечный тариф для потребителя, уже включающий поставку, распределение и транспортировку. Значение для каждого периода из строки «Effective Period» — отдельный период (дата начала — первая дата периода; периоды, закончившиеся до сегодняшнего дня, не возвращай). Цены в тетри за 1 м³ с НДС («Tariffs in Tetri/m3 (including VAT)») — price_per = m3, prices_in_subunits = true. Не подходят: таблицы других компаний (Socar Georgia Gas, Sakorggazi и прочие), сноски о временных тарифах на отдельных территориях («former licensed area») и таблицы электроэнергии. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители",
+              "default": true,
+              "hint": "строка «Marginal consumer tariff for natural gas» таблицы Tbilisi Energy LLC"
+            }
+          }
+        }
+      }
+    },
+    "batumi": {
+      "city_name": "Батуми",
+      "sources": {
+        "water": {
+          "supplier": "ООО \"Batumi Water\"",
+          "supplier_aka": [
+            "Batumi Water LTD",
+            "Batumi Water"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba"
+          ],
+          "vat_percent": 18,
+          "hint": "нужна таблица «Batumi Water LTD», блок «Household tariffs Metered (GEL/m3 )». У таблицы две колонки периодов, «2022-2024» и «2024-2026»; колонка «2022-2024» пустая, напечатанные числа относятся к периоду 2024-2026. Как water_supply верни строку «Drinking water», как sewage — строку «Wastewater». Строка «Water supply» — это сумма двух предыдущих, её не бери и total_rate не возвращай вовсе, его посчитает код. Не подходят: тарифы без счётчика («Un-metered, GEL/per person/per month») и небытовые («Non-household tariffs»). Тарифы напечатаны БЕЗ НДС — так и верни, НДС добавит код. Реквизиты запиши по-русски как «Тарифы GNERC на <период>». Таблицы других компаний не подходят"
+        },
+        "electricity": {
+          "supplier": "АО \"EP Georgia Supply\" (Батуми)",
+          "supplier_aka": [
+            "EP Georgia Supply JSC",
+            "EP Georgia Supply"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariffs2"
+          ],
+          "hint": "нужна таблица поставщика «EP Georgia Supply JSC» — поставщик электроэнергии всей Грузии, кроме Тбилиси, блок «Tariffs for Consumers of Universal Service Provider (including VAT)». Цены в тетри за кВт·ч — prices_in_subunits true. Не подходят: таблица «TELMICO LTD» (это Тбилиси), строки «3,3-6-10 kV (household)» и «220/380 V (small enterprises)», блок «Public Service Provider» и таблицы природного газа. Дату начала действия возьми из строки «Period» той же таблицы. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители",
+              "default": true,
+              "hint": "три бытовые ступени: «0–101 kWh, and with a shared consumption meter (household)» — up_to_kwh 101; «101–301 kWh (household)» — above_kwh 101, up_to_kwh 301; «Above 301 kWh (household)» — above_kwh 301"
+            }
+          }
+        },
+        "gas": {
+          "supplier": "ООО \"SOCAR Georgia Gas\" (Батуми)",
+          "supplier_aka": [
+            "Socar Georgia Gas LLC",
+            "SOCAR Georgia Gas"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariffs2"
+          ],
+          "hint": "страница регулятора GNERC «End User Tariffs». Нужна таблица «Socar Georgia Gas LLC» в разделе природного газа, строка «Marginal consumer tariff for natural gas» — конечный тариф для потребителя, уже включающий поставку, распределение и транспортировку. Значение для каждого периода из строки «Effective Period» — отдельный период (дата начала — первая дата периода; периоды, закончившиеся до сегодняшнего дня, не возвращай). Цены в тетри за 1 м³ с НДС («Tariffs in Tetri/m3 (including VAT)») — price_per = m3, prices_in_subunits = true. Не подходят: таблицы других компаний (Tbilisi Energy, Sakorggazi, Telavgas и прочие), сноски о временных тарифах на отдельных территориях («former licensed area») и таблицы электроэнергии. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители",
+              "default": true,
+              "hint": "строка «Marginal consumer tariff for natural gas» таблицы Socar Georgia Gas LLC"
+            }
+          }
+        }
+      }
+    },
+    "kutaisi": {
+      "city_name": "Кутаиси",
+      "sources": {
+        "water": {
+          "supplier": "ООО \"United Water Supply Company of Georgia\" (Кутаиси)",
+          "supplier_aka": [
+            "United Water Supply Company of Georgia"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba"
+          ],
+          "vat_percent": 18,
+          "hint": "нужна таблица «United Water Supply Company of Georgia» — водоснабжение городов Грузии, кроме Тбилиси, Рустави, Мцхеты и Батуми, блок «Household tariffs Metered (GEL/m3)», период «From 1.11.2011» — дата начала 2011-11-01; реквизиты для него запиши как «Тарифы GNERC с 01.11.2011». Как water_supply верни строку «Drinking water», как sewage — строку «Wastewater». Строка «Water supply» — это сумма двух предыдущих, её не бери и total_rate не возвращай вовсе, его посчитает код. Не подходят: тарифы без счётчика («Un-metered, GEL/per person/per month») и небытовые («Non-household tariffs»). Тарифы напечатаны БЕЗ НДС — так и верни, НДС добавит код. Реквизиты запиши по-русски как «Тарифы GNERC на <период>». Таблицы «Georgian Water and Power LTD», «Batumi Water LTD» и других компаний не подходят"
+        },
+        "electricity": {
+          "supplier": "АО \"EP Georgia Supply\" (Кутаиси)",
+          "supplier_aka": [
+            "EP Georgia Supply JSC",
+            "EP Georgia Supply"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariffs2"
+          ],
+          "hint": "нужна таблица поставщика «EP Georgia Supply JSC» — поставщик электроэнергии всей Грузии, кроме Тбилиси, блок «Tariffs for Consumers of Universal Service Provider (including VAT)». Цены в тетри за кВт·ч — prices_in_subunits true. Не подходят: таблица «TELMICO LTD» (это Тбилиси), строки «3,3-6-10 kV (household)» и «220/380 V (small enterprises)», блок «Public Service Provider» и таблицы природного газа. Дату начала действия возьми из строки «Period» той же таблицы. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители",
+              "default": true,
+              "hint": "три бытовые ступени: «0–101 kWh, and with a shared consumption meter (household)» — up_to_kwh 101; «101–301 kWh (household)» — above_kwh 101, up_to_kwh 301; «Above 301 kWh (household)» — above_kwh 301"
+            }
+          }
+        },
+        "gas": {
+          "supplier": "ООО \"SOCAR Georgia Gas\" (Кутаиси)",
+          "supplier_aka": [
+            "Socar Georgia Gas LLC",
+            "SOCAR Georgia Gas"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariffs2"
+          ],
+          "hint": "страница регулятора GNERC «End User Tariffs». Нужна таблица «Socar Georgia Gas LLC» в разделе природного газа, строка «Marginal consumer tariff for natural gas» — конечный тариф для потребителя, уже включающий поставку, распределение и транспортировку. Значение для каждого периода из строки «Effective Period» — отдельный период (дата начала — первая дата периода; периоды, закончившиеся до сегодняшнего дня, не возвращай). Цены в тетри за 1 м³ с НДС («Tariffs in Tetri/m3 (including VAT)») — price_per = m3, prices_in_subunits = true. Не подходят: таблицы других компаний (Tbilisi Energy, Sakorggazi, Telavgas и прочие), сноски о временных тарифах на отдельных территориях («former licensed area») и таблицы электроэнергии. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители",
+              "default": true,
+              "hint": "строка «Marginal consumer tariff for natural gas» таблицы Socar Georgia Gas LLC"
+            }
+          }
+        }
+      }
+    },
+    "rustavi": {
+      "city_name": "Рустави",
+      "sources": {
+        "water": {
+          "supplier": "ООО \"Georgian Water and Power\" (Рустави)",
+          "supplier_aka": [
+            "Georgian Water and Power LTD",
+            "Georgian Water and Power",
+            "GWP"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariff-water/tskalmomarageba"
+          ],
+          "vat_percent": 18,
+          "hint": "нужна таблица «Georgian Water and Power LTD», блок «Household tariffs Metered (GEL/m3)», действующий период (2024-2026), колонка «For customers of the selfgoverning city Rustavi» — Рустави, а не колонка «Except for the selfgoverning city Rustavi». Как water_supply верни строку «Drinking water», как sewage — строку «Wastewater». Строка «Water supply» — это сумма двух предыдущих, её не бери и total_rate не возвращай вовсе, его посчитает код. Не подходят: тарифы без счётчика («Un-metered, GEL/per person/per month») и небытовые («Non-household tariffs»). Тарифы напечатаны БЕЗ НДС — так и верни, НДС добавит код. Реквизиты запиши по-русски как «Тарифы GNERC на <период>». Таблица «United Water Supply Company of Georgia» не подходит"
+        },
+        "electricity": {
+          "supplier": "АО \"EP Georgia Supply\" (Рустави)",
+          "supplier_aka": [
+            "EP Georgia Supply JSC",
+            "EP Georgia Supply"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariffs2"
+          ],
+          "hint": "нужна таблица поставщика «EP Georgia Supply JSC» — поставщик электроэнергии всей Грузии, кроме Тбилиси, блок «Tariffs for Consumers of Universal Service Provider (including VAT)». Цены в тетри за кВт·ч — prices_in_subunits true. Не подходят: таблица «TELMICO LTD» (это Тбилиси), строки «3,3-6-10 kV (household)» и «220/380 V (small enterprises)», блок «Public Service Provider» и таблицы природного газа. Дату начала действия возьми из строки «Period» той же таблицы. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители",
+              "default": true,
+              "hint": "три бытовые ступени: «0–101 kWh, and with a shared consumption meter (household)» — up_to_kwh 101; «101–301 kWh (household)» — above_kwh 101, up_to_kwh 301; «Above 301 kWh (household)» — above_kwh 301"
+            }
+          }
+        },
+        "gas": {
+          "supplier": "ООО \"SOCAR Georgia Gas\" (Рустави)",
+          "supplier_aka": [
+            "Socar Georgia Gas LLC",
+            "SOCAR Georgia Gas"
+          ],
+          "urls": [
+            "https://gnerc.org/en/tariffs/tariffs2"
+          ],
+          "hint": "страница регулятора GNERC «End User Tariffs». Нужна таблица «Socar Georgia Gas LLC» в разделе природного газа, строка «Marginal consumer tariff for natural gas» — конечный тариф для потребителя, уже включающий поставку, распределение и транспортировку. Значение для каждого периода из строки «Effective Period» — отдельный период (дата начала — первая дата периода; периоды, закончившиеся до сегодняшнего дня, не возвращай). Цены в тетри за 1 м³ с НДС («Tariffs in Tetri/m3 (including VAT)») — price_per = m3, prices_in_subunits = true. Не подходят: таблицы других компаний (Tbilisi Energy, Sakorggazi, Telavgas и прочие), сноски о временных тарифах на отдельных территориях («former licensed area») и таблицы электроэнергии. Реквизиты запиши по-русски как «Тарифы GNERC на период <период>»",
+          "plans": {
+            "standard": {
+              "name": "Бытовые потребители",
+              "default": true,
+              "hint": "строка «Marginal consumer tariff for natural gas» таблицы Socar Georgia Gas LLC"
+            }
+          }
         }
       }
     }

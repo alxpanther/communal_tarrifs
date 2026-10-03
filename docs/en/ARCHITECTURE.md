@@ -585,8 +585,9 @@ carries. A city declares `sources.gas` like any other service:
   `0.0`;
 * `read_norms: true` where the source prints consumption norms without a meter.
 
-The model returns every printed price with `price_per` — `"m3"` or `"thousand_m3"`; the code divides
-by a thousand and adds `vat_percent`. A reading is rejected whole for a non-positive price or one
+The model returns every printed price with `price_per` — `"m3"` or `"thousand_m3"` — and
+`prices_in_subunits` where the document prints a hundredth of the currency (Georgia's regulator
+prints tetri); the code divides by a thousand or a hundred and adds `vat_percent`. A reading is rejected whole for a non-positive price or one
 above `validation.gas.max_rate` per m³, nonsensical band limits, a band without a number, a
 `tier_basis` other than `part` or `whole`, a band without `tier_period`, a
 malformed season, a plan not declared in config, the same price twice, a norm that does not parse,

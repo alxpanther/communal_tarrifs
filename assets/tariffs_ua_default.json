@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-06T12:33:44.522336",
+  "last_updated_at": "2026-10-06T15:27:53.185562",
   "country": "UA",
   "country_names": {
     "ru": "Украина",
@@ -3337,7 +3337,7 @@
     "income_tax_info": "",
     "rates": [
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2013-04-01",
         "commissioned_to": "2014-12-31",
@@ -3347,7 +3347,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2015-01-01",
         "commissioned_to": "2015-06-30",
@@ -3357,7 +3357,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2015-07-01",
         "commissioned_to": "2015-12-31",
@@ -3367,7 +3367,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2016-01-01",
         "commissioned_to": "2016-12-31",
@@ -3377,7 +3377,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2017-01-01",
         "commissioned_to": "2019-12-31",
@@ -3387,7 +3387,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2020-01-01",
         "commissioned_to": "2023-12-31",
@@ -3397,7 +3397,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2024-01-01",
         "commissioned_to": "2024-12-31",
@@ -3407,7 +3407,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2025-01-01",
         "commissioned_to": "2025-12-31",
@@ -3417,7 +3417,7 @@
         "valid_to": ""
       },
       {
-        "station_type": "solar_ground",
+        "station_type": "solar",
         "max_capacity_kw": 30.0,
         "commissioned_from": "2026-01-01",
         "commissioned_to": "2029-12-31",

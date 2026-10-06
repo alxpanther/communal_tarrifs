@@ -278,7 +278,7 @@ Four workflows share the repository:
 | Fetch and Update Tariffs | on the 1st and the 25th, or by hand with country codes | collects, commits the files with `[skip ci]`, publishes to R2 and Pages |
 | Publish Tariffs | on a push that changes a published file, or by hand | publishes the files already in the repository; no collection, no model call |
 | Check Sources | by hand | downloads sources from a GitHub runner and reports which answer; no model call, nothing written |
-| Collect Cities | by hand with a country, city codes, a service and "write" | runs `src/run_city.py` from a GitHub runner; a dry run by default, with "write" commits the named cities and starts Publish Tariffs. For Ukraine, only a city with a page of its own for the named service |
+| Collect Cities | by hand with a country, city codes, a service and "write" | runs `src/run_city.py` from a GitHub runner; a dry run by default, with "write" commits the named cities and starts Publish Tariffs. For Ukraine, only a city with a page of its own for the named service, or `grid_export` |
 
 ---
 
@@ -415,9 +415,10 @@ By default it is a dry run: it fetches, extracts and validates, prints what woul
 every reason something would not, and writes nothing — no file, no registry entry, no Telegram
 message. `--write` publishes the selected cities into the country file, keeps every other city as
 published, and rebuilds the index. It refuses to run without a city, except for the country-wide
-electricity block, so it cannot collect a whole country by accident. It also refuses `--write` for a
-country read from aggregate pages (`reference_sources` in config, i.e. Ukraine), which is published
-only whole.
+electricity and grid_export blocks, so it cannot collect a whole country by accident. In a country
+read from aggregate pages (`reference_sources` in config, i.e. Ukraine) `--write` publishes only a
+city with a page of its own for the named service — Kyiv's water — or the grid_export block, which
+the shared module reads the same way in a full run; everything else is published only whole.
 
 The order of work is fixed: make every fix first, then test the cities it touches, then — only with
 the maintainer's agreement — collect the whole country.

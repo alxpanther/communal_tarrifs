@@ -26,9 +26,9 @@ from common.validation import DATE_FORMAT, Rejected, as_number
 
 logger = logging.getLogger(__name__)
 
-# Kinds of station a rate row may name. `solar` is a country that does not split solar stations
-# by placement.
-STATION_TYPES = ("solar_ground", "solar_roof", "wind", "wind_solar", "solar")
+# Kinds of station a rate row may name. `solar` is a solar station of any placement — a rule that
+# does not split them; `solar_roof` is a rule only for stations on roofs and facades.
+STATION_TYPES = ("solar", "solar_roof", "wind", "wind_solar")
 
 # How the exported energy is settled. "monthly_surplus": the month's export minus import, a
 # positive difference paid at the rate.

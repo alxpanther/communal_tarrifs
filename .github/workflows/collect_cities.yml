@@ -10,7 +10,8 @@ name: Collect Cities
 #
 # Countries read city by city (config/<cc>/sources.json -> cities) can be collected this way.
 # Ukraine is read from aggregate pages as a whole and runs through "Fetch and Update Tariffs";
-# here it publishes only a city with a page of its own for the named service (kyiv, water).
+# here it publishes only a city with a page of its own for the named service (kyiv, water), or
+# the grid_export block.
 
 on:
   workflow_dispatch:

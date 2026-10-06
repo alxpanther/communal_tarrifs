@@ -67,7 +67,8 @@ def _nkrekp_station_type(source: str, rest: str) -> str:
     if "вітру та сонця" in source:
         return "wind_solar"
     if "сонячного" in source:
-        return "solar_roof" if "дах" in rest else "solar_ground"
+        # The clause on stations up to 30 kW does not mention placement: roofs included.
+        return "solar_roof" if "дах" in rest else "solar"
     if "вітру" in source:
         return "wind"
     return ""

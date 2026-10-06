@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-10-06T14:48:40.142867",
+  "generated_at": "2026-10-06T15:27:53.197369",
   "countries": [
     {
       "country": "UA",
@@ -9,7 +9,7 @@
         "uk": "Україна"
       },
       "currency": "UAH",
-      "last_updated_at": "2026-10-06T12:33:44.522336",
+      "last_updated_at": "2026-10-06T15:27:53.185562",
       "path": "ua/tariffs_ua.json",
       "enabled": true,
       "min_app_version": ""

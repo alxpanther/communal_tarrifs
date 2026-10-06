@@ -21,9 +21,10 @@ other city keeps its published value — and rebuilds the country index.
 
 A city has to be named: the tool refuses to collect a whole country, which is a job for
 src/run_country.py and for the maintainer's agreement. In a country read from aggregate pages
-(Ukraine) --write publishes only a city with a source of its own for the service --block names. The exceptions are the electricity and
-grid_export blocks, which belong to the country rather than to a city. grid_export is read by
-code, so testing it makes no model call at all.
+(Ukraine) --write publishes only a city with a source of its own for the service --block names,
+or the grid_export block. The exceptions are the electricity and grid_export blocks, which belong
+to the country rather than to a city. grid_export is read by code, so testing and publishing it
+makes no model call at all.
 """
 
 import argparse
@@ -90,10 +91,13 @@ def check_selection(args, config: dict) -> str:
     if unknown:
         return (f"неизвестные города: {', '.join(unknown)}\n"
                 f"есть в конфиге: {', '.join(known)}")
-    if args.write and config.get("reference_sources") and not has_own_sources(args, known):
+    # grid_export is read by the shared module in a full run too, so it can be published alone.
+    if args.write and config.get("reference_sources") and args.block != GRID_EXPORT \
+            and not has_own_sources(args, known):
         return ("страна собирается со сводных страниц: с --write здесь публикуется только город "
                 "с собственным источником этой услуги (cities.<код>.sources.<услуга>), а услуга "
-                "называется через --block; всё остальное — src/run_country.py")
+                "называется через --block, или блок grid_export; всё остальное — "
+                "src/run_country.py")
     if not args.cities and args.block not in COUNTRY_BLOCKS:
         return ("назовите хотя бы один город: сбор всей страны — это src/run_country.py "
                 "и только с согласия владельца проекта")

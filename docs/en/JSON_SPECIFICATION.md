@@ -351,7 +351,7 @@ Element of `rates[]`:
 
 | Field | Type | Description | Example |
 |---|---|---|---|
-| `station_type` | `String` | `"solar_ground"` — solar on the ground; `"solar_roof"` — solar on roofs and facades; `"wind"`; `"wind_solar"` — combined wind and solar; `"solar"` — a country that does not split solar stations by placement. | `"solar_ground"` |
+| `station_type` | `String` | `"solar"` — solar of any placement, where the rule does not split stations by it (Ukraine up to 30 kW, Uzbekistan); `"solar_roof"` — solar on roofs and facades, where the rule prices them apart; `"wind"`; `"wind_solar"` — combined wind and solar. | `"solar"` |
 | `max_capacity_kw` | `Double` | Capacity limit of the row, kW. | `30.0` |
 | `commissioned_from` | `String` | First day of the period in which the station was put into operation, `YYYY-MM-DD`; empty when the source sets no such period. | `"2025-01-01"` |
 | `commissioned_to` | `String` | Last day of that period; empty when open-ended. | `"2025-12-31"` |
@@ -368,10 +368,12 @@ Element of `rates[]`:
 > not below the station's capacity.
 >
 > **`solar_roof` has a single row, for 2019 — that is how the NKREKP resolution prints it.** Its
-> clause on solar stations up to 30 kW does not mention placement, and is published as
-> `solar_ground`; the separate roof clause covers stations up to 50 kW put into operation in 2019 only.
-> So a roof station up to 30 kW put into operation outside 2019 is paid by the `solar_ground` row of
-> its period, and a roof station above 30 kW put into operation outside 2019 has no row.
+> clause on solar stations up to 30 kW does not mention placement, and is published as `solar`; the
+> separate roof clause covers stations up to 50 kW put into operation in 2019 only. So a roof station
+> up to 30 kW put into operation outside 2019 is paid by the `solar` row of its period, and a roof
+> station above 30 kW put into operation outside 2019 has no row. Files written before 2026-10-07
+> called that clause `solar_ground`; it was renamed by agreement with the app before the app read
+> the block.
 
 ---
 

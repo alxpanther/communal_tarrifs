@@ -357,13 +357,13 @@ def save_registry(suppliers: dict, section: str = WATER_REGISTRY_SECTION):
 def resolve_city_identity(cities: list, notifier: TelegramNotifier,
                           section: str = WATER_REGISTRY_SECTION,
                           is_plain_owner=is_waterworks, label: str = "воды",
-                          kept_when_missing: bool = False, retired: set = frozenset()) -> list:
+                          kept_when_missing: bool = False, expected_gone: set = frozenset()) -> list:
     """
     Replaces model-provided identifiers with registry-backed ones so city_code and
     city_name stay byte-identical across runs. Returns the cities with final identity.
     `kept_when_missing` says a supplier gone from the source keeps its published record, which
-    changes what the maintainer is told about it. A supplier whose code is `retired` is expected
-    to be gone and is not reported.
+    changes what the maintainer is told about it. A supplier whose code is in `expected_gone` —
+    a retired city, or one read from a page of its own — is not reported missing.
     """
     registry = load_registry(section)
     lookup = {normalize_name(name): entry for name, entry in registry.items()}
@@ -397,7 +397,7 @@ def resolve_city_identity(cities: list, notifier: TelegramNotifier,
     disappeared = [
         f"{name} ({entry['city_code']})"
         for name, entry in registry.items()
-        if normalize_name(name) not in present and entry["city_code"] not in retired
+        if normalize_name(name) not in present and entry["city_code"] not in expected_gone
     ]
 
     if added:
@@ -634,7 +634,7 @@ def validate_water_cities(raw_cities, expected_rows: int, table_rows: dict) -> t
     return cities, errors
 
 def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNotifier,
-                          retired: set = frozenset()) -> list:
+                          expected_gone: set = frozenset()) -> list:
     """
     Extracts the water tariff table via LLM and validates the result against the source.
     Returns None when extraction cannot be trusted, so the caller keeps the previous data.
@@ -666,7 +666,8 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
         )
         return None
 
-    cities = resolve_city_identity(cities, notifier, kept_when_missing=True, retired=retired)
+    cities = resolve_city_identity(cities, notifier, kept_when_missing=True,
+                                   expected_gone=expected_gone)
     logger.info(f"Water tariffs extracted and validated for {len(cities)} suppliers")
     return cities
 
@@ -1199,7 +1200,7 @@ def extract_gas_block(base_data: dict, config: dict, timeout: int, notifier: Tel
     identities = resolve_city_identity(
         [{"supplier": c["distributor"], "city_name": c["city_name"]} for c in fresh],
         notifier, section=GAS_SECTION, is_plain_owner=is_named_after_city, label="газа",
-        retired=retired_codes(config, GAS))
+        expected_gone=retired_codes(config, GAS))
 
     today = datetime.now().date()
     published = list(kept)
@@ -1315,8 +1316,12 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
     water_data = base_data.get("water", {})
     water_data["source_url"] = water_url
 
+    # A city read from its own page is refreshed there whether minfin lists it or not.
+    own_pages = {code for code, city in (config.get("cities") or {}).items()
+                 if "water" in (city.get("sources") or {})}
     water_cities = (extract_water_tariffs(water_html, model_name, notifier,
-                                          retired_codes(config, "water")) if water_html else None)
+                                          retired_codes(config, "water") | own_pages)
+                    if water_html else None)
     if not water_cities:
         logger.warning("Keeping previous water cities: extraction failed or was rejected by validation")
     city_sources = collect_water_city_sources(config, water_data, notifier)

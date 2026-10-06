@@ -311,7 +311,7 @@ def read_city(source: dict, identity: dict, supplier: str, currency: str, previo
     timeout = int((config.get("settings", {}) or {}).get("timeout_seconds") or 30)
     urls = [u for u in (source.get("urls") or [source.get("url")]) if u]
     problems = []
-    documents = fetch_all(urls, timeout, bool(source.get("read_images")),
+    documents = fetch_all(urls, timeout, source.get("read_images") or False,
                           source.get("read_documents") or False, problems)
     if not documents:
         return None, [f"{label}: источник не открылся ({'; '.join(problems) or ', '.join(urls)})"], None

@@ -105,7 +105,11 @@ block, merged by supplier in `merge_water_cities()`:
 * **A city's own page.** `cities.<code>.sources.water` in `config/ua/sources.json` — Kyiv, Kharkiv,
   Cherkasy, Uman — is read by the model through the shared per-city pipeline
   (`ai_pipeline.collect_block()`), with the same checks as any other country; it wins over minfin.
-  `src/run_city.py ua <city> --block water` tests one (a dry run only: Ukraine is published whole).
+  `src/run_city.py ua <city> --block water` tests one, and with `--write` publishes just that
+  city — the only part of Ukraine that can be published alone, since everything else is read
+  from minfin as a whole. The block's `source_url` keeps naming minfin. Such a city is also left
+  out of the "suppliers gone from the source" alert: it is refreshed from its own page whether
+  minfin lists it or not.
 * **What was published.** A utility minfin stops listing keeps its last published tariff instead of
   dropping out of the file — the maintainer's decision, because a city usually reappears on minfin
   once its new tariff is set.
@@ -165,8 +169,9 @@ where minfin prints a supplier and nothing else) yields no record: a price witho
 understate the bill. A page whose captions minfin has reworded yields nothing and is reported, so
 the words in those constants are the one thing to update. `reference_sources.gas.retired_pages` lists
 the city pages, by their name in minfin's list, that are not opened at all — occupied towns, whose
-pages would only be reported as unreadable every month; their codes, where they have one, are also
-in `retired_cities`. The checks themselves live in
+pages would only be reported as unreadable every month (their codes, where they have one, are also
+in `retired_cities`), and towns whose page has never named a network operator, so they were never
+published: Korostyshiv, Kostiantynivka and Tysmenytsia. The checks themselves live in
 `common/gas.py`, shared with every country.
 
 ### `grid_export`
@@ -273,7 +278,7 @@ Four workflows share the repository:
 | Fetch and Update Tariffs | on the 1st and the 25th, or by hand with country codes | collects, commits the files with `[skip ci]`, publishes to R2 and Pages |
 | Publish Tariffs | on a push that changes a published file, or by hand | publishes the files already in the repository; no collection, no model call |
 | Check Sources | by hand | downloads sources from a GitHub runner and reports which answer; no model call, nothing written |
-| Collect Cities | by hand with a country, city codes, a service and "write" | runs `src/run_city.py` from a GitHub runner; a dry run by default, with "write" commits the named cities and starts Publish Tariffs. Countries read city by city only |
+| Collect Cities | by hand with a country, city codes, a service and "write" | runs `src/run_city.py` from a GitHub runner; a dry run by default, with "write" commits the named cities and starts Publish Tariffs. For Ukraine, only a city with a page of its own for the named service |
 
 ---
 
@@ -516,8 +521,12 @@ Both exist because of mistakes that were made and caught, not as decoration.
   Gemini reads the scanned pages itself. A source with no `<a>` tags at all, such as a JSON feed
   (Veolia Energy Tashkent's news, Uzsuvtaminot's tariff API), yields its bare addresses as links. As with
   `read_images`, config keeps the stable page and the file name of this year's decision never
-  enters it. `read_images` also understands a table pasted into the page as a `data:` image, as
-  Bishkekteploset's is: such an image has no width or height to judge, so its decoded size is used.
+  enters it. `read_images` also understands an image whose markup states no width or height — a
+  table pasted into the page as a `data:` image, as Bishkekteploset's is, or a plain `<img src>`,
+  as Kyivvodokanal's table of household tariffs is: such an image is judged by its file size once
+  decoded or downloaded. `{"count": N}` keeps only the first N large images of a page: below
+  Kyivvodokanal's table sit screenshots of next year's proposal, which print a "current" tariff
+  too — the one in force before the last decision — so only the first image is read.
 * **The unit of a source (`unit`).** Hot water is priced per m³ almost everywhere, and that is the
   default. Belarus bills it as the heat used to warm the water, per Gcal, and publishes no price per
   cubic metre at all, so its sources say `"unit": "Gcal"` instead of making anyone convert.

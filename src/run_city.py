@@ -11,6 +11,7 @@ country to check a fix in one city is how a month's credits disappear in a day.
     python src/run_city.py ru astrakhan --block gas            # a city's gas prices
     python src/run_city.py ua --block grid_export              # the price of exported power
     python src/run_city.py ru yekaterinburg --write            # publish just this city
+    python src/run_city.py ua kyiv --block water --write       # a Ukrainian city's own source
     python src/run_city.py am --block electricity --llm-from ru   # test on Russia's provider
 
 A dry run, the default, fetches, extracts and validates, then prints what would be published
@@ -19,7 +20,8 @@ the city registry alone. --write publishes the selected cities into the country 
 other city keeps its published value — and rebuilds the country index.
 
 A city has to be named: the tool refuses to collect a whole country, which is a job for
-src/run_country.py and for the maintainer's agreement. The exceptions are the electricity and
+src/run_country.py and for the maintainer's agreement. In a country read from aggregate pages
+(Ukraine) --write publishes only a city with a source of its own for the service --block names. The exceptions are the electricity and
 grid_export blocks, which belong to the country rather than to a city. grid_export is read by
 code, so testing it makes no model call at all.
 """
@@ -69,6 +71,18 @@ def parse_args(argv):
     return parser.parse_args(argv)
 
 
+def has_own_sources(args, cities: dict) -> bool:
+    """Whether every named city declares a source of its own for the named service.
+
+    Ukraine is read from aggregate pages as a whole, and only a few of its cities have a page of
+    their own for a service — Kyiv's water is on Kyivvodokanal's site. Such a city is read by the
+    per-city pipeline even in a full run, so it can be published alone; the aggregate blocks
+    cannot.
+    """
+    return bool(args.block and args.cities) and all(
+        args.block in ((cities[code].get("sources") or {})) for code in args.cities)
+
+
 def check_selection(args, config: dict) -> str:
     """Returns why the selection cannot run, or an empty string when it can."""
     known = config.get("cities") or {}
@@ -76,9 +90,10 @@ def check_selection(args, config: dict) -> str:
     if unknown:
         return (f"неизвестные города: {', '.join(unknown)}\n"
                 f"есть в конфиге: {', '.join(known)}")
-    if args.write and config.get("reference_sources"):
-        return ("страна собирается со сводных страниц целиком: публикуйте её через "
-                "src/run_country.py, а здесь — только пробный прогон")
+    if args.write and config.get("reference_sources") and not has_own_sources(args, known):
+        return ("страна собирается со сводных страниц: с --write здесь публикуется только город "
+                "с собственным источником этой услуги (cities.<код>.sources.<услуга>), а услуга "
+                "называется через --block; всё остальное — src/run_country.py")
     if not args.cities and args.block not in COUNTRY_BLOCKS:
         return ("назовите хотя бы один город: сбор всей страны — это src/run_country.py "
                 "и только с согласия владельца проекта")

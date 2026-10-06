@@ -304,7 +304,9 @@ def _check_period(block: str, period: dict, limits: dict, label: str, reasons: l
     if block == "water":
         tolerance = as_number(limits.get("sum_tolerance")) or 0.0
         total = clean["water_supply"] + clean["sewage"]
-        if abs(total - clean["total_rate"]) > tolerance:
+        # Rounded like the fields themselves: 36.85 + 26.94 is 63.790000000000006 in floats,
+        # which a country with no tolerance would otherwise reject against a total of 63.79.
+        if round(abs(total - clean["total_rate"]), 4) > tolerance:
             reasons.append(
                 f"{label}: {clean['water_supply']} + {clean['sewage']} = {round(total, 2)}, "
                 f"а в total_rate {clean['total_rate']}"

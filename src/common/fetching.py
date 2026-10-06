@@ -191,10 +191,11 @@ def fetch(url: str, timeout: int, problems: list = None) -> Document:
 # size is what separates them. Tajikistan's ministry publishes one 2560x1804 image per decision.
 MIN_IMAGE_SIDE = 800
 MAX_PAGE_IMAGES = 4
-# An image embedded in the page as a data: URI carries no width or height to judge it by, so
-# its decoded size is used instead. Icons embedded that way are a few hundred bytes; the
-# tariff table Bishkek's heat utility pastes into its page is about 40 kB.
-MIN_INLINE_IMAGE_BYTES = 20_000
+# An image whose markup states no width or height — one embedded as a data: URI, or a plain
+# <img src> like the one carrying Kyivvodokanal's tariff table — is judged by its file size
+# instead. Icons are a few kilobytes at most; the tariff table Bishkek's heat utility pastes
+# into its page is about 40 kB, Kyivvodokanal's about 330 kB.
+MIN_IMAGE_BYTES = 20_000
 
 IMG_TAG = re.compile(r"<img[^>]+>", re.I)
 IMG_ATTR = re.compile(r"""(src|width|height)\s*=\s*["']([^"']+)["']""", re.I)
@@ -207,8 +208,9 @@ MAX_PAGE_DOCUMENTS = 6
 
 
 def _large_images(markup: str, page_url: str) -> list:
-    """The images on a page that are big enough to be documents: URLs to download, or
-    Documents already decoded from an inline data: URI."""
+    """The images on a page that may be documents, in page order: URLs to download, or
+    Documents already decoded from an inline data: URI. An image whose markup states no size is
+    kept too, and is judged by its file once downloaded."""
     found = []
     for tag in IMG_TAG.findall(markup):
         attrs = {name.lower(): value for name, value in IMG_ATTR.findall(tag)}
@@ -220,12 +222,33 @@ def _large_images(markup: str, page_url: str) -> list:
                 found.append(image)
             continue
         width, height = as_pixels(attrs.get("width")), as_pixels(attrs.get("height"))
-        if max(width, height) < MIN_IMAGE_SIDE:
+        if (width or height) and max(width, height) < MIN_IMAGE_SIDE:
             continue
         url = urljoin(page_url, src)
         if url.startswith(("http://", "https://")) and url not in found:
             found.append(url)
-    return found[:MAX_PAGE_IMAGES]
+    return found
+
+
+def _page_images(markup: str, page_url: str, timeout: int, option) -> list:
+    """The images of a page handed to the model, downloaded, capped.
+
+    `option` is True, or `{"count": N}` for a page whose later images would mislead: below
+    Kyivvodokanal's table of tariffs in force sit screenshots of next year's proposal, which
+    also print a "current" tariff — the one in force before the last decision.
+    """
+    cap = MAX_PAGE_IMAGES
+    if isinstance(option, dict):
+        cap = min(int(option.get("count") or MAX_PAGE_IMAGES), MAX_PAGE_IMAGES)
+    images = []
+    for image in _large_images(markup, page_url):
+        if len(images) >= cap:
+            break
+        if isinstance(image, str):
+            image = fetch(image, timeout)
+        if image and image.is_binary and len(image.data) >= MIN_IMAGE_BYTES:
+            images.append(image)
+    return images
 
 
 def _inline_image(page_url: str, mime: str, payload: str):
@@ -234,7 +257,7 @@ def _inline_image(page_url: str, mime: str, payload: str):
         data = base64.b64decode(payload, validate=False)
     except ValueError:
         return None
-    if len(data) < MIN_INLINE_IMAGE_BYTES:
+    if len(data) < MIN_IMAGE_BYTES:
         return None
     logger.info(f"Found an inline {mime} image on {page_url}: {len(data)} bytes")
     return Document(page_url, data=data, mime=mime)
@@ -304,13 +327,14 @@ def as_pixels(value) -> int:
         return 0
 
 
-def fetch_all(urls: list, timeout: int, read_images: bool = False,
+def fetch_all(urls: list, timeout: int, read_images=False,
               read_documents=False, problems: list = None) -> list:
     """Fetches several documents for one city, dropping the ones that failed.
 
-    With `read_images`, the large images of every page fetched are handed to the model
-    alongside it. Some regulators publish a decision as a photograph of its pages —
-    Tajikistan's ministry of energy does — and the page itself then carries no text to read.
+    With `read_images` (True, or `{"count": N}` to keep only the first N), the large images of
+    every page fetched are handed to the model alongside it. Some regulators publish a decision
+    as a photograph of its pages — Tajikistan's ministry of energy did — and some utilities a
+    tariff table as a picture, as Kyivvodokanal does; the page itself then has no figures to read.
     With `read_documents` (True for every PDF, or text a link must contain), the documents a
     page links to are fetched as well: Kyrgyzstan's energy regulator and Belarus's energy
     association attach their decisions as PDFs, Bishkek's city council gives each resolution a
@@ -327,11 +351,7 @@ def fetch_all(urls: list, timeout: int, read_images: bool = False,
         if not document.text:
             continue
         if read_images:
-            for image in _large_images(document.markup, url):
-                if isinstance(image, str):
-                    image = fetch(image, timeout)
-                if image and image.is_binary:
-                    documents.append(image)
+            documents.extend(_page_images(document.markup, url, timeout, read_images))
         if read_documents:
             for link in _linked_documents(document.markup, url, read_documents):
                 attachment = fetch(link, timeout)

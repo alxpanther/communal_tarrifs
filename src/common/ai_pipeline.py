@@ -116,8 +116,9 @@ def _aliases_of(city: dict, block: str) -> list:
     return []
 
 
-def _read_images_of(city: dict, block: str) -> bool:
-    """Whether the pages of this source carry their tariff as an image.
+def _read_images_of(city: dict, block: str):
+    """Whether the pages of this source carry their tariff as an image: False, True, or
+    `{"count": N}` to keep only the first N of them.
 
     A regulator that publishes a decision as a photograph of its pages leaves nothing to read
     in the page itself. With this set, the large images of the page are fetched too and go to
@@ -125,7 +126,7 @@ def _read_images_of(city: dict, block: str) -> bool:
     this year's scan.
     """
     block_config = (city.get("sources") or {}).get(block) or {}
-    return bool(block_config.get("read_images"))
+    return block_config.get("read_images") or False
 
 
 def _unit_of(city: dict, block: str) -> str:
@@ -301,7 +302,7 @@ def collect_block(country: Country, config: dict, block: str, previous_block: di
     return BlockResult(list(published.values()), refreshed, failures, records, raw)
 
 
-def _block_source_url(config: dict, block: str) -> str:
+def _block_source_url(config: dict, block: str, published: dict) -> str:
     """The one page a block was read from, or an empty string when there is no such page.
 
     A per-city country usually has one source per city, and the block-level `source_url` of the
@@ -309,7 +310,12 @@ def _block_source_url(config: dict, block: str) -> str:
     Left alone it describes something worse than nothing: it kept naming pages that had been
     dropped from config months earlier. So it is filled only when every city of the block reads
     the same single page, which is the common case for a country-wide tariff.
+
+    A country read from aggregate pages (`reference_sources`, Ukraine) keeps the published value:
+    the block was read from minfin, and the few cities with a page of their own do not change that.
     """
+    if config.get("reference_sources"):
+        return published.get("source_url", "")
     urls = {tuple(_sources_of(city, block)) for city in (config.get("cities") or {}).values()
             if block in (city.get("sources") or {}) and _sources_of(city, block)}
     return urls.pop()[0] if len(urls) == 1 else ""
@@ -527,7 +533,7 @@ def collect(country: Country, config: dict, previous: dict, extractor,
             data[block]["update_date"] = today
         # Set whether or not anything was refreshed: the value describes what config declares,
         # not what the run managed to read, and a block with no source should say so.
-        data[block]["source_url"] = _block_source_url(config, block)
+        data[block]["source_url"] = _block_source_url(config, block, data[block])
         refreshed[block] = len(result.refreshed)
         results[block] = result
         if result.failures:
@@ -540,7 +546,7 @@ def collect(country: Country, config: dict, previous: dict, extractor,
         block["cities"] = result.cities
         if result.refreshed:
             block["update_date"] = today
-        block["source_url"] = _block_source_url(config, "electricity")
+        block["source_url"] = _block_source_url(config, "electricity", block)
         data[ELECTRICITY_CITIES] = block
         refreshed[ELECTRICITY_CITIES] = len(result.refreshed)
         results[ELECTRICITY_CITIES] = result
@@ -553,7 +559,7 @@ def collect(country: Country, config: dict, previous: dict, extractor,
         block["cities"] = result.cities
         if result.refreshed:
             block["update_date"] = today
-        block["source_url"] = _block_source_url(config, GAS)
+        block["source_url"] = _block_source_url(config, GAS, block)
         data[GAS] = block
         refreshed[GAS] = len(result.refreshed)
         results[GAS] = result

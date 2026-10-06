@@ -8,8 +8,9 @@ name: Collect Cities
 # published into the country file, every other city keeps its published value, the result is
 # committed, and "Publish Tariffs" is started to deploy it.
 #
-# Only countries read city by city (config/<cc>/sources.json -> cities) can be collected this way.
-# Ukraine is read from aggregate pages as a whole and runs through "Fetch and Update Tariffs".
+# Countries read city by city (config/<cc>/sources.json -> cities) can be collected this way.
+# Ukraine is read from aggregate pages as a whole and runs through "Fetch and Update Tariffs";
+# here it publishes only a city with a page of its own for the named service (kyiv, water).
 
 on:
   workflow_dispatch:

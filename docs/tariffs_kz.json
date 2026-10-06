@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-01T17:20:57.886964",
+  "last_updated_at": "2026-10-06T14:48:37.446995",
   "country": "KZ",
   "country_names": {
     "ru": "Казахстан",
@@ -478,5 +478,15 @@
     "source_url": "",
     "update_date": "2026-09-25",
     "cities": []
+  },
+  "grid_export": {
+    "source_url": "",
+    "update_date": "2026-10-06",
+    "scheme": "",
+    "unit": "kWh",
+    "decree_info": "",
+    "income_tax_percent": 0.0,
+    "income_tax_info": "",
+    "rates": []
   }
 }

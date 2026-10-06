@@ -366,6 +366,12 @@ Element of `rates[]`:
 > capacity and the day it was put into operation. Ukraine prints two wind rows that both cover 2019,
 > up to 30 kW and up to 50 kW: where two rows fit, take the one with the smallest `max_capacity_kw`
 > not below the station's capacity.
+>
+> **`solar_roof` has a single row, for 2019 — that is how the NKREKP resolution prints it.** Its
+> clause on solar stations up to 30 kW does not mention placement, and is published as
+> `solar_ground`; the separate roof clause covers stations up to 50 kW put into operation in 2019 only.
+> So a roof station up to 30 kW put into operation outside 2019 is paid by the `solar_ground` row of
+> its period, and a roof station above 30 kW put into operation outside 2019 has no row.
 
 ---
 

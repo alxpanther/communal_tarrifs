@@ -471,8 +471,10 @@ def _changes(previous: dict, data: dict, refreshed: dict, results: dict) -> dict
 def _report(country: Country, refreshed: dict, changes: dict, failures: dict, notifier,
             scope: str = "", usage: str = ""):
     """One message per run: per block, how many tariffs read from their sources changed and how
-    many confirmed the published value; what it cost; and every reason something was not read."""
-    if not notifier:
+    many confirmed the published value; what it cost; and every reason something was not read.
+    A run that read nothing and missed nothing — the empty block of a service the country does not
+    collect — has nothing to say."""
+    if not notifier or (not refreshed and not failures):
         return
     total_failures = sum(len(v) for v in failures.values())
     title = f"<b>{country.code}: обновление тарифов</b>"

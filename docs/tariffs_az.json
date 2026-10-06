@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-01T17:17:17.097066",
+  "last_updated_at": "2026-10-06T14:48:34.282479",
   "country": "AZ",
   "country_names": {
     "ru": "Азербайджан",
@@ -207,5 +207,15 @@
         "norms_decree": ""
       }
     ]
+  },
+  "grid_export": {
+    "source_url": "",
+    "update_date": "2026-10-06",
+    "scheme": "",
+    "unit": "kWh",
+    "decree_info": "",
+    "income_tax_percent": 0.0,
+    "income_tax_info": "",
+    "rates": []
   }
 }

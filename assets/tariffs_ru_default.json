@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-03T14:10:24.464728",
+  "last_updated_at": "2026-10-06T14:48:38.976130",
   "country": "RU",
   "country_names": {
     "ru": "Россия",
@@ -3327,5 +3327,15 @@
         "norms_decree": "Постановление от 27.08.2012 №161-п, в редакции постановления министерства ЖКХ Астраханской области от 21.11.2012 №167-п"
       }
     ]
+  },
+  "grid_export": {
+    "source_url": "",
+    "update_date": "2026-10-06",
+    "scheme": "",
+    "unit": "kWh",
+    "decree_info": "",
+    "income_tax_percent": 0.0,
+    "income_tax_info": "",
+    "rates": []
   }
 }

@@ -439,6 +439,7 @@ python src/run_city.py ru yekaterinburg --block water    # одна услуга
 python src/run_city.py ru --block electricity            # электроэнергия страны
 python src/run_city.py ru kazan --block electricity      # собственный тариф города
 python src/run_city.py ru astrakhan --block gas          # газ города
+python src/run_city.py ua --block grid_export            # цена сданной в сеть энергии, без модели
 python src/run_city.py ru yekaterinburg --write          # опубликовать только этот город
 python src/run_city.py am --block electricity --llm-from ru   # проверить на провайдере России
 ```
@@ -554,6 +555,29 @@ python src/run_city.py am --block electricity --llm-from ru   # проверит
 Предел цены за м³ — `validation.gas.max_rate`. Полное описание — в `docs/ru/ARCHITECTURE.md`, раздел 8a,
 «Газ»; формат — `docs/ru/JSON_SPECIFICATION.md`, раздел 2.6. `manual_override` газ пока не
 поддерживает.
+
+### Электроэнергия, сданная в сеть (`grid_export`)
+
+Цена, которую домохозяйство со своей станцией получает за кВт·ч, отданный в сеть, — одна на страну,
+как общий тариф на электроэнергию. Собирается для Украины («зелёный» тариф НКРЕКП) и Узбекистана
+(субсидия «Солнечный дом»), в остальных странах блок пуст. Читает её **код, без модели**, поэтому
+проверка ничего не стоит. В конфиге — только страницы, формулировка, которую они печатают, и схема
+расчёта, без единой ставки:
+
+```jsonc
+"grid_export": {
+  "reader": "nkrekp_green_tariff",   // как читать: nkrekp_green_tariff или lex_uz_solar_house
+  "scheme": "monthly_surplus",       // расчёт по положительной разнице за месяц
+  "urls": ["https://www.kresc.com.ua/green-tariffs.shtml", "https://www.ez.rv.ua/…"]
+}
+```
+
+Каждая страница читается отдельно, побеждает самый новый акт; две страницы с одним актом и разными
+числами отклоняют прогон. Пределы — `validation.grid_export.max_rate` и
+`validation.grid_export.max_change_ratio` (без него берётся порог страны). Проверка:
+`python src/run_city.py ua --block grid_export`. Полное описание — в `docs/ru/ARCHITECTURE.md`, раздел
+8a, «Электроэнергия, сданная в сеть»; формат — `docs/ru/JSON_SPECIFICATION.md`, раздел 2.7.
+`manual_override` этот блок не поддерживает.
 
 ## 🖐 Ручное переопределение тарифов (`manual_override`)
 

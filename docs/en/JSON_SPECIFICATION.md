@@ -14,7 +14,7 @@ actually published is a separate file, described in section 6 (`tariffs_index.js
 
 ## 1. Overall structure
 
-The file consists of seven parts:
+The file consists of eight parts:
 
 1. **Root metadata** — file version, country, currency, update timestamp.
 2. **`electricity`** — the country-wide electricity tariff: a base rate, one/two/three-zone meters,
@@ -26,10 +26,13 @@ The file consists of seven parts:
 6. **`heating`** — centralised heating (per Gcal).
 7. **`gas`** — natural gas, per city: the price of the gas, the price of delivering it, every offer
    the source prints and the consumption norms of a household without a meter.
+8. **`grid_export`** — the price a household with its own station is paid for electricity it
+   exports to the grid; one country-wide block, like `electricity`.
 
 > ⚠️ **Compatibility.** `hot_water` and `heating` were added after `electricity` and `water`;
 > `electricity_cities`, `electricity.plans` and the hot water components were added in September
-> 2026, and `gas` — a new root block — later that month. No existing field was renamed, removed or re-typed, so existing code keeps reading the file
+> 2026, `gas` — a new root block — later that month, and the root block `grid_export` in October
+> 2026. No existing field was renamed, removed or re-typed, so existing code keeps reading the file
 > as before. The only requirement is that the parser ignores unknown keys:
 > `Json { ignoreUnknownKeys = true }` for `kotlinx.serialization` (Moshi and Gson do it by default).
 
@@ -80,6 +83,8 @@ services to each other, and `city_code` as the stable selection key inside one b
 | `water` | `Object` | Water supply and sewage block (section 2.3). | `{ ... }` |
 | `hot_water` | `Object` | Hot water block (section 2.4). | `{ ... }` |
 | `heating` | `Object` | Heating block (section 2.5). | `{ ... }` |
+| `gas` | `Object` | Gas block (section 2.6). Always present; `cities` is empty where gas is not collected. | `{ ... }` |
+| `grid_export` | `Object` | Price of electricity exported to the grid (section 2.7). Always present; `rates` is empty where it is not collected. | `{ ... }` |
 
 ---
 
@@ -324,6 +329,44 @@ Element of `norms[]`:
 | `value` | `Double` | m³ per month. | `3.28` |
 | `heating_season_only` | `Boolean` | The norm applies only during the heating season. | `false` |
 
+### 2.7. Block `grid_export` (electricity exported to the grid)
+
+The price a household with its own station — solar panels, a wind turbine — is paid for each kWh
+it exports to the grid. One block per country, like `electricity`: the price does not depend on the
+city or the supplier. Present in every file; where it is not collected, `scheme` is empty and `rates`
+is empty.
+
+| Field | Type | Description | Example |
+|---|---|---|---|
+| `source_url` | `String` | The page the block was read from; empty when the block is empty. | `"https://www.kresc.com.ua/green-tariffs.shtml"` |
+| `update_date` | `String` | Date the block was last refreshed, `YYYY-MM-DD`. | `"2026-10-06"` |
+| `scheme` | `String` | How exported energy is settled. `"monthly_surplus"`: the month's export minus import; a positive difference is paid at `rate`, a negative one is billed at the ordinary electricity tariff. Empty when the block is empty. Other values will come with other countries: an unknown value means "the app cannot compute it". | `"monthly_surplus"` |
+| `unit` | `String` | Always `"kWh"`. | `"kWh"` |
+| `decree_info` | `String` | The act the rates rest on. | `"Постанова НКРЕКП від 29.09.2026 № 1613"` |
+| `income_tax_percent` | `Double` | Tax withheld from the income, percent. `0.0` both when there is no tax and when it is not collected — `income_tax_info` tells them apart. | `0.0` |
+| `income_tax_info` | `String` | What the percent is, as the source prints it. **Empty means "not collected"**: the app asks the user. Non-empty with `0.0` means the source says the income is not taxed. | `"Средства субсидии не включаются в состав совокупного дохода физических лиц"` |
+| `rates` | `Array<Object>` | One row per station type, capacity limit and commissioning period; empty when nothing is collected. | `[ ... ]` |
+
+Element of `rates[]`:
+
+| Field | Type | Description | Example |
+|---|---|---|---|
+| `station_type` | `String` | `"solar_ground"` — solar on the ground; `"solar_roof"` — solar on roofs and facades; `"wind"`; `"wind_solar"` — combined wind and solar; `"solar"` — a country that does not split solar stations by placement. | `"solar_ground"` |
+| `max_capacity_kw` | `Double` | Capacity limit of the row, kW. | `30.0` |
+| `commissioned_from` | `String` | First day of the period in which the station was put into operation, `YYYY-MM-DD`; empty when the source sets no such period. | `"2025-01-01"` |
+| `commissioned_to` | `String` | Last day of that period; empty when open-ended. | `"2025-12-31"` |
+| `rate` | `Double` | Price of 1 exported kWh in the country currency. Ukraine prints kopecks; the file carries hryvnias. | `6.8001` |
+| `vat_included` | `Boolean` | `true` when `rate` includes VAT; `false` when it is printed without VAT or no VAT applies (Uzbekistan pays a state subsidy). | `false` |
+| `valid_from` | `String` | Day the act that sets the rate took effect. | `"2026-10-01"` |
+| `valid_to` | `String` | Last day the rate applies; empty — until the next act replaces it, which is how every source prints it today. | `""` |
+
+> 💡 **The commissioning period is not the period of validity.** NKREKP sets every row at once,
+> several times a year: today a station put into operation in 2013–2014 is paid 18.4852 UAH per kWh,
+> one put into operation in 2026–2029 is paid 6.134. Pick the row by the station's type, its
+> capacity and the day it was put into operation. Ukraine prints two wind rows that both cover 2019,
+> up to 30 kW and up to 50 kW: where two rows fit, take the one with the smallest `max_capacity_kw`
+> not below the station's capacity.
+
 ---
 
 ## 3. Ready-made Kotlin data classes (`kotlinx.serialization`)
@@ -354,7 +397,8 @@ data class TariffResponse(
     @SerialName("water") val water: WaterTariff,
     @SerialName("hot_water") val hotWater: HotWaterTariff? = null,
     @SerialName("heating") val heating: HeatingTariff? = null,
-    @SerialName("gas") val gas: GasTariff? = null
+    @SerialName("gas") val gas: GasTariff? = null,
+    @SerialName("grid_export") val gridExport: GridExportTariff? = null
 )
 
 @Serializable
@@ -566,6 +610,30 @@ data class GasNorm(
     @SerialName("value") val value: Double,
     @SerialName("heating_season_only") val heatingSeasonOnly: Boolean
 )
+
+@Serializable
+data class GridExportTariff(
+    @SerialName("source_url") val sourceUrl: String = "",
+    @SerialName("update_date") val updateDate: String = "",
+    @SerialName("scheme") val scheme: String = "",
+    @SerialName("unit") val unit: String = "kWh",
+    @SerialName("decree_info") val decreeInfo: String = "",
+    @SerialName("income_tax_percent") val incomeTaxPercent: Double = 0.0,
+    @SerialName("income_tax_info") val incomeTaxInfo: String = "",
+    @SerialName("rates") val rates: List<GridExportRate> = emptyList()
+)
+
+@Serializable
+data class GridExportRate(
+    @SerialName("station_type") val stationType: String,
+    @SerialName("max_capacity_kw") val maxCapacityKw: Double,
+    @SerialName("commissioned_from") val commissionedFrom: String = "",
+    @SerialName("commissioned_to") val commissionedTo: String = "",
+    @SerialName("rate") val rate: Double,
+    @SerialName("vat_included") val vatIncluded: Boolean = false,
+    @SerialName("valid_from") val validFrom: String = "",
+    @SerialName("valid_to") val validTo: String = ""
+)
 ```
 
 ---
@@ -680,6 +748,23 @@ Ukraine bills delivery by the annual contracted capacity, which for a household 
 monthly consumption (with a meter) or the norm (without one); `distribution_rate` is already the
 annual tariff, so multiplying it by the month's m³ gives the bill. The user needs to enter nothing
 more.
+
+### 4.6. Electricity exported to the grid
+
+For an address marked "I export energy to the grid", with `scheme` = `"monthly_surplus"`. The user's
+row of `grid_export.rates` is chosen once, from the station's type, capacity and commissioning date
+(section 2.7); the user may type their own price instead.
+
+$$\text{net kWh} = \Delta \text{kWh}_{\text{exported}} - \Delta \text{kWh}_{\text{imported}}$$
+
+1. **Net is positive** — the household is paid, and owes nothing for electricity that month:
+   $$\text{income} = \text{net kWh} \times \text{rate} \times \left(1 - \frac{\text{income\_tax\_percent}}{100}\right)$$
+2. **Net is zero or negative** — the difference is billed as ordinary consumption (section 4.1),
+   with $-\text{net kWh}$ in place of $\Delta \text{kWh}$.
+
+`rate` is used as published; the app adds no VAT. When `income_tax_info` is empty the tax is not in
+the file — use the percent the user entered. Any other `scheme`, an empty block, or a user on hourly
+net billing: the user enters the amount.
 
 ---
 

@@ -21,7 +21,8 @@ SCHEMA_VERSION = "1.0"
 # Order of the root keys in the written file. Purely cosmetic, but it keeps the git diff
 # of a regenerated file readable.
 ROOT_ORDER = ("version", "last_updated_at", "country", "country_names", "currency",
-              "electricity", "electricity_cities", "water", "hot_water", "heating", "gas")
+              "electricity", "electricity_cities", "water", "hot_water", "heating", "gas",
+              "grid_export")
 
 # Root block of the electricity tariffs a city has apart from the country-wide one.
 ELECTRICITY_CITIES = "electricity_cities"
@@ -29,12 +30,29 @@ ELECTRICITY_CITIES = "electricity_cities"
 # Root block of natural gas prices, per city.
 GAS = "gas"
 
+# Root block of the price a household is paid for electricity it exports to the grid.
+GRID_EXPORT = "grid_export"
+
 
 def empty_city_block(source_url: str = "") -> dict:
     return {
         "source_url": source_url or "",
         "update_date": datetime.now().strftime("%Y-%m-%d"),
         "cities": []
+    }
+
+
+def empty_grid_export_block() -> dict:
+    """The grid_export block of a country whose export price is not collected."""
+    return {
+        "source_url": "",
+        "update_date": datetime.now().strftime("%Y-%m-%d"),
+        "scheme": "",
+        "unit": "kWh",
+        "decree_info": "",
+        "income_tax_percent": 0.0,
+        "income_tax_info": "",
+        "rates": []
     }
 
 
@@ -71,7 +89,8 @@ def build_root(country: Country, blocks: dict) -> dict:
         "water": blocks.get("water", empty_city_block()),
         "hot_water": blocks.get("hot_water", empty_city_block()),
         "heating": blocks.get("heating", empty_city_block()),
-        GAS: blocks.get(GAS) or empty_city_block()
+        GAS: blocks.get(GAS) or empty_city_block(),
+        GRID_EXPORT: blocks.get(GRID_EXPORT) or empty_grid_export_block()
     }
 
 

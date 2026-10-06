@@ -9,6 +9,7 @@ country to check a fix in one city is how a month's credits disappear in a day.
     python src/run_city.py ru --block electricity              # the country-wide tariff
     python src/run_city.py ru kazan --block electricity        # a city's own electricity tariff
     python src/run_city.py ru astrakhan --block gas            # a city's gas prices
+    python src/run_city.py ua --block grid_export              # the price of exported power
     python src/run_city.py ru yekaterinburg --write            # publish just this city
     python src/run_city.py am --block electricity --llm-from ru   # test on Russia's provider
 
@@ -18,8 +19,9 @@ the city registry alone. --write publishes the selected cities into the country 
 other city keeps its published value — and rebuilds the country index.
 
 A city has to be named: the tool refuses to collect a whole country, which is a job for
-src/run_country.py and for the maintainer's agreement. The one exception is the electricity
-block, which belongs to the country rather than to a city.
+src/run_country.py and for the maintainer's agreement. The exceptions are the electricity and
+grid_export blocks, which belong to the country rather than to a city. grid_export is read by
+code, so testing it makes no model call at all.
 """
 
 import argparse
@@ -35,7 +37,7 @@ from dotenv import load_dotenv
 import build_index
 from common import ai_pipeline, llm
 from common.countries import load_countries
-from common.jsonio import ELECTRICITY_CITIES, GAS, load_previous
+from common.jsonio import ELECTRICITY_CITIES, GAS, GRID_EXPORT, load_previous
 from common.overrides import CITY_BLOCKS
 from common.telegram_notifier import TelegramNotifier
 
@@ -46,12 +48,15 @@ logger = logging.getLogger("RunCity")
 
 ELECTRICITY = "electricity"
 
+# Blocks that belong to the whole country: run without naming a city.
+COUNTRY_BLOCKS = (ELECTRICITY, GRID_EXPORT)
+
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(description="Collect tariffs for part of a country.")
     parser.add_argument("country", help="country code, e.g. ru")
     parser.add_argument("cities", nargs="*", default=[], help="city codes from config/<cc>/sources.json")
-    parser.add_argument("--block", choices=list(CITY_BLOCKS) + [ELECTRICITY, GAS],
+    parser.add_argument("--block", choices=list(CITY_BLOCKS) + [ELECTRICITY, GAS, GRID_EXPORT],
                         help="one service only (default: every service of the named cities)")
     parser.add_argument("--write", action="store_true",
                         help="publish the result instead of only printing it")
@@ -74,7 +79,7 @@ def check_selection(args, config: dict) -> str:
     if args.write and config.get("reference_sources"):
         return ("страна собирается со сводных страниц целиком: публикуйте её через "
                 "src/run_country.py, а здесь — только пробный прогон")
-    if not args.cities and args.block != ELECTRICITY:
+    if not args.cities and args.block not in COUNTRY_BLOCKS:
         return ("назовите хотя бы один город: сбор всей страны — это src/run_country.py "
                 "и только с согласия владельца проекта")
     return ""
@@ -128,11 +133,25 @@ def print_gas(code: str, city: dict):
               f"{' (отопительный период)' if norm['heating_season_only'] else ''}")
 
 
+def print_grid_export(block: dict):
+    print(f"  ✅ {block['scheme']} | {block['decree_info']} | {block['source_url']}")
+    tax = f"{block['income_tax_percent']}% — {block['income_tax_info']}" if block["income_tax_info"] \
+        else "не напечатан"
+    print(f"     налог с дохода: {tax}")
+    for row in block["rates"]:
+        commissioned = f"{row['commissioned_from'] or '—'}..{row['commissioned_to'] or '—'}"
+        print(f"     {row['station_type']:<12} до {row['max_capacity_kw']} кВт, ввод {commissioned}: "
+              f"{row['rate']}{'' if row['vat_included'] else ' без НДС'}, действует с {row['valid_from']}")
+
+
 def print_dry_run(args, data: dict, refreshed: dict, failures: dict, results: dict):
-    blocks = [args.block] if args.block else list(CITY_BLOCKS) + [ELECTRICITY, GAS]
+    blocks = [args.block] if args.block else list(CITY_BLOCKS) + [ELECTRICITY, GAS, GRID_EXPORT]
     for block in blocks:
         print(f"\n=== {block} ===")
-        if block == GAS:
+        if block == GRID_EXPORT:
+            if refreshed.get(GRID_EXPORT):
+                print_grid_export(data[GRID_EXPORT])
+        elif block == GAS:
             result = results.get(GAS)
             for code in args.cities:
                 if result and code in result.records:

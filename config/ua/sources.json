@@ -15,6 +15,10 @@
     },
     "gas": {
       "max_rate": 100.0
+    },
+    "grid_export": {
+      "max_rate": 50.0,
+      "max_change_ratio": 0.25
     }
   },
   "reference_sources": {
@@ -59,6 +63,14 @@
         }
       }
     }
+  },
+  "grid_export": {
+    "reader": "nkrekp_green_tariff",
+    "scheme": "monthly_surplus",
+    "urls": [
+      "https://www.kresc.com.ua/green-tariffs.shtml",
+      "https://www.ez.rv.ua/zeleni-taryfy-na-elektrychnu-energiyu-vyroblenu-generuyuchymy-ustanovkamy-pryvatnyh-domogospodarstv/"
+    ]
   },
   "cities": {
     "kyiv": {

@@ -10,9 +10,10 @@ from urllib.parse import urljoin
 import requests
 from dotenv import load_dotenv
 
-from common import ai_pipeline, electricity, gas, llm
+from common import ai_pipeline, electricity, gas, grid_export, llm
 from common.countries import load_country
-from common.jsonio import GAS, build_root, empty_city_block, save_country_json
+from common.dates import UK_MONTHS_GENITIVE
+from common.jsonio import GAS, GRID_EXPORT, build_root, empty_city_block, save_country_json
 from common.fetching import html_to_text
 from common.overrides import apply_manual_overrides
 from common.paths import assets_output_path, docs_output_path, registry_path, sources_path
@@ -669,12 +670,6 @@ def extract_water_tariffs(water_html: str, model_name: str, notifier: TelegramNo
     logger.info(f"Water tariffs extracted and validated for {len(cities)} suppliers")
     return cities
 
-# Ukrainian month names in the genitive case, as printed in minfin table captions.
-UK_MONTHS_GENITIVE = {
-    "січня": 1, "лютого": 2, "березня": 3, "квітня": 4, "травня": 5, "червня": 6,
-    "липня": 7, "серпня": 8, "вересня": 9, "жовтня": 10, "листопада": 11, "грудня": 12,
-}
-
 # Heat tariff kinds as printed in the source, mapped to the values published in the JSON.
 HEAT_TARIFF_TYPES = {"одноставковий": "one_rate", "двоставковий": "two_rate"}
 
@@ -1254,6 +1249,18 @@ def extract_electricity(config: dict, previous: dict, notifier: TelegramNotifier
         return previous
     return electricity.merge(previous, published, unit)
 
+def extract_grid_export(config: dict, previous: dict, notifier: TelegramNotifier) -> dict:
+    """The «green» tariff of household stations, read by the shared grid_export module like every
+    other country's. On any failure the previous block stays and the reason is reported."""
+    block, _, reasons = grid_export.collect(config, previous, f"{COUNTRY_CODE} {GRID_EXPORT}")
+    for reason in reasons:
+        logger.warning(f"Keeping previous grid_export: {reason}")
+    if reasons and notifier:
+        notifier.send_message("⚠️ <b>UA: «зелёный» тариф не обновлён</b>\n"
+                              + "\n".join(f"• <code>{r}</code>" for r in reasons),
+                              parse_mode="HTML")
+    return block
+
 def collect_water_city_sources(config: dict, previous_block: dict, notifier: TelegramNotifier) -> list:
     """Water of the cities config gives a source of their own (`cities.<code>.sources.water`).
 
@@ -1320,8 +1327,10 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
 
     heat_blocks = extract_heat_blocks(base_data, ref_sources, timeout, model_name, notifier)
     gas_block = extract_gas_block(base_data, config, timeout, notifier)
+    grid_export_block = extract_grid_export(config, base_data.get(GRID_EXPORT), notifier)
 
-    return {"electricity": elec_data, "water": water_data, **heat_blocks, GAS: gas_block}
+    return {"electricity": elec_data, "water": water_data, **heat_blocks, GAS: gas_block,
+            GRID_EXPORT: grid_export_block}
 
 def search_alternative_tariffs(model_name: str, notifier: TelegramNotifier) -> dict:
     logger.info("Performing Search Grounding for alternative tariff updates...")

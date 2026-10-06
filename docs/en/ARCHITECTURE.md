@@ -26,7 +26,8 @@ These are the rules the current code follows. Keep following them.
    multi-row tables (water) go through Gemini. Simple tables (hot water, heating, gas) are read by
    code from the rows of the page text — `page_rows()`, the flattened text with one table row per
    line — never from HTML tags, so a change of markup does not break them. In the steady state
-   those blocks make zero model calls.
+   those blocks make zero model calls. The price of electricity exported to the grid
+   (`grid_export`) is read by code too, from the fixed wording of the act that sets it.
 3. **Numbers and text come from the source, not from the model.** For water, the model only returns
    the triple of numbers used as a key to find the row; `supplier` and the validity period are then
    read back from the HTML. Models routinely "fix" unusual Ukrainian company names, and only the
@@ -168,6 +169,15 @@ pages would only be reported as unreadable every month; their codes, where they 
 in `retired_cities`. The checks themselves live in
 `common/gas.py`, shared with every country.
 
+### `grid_export`
+
+`extract_grid_export()`, with no model call: the shared `common/grid_export.py` reads `grid_export`
+from `config/ua/sources.json` exactly as it reads Uzbekistan's (section 8a, "Electricity exported to
+the grid"). Both pages are universal service suppliers reprinting the NKREKP resolution on the
+household «green» tariff — Kirovohrad's as a table, Rivne's word for word with every past edition
+below it — and both are read. NKREKP's own site gives every edition a new address, so it cannot be
+the source. A rejected reading keeps the previous block and Telegram receives the reasons.
+
 ---
 
 ## 4. The city registry
@@ -307,6 +317,9 @@ and the pipeline is `src/common/ai_pipeline.py`. Russia runs on it.
 | `common/prompts.py` | What the model is asked. One template per block, filled from config. |
 | `common/electricity.py` | Electricity: every household tariff a source prints, validated and published as `plans`, with the older `base_rate` and `zones` taken from the default plan. Serves the country-wide tariff and a city's own. |
 | `common/gas.py` | Gas: the checks and the published shape shared by every country, and the reading of a city's gas source by the model. |
+| `common/grid_export.py` | Electricity exported to the grid: the country-wide block, its checks, the choice between pages and the fallback. Called by both pipelines. |
+| `common/grid_export_readers.py` | The readers of the acts that set that price, one per wording — code, not a model. |
+| `common/dates.py` | Dates written out in words: Ukrainian and Russian month names. |
 | `common/validation.py` | Whether the answer may be published. |
 | `common/ai_pipeline.py` | The run: previous file → fetch → extract → validate → merge what passed → save. |
 
@@ -595,6 +608,53 @@ no price of the default plan, or a jump of the default price beyond `max_change_
 no limits at all is a single price a model numbered 1, and is published as one, without a band. The
 registry section is `gas_suppliers`; retiring is `"<code>.gas"` in `retired_cities`; testing one
 city is `src/run_city.py <cc> <city> --block gas`.
+
+### Electricity exported to the grid
+
+The price a household is paid for a kWh its station exports is set for the whole country — Ukraine's
+«green» tariff by NKREKP, Uzbekistan's «Солнечный дом» subsidy by a presidential resolution — so it
+is one block, `grid_export`, read by `common/grid_export.py` from both pipelines: by the Ukrainian
+fetcher, and by `ai_pipeline.collect()` when a run is not narrowed to cities, as the country-wide
+electricity is.
+
+It is read by **code, not by a model**. A regulator re-issues the same legal wording with new
+numbers, so a reader keyed to that wording costs nothing to run and cannot invent a number. Config:
+
+```json
+"grid_export": {
+  "reader": "nkrekp_green_tariff",
+  "scheme": "monthly_surplus",
+  "urls": ["https://www.kresc.com.ua/green-tariffs.shtml", "https://www.ez.rv.ua/…"]
+}
+```
+
+* `reader` names the wording, in `common/grid_export_readers.py`: `nkrekp_green_tariff` — the NKREKP
+  resolution as suppliers reprint it, as a table or clause by clause; `lex_uz_solar_house` — the
+  «Солнечный дом» item of ПП-57 in its consolidated text on lex.uz, which keeps an act current with
+  every amendment at the same address. A reader that does not find its wording rejects the page, and
+  the constants next to it are what to update.
+* `scheme` is how the country settles exported energy; only `monthly_surplus` exists today.
+* `urls` — every page is read on its own. The newest act wins, so a supplier late with the new table
+  does no harm; two pages printing the same act with different numbers reject the run, which is a
+  free check of the reader. A page that fails is only logged while another one was read.
+
+The code converts kopecks to hryvnias and gives every row `valid_from`, the day the act took effect;
+the period printed next to a rate is when the station was put into operation —
+`commissioned_from` / `commissioned_to` — not a period of validity. The tax on the income is published
+only where the page prints it: Uzbekistan's act says the subsidy is not income, while no Ukrainian
+page prints the 18 % + 5 %, so there the field stays empty and the app asks the user.
+
+The reading is rejected whole for no rows, a non-positive rate or one above
+`validation.grid_export.max_rate`, an unknown station type, a capacity that is not positive, a
+commissioning period that ends before it starts, two overlapping periods of the same station type
+and capacity, or a rate that moved more than `max_change_ratio` — the block's own, else the
+country's — against the published row of the same station type, capacity and commissioning start.
+NKREKP's euro indexation moves a rate by a few percent a quarter, so Ukraine allows 25 %; a genuine
+larger change is accepted by raising the ratio for one run. A failure keeps the published block; a
+country without `grid_export` in config gets the empty block.
+
+Testing makes no model call: `python src/run_city.py ua --block grid_export` is a dry run, and for a
+country read city by city `--write` publishes that block alone.
 
 ### What the validator refuses
 

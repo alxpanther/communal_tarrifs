@@ -33,6 +33,7 @@ on:
           - heating
           - electricity
           - gas
+          - grid_export
       write:
         description: 'Publish the result (otherwise a dry run that changes nothing)'
         required: true

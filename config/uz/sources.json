@@ -31,6 +31,9 @@
     },
     "electricity": {
       "max_rate": 5000.0
+    },
+    "grid_export": {
+      "max_rate": 5000.0
     }
   },
   "electricity": {
@@ -49,6 +52,13 @@
         }
       }
     }
+  },
+  "grid_export": {
+    "reader": "lex_uz_solar_house",
+    "scheme": "monthly_surplus",
+    "urls": [
+      "https://lex.uz/ru/docs/6385720"
+    ]
   },
   "cities": {
     "tashkent": {

@@ -63,8 +63,9 @@ Three consequences reach the app:
 re-typed, so the released app reads the file as before. Added: `electricity.plans`, the root block
 `electricity_cities`, and on two-component hot water `component_water`, `component_energy`,
 `heat_norm` and `heat_norms` (see [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md), sections 2.2, 2.2a
-and 2.4). Later that month the root block `gas` was added (section 2.6). Sections 2, 2c and 2d below
-are the app work those fields make possible.
+and 2.4). Later that month the root block `gas` was added (section 2.6), and in October 2026 the root
+block `grid_export` (section 2.7). Sections 2, 2c, 2d and 2e below are the app work those fields
+make possible.
 
 ---
 
@@ -168,6 +169,28 @@ to build:
    readings the app already has.
 6. **Losing gas.** A city or the whole block may disappear from a later file; handle it as section 2b
    does.
+
+## 2e. Electricity exported to the grid
+
+The root block `grid_export` (JSON_SPECIFICATION.md, sections 2.7 and 4.6) carries the price a
+household with its own station is paid per kWh exported to the grid, for the switch "I export energy
+to the grid" on an address. Collected for Ukraine — the NKREKP «green» tariff, every station type and
+commissioning period — and Uzbekistan — the «Солнечный дом» subsidy, one row; in every other country
+the block is present and empty. What to build:
+
+1. **DTOs for `grid_export` and its `rates`** — the Kotlin classes in JSON_SPECIFICATION.md, section 3,
+   every field defaulted, for the cached-file reason in section 2. The released app ignores the block.
+2. **The station on the address**: type, capacity in kW and the date it was put into operation —
+   enough to pick the row of `rates` (section 2.7; the commissioning period is not a validity period).
+   Show the picked rate and let the user replace it with their own.
+3. **Settle as section 4.6 says** when `scheme` is `"monthly_surplus"`. Any other value, or an empty
+   block, means the app cannot compute the amount: the user types it, as with hourly net billing.
+4. **Income tax.** Use `income_tax_percent` when `income_tax_info` is non-empty; when it is empty the
+   tax is not in the file — ask the user (in Ukraine 18 % personal income tax plus 5 % military levy
+   are withheld, and no source prints it).
+5. **A new rate arrives on its own.** NKREKP re-issues the table several times a year; the row the
+   user picked is found again by station type, capacity and commissioning period, never by position.
+   A rate the user typed stays theirs.
 
 ---
 

@@ -19,11 +19,11 @@ import os
 from dataclasses import dataclass
 from datetime import date, datetime
 
-from common import electricity, gas, llm, prompts
+from common import electricity, gas, grid_export, llm, prompts
 from common.countries import Country
 from common.fetching import fetch_all
-from common.jsonio import (ELECTRICITY_CITIES, GAS, build_root, empty_city_block, load_previous,
-                           save_country_json)
+from common.jsonio import (ELECTRICITY_CITIES, GAS, GRID_EXPORT, build_root, empty_city_block,
+                           empty_grid_export_block, load_previous, save_country_json)
 from common.llm.base import SOURCE_LLM_OPTIONS
 from common.overrides import CITY_BLOCKS, apply_manual_overrides, resolve_periods
 from common.paths import sources_path
@@ -456,6 +456,9 @@ def _changes(previous: dict, data: dict, refreshed: dict, results: dict) -> dict
     if refreshed.get("electricity"):
         same = _same_tariff(previous.get("electricity"), data["electricity"])
         changes["electricity"] = [] if same else ["вся страна"]
+    if refreshed.get(GRID_EXPORT):
+        same = grid_export.same_block(previous.get(GRID_EXPORT), data[GRID_EXPORT])
+        changes[GRID_EXPORT] = [] if same else ["вся страна"]
     return changes
 
 
@@ -511,6 +514,7 @@ def collect(country: Country, config: dict, previous: dict, extractor,
     data["electricity"] = previous.get("electricity", {})
     data[ELECTRICITY_CITIES] = previous.get(ELECTRICITY_CITIES, empty_city_block())
     data[GAS] = previous.get(GAS, empty_city_block())
+    data[GRID_EXPORT] = previous.get(GRID_EXPORT) or empty_grid_export_block()
     refreshed, failures, results = {}, {}, {}
 
     for block in CITY_BLOCKS:
@@ -565,6 +569,17 @@ def collect(country: Country, config: dict, previous: dict, extractor,
             for reason in notes:
                 logger.warning(f"{country.code} electricity: {reason}")
             failures["electricity"] = notes
+
+    # Read by code, not by the model: the run costs nothing.
+    if not cities and (not blocks or GRID_EXPORT in blocks):
+        data[GRID_EXPORT], fresh, notes = grid_export.collect(config, data[GRID_EXPORT],
+                                                              f"{country.code} {GRID_EXPORT}")
+        if config.get(GRID_EXPORT):
+            refreshed[GRID_EXPORT] = int(fresh)
+        if notes:
+            for reason in notes:
+                logger.warning(reason)
+            failures[GRID_EXPORT] = notes
 
     return data, refreshed, failures, results
 

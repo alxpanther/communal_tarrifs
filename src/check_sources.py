@@ -39,6 +39,8 @@ def urls_of_country(code: str) -> dict:
     power = (config.get("electricity") or {}).get("source") or {}
     for url in (power.get("urls") or []) if isinstance(power, dict) else [power]:
         used.setdefault(url, []).append("electricity")
+    for url in (config.get("grid_export") or {}).get("urls") or []:
+        used.setdefault(url, []).append("grid_export")
     return used
 
 

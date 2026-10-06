@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-06T11:47:38.486478",
+  "last_updated_at": "2026-10-06T12:33:44.522336",
   "country": "UA",
   "country_names": {
     "ru": "Украина",
@@ -424,12 +424,12 @@
         "city_code": "kyiv",
         "city_name": "Київ",
         "supplier": "ПАТ АК \"Київводоканал\"",
-        "water_supply": 16.164,
-        "sewage": 14.22,
-        "total_rate": 30.384,
         "unit": "m3",
-        "effective_date": "2026-07-01",
-        "decree_info": "Тариф НКРЕКП, чинний з 01.07.2026"
+        "water_supply": 36.85,
+        "sewage": 26.94,
+        "total_rate": 63.79,
+        "effective_date": "2026-09-25",
+        "decree_info": "Розпорядження виконавчого органу Київської міської ради (Київської міської державної адміністрації) від 21.09.2026 № 242"
       },
       {
         "city_code": "kirovohradska_obl",

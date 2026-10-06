@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-03T13:13:33.282250",
+  "last_updated_at": "2026-10-06T11:49:49.354158",
   "country": "UZ",
   "country_names": {
     "ru": "Узбекистан",
@@ -229,5 +229,26 @@
     "source_url": "",
     "update_date": "2026-09-25",
     "cities": []
+  },
+  "grid_export": {
+    "source_url": "https://lex.uz/ru/docs/6385720",
+    "update_date": "2026-10-06",
+    "scheme": "monthly_surplus",
+    "unit": "kWh",
+    "decree_info": "Постановление Президента Республики Узбекистан от 16.02.2023 № ПП-57",
+    "income_tax_percent": 0.0,
+    "income_tax_info": "Средства субсидии не включаются в состав совокупного дохода физических лиц",
+    "rates": [
+      {
+        "station_type": "solar",
+        "max_capacity_kw": 50.0,
+        "commissioned_from": "",
+        "commissioned_to": "",
+        "rate": 1000.0,
+        "vat_included": false,
+        "valid_from": "2023-04-01",
+        "valid_to": ""
+      }
+    ]
   }
 }

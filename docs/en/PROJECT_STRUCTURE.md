@@ -143,7 +143,7 @@ kommeter_scripts/
 |---|---|
 | `run_country.py` | The only entry point. Resolves which countries to run, runs them one after another, isolates a failure to the country that caused it, and rebuilds the index at the end. |
 | `build_index.py` | Renders `tariffs_index.json` once per publication target, reading the country registry and the tariff files that actually exist on disk. |
-| `build_sources_page.py` | Renders `sources.html` and an identical `index.html` into a given folder: the unofficial-app notice and every source URL of every published country, city and service, read from `config/<cc>/sources.json`. Run by both publishing workflows, never committed. See ARCHITECTURE.md, section 9. |
+| `build_sources_page.py` | Renders `sources.html`, an identical `index.html` and their `sources.css` into a given folder: the unofficial-app notice and every source URL of every published country, city and service, read from `config/<cc>/sources.json`. Run by both publishing workflows, never committed. See ARCHITECTURE.md, section 9. |
 | `common/paths.py` | The single place that knows the file layout of the repository. A pipeline never composes a path itself. |
 | `common/countries.py` | Loads and validates `config/countries.json`. |
 | `common/jsonio.py` | Loads the previous published file, assembles the root object (including `country_names`), writes both output files, and refuses to write a file with an empty electricity block. |

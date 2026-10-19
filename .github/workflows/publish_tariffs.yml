@@ -99,10 +99,16 @@ jobs:
           rm -f r2_deletes.txt
           # The page of sources: the store listing names this host, so it must open something
           # readable. R2 serves no index document, hence the explicit sources.html as well.
+          # The styles go as a file of their own: the security policy of foleks.com drops a
+          # <style> written inside the page.
           python src/build_sources_page.py dist/sources_page
-          for page in sources.html index.html; do
+          for page in sources.html index.html sources.css; do
+            case "$page" in
+              *.css) type="text/css; charset=utf-8" ;;
+              *) type="text/html; charset=utf-8" ;;
+            esac
             wrangler r2 object put "kommeter/$page" --file="dist/sources_page/$page" \
-              --content-type="text/html; charset=utf-8" --remote
+              --content-type="$type" --remote
           done
 
       - name: Setup GitHub Pages

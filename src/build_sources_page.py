@@ -9,8 +9,10 @@ fetch, so the list cannot drift from what is actually collected.
 
     python src/build_sources_page.py <output_dir>
 
-Writes <output_dir>/sources.html and an identical <output_dir>/index.html, so the bare folder
-address opens the page too where the host serves an index document (GitHub Pages does).
+Writes <output_dir>/sources.html, an identical <output_dir>/index.html, so the bare folder
+address opens the page too (GitHub Pages serves it by itself, tarrifs.foleks.com through a rewrite
+rule), and <output_dir>/sources.css. The styles live in a file of their own: the security policy of
+foleks.com (`style-src 'self'`) drops a <style> written inside the page.
 """
 
 import html
@@ -83,6 +85,15 @@ def last_updated(code: str) -> str:
         return str(json.load(f).get("last_updated_at", ""))[:10]
 
 
+STYLES = """body { font-family: system-ui, sans-serif; margin: 0 auto; max-width: 1100px; padding: 16px; color: #1d1d1f; background: #fff; line-height: 1.45; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 28px; font-size: 14px; }
+th, td { border-bottom: 1px solid #ddd; padding: 6px 8px; text-align: left; vertical-align: top; }
+td:last-child { word-break: break-all; }
+.notice { background: #fff4e5; border-left: 4px solid #f0a020; padding: 10px 14px; }
+.meta { color: #666; margin-top: -8px; }
+"""
+
+
 def country_section(country) -> str:
     with open(sources_path(country.code), "r", encoding="utf-8") as f:
         rows = collect_sources(json.load(f))
@@ -116,14 +127,7 @@ def render(countries: list) -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KomMeter tariff sources</title>
-<style>
-body {{ font-family: system-ui, sans-serif; margin: 0 auto; max-width: 1100px; padding: 16px; color: #1d1d1f; background: #fff; line-height: 1.45; }}
-table {{ border-collapse: collapse; width: 100%; margin-bottom: 28px; font-size: 14px; }}
-th, td {{ border-bottom: 1px solid #ddd; padding: 6px 8px; text-align: left; vertical-align: top; }}
-td:last-child {{ word-break: break-all; }}
-.notice {{ background: #fff4e5; border-left: 4px solid #f0a020; padding: 10px 14px; }}
-.meta {{ color: #666; margin-top: -8px; }}
-</style>
+<link rel="stylesheet" href="sources.css">
 </head>
 <body>
 <h1>KomMeter: sources of the tariffs</h1>
@@ -150,10 +154,10 @@ def build(output_dir: str) -> list:
     page = render(published_countries())
     os.makedirs(output_dir, exist_ok=True)
     written = []
-    for name in ("sources.html", "index.html"):
+    for name, content in (("sources.html", page), ("index.html", page), ("sources.css", STYLES)):
         target = os.path.join(output_dir, name)
         with open(target, "w", encoding="utf-8") as f:
-            f.write(page)
+            f.write(content)
         written.append(target)
     return written
 

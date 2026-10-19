@@ -235,6 +235,7 @@ python src/run_country.py          # все включённые страны, �
 python src/run_country.py ua       # только одна страна
 python src/run_country.py am az    # несколько стран
 python src/build_index.py          # только пересобрать tariffs_index.json
+python src/build_sources_page.py tmp/site   # страница всех источников (её собирает публикация)
 ```
 
 `run_country.py` без аргументов берёт список стран из `config/countries.json` (все с `"enabled": true`) и в конце пересобирает обе копии `tariffs_index.json`.

@@ -55,6 +55,7 @@ kommeter_scripts/
 │   ├── run_city.py               # Один город или одна услуга; по умолчанию без записи
 │   ├── check_sources.py          # Проверка, открываются ли источники; без модели
 │   ├── build_index.py            # Собирает tariffs_index.json для каждой цели публикации
+│   ├── build_sources_page.py     # Собирает sources.html — открытый список всех источников
 │   ├── common/                   # Общий код, не зависящий от страны
 │   │   ├── paths.py              # Все пути, выведенные из кода страны
 │   │   ├── countries.py          # Чтение config/countries.json
@@ -143,6 +144,7 @@ kommeter_scripts/
 |---|---|
 | `run_country.py` | Единственная точка входа. Решает, какие страны запускать, запускает их по очереди, изолирует сбой в пределах одной страны и в конце пересобирает индекс. |
 | `build_index.py` | Собирает `tariffs_index.json` по одному разу на каждую цель публикации, читая реестр стран и те файлы тарифов, которые реально есть на диске. |
+| `build_sources_page.py` | Собирает в указанную папку `sources.html` и такой же `index.html`: пометку о неофициальном приложении и все адреса источников каждой опубликованной страны, города и услуги из `config/<cc>/sources.json`. Запускается обоими сценариями публикации, в репозиторий не попадает. См. ARCHITECTURE.md, раздел 9. |
 | `common/paths.py` | Единственное место, знающее раскладку файлов репозитория. Пайплайн никогда не собирает путь сам. |
 | `common/countries.py` | Загрузка и проверка `config/countries.json`. |
 | `common/jsonio.py` | Чтение предыдущего опубликованного файла, сборка корневого объекта (включая `country_names`), запись обоих выходных файлов и отказ писать файл с пустым блоком электроэнергии. |
@@ -209,6 +211,7 @@ docs/tariffs_<cc>.json ──> src/build_index.py ──┬─> docs/tariffs_ind
 |---|---|---|
 | Файл страны | `https://tarrifs.foleks.com/<cc>/tariffs_<cc>.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_<cc>.json` и `…/communal_tarrifs/<cc>/tariffs_<cc>.json` |
 | Индекс стран | `https://tarrifs.foleks.com/tariffs_index.json` | `https://alxpanther.github.io/communal_tarrifs/tariffs_index.json` |
+| Страница источников | `https://tarrifs.foleks.com/sources.html` | `https://alxpanther.github.io/communal_tarrifs/sources.html` и `…/communal_tarrifs/` |
 
 ---
 

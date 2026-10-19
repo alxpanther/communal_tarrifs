@@ -27,6 +27,8 @@ on:
       # How the files are laid out on the hosts: a change here must reach them without waiting
       # for the next change to the data.
       - '.github/workflows/publish_tariffs.yml'
+      # The page of sources is built from config at publication time.
+      - 'src/build_sources_page.py'
   workflow_dispatch:
 
 permissions:
@@ -95,6 +97,13 @@ jobs:
             wrangler r2 object delete "kommeter/$key" --remote || echo "  (already gone)"
           done < r2_deletes.txt
           rm -f r2_deletes.txt
+          # The page of sources: the store listing names this host, so it must open something
+          # readable. R2 serves no index document, hence the explicit sources.html as well.
+          python src/build_sources_page.py dist/sources_page
+          for page in sources.html index.html; do
+            wrangler r2 object put "kommeter/$page" --file="dist/sources_page/$page" \
+              --content-type="text/html; charset=utf-8" --remote
+          done
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
@@ -118,6 +127,8 @@ jobs:
               shutil.copyfile(f"docs/tariffs_{code}.json", target)
               print(f"Pages copy: docs/tariffs_{code}.json -> {entry['path']}")
           PY
+          # The page of sources, at sources.html and as the folder's index document.
+          python src/build_sources_page.py _site
 
       - name: Upload Artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3

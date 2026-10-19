@@ -783,6 +783,19 @@ disk.
 Format and the rules the app applies to it: [JSON_SPECIFICATION.md](JSON_SPECIFICATION.md),
 section 6.
 
+### The page of sources
+
+Google Play rejected app updates twice (October 2026) under its misleading claims policy: an app
+showing information of state bodies must list all its sources, and every address in the store
+listing must open. The listing names both publication hosts, and their roots answered 404. So both
+publishing workflows run `src/build_sources_page.py`, which writes `sources.html` (and the same page
+as `index.html`): the unofficial-app notice and every source URL of every published country, with
+city, service and supplier, collected from `config/<cc>/sources.json` — the addresses the pipelines
+actually fetch, so the list cannot fall behind them. `settings`, `validation`, `manual_override`,
+retired cities and model hints are skipped. The page goes to `_site/` for Pages and is put into R2
+as `sources.html` and `index.html` (R2 serves no index document, so the listing names
+`/sources.html`). It is generated at publication time and never committed.
+
 ---
 
 ## 10. Running several countries

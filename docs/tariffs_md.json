@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-06T14:48:38.524440",
+  "last_updated_at": "2026-10-25T14:43:57.816917",
   "country": "MD",
   "country_names": {
     "ru": "Молдова",
@@ -12,7 +12,7 @@
     "base_rate": 3.56,
     "unit": "kWh",
     "effective_date": "2026-03-31",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "decree_info": "Hot. ANRE nr. 222 din 31.03.2026",
     "zones": {
       "two_zone": {
@@ -95,7 +95,7 @@
   },
   "electricity_cities": {
     "source_url": "https://anre.md/energie-electrica-3-290",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "balti",
@@ -188,7 +188,7 @@
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "chisinau",
@@ -232,7 +232,7 @@
   },
   "heating": {
     "source_url": "https://anre.md/energie-termica-3-247",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "chisinau",
@@ -260,7 +260,7 @@
   },
   "gas": {
     "source_url": "https://anre.md/gaze-naturale-3-205",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "chisinau",
@@ -377,7 +377,7 @@
   },
   "grid_export": {
     "source_url": "",
-    "update_date": "2026-10-06",
+    "update_date": "2026-10-25",
     "scheme": "",
     "unit": "kWh",
     "decree_info": "",

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-06T11:49:49.354158",
+  "last_updated_at": "2026-10-25T14:44:44.799876",
   "country": "UZ",
   "country_names": {
     "ru": "Узбекистан",
@@ -12,7 +12,7 @@
     "base_rate": 650.0,
     "unit": "kWh",
     "effective_date": "2026-06-01",
-    "update_date": "2026-10-03",
+    "update_date": "2026-10-25",
     "decree_info": "Тарифы АО «Региональные электрические сети» для бытовых потребителей с 1 июня 2026 года",
     "zones": {
       "two_zone": {
@@ -133,7 +133,7 @@
   },
   "water": {
     "source_url": "https://api.uzsuv.uz/api/v1/r/service/tariff/",
-    "update_date": "2026-10-03",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "tashkent",
@@ -151,11 +151,11 @@
         "city_name": "Самарканд",
         "supplier": "АО \"Самарканд сув таъминоти\"",
         "unit": "m3",
-        "water_supply": 3136.0,
-        "sewage": 2128.0,
-        "total_rate": 5264.0,
-        "effective_date": "2025-04-15",
-        "decree_info": "Тариф АО \"Самарканд сув таъминоти\" для населения с 2025-04-15"
+        "water_supply": 4032.0,
+        "sewage": 2520.0,
+        "total_rate": 6552.0,
+        "effective_date": "2026-10-15",
+        "decree_info": "Тариф АО \"Самарканд сув таъминоти\" для населения с 2026-10-15"
       },
       {
         "city_code": "bukhara",
@@ -210,7 +210,7 @@
   },
   "heating": {
     "source_url": "https://feeds.tildacdn.com/api/getfeed/?feeduid=954914528491&size=30&slice=1&sort%5Bdate%5D=desc",
-    "update_date": "2026-10-03",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "tashkent",
@@ -232,7 +232,7 @@
   },
   "grid_export": {
     "source_url": "https://lex.uz/ru/docs/6385720",
-    "update_date": "2026-10-06",
+    "update_date": "2026-10-25",
     "scheme": "monthly_surplus",
     "unit": "kWh",
     "decree_info": "Постановление Президента Республики Узбекистан от 16.02.2023 № ПП-57",

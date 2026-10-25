@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-06T14:48:40.141342",
+  "last_updated_at": "2026-10-25T14:59:16.691508",
   "country": "TJ",
   "country_names": {
     "ru": "Таджикистан",
@@ -11,9 +11,9 @@
     "source_url": "https://www.mewr.tj/?page_id=2914",
     "base_rate": 0.4137,
     "unit": "kWh",
-    "effective_date": "2025-12-29",
-    "update_date": "2026-09-25",
-    "decree_info": "Постановление Правительства Республики Таджикистан от 29 декабря 2025 года, № 709",
+    "effective_date": "2026-02-01",
+    "update_date": "2026-10-25",
+    "decree_info": "От 29 декабря 2025 года, № 709",
     "zones": {
       "two_zone": {
         "description": "Двухзонный тариф (не применяется, ставка одна)",
@@ -98,7 +98,7 @@
   },
   "grid_export": {
     "source_url": "",
-    "update_date": "2026-10-06",
+    "update_date": "2026-10-25",
     "scheme": "",
     "unit": "kWh",
     "decree_info": "",

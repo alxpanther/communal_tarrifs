@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated_at": "2026-10-06T14:48:37.446995",
+  "last_updated_at": "2026-10-25T14:47:47.045401",
   "country": "KZ",
   "country_names": {
     "ru": "Казахстан",
@@ -138,7 +138,7 @@
   },
   "electricity_cities": {
     "source_url": "",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "almaty",
@@ -361,7 +361,7 @@
   },
   "water": {
     "source_url": "",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "astana",
@@ -393,8 +393,8 @@
         "water_supply": 111.44,
         "sewage": 62.41,
         "total_rate": 173.85,
-        "effective_date": "2026-07-01",
-        "decree_info": "Приказ Департамента Комитета по регулированию естественных монополий Министерства национальной экономики Республики Казахстан по городу Шымкент №33 от 26 июня 2026 года"
+        "effective_date": "2026-10-10",
+        "decree_info": "Приказа Департамента Комитета по регулированию естественных монополий Министерства национальной экономики Республики Казахстан по городу Шымкент №75 от 2 октября 2026 года"
       },
       {
         "city_code": "karaganda",
@@ -422,7 +422,7 @@
   },
   "hot_water": {
     "source_url": "https://alts.kz/tarify/",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "almaty",
@@ -437,7 +437,7 @@
   },
   "heating": {
     "source_url": "",
-    "update_date": "2026-10-01",
+    "update_date": "2026-10-25",
     "cities": [
       {
         "city_code": "almaty",
@@ -481,7 +481,7 @@
   },
   "grid_export": {
     "source_url": "",
-    "update_date": "2026-10-06",
+    "update_date": "2026-10-25",
     "scheme": "",
     "unit": "kWh",
     "decree_info": "",

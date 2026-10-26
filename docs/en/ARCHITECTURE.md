@@ -214,11 +214,19 @@ Starting from an empty registry would produce different codes and break existing
 `search_alternative_tariffs()` runs a Gemini Search Grounding query for newer official tariffs, and
 `compare_and_validate()` compares the result with what was scraped: a discrepancy is reported when
 the rate differs or the alternative source has a later `effective_date`
-(`rate_discrepancy()`, `CITY_BLOCK_CHECKS`).
+(`rate_discrepancy()`, `CITY_BLOCK_CHECKS`). A found tariff that took effect before the published
+one is never reported: it is the tariff the published one replaced, which is what a search finds on
+a page that has not caught up yet.
+
+The search prompt describes the answer's shape and carries no figures, and asks for `null` where
+the model is not sure. A model that finds nothing returns whatever example it was shown, so an
+example rate would come back as a "finding" — a false alarm when it differs from the published
+value, and a check that can never fire when it matches.
 
 This path is **advisory only**. It cannot change a single number in the output; it produces a
-Telegram table telling the maintainer to decide, and typically the answer is an entry in
-`manual_override`.
+Telegram table telling the maintainer to decide. When the published value turns out to be stale, the
+answer is a fix to that service's source in `config/ua/sources.json`; `manual_override` only holds
+the value until that fix lands.
 
 ---
 

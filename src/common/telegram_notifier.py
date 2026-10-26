@@ -71,6 +71,9 @@ class TelegramNotifier:
             html += f"  - Постановление: <i>{decree}</i>\n\n"
 
         html += "⚙️ <b>Действие:</b>\n"
-        html += "Если найденный источник более достоверный, добавьте URL в <code>config/sources.json</code> в секцию <code>manual_override</code> и перезапустите скрипт."
+        html += ("Сверьте оба значения с первоисточником — сайтом поставщика или документом регулятора. "
+                 "Если устарел опубликованный тариф, исправьте источник этой услуги в "
+                 "<code>config/ua/sources.json</code>, чтобы сбор читал новую цену. "
+                 "<code>manual_override</code> — только на дни до этого исправления.")
 
         return self.send_message(html, parse_mode="HTML")

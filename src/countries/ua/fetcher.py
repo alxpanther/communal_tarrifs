@@ -1339,47 +1339,52 @@ def extract_reference_tariffs(config: dict, model_name: str, notifier: TelegramN
 
 def search_alternative_tariffs(model_name: str, notifier: TelegramNotifier) -> dict:
     logger.info("Performing Search Grounding for alternative tariff updates...")
-    prompt = """
-    Найди самые последние официальные тарифы для населения Украины: электроэнергия, холодная
-    вода/водоотведение, горячая вода и централизованное отопление.
+    # The answer form carries no figures: a model that finds nothing returns an example it was
+    # shown, and an example that matches the published value hides a change of it.
+    today = datetime.now()
+    prompt = f"""
+    Сегодня {today:%Y-%m-%d}. Найди действующие сегодня официальные тарифы для населения Украины:
+    электроэнергия, холодная вода/водоотведение, горячая вода и централизованное отопление.
     КРИТИЧЕСКИ ВАЖНО:
     1. Указывай тарифы С УЧЕТОМ НДС (ПДВ = 20%). Не бери тарифы без НДС!
-    2. По электроэнергии дата вступления в силу Постановления КМУ №632 — 2024-06-01 (1 июня 2024 года).
-    3. Указывай только числовые значения для тарифов (например 4.32 вместо "4.32 UAH").
+    2. Указывай только числовые значения для тарифов, без валюты.
+    3. По воде Киева нужна сумма водоснабжения и водоотведения за 1 м³ (ПАТ АК "Київводоканал").
     4. По горячей воде и отоплению нужен тариф, который РЕАЛЬНО ПЛАТИТ НАСЕЛЕНИЕ на период
        военного положения, а не економічно обґрунтований тариф.
     5. По Киеву бери тарифы КП "КИЇВТЕПЛОЕНЕРГО" — это основной поставщик тепла города.
+    6. Если уверенного ответа по категории нет — верни null в её полях. Не угадывай.
 
-    Верни результаты СТРОГО в формате JSON (без текстов до или после JSON):
-    {
-      "electricity": {
-        "found_url": "https://index.minfin.com.ua/tariff/electric/",
-        "base_rate": 4.32,
-        "effective_date": "2024-06-01",
-        "decree_info": "Постанова КМУ № 632 від 31.05.2024"
-      },
-      "water": {
-        "found_url": "https://index.minfin.com.ua/ua/tariff/water/",
-        "kyiv_total_rate": 30.384,
-        "effective_date": "2022-01-01",
-        "decree_info": "Постанова НКРЕКП № 2842"
-      },
-      "hot_water": {
-        "found_url": "https://index.minfin.com.ua/ua/tariff/kiev/hotwater/",
-        "kyiv_rate": 97.89,
-        "effective_date": "2022-10-01",
-        "decree_info": "Розпорядження КМВА № 673 від 30.09.2022"
-      },
-      "heating": {
-        "found_url": "https://kte.kmda.gov.ua/tarufu/",
-        "kyiv_rate_gcal": 1654.41,
-        "effective_date": "2022-10-01",
-        "decree_info": "Розпорядження КМВА № 673 від 30.09.2022"
-      }
-    }
+    Верни результаты СТРОГО в формате JSON (без текстов до или после JSON).
+    Это форма ответа, а не подсказка: каждое значение ты находишь сам.
+    {{
+      "electricity": {{
+        "found_url": "адрес страницы, где напечатан тариф",
+        "base_rate": число или null,
+        "effective_date": "YYYY-MM-DD или null",
+        "decree_info": "реквизиты документа, как напечатано, или null"
+      }},
+      "water": {{
+        "found_url": "адрес страницы, где напечатан тариф",
+        "kyiv_total_rate": число или null,
+        "effective_date": "YYYY-MM-DD или null",
+        "decree_info": "реквизиты документа, как напечатано, или null"
+      }},
+      "hot_water": {{
+        "found_url": "адрес страницы, где напечатан тариф",
+        "kyiv_rate": число или null,
+        "effective_date": "YYYY-MM-DD или null",
+        "decree_info": "реквизиты документа, как напечатано, или null"
+      }},
+      "heating": {{
+        "found_url": "адрес страницы, где напечатан тариф",
+        "kyiv_rate_gcal": число или null,
+        "effective_date": "YYYY-MM-DD или null",
+        "decree_info": "реквизиты документа, как напечатано, или null"
+      }}
+    }}
     """
     search_data = call_gemini_search(
-        "актуальні тарифи для населення Україна 2026: електроенергія, вода, гаряча вода, опалення",
+        f"актуальні тарифи для населення Україна {today.year}: електроенергія, вода, гаряча вода, опалення",
         prompt, model_name, notifier
     )
     return search_data
@@ -1393,6 +1398,10 @@ def rate_discrepancy(category: str, ref_rate, ref_date_str, ref_url,
     found_rate = parse_rate(found.get(rate_key))
     found_date_str = found.get("effective_date")
     ref_dt, found_dt = parse_date(ref_date_str), parse_date(found_date_str)
+
+    # A tariff that took effect before the published one is the one it replaced, not news.
+    if ref_dt and found_dt and found_dt < ref_dt:
+        return None
 
     rate_changed = bool(found_rate is not None and ref_rate is not None and abs(found_rate - ref_rate) > 0.05)
     date_significantly_newer = bool(ref_dt and found_dt and (found_dt - ref_dt).days > 3)

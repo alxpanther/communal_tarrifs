@@ -3,7 +3,7 @@
     "timeout_seconds": 30,
     "llm": {
       "provider": "gemini",
-      "model": "gemini-3.6-flash",
+      "model": "gemini-3.8-flash",
       "auto_select_latest_model": true,
       "api_key_env": "GEMINI_API_KEY"
     }
